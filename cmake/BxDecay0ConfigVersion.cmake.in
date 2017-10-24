@@ -1,0 +1,24 @@
+# - BxDecay0 CMake Versioning File for External Projects
+# This file is configured by BxDecay0 for use with CMake's find_package in
+# Config mode. It enables external projects to determine the version of
+# BxDecay0 found. More importantly, it allows that command to automatically
+# determine whether the found install is compatible with any VERSION that
+# was supplied with find_package.
+#
+# This file is configured by BxDecay0's CMake system and SHOULD NOT BE EDITED
+#-----------------------------------------------------------------------
+
+# - Installed version as set from CMake
+set(PACKAGE_VERSION "@BxDecay0_VERSION@")
+
+#-----------------------------------------------------------------------
+# Check whether the requested PACKAGE_FIND_VERSION is compatible with this
+# installed version.
+if("${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}")
+  set(PACKAGE_VERSION_COMPATIBLE FALSE)
+else()
+  set(PACKAGE_VERSION_COMPATIBLE TRUE)
+  if("${PACKAGE_VERSION}" VERSION_EQUAL "${PACKAGE_FIND_VERSION}")
+    set(PACKAGE_VERSION_EXACT TRUE)
+  endif()
+endif()

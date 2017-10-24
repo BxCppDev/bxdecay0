@@ -1,0 +1,73 @@
+# - Config file for the BxDecay0 package
+# It defines the following variables
+#  BxDecay0_VERSION       - BxDecay0 version
+#  BxDecay0_DEFINITIONS   - compile definitions needed to use BxDecay0
+#  BxDecay0_INCLUDE_DIRS  - include directories for BxDecay0
+#  BxDecay0_LIBRARIES     - libraries to link against
+
+#----------------------------------------------------------------------
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+# Locate ourselves, since all our config files should have been installed
+# alongside us...
+#
+get_filename_component(__bxdecay0_config_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+set(BxDecay0_VERSION @BxDecay0_VERSION@)
+mark_as_advanced(BxDecay0_VERSION)
+
+#-----------------------------------------------------------------------
+# Build option
+set(BxDecay0_DEFINITIONS @BXDECAY0_DEFINITIONS@)
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS ${BxDecay0_DEFINITIONS})
+endif()
+
+#-----------------------------------------------------------------------
+# Hard code paths to headers
+#
+
+set(BxDecay0_INCLUDE_DIR "${__bxdecay0_config_dir}/@BXDECAY0_CMAKEDIR_TO_INCLUDEDIR@")
+mark_as_advanced(BxDecay0_INCLUDE_DIR)
+
+set(BxDecay0_INCLUDE_DIRS
+  "${BxDecay0_INCLUDE_DIR}"
+  )
+
+#-----------------------------------------------------------------------
+# Handle paths/targets for third party deps here...
+
+set(BxDecay0_GSL_VERSION @GSL_VERSION@)
+set(GSL_ROOT_DIR @GSL_ROOT_DIR@)
+find_package(GSL ${BxDecay0_GSL_VERSION} REQUIRED)
+
+
+#-----------------------------------------------------------------------
+# Include the file listing all the imported targets.
+# This is installed in the same location as us...
+#
+if(NOT BxDecay0_TARGETS_LOADED)
+  include("${__bxdecay0_config_dir}/BxDecay0Targets.cmake")
+  set(BxDecay0_TARGETS_LOADED 1)
+endif()
+
+# - BxDecay0 itself
+set(BxDecay0_LIBRARY Bayeux_decay0 CACHE FILE "BxDecay0 library (imported)")
+mark_as_advanced(BxDecay0_LIBRARY)
+
+set(BxDecay0_LIBRARIES ${BxDecay0_LIBRARY})
+
+# - end

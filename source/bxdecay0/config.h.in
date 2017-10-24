@@ -1,0 +1,8 @@
+// -*- mode: c++; -*-
+
+#ifndef BXDECAY0_CONFIG_H
+#define BXDECAY0_CONFIG_H
+
+// #cmakedefine01 BXDECAY0_WITH_XXX
+
+#endif // BXDECAY0_CONFIG_H
