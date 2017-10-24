@@ -185,3 +185,8 @@ References
 
 Using BxDecay0
 ==============
+
+The following program is taken from the BxDecay0's  ``ex01`` example:
+
+.. code-block:: c++
+   :include: examples/ex01/ex01.cxx

@@ -21,19 +21,17 @@
  */
 
 // Standard library:
+#include <cstdlib>
+#include <stdexcept>
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
-#include <exception>
-#include <random>
-#include <limits>
 
 // This project:
-#include <bxdecay0/event.h>
-#include <bxdecay0/genbbsub.h>
-#include <bxdecay0/std_random.h>
-#include <bxdecay0/bb.h>
-#include <bxdecay0/version.h>
+#include <bxdecay0/std_random.h> // Random number interface
+#include <bxdecay0/event.h>      // Generated event model
+#include <bxdecay0/bb.h>         // Nuclear decay and double beta decay parameters
+#include <bxdecay0/genbbsub.h>   // Main decay generation routine
+#include <bxdecay0/version.h>    // Library version
 
 int main()
 {
@@ -49,7 +47,7 @@ int main()
     // Number of generated events:
     std::size_t nevents = 100;
 
-    // Output file:
+    // Output file for generated decay events:
     std::string foutname("gendecay0.data");
     std::ofstream fout(foutname.c_str());
 
@@ -59,8 +57,8 @@ int main()
 
     // Parameters of the decay:
     bxdecay0::bbpars bb_params;
-    bb_params.ebb1 = 0.0; // minimum energy (MeV)
-    bb_params.ebb2 = 4.3; // maximum energy (MeV)
+    bb_params.ebb1 = 0.0; // Minimum energy (MeV)
+    bb_params.ebb2 = 4.3; // Maximum energy (MeV)
     bb_params.toallevents = 1.0; /* Statistical weight of the event
                                   * with respect to the total energy
                                   * spectrum.
@@ -73,8 +71,6 @@ int main()
     int ilevel = 0;
     // DBD mode (neutrinoless):
     int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
-    //
-    int istart = bxdecay0::GENBBSUB_ISTART_INIT;
 
     // Decay event (collection of generated particles):
     bxdecay0::event decay;
@@ -87,7 +83,7 @@ int main()
                        chnuclide,
                        ilevel,
                        modebb,
-                       istart,
+                       bxdecay0::GENBBSUB_ISTART_INIT,
                        ier,
                        bb_params);
     if (ier != 0) {
@@ -95,10 +91,14 @@ int main()
     }
     decay.reset();
 
+    // Activity of the decaying source in becquerel:
+    double activity = 2.0;
+
     // Store config/metadata:
     fout << "#!bxdecay0 " << BXDECAY0_LIB_VERSION << std::endl;
     fout << "#@run_start" << std::endl;
     fout << "#@seed=" << seed << std::endl;
+    fout << "#@activity=" << activity << ' ' << "Bq" << std::endl;
     fout << "#@nevents=" << nevents << std::endl;
     fout << "#@min_energy=" << bb_params.ebb1 << ' ' << "MeV" << std::endl;
     fout << "#@max_energy=" << bb_params.ebb2 << ' ' << "MeV" << std::endl;
@@ -107,10 +107,19 @@ int main()
     fout << "#@nuclide=" << chnuclide << std::endl;
     fout << "#@daughter_level=" << ilevel << std::endl;
     fout << "#@mode_bb=" << modebb << std::endl;
+    fout << "#" << std::endl;
+    fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
+    fout << "#" << std::endl;
+    fout << "#   event-time" << std::endl;
+    fout << "#   number-of-particles" << std::endl;
+    fout << "#   code1 time1 px1 py1 pz1"  << std::endl;
+    fout << "#   ..." << std::endl;
+    fout << "#   codeN timeN pxN pyN pzN"  << std::endl;
+    fout << "#" << std::endl;
     fout << std::endl;
 
+    std::exponential_distribution<> decay_timer(activity);
     // Loop on events:
-    istart = bxdecay0::GENBBSUB_ISTART_GENERATE;
     for (std::size_t ievent = 0; ievent < nevents; ievent++) {
 
       // Randomize the decay event:
@@ -120,14 +129,17 @@ int main()
                          chnuclide,
                          ilevel,
                          modebb,
-                         istart,
+                         bxdecay0::GENBBSUB_ISTART_GENERATE,
                          ier,
                          bb_params);
       if (ier != 0) {
         throw std::logic_error("genbbsub failed!");
       }
-      // Set time:
-      decay.set_time(0.0);
+
+      // Force the time of the decay:
+      double evtime=decay_timer(generator);
+      if (debug) std::cerr << "[debug] Evetn time = " << evtime << std::endl;
+      decay.set_time(evtime);
 
       if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
 
