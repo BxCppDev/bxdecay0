@@ -38,6 +38,10 @@ int main()
   int error_code = EXIT_SUCCESS;
   try {
 
+    /****************************/
+    /* Configuration parameters */
+    /****************************/
+
     // Debug flag:
     bool debug = true;
 
@@ -47,13 +51,8 @@ int main()
     // Number of generated events:
     std::size_t nevents = 100;
 
-    // Output file for generated decay events:
+    // Output file name:
     std::string foutname("gendecay0.data");
-    std::ofstream fout(foutname.c_str());
-
-    // Random generator:
-    std::default_random_engine generator(seed);
-    bxdecay0::std_random prng(generator);
 
     // Parameters of the decay:
     bxdecay0::bbpars bb_params;
@@ -65,12 +64,29 @@ int main()
                                   */
     // Mode: double beta decay:
     int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
+
     // Isotope:
     std::string chnuclide = "Mo100";
+
     // Daughter's energy level (ground state):
     int ilevel = 0;
+
     // DBD mode (neutrinoless):
     int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+
+    // Activity of the decaying source in becquerel:
+    double activity = 2.0;
+
+    /***************************************/
+    /* Initialization of working resources */
+    /***************************************/
+
+    // Output file for generated decay events:
+    std::ofstream fout(foutname.c_str());
+
+    // Random generator:
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
 
     // Decay event (collection of generated particles):
     bxdecay0::event decay;
@@ -90,9 +106,6 @@ int main()
       throw std::logic_error("genbbsub initialization !");
     }
     decay.reset();
-
-    // Activity of the decaying source in becquerel:
-    double activity = 2.0;
 
     // Store config/metadata:
     fout << "#!bxdecay0 " << BXDECAY0_LIB_VERSION << std::endl;
@@ -118,6 +131,10 @@ int main()
     fout << "#" << std::endl;
     fout << std::endl;
 
+    /**************************/
+    /* Decay Event generation */
+    /**************************/
+
     std::exponential_distribution<> decay_timer(activity);
     // Loop on events:
     for (std::size_t ievent = 0; ievent < nevents; ievent++) {
@@ -137,10 +154,10 @@ int main()
       }
 
       // Force the time of the decay:
-      double evtime=decay_timer(generator);
-      if (debug) std::cerr << "[debug] Evetn time = " << evtime << std::endl;
+      double evtime = decay_timer(generator);
       decay.set_time(evtime);
 
+      // Debug dump:
       if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
 
       // Store events:
@@ -149,10 +166,15 @@ int main()
         | bxdecay0::event::STORE_EVENT_TIME
         | bxdecay0::particle::STORE_PARTICLE_NAME;
       decay.store(fout, store_flags);
+
+      // Clear the event:
       decay.reset();
     }
 
-    // Terminate the output file:
+    /***************/
+    /* Termination */
+    /***************/
+
     fout << "#@run_stop" << std::endl;
     fout.close();
 
