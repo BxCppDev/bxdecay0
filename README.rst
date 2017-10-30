@@ -51,15 +51,15 @@ dependencies (mostly the GSL_ library  for numerical integration and a
 few  special math  functions).  External  random engines  can be  used
 through a simple wrapping interface, particularly the ones provided by
 the C++ standard  library can be used by default.  However the user is
-free to provide its own random system (based on GSL, ROOT...).
+free to provide its own random system (based on GSL_, ROOT_...).
 
 The  structure  of  the  BxDecay0   code  does  not  follow  an  usual
-object-oriented approach.   In order to ensure  the synchronization of
-its  code with  the  Decay0/GENBB fortran  code,  BxDecay0 mimics  the
-layout  of  the original  Fortran  code  (including massive  usage  of
-GOTOs!)  based on a large collection of C-like functions. Thus, when a
-Decay0/GENBB fix  or improvement  is published, it  is rather  easy to
-adequately change the C++ code.
+object-oriented approach.  In order to ensure the easy synchronization
+of its code  with the original Decay0/GENBB code,  BxDecay0 mimics the
+layout of the  Fortran code (thus including massive  usage of GOTOs!).
+BxDecay0 thus  provides a large  collection of C-like  plain generator
+functions.  When a Decay0/GENBB fix or improvement is published, it is
+thus rather easy to adequately change the C++ code.
 
 
 
@@ -72,6 +72,10 @@ on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
 
 Requirements for Ubuntu 16.04 LTS
 ---------------------------------------
+
+The following lines give some hints  to prepare your system before the
+installation  of BxDecay0.  Some  instructions may  vary  on your  own
+system.
 
 #. Install GNU C++ compiler:
 
@@ -106,16 +110,24 @@ a Linuxbrew package management framework.
 Build and install
 ========================
 
-Download BxDecay0 from the GitHub repository
----------------------------------------------
+Download BxDecay0 source code from the GitHub repository
+--------------------------------------------------------
 
-Clone the Git repository on your filesystem:
+Clone the Git development repository on your filesystem:
 
 .. code:: sh
 
    $ cd /tmp
    $ git clone https://github.com/BxCppDev/bxdecay0.git bxdecay0.git
 
+Or download the archive associated to a released version :
+
+.. code:: sh
+
+   $ cd /tmp
+   $ wget https://github.com/BxCppDev/bxdecay0.git/downloads/bxdecay0-1.0.0.tar.gz
+   $ tar xvzf bxdecay0-1.0.0.tar.gz
+   $ cd bxdecay0-1.0.0
 
 
 Configure
@@ -129,6 +141,12 @@ in our home directory:
    $ mkdir /tmp/_build.d
    $ cd /tmp/_build.d
    $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0.git
+
+or:
+
+.. code:: sh
+
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0-1.0.0
 
 
 
@@ -683,6 +701,7 @@ generators by yourself.
 
 .. _Bayeux: https://github.com/BxCppDev/Bayeux.git
 .. _GSL: https://www.gnu.org/software/gsl/
+.. _ROOT: http://root.cern.ch/
 .. _KINR: http://lpd.kinr.kiev.ua/
 .. _`LPC Caen`: http://www.lpc-caen.in2p3.fr/
 .. _`Normandie Université`: http://www.unicaen.fr/
