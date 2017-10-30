@@ -1,7 +1,0 @@
-HepMC::Version 3.0.0
-HepMC::IO_GenEvent-START_EVENT_LISTING
-T bxdecay0::std_random\|314159\|BxDecay0 random number generator
-T BxDecay0\|1.0.0\|BxDecay0 nuclear decay event generator
-A weight 1
-HepMC::IO_GenEvent-END_EVENT_LISTING
-
