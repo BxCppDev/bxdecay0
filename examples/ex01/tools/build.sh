@@ -16,7 +16,7 @@ install_dir=$(pwd)/_install.d
 build_dir=$(pwd)/_build.d
 
 devel=false
-bxdecay0_prefix=$(bxdecay0-query --cmakedir)
+bxdecay0_prefix=""
 
 while [ -n "$1" ]; do
     opt="$1"
@@ -29,13 +29,20 @@ while [ -n "$1" ]; do
     shift 1
 done
 
-if [ "x${bxdecay0_prefix}" = "x" ]; then
+if [ -z "${bxdecay0_prefix}" ]; then
     if [ ${devel} = true ]; then
 	bxdecay0_prefix="../../_install.d"
     else
-	echo >&2 "[error] Missing BxDecay0 installation path! Abort!"
-	my_exit 1
+	which bxdecay0-query > /dev/null 2>&1
+	if [ $? -eq 0 ]; then
+	    bxdecay0_prefix=$(bxdecay0-query --cmakedir)
+	fi
     fi
+fi
+
+if [ -z "${bxdecay0_prefix}" ]; then
+    echo >&2 "[error] Missing BxDecay0 installation path! Abort!"
+    my_exit 1
 fi
 
 if [ ! -d ${bxdecay0_prefix} ]; then

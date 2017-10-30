@@ -115,7 +115,7 @@ int main()
     fout << "#@nevents=" << nevents << std::endl;
     fout << "#@min_energy=" << bb_params.ebb1 << ' ' << "MeV" << std::endl;
     fout << "#@max_energy=" << bb_params.ebb2 << ' ' << "MeV" << std::endl;
-    fout << "#@weight=" << bb_params.toallevents << std::endl;
+    fout << "#@toallevents=" << bb_params.toallevents << std::endl;
     fout << "#@type=" << i2bbs << std::endl;
     fout << "#@nuclide=" << chnuclide << std::endl;
     fout << "#@daughter_level=" << ilevel << std::endl;
@@ -123,11 +123,13 @@ int main()
     fout << "#" << std::endl;
     fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
     fout << "#" << std::endl;
+    fout << "#   #@event_start" << std::endl;
     fout << "#   event-time" << std::endl;
     fout << "#   number-of-particles" << std::endl;
-    fout << "#   code1 time1 px1 py1 pz1"  << std::endl;
+    fout << "#   code1 time1 px1 py1 pz1 name"  << std::endl;
     fout << "#   ..." << std::endl;
-    fout << "#   codeN timeN pxN pyN pzN"  << std::endl;
+    fout << "#   codeN timeN pxN pyN pzN name"  << std::endl;
+    fout << "#   #@event_stop" << std::endl;
     fout << "#" << std::endl;
     fout << std::endl;
 
