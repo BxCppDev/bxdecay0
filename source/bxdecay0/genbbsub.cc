@@ -461,7 +461,7 @@ namespace bxdecay0 {
     // Majoron with SI=2 (bulk M of Mohapatra)
     // 15. 2nubb 0+ -> 0+ with bosonic neutrinos,
     // 16. 2nubb 0+ -> 2+ with bosonic neutrinos,
-    // 17. 0nubb(rhc-eta) 0+ -> 0+ simplified std::expression,
+    // 17. 0nubb(rhc-eta) 0+ -> 0+ simplified expression,
     // 18. 0nubb(rhc-eta) 0+ -> 0+ with specified NMEs
     // istart - -1 - to check consistency of input data and fill
     // working arrays without generation of events
@@ -1548,6 +1548,7 @@ namespace bxdecay0 {
     /*********************
      * Double beta decay *
      *********************/
+    event_.set_generator(chnuclide_);
     if (i2bbs_ == GENBBSUB_I2BBS_DBD) {
       event_.set_time(0.0);
       decay0_bb(prng_, event_, &bb_params_);

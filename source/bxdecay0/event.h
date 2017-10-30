@@ -40,6 +40,15 @@ namespace bxdecay0 {
     /// Default constructor
     event();
 
+    /// Check if the generator is set
+    bool has_generator() const;
+
+    /// Set the generator of the event
+    void set_generator(const std::string & generator_);
+
+    /// Return the generator of the event
+    const std::string & get_generator() const;
+
     /// Check if the reference time is set
     bool has_time() const;
 
@@ -84,6 +93,7 @@ namespace bxdecay0 {
 
   private:
 
+    std::string           _generator_; ///< Name of the generator
     double                _time_;      ///< Reference time (in second)
     std::vector<particle> _particles_; ///< List of particles (ordered in time)
 

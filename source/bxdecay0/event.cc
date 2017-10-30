@@ -36,6 +36,22 @@ namespace bxdecay0 {
     return;
   }
 
+  bool event::has_generator() const
+  {
+    return !_generator_.empty();
+  }
+
+  void event::set_generator(const std::string & generator_)
+  {
+    _generator_ = generator_;
+    return;
+  }
+
+  const std::string & event::get_generator() const
+  {
+    return _generator_;
+  }
+
   bool event::has_time() const
   {
     return _time_ == _time_;
@@ -110,6 +126,15 @@ namespace bxdecay0 {
     if (!title_.empty()) {
       out_ << indent_ << title_ << "\n";
     }
+
+    out_ << indent_ << "|-- Generator: ";
+    if (has_generator()) {
+      out_ << "'" << _generator_ << "'";
+    } else {
+      out_ << "<none>";
+    }
+    out_ << '\n';
+
     out_ << indent_ << "|-- Time: ";
     if (has_time()) {
       out_ << _time_ << " [second]";
@@ -134,7 +159,7 @@ namespace bxdecay0 {
       out_ << "#@event_start" << std::endl;
     }
     if (flags_ & STORE_EVENT_TIME) {
-      out_ << _time_ << std::endl;
+      out_ << _time_ << ' ' << _generator_  << std::endl;
     }
     out_ << _particles_.size() << '\n';
     uint32_t particle_flags = flags_;
