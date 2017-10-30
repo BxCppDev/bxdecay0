@@ -128,7 +128,7 @@ int main()
     decay0_info.description = "BxDecay0 nuclear decay event generator";
     runInfoPtr->tools().push_back(decay0_info);
 
-    HepMC::WriterAscii writer("ex02.data", runInfoPtr);
+    HepMC::WriterAscii writer("gendecay0-hepmc3-ascii.data", runInfoPtr);
 
     /**************************/
     /* Decay Event generation */
@@ -172,17 +172,17 @@ int main()
       double part_time = 0.0;
       for (const auto & particle : decay.get_particles()) {
         std::shared_ptr<HepMC::GenParticle> genPartPtr
-        = std::make_shared<HepMC::GenParticle>();
+          = std::make_shared<HepMC::GenParticle>();
         // http://pdg.lbl.gov/mc_particle_id_contents.html
         int pid = 0;
         switch (particle.get_code()) {
-        case bxdecay0::GAMMA : pid = 22;
-        case bxdecay0::POSITRON : pid = -11;
-        case bxdecay0::ELECTRON : pid = 11;
-        case bxdecay0::NEUTRON : pid = 2112;
-        case bxdecay0::PROTON : pid = 2212;
-        case bxdecay0::ALPHA : pid = 1000020040;
-        default: pid = 0;
+        case bxdecay0::GAMMA : pid = 22; break;
+        case bxdecay0::POSITRON : pid = -11; break;
+        case bxdecay0::ELECTRON : pid = 11; break;
+        case bxdecay0::NEUTRON : pid = 2112; break;
+        case bxdecay0::PROTON : pid = 2212; break;
+        case bxdecay0::ALPHA : pid = 1000020040; break;
+        default: break;
         }
         if (particle.has_time()) {
           part_time += particle.get_time();
@@ -192,10 +192,9 @@ int main()
                                                    particle.get_py(),
                                                    particle.get_pz(),
                                                    part_time));
-        genEvtPtr->add_particle(genPartPtr);
-        writer.write_event(genEvtPtr);
+        genVtxPtr->add_particle_out(genPartPtr);
       }
-       writer.write_event(genPartPtr);
+      writer.write_event(*genEvtPtr.get());
 
       // Clear the event:
       decay.reset();

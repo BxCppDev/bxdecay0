@@ -33,7 +33,7 @@ if [ -z "${bxdecay0_prefix}" ]; then
     if [ ${devel} = true ]; then
 	bxdecay0_prefix="../../_install.d"
     else
-	which bxdecay0-query > dev/null 2>&1
+	which bxdecay0-query > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 	    bxdecay0_prefix=$(bxdecay0-query --cmakedir)
 	fi
