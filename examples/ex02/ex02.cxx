@@ -187,11 +187,12 @@ int main()
         if (particle.has_time()) {
           part_time += particle.get_time();
         }
+        static const double C_LIGHT_MM_PER_SEC = 3e11;
         genPartPtr->set_pid(pid);
         genPartPtr->set_momentum(HepMC::FourVector(particle.get_px(),
                                                    particle.get_py(),
                                                    particle.get_pz(),
-                                                   part_time));
+                                                   part_time * C_LIGHT_MM_PER_SEC));
         genVtxPtr->add_particle_out(genPartPtr);
       }
       writer.write_event(*genEvtPtr.get());
