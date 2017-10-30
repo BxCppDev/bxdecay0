@@ -1,4 +1,4 @@
-/** ex01.cxx
+/** ex02.cxx
  *
  * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
  * Copyright 2017 Normandie Université
@@ -26,6 +26,16 @@
 #include <iostream>
 #include <fstream>
 
+// Third party library:
+// - HepMC:
+#include <HepMC/GenRunInfo.h>
+#include <HepMC/GenParticle.h>
+#include <HepMC/GenEvent.h>
+#include <HepMC/GenVertex.h>
+#include <HepMC/Attribute.h>
+#include <HepMC/FourVector.h>
+#include <HepMC/WriterAscii.h>
+
 // This project:
 #include <bxdecay0/std_random.h> // Random number interface
 #include <bxdecay0/event.h>      // Generated event model
@@ -50,9 +60,6 @@ int main()
 
     // Number of generated events:
     std::size_t nevents = 100;
-
-    // Output file name:
-    std::string foutname("gendecay0.data");
 
     // Parameters of the decay:
     bxdecay0::bbpars bb_params;
@@ -81,9 +88,6 @@ int main()
     /* Initialization of working resources */
     /***************************************/
 
-    // Output file for generated decay events:
-    std::ofstream fout(foutname.c_str());
-
     // Random generator:
     std::default_random_engine generator(seed);
     bxdecay0::std_random prng(generator);
@@ -107,29 +111,24 @@ int main()
     }
     decay.reset();
 
-    // Store config/metadata in the file header:
-    fout << "#!bxdecay0 " << BXDECAY0_LIB_VERSION << std::endl;
-    fout << "#@run_start" << std::endl;
-    fout << "#@seed=" << seed << std::endl;
-    fout << "#@activity=" << activity << ' ' << "Bq" << std::endl;
-    fout << "#@nevents=" << nevents << std::endl;
-    fout << "#@min_energy=" << bb_params.ebb1 << ' ' << "MeV" << std::endl;
-    fout << "#@max_energy=" << bb_params.ebb2 << ' ' << "MeV" << std::endl;
-    fout << "#@weight=" << bb_params.toallevents << std::endl;
-    fout << "#@type=" << i2bbs << std::endl;
-    fout << "#@nuclide=" << chnuclide << std::endl;
-    fout << "#@daughter_level=" << ilevel << std::endl;
-    fout << "#@mode_bb=" << modebb << std::endl;
-    fout << "#" << std::endl;
-    fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
-    fout << "#" << std::endl;
-    fout << "#   event-time" << std::endl;
-    fout << "#   number-of-particles" << std::endl;
-    fout << "#   code1 time1 px1 py1 pz1"  << std::endl;
-    fout << "#   ..." << std::endl;
-    fout << "#   codeN timeN pxN pyN pzN"  << std::endl;
-    fout << "#" << std::endl;
-    fout << std::endl;
+    // Run info:
+    std::shared_ptr<HepMC::GenRunInfo> runInfoPtr(std::make_shared<HepMC::GenRunInfo>());
+    runInfoPtr->add_attribute("weight",
+                              std::make_shared<HepMC::DoubleAttribute>(bb_params.toallevents));
+
+    HepMC::GenRunInfo::ToolInfo random_info;
+    random_info.name = "bxdecay0::std_random";
+    random_info.version = std::to_string(seed);
+    random_info.description = "BxDecay0 random number generator";
+    runInfoPtr->tools().push_back(random_info);
+
+    HepMC::GenRunInfo::ToolInfo decay0_info;
+    decay0_info.name = "BxDecay0";
+    decay0_info.version = BXDECAY0_LIB_VERSION;
+    decay0_info.description = "BxDecay0 nuclear decay event generator";
+    runInfoPtr->tools().push_back(decay0_info);
+
+    HepMC::WriterAscii writer("ex02.data", runInfoPtr);
 
     /**************************/
     /* Decay Event generation */
@@ -160,23 +159,47 @@ int main()
       // Debug dump:
       if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
 
-      // Store events:
-      uint32_t store_flags =
-        bxdecay0::event::STORE_EVENT_DECO
-        | bxdecay0::event::STORE_EVENT_TIME
-        | bxdecay0::particle::STORE_PARTICLE_NAME;
-      decay.store(fout, store_flags);
+      // Build a Hep MC event:
+      std::shared_ptr<HepMC::GenEvent> genEvtPtr =
+        std::make_shared<HepMC::GenEvent>(runInfoPtr,
+                                          HepMC::Units::MEV,
+                                          HepMC::Units::MM);
+      genEvtPtr->set_event_number(ievent);
+      std::shared_ptr<HepMC::GenVertex> genVtxPtr
+        = std::make_shared<HepMC::GenVertex>(HepMC::FourVector(0.,0.,0.,decay.get_time()));
+      genEvtPtr->add_vertex(genVtxPtr);
+
+      double part_time = 0.0;
+      for (const auto & particle : decay.get_particles()) {
+        std::shared_ptr<HepMC::GenParticle> genPartPtr
+        = std::make_shared<HepMC::GenParticle>();
+        // http://pdg.lbl.gov/mc_particle_id_contents.html
+        int pid = 0;
+        switch (particle.get_code()) {
+        case bxdecay0::GAMMA : pid = 22;
+        case bxdecay0::POSITRON : pid = -11;
+        case bxdecay0::ELECTRON : pid = 11;
+        case bxdecay0::NEUTRON : pid = 2112;
+        case bxdecay0::PROTON : pid = 2212;
+        case bxdecay0::ALPHA : pid = 1000020040;
+        default: pid = 0;
+        }
+        if (particle.has_time()) {
+          part_time += particle.get_time();
+        }
+        genPartPtr->set_pid(pid);
+        genPartPtr->set_momentum(HepMC::FourVector(particle.get_px(),
+                                                   particle.get_py(),
+                                                   particle.get_pz(),
+                                                   part_time));
+        genEvtPtr->add_particle(genPartPtr);
+        writer.write_event(genEvtPtr);
+      }
+       writer.write_event(genPartPtr);
 
       // Clear the event:
       decay.reset();
     }
-
-    /***************/
-    /* Termination */
-    /***************/
-
-    fout << "#@run_stop" << std::endl;
-    fout.close();
 
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;

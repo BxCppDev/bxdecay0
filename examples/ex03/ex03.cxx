@@ -1,4 +1,4 @@
-/** ex01.cxx
+/** ex03.cxx
  *
  * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
  * Copyright 2017 Normandie Université
@@ -56,23 +56,18 @@ int main()
 
     // Parameters of the decay:
     bxdecay0::bbpars bb_params;
-    bb_params.ebb1 = 0.0; // Minimum energy (MeV)
-    bb_params.ebb2 = 4.3; // Maximum energy (MeV)
-    bb_params.toallevents = 1.0; /* Statistical weight of the event
-                                  * with respect to the total energy
-                                  * spectrum.
-                                  */
+
     // Mode: double beta decay:
-    int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
+    int i2bbs = bxdecay0::GENBBSUB_I2BBS_BACKGROUND;
 
     // Isotope:
-    std::string chnuclide = "Mo100";
+    std::string chnuclide = "Co60";
 
     // Daughter's energy level (ground state):
     int ilevel = 0;
 
     // DBD mode (neutrinoless):
-    int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+    int modebb = bxdecay0::MODEBB_UNDEF;
 
     // Activity of the decaying source in becquerel:
     double activity = 2.0;
@@ -113,21 +108,18 @@ int main()
     fout << "#@seed=" << seed << std::endl;
     fout << "#@activity=" << activity << ' ' << "Bq" << std::endl;
     fout << "#@nevents=" << nevents << std::endl;
-    fout << "#@min_energy=" << bb_params.ebb1 << ' ' << "MeV" << std::endl;
-    fout << "#@max_energy=" << bb_params.ebb2 << ' ' << "MeV" << std::endl;
-    fout << "#@weight=" << bb_params.toallevents << std::endl;
     fout << "#@type=" << i2bbs << std::endl;
     fout << "#@nuclide=" << chnuclide << std::endl;
-    fout << "#@daughter_level=" << ilevel << std::endl;
-    fout << "#@mode_bb=" << modebb << std::endl;
     fout << "#" << std::endl;
     fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
     fout << "#" << std::endl;
+    fout << "#   #@event_start" << std::endl;
     fout << "#   event-time" << std::endl;
     fout << "#   number-of-particles" << std::endl;
-    fout << "#   code1 time1 px1 py1 pz1"  << std::endl;
+    fout << "#   code1 time1 px1 py1 pz1 name"  << std::endl;
     fout << "#   ..." << std::endl;
-    fout << "#   codeN timeN pxN pyN pzN"  << std::endl;
+    fout << "#   codeN timeN pxN pyN pzN name"  << std::endl;
+    fout << "#   #@event_stop" << std::endl;
     fout << "#" << std::endl;
     fout << std::endl;
 
@@ -158,7 +150,7 @@ int main()
       decay.set_time(evtime);
 
       // Debug dump:
-      if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
+      if (debug) decay.print(std::cerr, "Decay event:", "[debug] ");
 
       // Store events:
       uint32_t store_flags =
