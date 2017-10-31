@@ -256,7 +256,6 @@ The following program is taken from the BxDecay0's ``ex00`` example:
 .. code:: c++
 
    #include <iostream>
-   #include <bxdecay0/version.h>
    #include <bxdecay0/std_random.h>
    #include <bxdecay0/event.h>
    #include <bxdecay0/decay0_generator.h>
