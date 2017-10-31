@@ -69,7 +69,7 @@ int main()
     std::string nuclide = "Mo100";
 
     // Daughter's energy level (ground state):
-    int ilevel = 0;
+    int level = 0;
 
     // DBD mode (two neutrino):
     bxdecay0::modebb_type modebb = bxdecay0::MODEBB_4;
@@ -88,7 +88,7 @@ int main()
     decay0.set_debug(false);
     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
     decay0.set_decay_isotope(nuclide);
-    decay0.set_decay_dbd_level(0); // ground state
+    decay0.set_decay_dbd_level(level); // ground state
     decay0.set_decay_dbd_mode(modebb);
     decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
 
