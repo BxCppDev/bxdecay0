@@ -1,3 +1,20 @@
+// C++ port of the CERNLIB dgmlt1 routine
+//
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/dgmlt1.h>
 
@@ -53,7 +70,7 @@ namespace bxdecay0 {
     double F[64];
     if (NI_ <= 0) {
       std::ostringstream message;
-      message << "genbb::decay0::decay0_dgmlt1: "
+      message << "bxdecay0::decay0_dgmlt1: "
               << "Invalid NI parameter (" << NI_ << ") !";
       throw std::logic_error (message.str());
     }

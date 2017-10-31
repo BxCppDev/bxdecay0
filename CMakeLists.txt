@@ -88,6 +88,7 @@ configure_file(source/bxdecay0/config.h.in
 set(BxDecay0_HEADERS
   ${PROJECT_BINARY_DIR}/source/bxdecay0/version.h
   ${PROJECT_BINARY_DIR}/source/bxdecay0/config.h
+  source/bxdecay0/resource.h #
   source/bxdecay0/common.h #
   source/bxdecay0/divdif.h #
   source/bxdecay0/dgmlt1.h #
@@ -134,6 +135,7 @@ set(BxDecay0_HEADERS
   source/bxdecay0/nucltransKLM.h #
   source/bxdecay0/nucltransKLM_Pb.h #
   source/bxdecay0/bb.h
+  source/bxdecay0/bb_utils.h
   source/bxdecay0/decay0_generator.h
   source/bxdecay0/utils.h
   source/bxdecay0/genbbsub.h
@@ -245,11 +247,15 @@ set(BxDecay0_HEADERS
   source/bxdecay0/Zn65.h
   source/bxdecay0/Zr92low.h
   source/bxdecay0/Zr96.h
+  source/bxdecay0/decay0_generator.h
   )
 
 message("[info] BxDecay0_HEADERS = '${BxDecay0_HEADERS}'")
+configure_file(source/bxdecay0/resource.cc.in
+  ${PROJECT_BINARY_DIR}/source/bxdecay0/resource.cc  @ONLY)
 
 set(BxDecay0_SOURCES
+  ${PROJECT_BINARY_DIR}/source/bxdecay0/resource.cc
   source/bxdecay0/divdif.cc
   source/bxdecay0/dgmlt1.cc
   source/bxdecay0/dgmlt2.cc
@@ -293,9 +299,9 @@ set(BxDecay0_SOURCES
   source/bxdecay0/nucltransKLM.cc
   source/bxdecay0/nucltransKLM_Pb.cc
   source/bxdecay0/bb.cc
+  source/bxdecay0/bb_utils.cc
   source/bxdecay0/utils.cc
   source/bxdecay0/genbbsub.cc
-  # source/bxdecay0/decay0_generator.cc
   # Isotopes:
   source/bxdecay0/PbAtShell.cc
   source/bxdecay0/Ac228.cc
@@ -404,6 +410,7 @@ set(BxDecay0_SOURCES
   source/bxdecay0/Zn65.cc
   source/bxdecay0/Zr92low.cc
   source/bxdecay0/Zr96.cc
+  source/bxdecay0/decay0_generator.cc
  )
 
 message("[info] BxDecay0_SOURCES = '${BxDecay0_SOURCES}'")
@@ -412,6 +419,7 @@ set(BxDecay0_PRIVATE_HEADERS
   )
 
 set(BxDecay0_TESTS
+  source/bxdecay0/testing/test_resource.cxx
   source/bxdecay0/testing/test_decay0.cxx
   source/bxdecay0/testing/test_tsimpr.cxx
   source/bxdecay0/testing/test_particle.cxx
@@ -425,6 +433,7 @@ set(BxDecay0_TESTS
   source/bxdecay0/testing/test_fermi.cxx
   source/bxdecay0/testing/test_bb.cxx
   source/bxdecay0/testing/test_genbbsub.cxx
+  source/bxdecay0/testing/test_decay0_generator.cxx
   )
 
 message("[info] BxDecay0_TESTS = '${BxDecay0_TESTS}'")
@@ -509,6 +518,17 @@ install( DIRECTORY
   WORLD_READ WORLD_EXECUTE
   )
 
+install( DIRECTORY
+  ${PROJECT_SOURCE_DIR}/resources/data
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
+  FILE_PERMISSIONS OWNER_READ
+  GROUP_READ
+  WORLD_READ
+  DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
+
 install( FILES
   ${PROJECT_SOURCE_DIR}/LICENSE.txt
   DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
@@ -525,7 +545,7 @@ endif()
 if(BXDECAY0_ENABLE_TESTING)
   foreach(_testsource ${BxDecay0_TESTS})
     set(_bxdecay0_TEST_ENVIRONMENT
-      # "BXDECAY0_RESOURCE_FILES_DIR=${PROJECT_SOURCE_DIR}/resources"
+      "BXDECAY0_RESOURCE=${PROJECT_SOURCE_DIR}/resources"
       )
     get_filename_component(_testname "${_testsource}" NAME_WE)
     set(_testname "bxdecay0-${_testname}")

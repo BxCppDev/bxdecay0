@@ -1,0 +1,25 @@
+# List of supported double beta decay modes
+# Format:
+#  first column : identifier of the mode
+#  rest of the line: description of the mode
+1 0nubb with neutrino mass, 0+ -> 0+,      2n
+2 0nubb with rhc-lambda,    0+ -> 0+,      2n
+3 0nubb with rhc-lambda,    0+ -> 0+, 2+,  N*
+4 2nubb,                    0+ -> 0+,      2n
+5 0nuM1bb (Majoron, SI=1),  0+ -> 0+,      2n
+6 0nuM3bb (Majoron, SI=3),  0+ -> 0+,      2n
+7 0nubb with rhc-lambda,    0+ -> 2+,      2n
+8 2nubb,                    0+ -> 2+,      2n, N*
+9 0nuKb+                    0+ -> 0+, 2+
+10 2nuKb+                    0+ -> 0+, 2+
+11 0nu2K                     0+ -> 0+, 2+
+12 2nu2K                     0+ -> 0+, 2+
+13 0nuM7bb (Majoron, SI=7)   0+ -> 0+, 2n
+14 0nuM2bb (Majoron, SI=2)   0+ -> 0+, 2n
+15 2nubb with bosonic nu's   0+ -> 0+
+16 2nubb with bosonic nu's   0+ -> 2+
+17 0nubb with rhc-eta        0+ -> 0+, simplified expression
+18 0nubb with rhc-eta        0+ -> 0+, with specific NMEs
+19 2nubb with LV             0+ -> 0+, with Lorentz violation
+20 0nu4b                     0+ -> 0+, quadruple beta decay
+# end

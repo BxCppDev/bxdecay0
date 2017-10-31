@@ -53,15 +53,29 @@ through a simple wrapping interface, particularly the ones provided by
 the C++ standard  library can be used by default.  However the user is
 free to provide its own random system (based on GSL_, ROOT_...).
 
-The  structure  of  the  BxDecay0   code  does  not  follow  an  usual
+Design
+======
+
+The  structure  of   the  BxDecay0  code  does  not   follow  a  fully
 object-oriented approach.  In order to ensure the easy synchronization
 of its code  with the original Decay0/GENBB code,  BxDecay0 mimics the
-layout of the  Fortran code (thus including massive  usage of GOTOs!).
-BxDecay0 thus  provides a large  collection of C-like  plain generator
-functions.  When a Decay0/GENBB fix or improvement is published, it is
-thus rather easy to adequately change the C++ code.
+layout  of  the Fortran  code  (including  massive usage  of  GOTOs!).
+BxDecay0 thus provides a large collection of plain generator functions
+for  about 100  radioactive nuclei  split in  two categories:  *double
+beta* decays  and *backgrounds*  decays.  When  a Decay0/GENBB  fix or
+improvement  is published  in the  original FOrtran  code, it  is thus
+rather easy to adequately change the  C++ code in the relevant section
+in BxDecay0.
 
+Hopefully, BxDecay0 gets  rid of the original common  block based data
+model  in  Decay0/GENBB  which  has strong  limitations  in  terms  of
+usability (static  data structures).  Its  API introduces its  own OOP
+data model through  the ``bxdecay0::event`` and ``bxdecay0::particle``
+classes. It  is thus easy to  use such classes through  any C++ client
+program and/or  to interface  with some  higher level  event generator
+library (i.e. HepMC).
 
+BxDecay0 can be easily extended with additional generators.
 
 Preparation of your system
 ============================
@@ -276,7 +290,7 @@ Appendix 1: Supported radioactive isotopes and associated details
 List of supported  double beta decay isotopes
 ---------------------------------------------
 
-* Ca48,
+* Ca40, Ca46, Ca48,
 * Ni58,
 * Zn64, Zn70,
 * Ge76,
@@ -293,6 +307,7 @@ List of supported  double beta decay isotopes
 * Nd148, Nd150,
 * Dy156, Dy158,
 * W180, W186,
+* Os184, Os192,
 * Pt190, Pt198,
 * Bi214 (for Bi214+At214),
 * Pb214 (for Pb214+Po214),

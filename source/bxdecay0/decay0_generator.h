@@ -1,7 +1,7 @@
 /// \file bxdecay0/decay0.h
 /* Author(s):     Francois Mauger <mauger@lpccaen.in2p3.fr>
  * Creation date: 2013-05-04
- * Last modified: 2017-06-11
+ * Last modified: 2017-10-31
  *
  * License:
  * Copyright 2013-2017 F. Mauger
@@ -38,6 +38,8 @@
 #include <bxdecay0/i_decay_generator.h>
 #include <bxdecay0/i_random.h>
 #include <bxdecay0/event.h>
+#include <bxdecay0/bb.h>
+#include <bxdecay0/bb_utils.h>
 
 /// Nested namespace of the bxdecay0 library
 namespace bxdecay0 {
@@ -50,15 +52,17 @@ namespace bxdecay0 {
   {
   public:
 
-    /// \brief Type of decay
-    enum decay_type {
-      DECAY_TYPE_UNDEFINED  = 0, //!< Undefined decay type
-      DECAY_TYPE_DBD        = 1, //!< Double beta decay
-      DECAY_TYPE_BACKGROUND = 2  //!< Radioactive background decay
+    /// \brief Category of decay
+    enum decay_category_type {
+      DECAY_CATEGORY_UNDEFINED  = 0, //!< Undefined decay
+      DECAY_CATEGORY_DBD        = 1, //!< Double beta decay
+      DECAY_CATEGORY_BACKGROUND = 2  //!< Radioactive background decay
     };
 
-    /// Invalid decay mode
-    static const int DBD_MODE_INVALID  = -1;
+    /// Return a label associated to a category of decay
+    static std::string decay_category_to_label(const decay_category_type);
+
+    /// Invalid daughter nuclide level
     static const int DBD_LEVEL_INVALID = -1;
 
     /// Default constructor
@@ -76,31 +80,73 @@ namespace bxdecay0 {
     bool is_initialized() const;
 
     /// Initialize
-    void initialize();
+    void initialize(i_random & prng_);
 
     /// Reset
     void reset();
 
-    /// Return a mutable set of parameters
-    bxdecay0::bbpars & bb_params();
+    /// Set debug flag
+    void set_debug(const bool);
 
-    /// Set the decay type
-    void set_decay_type(const decay_type);
+    /// Check if debug flag is set
+    bool is_debug() const;
+
+    /// Check if decay category is set
+    bool has_decay_category() const;
+
+    /// Set the decay category
+    void set_decay_category(const decay_category_type);
+
+    /// Return the decay category
+    decay_category_type get_decay_category() const;
+
+    /// Check if DBD decay category
+    bool is_dbd() const;
+
+    /// Check if background decay category
+    bool is_background() const;
+
+    /// Check if decay isotope is set
+    bool has_decay_isotope() const;
 
     /// Set the decaying isotope
     void set_decay_isotope(const std::string &);
 
+    /// Check if decay version is set
+    bool has_decay_version() const;
+
     /// Set the decay version
-    void set_decay_version(const int);
+    void set_decay_version(const std::string &);
+
+    /// Check if decay dbd mode is set
+    bool has_decay_dbd_mode() const;
+
+    /// Set the DBD mode
+    void set_decay_dbd_mode(const modebb_type);
+
+    /// Return the DBD mode
+    modebb_type get_decay_dbd_mode() const;
+
+    /// Check if decay dbd level is set
+    bool has_decay_dbd_level() const;
 
     /// Set the DBD level of the daughter nucleus
     void set_decay_dbd_level(const int);
 
-    /// Set the DBD mode
-    void set_decay_dbd_mode(const int);
+    /// Return the DBD level of the daughter nucleus
+    int get_decay_dbd_level() const;
 
-    /// Set the DBD energy range (is available for the chosen mode)
-    void set_decay_dbd_energy_range(const double min_, const double max_);
+    /// Check if decay dbd esum range is set
+    bool has_decay_dbd_esum_range() const;
+
+    /// Set the DBD energy sum range (is available for the chosen mode)
+    void set_decay_dbd_esum_range(const double min_, const double max_);
+
+    /// Return the DBD energy sum range lower bound
+    double get_decay_dbd_esum_range_lower() const;
+
+    /// Return the DBD energy sum range upper bound
+    double get_decay_dbd_esum_range_upper() const;
 
     /// Check if a next event is available
     virtual bool has_next() const;
@@ -114,9 +160,17 @@ namespace bxdecay0 {
     /// Return the ratio of events in the current energy range
     double get_to_all_events() const;
 
+    /// Return a non mutable set of parameters
+    const bxdecay0::bbpars & get_bb_params() const;
+
   private:
 
-    void _init_();
+    /// Return a mutable set of parameters
+    bxdecay0::bbpars & _grab_bb_params_();
+
+    void _set_defaults_();
+
+    void _init_(i_random & prng_);
 
     void _reset_();
 
@@ -127,13 +181,13 @@ namespace bxdecay0 {
     bool   _debug_       = false; //!< Debug flag
 
     // Configuration:
-    int    _decay_type_;         //!< Type of the decay
-    std::string _decay_isotope_; //!< Decaying isotope
-    int    _decay_version_;      //!< Decay version
-    int    _decay_dbd_level_;    //!< DBD level of the daughter nucleus
-    int    _decay_dbd_mode_;     //!< DBD mode
-    double _energy_min_;         //!< Minimum energy sum
-    double _energy_max_;         //!< Maximum energy sum
+    decay_category_type  _decay_category_; //!< Category of the decay
+    std::string _decay_isotope_;           //!< Decaying isotope
+    std::string _decay_version_;           //!< Decay version
+    int         _decay_dbd_level_;         //!< DBD level of the daughter nucleus
+    modebb_type _decay_dbd_mode_;          //!< DBD mode
+    double      _energy_min_;              //!< Minimum energy sum
+    double      _energy_max_;              //!< Maximum energy sum
 
     // Working internal data:
     size_t _event_count_; //!< Current event count

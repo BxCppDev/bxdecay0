@@ -33,6 +33,24 @@
 namespace bxdecay0 {
 
   /// \brief Description of a generated event as an ordered list of particles
+  ///
+  /// An event has several atrributes:
+  ///
+  /// - generator : an optional generator string which may identifies the event generator responsible
+  ///               of the creation of the current event,
+  /// - time: an optional decay time reference which can be set externally by some activiy model
+  ///         (default value: unset==NaN)
+  /// - particles : a list of generated particles, ordered in time.
+  ///
+  /// Each particle has the following attributes:
+  ///
+  /// - code : the particle identifier code (using GEANT3 particle code for alpha, electron, positron,
+  ///          gamma, neutron or proton),
+  /// - time : the time elapsed from the previous particle or the event time reference for the first
+  ///          particle (expressed in second),
+  /// - momentum: an array of 3 double precision reals representing the coordinates (px, py, pz)
+  ///             of the particle's momentum (expressed in MeV/c)
+  ///
   class event
   {
   public:
@@ -52,10 +70,10 @@ namespace bxdecay0 {
     /// Check if the reference time is set
     bool has_time() const;
 
-    /// Set the reference time of the event
+    /// Set the reference time of the event (time unit: second)
     void set_time(const double time_);
 
-    /// Return the reference time of the event
+    /// Return the reference time of the event (time unit: second)
     double get_time() const;
 
     /// Add a particle in the list of particles (append)
@@ -71,7 +89,7 @@ namespace bxdecay0 {
     /// Check the validity of the event
     bool is_valid() const;
 
-    /// Shift the time of the particles by a delay, starting from a given rank
+    /// Shift the time of the particles by a delay (unit: second), starting from a given rank
     void shift_particles_time(double delta_time_, const int from_ = 0);
 
     /// Reset the event

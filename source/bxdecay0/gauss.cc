@@ -1,3 +1,17 @@
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // Ourselves:
 #include <bxdecay0/gauss.h>
@@ -7,11 +21,17 @@
 #include <cmath>
 #include <sstream>
 #include <stdexcept>
+#include <memory>
+#include <fstream>
+#include <limits>
 
 // Third party:
 // - GSL:
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_integration.h>
+
+// This project:
+#include <bxdecay0/utils.h>
 
 namespace bxdecay0 {
 
@@ -19,11 +39,10 @@ namespace bxdecay0 {
                       double min_, double max_, double epsrel_,
                       void * params_)
   {
-    // bool devel = false;
-    // if (devel) {
-    //   std::cerr << "[devel] bxdecay0::decay0_gauss: Entering..." << std::endl;
-    // }
+    static bool trace = is_trace("gauss");
+    ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Entering..." << std::endl;
     double result, abserr;
+    result = std::numeric_limits<double>::quiet_NaN();
     size_t neval;
     gsl_function F;
     F.function = f_;
@@ -37,11 +56,24 @@ namespace bxdecay0 {
     while (true) {
       status = gsl_integration_qng(&F, min_, max_, epsabs, epsrel,
                                    &result, &abserr, &neval);
-      // if (devel) {
-      //   std::cerr << "[devel] bxdecay0::decay0_gauss: status = " << status << std::endl;
-      //   std::cerr << "[devel] bxdecay0::decay0_gauss: result = " << result << std::endl;
-      //   std::cerr << "[devel] bxdecay0::decay0_gauss: abserr = " << abserr << std::endl;
-      //   std::cerr << "[devel] bxdecay0::decay0_gauss: neval  = " << neval << std::endl;
+      ///TRACE
+      // if (trace) {
+      //   static std::unique_ptr<std::ofstream> _fdebug;
+      //   if (_fdebug.get() == nullptr) {
+      //     _fdebug.reset(new std::ofstream("bxdecay0_gauss_debug.dat"));
+      //     std::ofstream & fdebug = *_fdebug.get();
+      //     fdebug << "#bxdecay0_gauss_debug.dat" << std::endl;
+      //     double dx = (max_ - min_) / 10000;
+      //     for (double x = min_; x <= max_ + 0.5 * dx; x += dx) {
+      //       double fx = f_(x, params_);
+      //       fdebug << x << ' ' << fx << std::endl;
+      //     }
+      //     fdebug.close();
+      //   }
+      //   std::cerr << "[trace] bxdecay0::decay0_gauss: status = " << status << std::endl;
+      //   std::cerr << "[trace] bxdecay0::decay0_gauss: result = " << result << std::endl;
+      //   std::cerr << "[trace] bxdecay0::decay0_gauss: abserr = " << abserr << std::endl;
+      //   std::cerr << "[trace] bxdecay0::decay0_gauss: neval  = " << neval << std::endl;
       // }
       if (status == 0) {
         break;
@@ -53,23 +85,28 @@ namespace bxdecay0 {
       if (count >= 2) {
         break;
       }
-      // if (devel) {
-      //   std::cerr << "[devel] bxdecay0::decay0_gauss: GSL_ETOL = " << "retrying..." << std::endl;
-      // }
+      ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: GSL_ETOL = " << "retrying..." << std::endl;
     }
     gsl_set_error_handler(gsl_eh);
     if (status != 0) {
       std::ostringstream message;
       message << "bxdecay0::decay0_gauss: "
-              << "GSL QNG integration error '"
+              << "GSL QNG integration error: '"
               << gsl_strerror(status)
               << "' !";
-      std::cerr << "[warning] " << message.str() << std::endl;
+      std::cerr << "[error] " << message.str() << std::endl;
       // throw std::runtime_error(message.str());
     }
-    // if (devel) {
-    //   std::cerr << "[devel] bxdecay0::decay0_gauss: Exiting." << std::endl;
-    // }
+    if (result != result) {
+      std::ostringstream message;
+      message << "bxdecay0::decay0_gauss: "
+              << "GSL QNG integration failed: '"
+              << gsl_strerror(status)
+              << "' !";
+      std::cerr << "[fatal] " << message.str() << std::endl;
+      throw std::logic_error(message.str());
+    }
+    ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Exiting." << std::endl;
     return result;
   }
 

@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Pb214.h>
 
@@ -26,24 +42,6 @@
 #include <bxdecay0/PbAtShell.h>
 
 namespace bxdecay0 {
-
-  // Pb214.f 
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  // 
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  // 
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  // 
 
   void Pb214(i_random & prng_,
              event & event_,
@@ -95,31 +93,31 @@ namespace bxdecay0 {
     goto label_83907;  // 1.2%
   label_83901  :
     decay0_nucltransKLM(prng_, event_, 0.839,0.091,2.99e-3,0.016,4.7e-4,
-			0.004,1.5e-4,0.,tclev,thlev,tdlev);
+                        0.004,1.5e-4,0.,tclev,thlev,tdlev);
     return;
   label_83902  :
     decay0_nucltransKLM(prng_, event_, 0.786,0.091,3.38e-3,0.016,5.3e-4,
-			0.004,1.7e-4,0.,tclev,thlev,tdlev);
+                        0.004,1.7e-4,0.,tclev,thlev,tdlev);
     goto label_53000;
   label_83903  :
     decay0_nucltransKLM(prng_, event_, 0.580,0.091,6.06e-3,0.016,9.7e-4,
-			0.004,3.2e-4,0.,tclev,thlev,tdlev);
+                        0.004,3.2e-4,0.,tclev,thlev,tdlev);
     goto label_25900;
   label_83904  :
     decay0_nucltransKLM(prng_, event_, 0.544,0.091,6.90e-3,0.016,1.11e-3,
-			0.004,3.7e-4,0.,tclev,thlev,tdlev);
+                        0.004,3.7e-4,0.,tclev,thlev,tdlev);
     goto label_29500;
   label_83905  :
     decay0_nucltransKLM(prng_, event_, 0.487,0.091,8.65e-3,0.016,1.41e-3,
-			0.004,4.4e-4,0.,tclev,thlev,tdlev);
+                        0.004,4.4e-4,0.,tclev,thlev,tdlev);
     goto label_35200;
   label_83906  :
     decay0_nucltransKLM(prng_, event_, 0.462,0.091,9.64e-3,0.016,1.58e-3,
-			0.004,4.8e-4,0.,tclev,thlev,tdlev);
+                        0.004,4.8e-4,0.,tclev,thlev,tdlev);
     goto label_37700;
   label_83907  :
     decay0_nucltransKLM(prng_, event_, 0.305,0.091,2.40e-2,0.016,4.1e-3,
-			0.004,1.3e-3,0.,tclev,thlev,tdlev);
+                        0.004,1.3e-3,0.,tclev,thlev,tdlev);
     goto label_53400;
   label_797  :
     decay0_beta(prng_, event_, 0.226,83.,0.,0.,t);
@@ -136,15 +134,15 @@ namespace bxdecay0 {
     goto label_53403;  // 54.0%
   label_53401  :
     decay0_nucltransKL(prng_, event_, 0.534,0.091,5.0e-2,0.016,1.0e-2,
-		       0.,tclev,thlev,tdlev);
+                       0.,tclev,thlev,tdlev);
     return;
   label_53402  :
     decay0_nucltransKLM(prng_, event_, 0.480,0.091,1.22e-1,0.016,1.9e-2,
-			0.004,6.0e-3,0.,tclev,thlev,tdlev);
+                        0.004,6.0e-3,0.,tclev,thlev,tdlev);
     goto label_53000;
   label_53403  :
     decay0_nucltransKLM(prng_, event_, 0.275,0.091,2.9e-1,0.016,7.3e-2,
-			0.004,2.4e-2,0.,tclev,thlev,tdlev);
+                        0.004,2.4e-2,0.,tclev,thlev,tdlev);
     goto label_25900;
   label_37700  :
     thlev=0.;
@@ -162,7 +160,7 @@ namespace bxdecay0 {
   label_35200  :
     thlev=0.;
     decay0_nucltransKLM(prng_, event_, 0.352,0.091,2.55e-1,0.016,4.41e-2,
-			0.004,1.38e-2,0.,tclev,thlev,tdlev);
+                        0.004,1.38e-2,0.,tclev,thlev,tdlev);
     return;
   label_295  :
     decay0_beta(prng_, event_, 0.728,83.,0.,0.,t);
@@ -173,11 +171,11 @@ namespace bxdecay0 {
     goto label_29502;  // 32.9%
   label_29501  :
     decay0_nucltransKLM(prng_, event_, 0.295,0.091,3.8e-1,0.016,6.9e-2,
-			0.004,2.2e-2,0.,tclev,thlev,tdlev);
+                        0.004,2.2e-2,0.,tclev,thlev,tdlev);
     return;
   label_29502  :
     decay0_nucltransKLM(prng_, event_, 0.242,0.091,7.13e-1,0.016,1.23e-1,
-			0.004,3.88e-2,0.,tclev,thlev,tdlev);
+                        0.004,3.88e-2,0.,tclev,thlev,tdlev);
     goto label_53000;
   label_25900  :
     thlev=0.;
@@ -187,15 +185,15 @@ namespace bxdecay0 {
     goto label_25903;  // 16.2%
   label_25901  :
     decay0_nucltransKLM(prng_, event_, 0.259,0.091,5.92e-1,0.016,1.03e-1,
-			0.004,3.2e-2,0.,tclev,thlev,tdlev);
+                        0.004,3.2e-2,0.,tclev,thlev,tdlev);
     return;
   label_25902  :
     decay0_nucltransKLM(prng_, event_, 0.206,0.091,1.12e+0,0.016,1.95e-1,
-			0.004,6.1e-2,0.,tclev,thlev,tdlev);
+                        0.004,6.1e-2,0.,tclev,thlev,tdlev);
     goto label_53000;
   label_25903  :
     decay0_nucltransKLM(prng_, event_, 0.196,0.091,1.28e+0,0.016,2.23e-1,
-			0.004,7.0e-2,0.,tclev,thlev,tdlev);
+                        0.004,7.0e-2,0.,tclev,thlev,tdlev);
     goto label_63000;
   label_63000  :
     thlev=0.;
@@ -204,7 +202,7 @@ namespace bxdecay0 {
   label_53000  :
     thlev=0.;
     decay0_nucltransKL(prng_, event_, 0.053,0.016,9.69e+0,0.004,3.05e+0,
-		       0.,tclev,thlev,tdlev);
+                       0.,tclev,thlev,tdlev);
     return;
   label_10000  :
     decay0_beta(prng_, event_, 1.023,83.,0.,0.,t);

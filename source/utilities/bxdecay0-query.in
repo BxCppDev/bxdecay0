@@ -35,6 +35,7 @@ bin_dir="${prefix_dir}/@CMAKE_INSTALL_BINDIR@"
 inc_dir="${prefix_dir}/@CMAKE_INSTALL_INCLUDEDIR@"
 data_dir="${prefix_dir}/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@"
 example_dir="${data_dir}/examples"
+resource_dir="${data_dir}/resources"
 cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/@BxDecay0_TAG@"
 
 function print_usage()
@@ -42,7 +43,7 @@ function print_usage()
 
     cat<<EOF
 
-bxdecay0-query - Utility script to fetch informations about BxDecay0 installation.
+bxdecay0-query - Utility script to fetch informations about the BxDecay0 library installation.
 
 Options:
   -h [ --help ]          Print help.
@@ -62,6 +63,8 @@ Options:
   --datadir              Print data base directory.
 
   --cmakedir             Print CMake config directory.
+
+  --resourcedir          Print resource directory.
 
   --exampledir           Print examples directory.
 
@@ -99,6 +102,9 @@ while [ -n "$?" ]; do
 	      exit 0
 	  elif [ "${option}" = "--exampledir" ]; then
 	      echo ${example_dir}
+	      exit 0
+	  elif [ "${option}" = "--resourcedir" ]; then
+	      echo ${resource_dir}
 	      exit 0
 	  elif [ "${option}" = "--cmakedir" ]; then
 	      echo ${cmake_dir}

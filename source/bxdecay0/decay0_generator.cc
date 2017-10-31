@@ -1,23 +1,18 @@
+// Copyright 2013-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 // decay0_generator.cc
-/*
- * Copyright 2013-2017 F. Mauger
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public 3.0 License as published by
- * the Free Software Foundation; either version 3 of the License, or (at
- * your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public 3.0 License for more details.
- *
- * You should have received a copy of the GNU General Publi * License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
- *
- */
 
 // Ourselves:
 #include <bxdecay0/decay0_generator.h>
@@ -30,29 +25,44 @@
 #include <algorithm>
 
 // This project:
-#include <bxdecay0/genbb_utils.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/bb.h>
 #include <bxdecay0/genbbsub.h>
+#include <bxdecay0/version.h>
 
 namespace bxdecay0 {
 
   // static
-  const int bxdecay0::DBD_MODE_INVALID;
-  const int bxdecay0::DBD_LEVEL_INVALID;
+  const int decay0_generator::DBD_LEVEL_INVALID;
+
+  // static
+  std::string decay0_generator::decay_category_to_label(const decay_category_type cat_)
+  {
+    switch(cat_) {
+    case DECAY_CATEGORY_DBD : return std::string("dbd");
+    case DECAY_CATEGORY_BACKGROUND : return std::string("background");
+    default: return std::string("");
+    }
+  }
+
+  void decay0_generator::_set_defaults_()
+  {
+    _decay_category_ = DECAY_CATEGORY_UNDEFINED;
+    _decay_isotope_ = "";
+    _decay_version_ = "";
+    _decay_dbd_level_ = DBD_LEVEL_INVALID;
+    _decay_dbd_mode_ = MODEBB_UNDEF;
+    _energy_min_ = std::numeric_limits<double>::quiet_NaN();
+    _energy_max_ = std::numeric_limits<double>::quiet_NaN();
+    _event_count_ = 0;
+    return;
+  }
 
   decay0_generator::decay0_generator()
   {
     _initialized_ = false;
     _debug_       = false;
-    _decay_type_ = DECAY_TYPE_UNDEFINED;
-    _decay_isotope_ = "";
-    _decay_version_ = 0;
-    _decay_dbd_level_ = DBD_LEVEL_INVALID;
-    _decay_dbd_mode_ = DBD_MODE_INVALID;
-    _energy_min_ = std::numeric_limits<double>::quiet_NaN();
-    _energy_max_ = std::numeric_limits<double>::quiet_NaN();
-    _event_count_ = 0;
+    _set_defaults_();
     return;
   }
 
@@ -64,32 +74,60 @@ namespace bxdecay0 {
     return;
   }
 
+  void decay0_generator::set_debug(const bool flag_)
+  {
+    _debug_ = flag_;
+    return;
+  }
+
+  bool decay0_generator::is_debug() const
+  {
+    return _debug_;
+  }
+
   void decay0_generator::smart_dump(std::ostream & out_,
                                     const std::string & title_,
                                     const std::string & indent_) const
   {
+    if (!title_.empty()) {
+      out_ << indent_ << title_ << std::endl;
+    }
     static const std::string tag = "|-- ";
     static const std::string last_tag = "`-- ";
     static const std::string skip_tag = "|   ";
     static const std::string last_skip_tag = "    ";
     out_ << indent_ << tag
-          << "Decay type       : " << _decay_type_ << std::endl;
+         << "Decay category   : '" << decay_category_to_label(_decay_category_) << "'" << std::endl;
     out_ << indent_ << tag
-          << "Decay isotope    : '" << _decay_isotope_ << "'" << std::endl;
+         << "Decay isotope    : '" << _decay_isotope_ << "'" << std::endl;
     out_ << indent_ << tag
-          << "Decay DBD level  : " << _decay_dbd_level_ << std::endl;
-    out_ << indent_ << tag
-          << "Decay DBD mode   : " << _decay_dbd_mode_ << std::endl;
-    if (!std::isnan(_energy_min_)) {
+         << "Decay version    : '" << _decay_version_ << "'" << std::endl;
+    if (is_dbd()) {
       out_ << indent_ << tag
-           << "Energy min        : " << _energy_min_ << " MeV" << std::endl;
-    }
-    if (!std::isnan(_energy_max_)) {
+           << "Decay DBD level  : " << _decay_dbd_level_ << std::endl;
       out_ << indent_ << tag
-           << "Energy max        : " << _energy_max_ << " MeV" << std::endl;
+           << "Decay DBD mode   : " << _decay_dbd_mode_ << std::endl;
+      if (!std::isnan(_energy_min_)) {
+        out_ << indent_ << tag
+             << "Energy min       : " << _energy_min_ << " MeV" << std::endl;
+      }
+      if (!std::isnan(_energy_max_)) {
+        out_ << indent_ << tag
+             << "Energy max       : " << _energy_max_ << " MeV" << std::endl;
+      }
     }
+    out_ << indent_ << tag
+         << "Event count      : " << _event_count_ << std::endl;
+
     out_ << indent_ << last_tag
-         << "Event count        : " << _event_count_ << std::endl;
+         << "Initialized      : " << std::boolalpha << _initialized_ << std::endl;
+    if (_initialized_ && is_dbd()) {
+      out_ << indent_ << last_skip_tag << last_tag
+           << "DBD working data : " << std::endl;
+      std::ostringstream indent_pars_oss;
+      indent_pars_oss << indent_ << last_skip_tag << last_skip_tag;
+      _bb_params_->dump(out_, indent_pars_oss.str());
+    }
     return;
   }
 
@@ -98,13 +136,14 @@ namespace bxdecay0 {
     return _initialized_;
   }
 
-  void decay0_generator::initialize()
+  void decay0_generator::initialize(i_random & prng_)
   {
+    if (is_debug()) std::cerr << "[debug] decay0_generator::initialize: Entering..." << std::endl;
     if (is_initialized()) {
       throw std::logic_error("bxdecay0::decay0_generator::initialize: Decay0 generator is already initialized!");
     }
 
-    if (_decay_type_ == DECAY_TYPE_UNDEFINED) {
+    if (_decay_category_ == DECAY_CATEGORY_UNDEFINED) {
       throw std::logic_error("bxdecay0::decay0_generator::initialize: Decay0 generator type is not defined!");
     }
 
@@ -112,65 +151,88 @@ namespace bxdecay0 {
       throw std::logic_error("bxdecay0::decay0_generator::initialize: DBD isotope is not defined!");
     }
 
-    if (_decay_type_ == DECAY_TYPE_DBD) {
+    if (_decay_category_ == DECAY_CATEGORY_DBD) {
+      const std::map<modebb_type,dbd_record> & dbd_modes_dict = decay0_dbd_modes();
+      if (is_debug()) {
+        for (const auto & md : dbd_modes_dict) {
+          std::cerr << "[debug] " << "decay0_generator::initialize: "
+                    << "DBD modes : " << md.first << " : " << md.second.description << std::endl;
+        }
+      }
+      if (dbd_modes_dict.count(_decay_dbd_mode_) == 0) {
+        // if (_decay_dbd_mode_ == DBD_MODE_INVALID) {
+        throw std::logic_error("bxdecay0::decay0_generator::initialize: Invalid DBD mode!");
+      }
       if (_decay_dbd_level_ == DBD_LEVEL_INVALID) {
         throw std::logic_error("bxdecay0::decay0_generator::initialize: DBD daughter level is not defined!");
       }
-      if (_decay_dbd_mode_ == DBD_MODE_INVALID) {
-        throw std::logic_error("bxdecay0::decay0_generator::initialize: DBD daughter level is not defined!");
-      }
 
-      // const std::vector<int> & dbdmwer
-      //   = utils::get_dbd_modes_with_energy_range();
-      // if (std::find(dbdmwer.begin(), dbdmwer.end(),_decay_dbd_mode_) != dbdmwer.end()) {
-
-      //   if (config_.has_key("energy_max")) {
-      //     emax = config_.fetch_real ("energy_max");
-      //     DT_THROW_IF (emax < 0.0, std::logic_error, "Invalid maximum value !");
-      //     if (! config_.has_explicit_unit("energy_max")) emax *= energy_unit;
-      //     _energy_max_ = emax;
-      //   }
-
-      //   if (config_.has_key ("energy_min")) {
-      //     emin = config_.fetch_real ("energy_min");
-      //     DT_THROW_IF (emin < 0.0, std::logic_error, "Invalid minimum value !");
-      //     if (! config_.has_explicit_unit("energy_min")) emin *= energy_unit;
-      //     _energy_min_ = emin;
-      //   }
-
-      // }
-    }
-
-    if (!std::isnan(_energy_max_)) {
-      if (_energy_min_ >= _energy_max_) {
-        throw std::logic_error("bxdecay0::decay0_generator::initialize: Invalid energy range !");
+      if (!std::isnan(_energy_max_)) {
+        if (_energy_min_ >= _energy_max_) {
+          throw std::logic_error("bxdecay0::decay0_generator::initialize: Invalid energy range !");
+        }
       }
     }
-    _init_();
+    _init_(prng_);
 
     _initialized_ = true;
+    if (is_debug()) std::cerr << "[debug] decay0_generator::initialize: Exiting." << std::endl;
     return;
   }
 
   void decay0_generator::reset()
   {
+    if (is_debug()) std::cerr << "[debug] decay0_generator::reset: Entering..." << std::endl;
     if (! _initialized_) {
       return;
     }
     _initialized_ = false;
     _reset_();
+    if (is_debug()) std::cerr << "[debug] decay0_generator::reset: Exiting." << std::endl;
     return;
   }
 
-  bxdecay0::bbpars & decay0_generator::bb_params()
+
+  const bxdecay0::bbpars & decay0_generator::get_bb_params() const
+  {
+    decay0_generator * mutable_this = const_cast<decay0_generator*>(this);
+    return const_cast<bxdecay0::bbpars&>(mutable_this->_grab_bb_params_());
+  }
+
+  bxdecay0::bbpars & decay0_generator::_grab_bb_params_()
   {
     return *_bb_params_.get();
   }
 
-  void decay0_generator::set_decay_type(const decay_type type_)
+  bool decay0_generator::has_decay_category() const
   {
-    _decay_type_ = type_;
+    return _decay_category_ != DECAY_CATEGORY_UNDEFINED;
+  }
+
+  void decay0_generator::set_decay_category(const decay_category_type category_)
+  {
+    _decay_category_ = category_;
     return;
+  }
+
+  decay0_generator::decay_category_type decay0_generator::get_decay_category() const
+  {
+    return _decay_category_;
+  }
+
+  bool decay0_generator::is_dbd() const
+  {
+    return _decay_category_ == DECAY_CATEGORY_DBD;
+  }
+
+  bool decay0_generator::is_background() const
+  {
+    return _decay_category_ == DECAY_CATEGORY_BACKGROUND;
+  }
+
+  bool decay0_generator::has_decay_isotope() const
+  {
+    return !_decay_isotope_.empty();
   }
 
   void decay0_generator::set_decay_isotope(const std::string & i_)
@@ -179,29 +241,69 @@ namespace bxdecay0 {
     return;
   }
 
-  void decay0_generator::set_decay_version(const int ver_)
+  bool decay0_generator::has_decay_version() const
+  {
+    return !_decay_version_.empty();
+  }
+
+  void decay0_generator::set_decay_version(const std::string & ver_)
   {
     _decay_version_ = ver_;
     return;
   }
 
+  bool decay0_generator::has_decay_dbd_level() const
+  {
+    return _decay_dbd_level_ != DBD_LEVEL_INVALID;
+  }
+
   void decay0_generator::set_decay_dbd_level(const int level_)
   {
-    _decay_dbd_level_ = devel_;
+    _decay_dbd_level_ = level_;
     return;
   }
 
-  void decay0_generator::set_decay_dbd_mode(const int mode_)
+  int decay0_generator::get_decay_dbd_level() const
+  {
+    return _decay_dbd_level_;
+  }
+
+  bool decay0_generator::has_decay_dbd_mode() const
+  {
+    return _decay_dbd_mode_ != MODEBB_UNDEF;
+  }
+
+  void decay0_generator::set_decay_dbd_mode(const modebb_type mode_)
   {
     _decay_dbd_mode_ = mode_;
     return;
   }
 
-  void decay0_generator::set_decay_dbd_energy_range(const double emin_, const double emax_)
+  modebb_type decay0_generator::get_decay_dbd_mode() const
+  {
+    return _decay_dbd_mode_;
+  }
+
+  bool decay0_generator::has_decay_dbd_esum_range() const
+  {
+    return (_energy_min_ == _energy_min_) && (_energy_max_ == _energy_max_);
+  }
+
+  void decay0_generator::set_decay_dbd_esum_range(const double emin_, const double emax_)
   {
     _energy_min_ = emin_;
     _energy_max_ = emax_;
     return;
+  }
+
+  double decay0_generator::get_decay_dbd_esum_range_lower() const
+  {
+    return _energy_min_;
+  }
+
+  double decay0_generator::get_decay_dbd_esum_range_upper() const
+  {
+    return _energy_max_;
   }
 
   // virtual
@@ -212,13 +314,14 @@ namespace bxdecay0 {
 
   void decay0_generator::shoot(i_random & prng_, event & event_)
   {
+    if (is_debug()) std::cerr << "[debug] decay0_generator::shoot: Entering..." << std::endl;
     if (! is_initialized()) {
-      throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 geenerator is not initialized !");
+      throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 generator is not initialized !");
     }
     event_.reset();
 
     int error = 0;
-    if (_decay_type_ == DECAY_TYPE_DBD) {
+    if (_decay_category_ == DECAY_CATEGORY_DBD) {
       bxdecay0::genbbsub(prng_,
                          event_,
                          bxdecay0::GENBBSUB_I2BBS_DBD,
@@ -227,11 +330,11 @@ namespace bxdecay0 {
                          _decay_dbd_mode_,
                          bxdecay0::GENBBSUB_ISTART_GENERATE,
                          error,
-                         bb_params());
+                         _grab_bb_params_());
       if (error != 0) {
         throw std::logic_error("bxdecay0::decay0_generator::shoot: genbbsub DBD generation failed !");
       }
-    } else if (_decay_type_ == DECAY_TYPE_BACKGROUND) {
+    } else if (_decay_category_ == DECAY_CATEGORY_BACKGROUND) {
       bxdecay0::genbbsub(prng_,
                          event_,
                          bxdecay0::GENBBSUB_I2BBS_BACKGROUND,
@@ -240,12 +343,13 @@ namespace bxdecay0 {
                          -1,
                          bxdecay0::GENBBSUB_ISTART_GENERATE,
                          error,
-                         bb_params());
+                         _grab_bb_params_());
       if (error != 0) {
         throw std::logic_error("bxdecay0::decay0_generator::shoot: genbbsub background generation failed !");
       }
     }
     _event_count_++;
+    if (is_debug()) std::cerr << "[debug] decay0_generator::shoot: Exiting." << std::endl;
     return;
   }
 
@@ -266,81 +370,81 @@ namespace bxdecay0 {
       _bb_params_.get()->reset();
       _bb_params_.reset(0);
     }
-    _decay_type_ = DECAY_TYPE_UNDEFINED;
-    _decay_isotope_ = "";
-    _decay_version_ = 0;
-    _decay_dbd_level_ = DBD_LEVEL_INVALID;
-    _decay_dbd_mode_ = DBD_MODE_INVALID;
-    _energy_min_ = std::numeric_limits<double>::quiet_NaN();
-    _energy_max_ = std::numeric_limits<double>::quiet_NaN();
+    _set_defaults_();
     return;
   }
 
-  void decay0_generator::_init_()
+  void decay0_generator::_init_(i_random & prng_)
   {
     _bb_params_.reset(new bxdecay0::bbpars);
 
-    bb_params().reset();
-    if (_decay_type_ == DECAY_TYPE_DBD) {
-      bb_params().modebb   = _decay_dbd_mode_;
-      bb_params().istartbb = 0;
+    if (_decay_version_.empty()) {
+      set_decay_version(BXDECAY0_LIB_VERSION);
+    }
+    _grab_bb_params_().reset();
+    if (_decay_category_ == DECAY_CATEGORY_DBD) {
+      _grab_bb_params_().modebb   = _decay_dbd_mode_;
+      _grab_bb_params_().istartbb = 0;
 
-      const std::vector<int> & dbdmwer
-        = utils::get_dbd_modes_with_energy_range ();
-      if (_debug_) {
-        std::clog << "[debug] " << "Decay DBD mode : " << _decay_dbd_mode_ << std::endl;
+      const std::set<modebb_type> & dbdmwer = decay0_dbd_modes_with_esum_range();
+      if (is_debug()) {
+        std::cerr << "[debug] decay0_generator::_init_: " << "Decay DBD mode : " << _decay_dbd_mode_ << std::endl;
       }
-      if (std::find (dbdmwer.begin (), dbdmwer.end (), _decay_dbd_mode_) != dbdmwer.end ()) {
+      if (decay0_supports_esum_range(_decay_dbd_mode_)) {
         if (!std::isnan(_energy_min_)) {
-          if (_debug_) {
-            std::clog << "[debug] " << "Setting DBD energy min to "
+          if (is_debug()) {
+            std::cerr << "[debug] decay0_generator::_init_: " << "Setting DBD energy min to "
                       << _energy_min_ << " MeV" << std::endl;
           }
-          bb_params().ebb1 = (float) _energy_min_;
+          _grab_bb_params_().ebb1 = (float) _energy_min_;
         }
         if (!std::isnan(_energy_max_)) {
-          if (_debug_) {
-            std::clog << "[debug] " << "Setting DBD energy max to "
+          if (is_debug()) {
+            std::cerr << "[debug] decay0_generator::_init_: " << "Setting DBD energy max to "
                       << _energy_max_ << " MeV" << std::endl;
           }
-          bb_params().ebb2 = (float) _energy_max_;
+          _grab_bb_params_().ebb2 = (float) _energy_max_;
         }
-        if (bb_params().ebb1 >= bb_params().ebb2) {
-          throw std::logic_error("bxdecay0::decay0_generator::_init_: Invalid DBD energy range (Emin=" << bb_params().ebb1 << " >= Emax=" << bb_params().ebb2 << ") (MeV) !");
+        if (_grab_bb_params_().ebb1 >= _grab_bb_params_().ebb2) {
+          throw std::logic_error("bxdecay0::decay0_generator::_init_: Invalid DBD energy range (Emin="
+                                 + std::to_string(_grab_bb_params_().ebb1)
+                                 + " >= Emax=" + std::to_string(_grab_bb_params_().ebb2) + ") (MeV) !");
         }
       } else {
-        if (_debug_) {
-          std::cerr << "[debug] " << "Not a DBD energy range mode." << std::endl;
+        if (is_debug()) {
+          std::cerr << "[debug] decay0_generator::_init_: " << "Not a DBD energy range mode." << std::endl;
         }
       }
     }
 
     int error = 0;
-    if (_decay_type_ == DECAY_TYPE_DBD) {
+    if (_decay_category_ == DECAY_CATEGORY_DBD) {
+      if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
       event dummy_event;
       bxdecay0::genbbsub(prng_,
-                       dummy_event,
-                       bxdecay0::GENBBSUB_I2BBS_DBD,
-                       _decay_isotope_,
-                       _decay_dbd_level_,
-                       _decay_dbd_mode_,
-                       bxdecay0::GENBBSUB_ISTART_INIT, // initialization without event generation
-                       error,
-                       bb_params());
+                         dummy_event,
+                         bxdecay0::GENBBSUB_I2BBS_DBD,
+                         _decay_isotope_,
+                         _decay_dbd_level_,
+                         _decay_dbd_mode_,
+                         bxdecay0::GENBBSUB_ISTART_INIT, // initialization without event generation
+                         error,
+                         _grab_bb_params_());
       if (error != 0) {
         throw std::logic_error("bxdecay0::decay0_generator::_init_: genbbsub DBD initialization failed !");
       }
-    } else if (_decay_type_ == DECAY_TYPE_BACKGROUND) {
+    } else if (_decay_category_ == DECAY_CATEGORY_BACKGROUND) {
+      if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: background event..." << std::endl;
       event dummy_event;
       bxdecay0::genbbsub(prng_,
-                       dummy_event,
-                       bxdecay0::GENBBSUB_I2BBS_BACKGROUND,
-                       _decay_isotope_,
-                       -1,
-                       -1,
-                       bxdecay0::GENBBSUB_ISTART_INIT, // initialization without event generation
-                       error,
-                       bb_params());
+                         dummy_event,
+                         bxdecay0::GENBBSUB_I2BBS_BACKGROUND,
+                         _decay_isotope_,
+                         -1,
+                         -1,
+                         bxdecay0::GENBBSUB_ISTART_INIT, // initialization without event generation
+                         error,
+                         _grab_bb_params_());
       if (error != 0) {
         throw std::logic_error("bxdecay0::decay0_generator::_init_: genbbsub background initialization failed !");
       }

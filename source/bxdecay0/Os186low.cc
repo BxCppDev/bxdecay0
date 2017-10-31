@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Os186low.h>
 
@@ -27,24 +43,6 @@
 
 namespace bxdecay0 {
 
-  // Os186low.f 
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  // 
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  // 
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  // 
-
   void Os186low(i_random & prng_,
                 event & event_,
                 const int levelkev_)
@@ -71,7 +69,7 @@ namespace bxdecay0 {
     thlev=875.e-12;
     // KLM ratios in accordance with BrIcc calculation
     decay0_nucltransKLM(prng_, event_, 0.137,0.074,0.44,0.012,0.64,0.003,0.20,
-			0.,tclev,thlev,tdlev);
+                        0.,tclev,thlev,tdlev);
     return;
   label_10000  :
     return;

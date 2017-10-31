@@ -30,9 +30,13 @@
 #ifndef BXDECAY0_I_DECAY_GENERATOR_H
 #define BXDECAY0_I_DECAY_GENERATOR_H
 
+// This project:
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/event.h>
+
 namespace bxdecay0 {
 
-  /// \brief Decay generator interface
+  /// \brief Decay generator abstract interface
   class i_decay_generator
   {
   public:

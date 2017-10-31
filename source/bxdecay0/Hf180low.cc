@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Hf180low.h>
 
@@ -6,7 +22,7 @@
 #include <stdexcept>
 #include <cmath>
 
-// This project : 
+// This project :
 #include <bxdecay0/i_random.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/alpha.h>
@@ -27,24 +43,6 @@
 
 namespace bxdecay0 {
 
-  // Hf180low.f
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  //
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  //
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  //
-
   void Hf180low(i_random & /* prng_ */,
                 event & /* event_ */,
                 const int levelkev_)
@@ -56,7 +54,7 @@ namespace bxdecay0 {
     // after 2e-decay of W180 to ground 0+ level
     // of Hf180 ("Table of Isotopes", 8th ed., 1998).
     // Call : call Hf180low(levelkev_)
-    // Input : levelkev_ - energy of Hf18o level (integer in keV) occupied
+    // Input : levelkev_ - energy of Hf180 level (integer in keV) occupied
     // initially
     // 0+(gs) - 0 keV.
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).

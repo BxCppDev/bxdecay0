@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Kr81.h>
 
@@ -27,24 +43,6 @@
 
 namespace bxdecay0 {
 
-  // Kr81.f 
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  // 
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  // 
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  // 
-
   void Kr81(i_random & prng_,
             event & event_,
             const double tcnuc_,
@@ -72,7 +70,7 @@ namespace bxdecay0 {
     decay0_gamma(prng_, event_, 0.013,0.,0.,t)  ;// capture from only K shell is supposed
     thlev=9.7e-12;
     decay0_nucltransKLM(prng_, event_, 0.276,0.013,7.3e-3,0.002,7.8e-4,0.000,2.6e-4,
-			0.,tclev,thlev,tdlev);
+                        0.,tclev,thlev,tdlev);
     return;
   label_10000  :
     pklm=100.*prng_();

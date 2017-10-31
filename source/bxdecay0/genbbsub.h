@@ -42,6 +42,7 @@ namespace bxdecay0 {
   struct bbpars;
 
   enum genbbsub_i2bbs_type {
+    GENBBSUB_I2BBS_INVALID    = 0, ///< Invalid mode
     GENBBSUB_I2BBS_DBD        = 1, ///< Double beta decay mode
     GENBBSUB_I2BBS_BACKGROUND = 2  ///< Background/calibration decay mode
   };

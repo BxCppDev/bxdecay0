@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Bi214.h>
 
@@ -27,28 +43,10 @@
 
 namespace bxdecay0 {
 
-  // Bi214.f
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  //
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  //
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  //
-
   void Bi214(i_random & prng_,
-	     event & event_,
-	     const double tcnuc_,
-	     double & tdnuc_)
+             event & event_,
+             const double tcnuc_,
+             double & tdnuc_)
   {
     double t;
     double tdlev;

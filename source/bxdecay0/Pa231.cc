@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Pa231.h>
 
@@ -26,24 +42,6 @@
 #include <bxdecay0/PbAtShell.h>
 
 namespace bxdecay0 {
-
-  // Pa231.cc
-  // Copyright 2013, P. Loaizax
-  //
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  //
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  //
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  //
 
   void Pa231(i_random & prng_,
              event & event_,
@@ -359,17 +357,17 @@ namespace bxdecay0 {
       goto level_29000;
     } else if (pgamma <= 62.68) {
       decay0_nucltransKLM(prng_, event_, 0.260370,
-			  AcElectronBindingEnergyK, 0.37,
-			  AcElectronBindingEnergyL, 0.133,
-			  AcElectronBindingEnergyM, 0.0340,
-			  0.,tclev,thlev,tdlev);
+                          AcElectronBindingEnergyK, 0.37,
+                          AcElectronBindingEnergyL, 0.133,
+                          AcElectronBindingEnergyM, 0.0340,
+                          0.,tclev,thlev,tdlev);
       goto level_126000;
     } else {
       decay0_nucltransKLM(prng_, event_, 0.057190,
-			  AcElectronBindingEnergyK, 0.0,
-			  AcElectronBindingEnergyL, 108.5,
-			  AcElectronBindingEnergyM, 29.6,
-			  0.,tclev,thlev,tdlev);
+                          AcElectronBindingEnergyK, 0.0,
+                          AcElectronBindingEnergyL, 108.5,
+                          AcElectronBindingEnergyM, 29.6,
+                          0.,tclev,thlev,tdlev);
       goto level_330000;
     }
 

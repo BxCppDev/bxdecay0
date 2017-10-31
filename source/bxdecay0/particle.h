@@ -70,42 +70,42 @@ namespace bxdecay0 {
     /// Check if time is valid
     bool has_time() const;
 
-    /// Set the delay time with respect to the previous particle
+    /// Set the delay time with respect to the previous particle (unit: second)
     void set_time(const double time_);
 
-    /// Shift the delay time with a delay
+    /// Shift the delay time with a delay (unit: second)
     void shift_time(const double delay_);
 
-    /// Return the delay time with respect to the previous particle
+    /// Return the delay time with respect to the previous particle (unit: second)
     double get_time() const;
 
-    /// Set the X coordinate of the momentum in MeV (MeV/c)
+    /// Set the X coordinate of the momentum (unit: MeV/c)
     void set_px(const double px_);
 
-    /// Return the X coordinate of the momentum in MeV (MeV/c)
+    /// Return the X coordinate of the momentum (unit: MeV/c)
     double get_px() const;
 
-    /// Set the Y coordinate of the momentum in MeV (MeV/c)
+    /// Set the Y coordinate of the momentum (unit: MeV/c)
     void set_py(const double py_);
 
-    /// Return the Y coordinate of the momentum in MeV (MeV/c)
+    /// Return the Y coordinate of the momentum (unit: MeV/c)
     double get_py() const;
 
-    /// Set the Z coordinate of the momentum in MeV (MeV/c)
+    /// Set the Z coordinate of the momentum (unit: MeV/c)
     void set_pz(const double pz_);
 
-    /// Return the Z coordinate of the momentum in MeV (MeV/c)
+    /// Return the Z coordinate of the momentum (unit: MeV/c)
     double get_pz() const;
 
     /// Check if momentum is valid
     bool has_momentum() const;
 
-    /// Set the coordinates of the momentum in MeV (MeV/c)
+    /// Set the coordinates of the momentum (unit: MeV/c)
     void set_momentum(const double px_,
                       const double py_,
                       const double pz_);
 
-    /// Return the magnitude of the momentum
+    /// Return the magnitude of the momentum (unit: MeV/c)
     double get_p() const;
 
     /// Check the validity of the particle

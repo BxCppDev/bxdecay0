@@ -35,6 +35,9 @@ namespace bxdecay0 {
   /// \brief Probability distribution for energy of second e-/e+ for modebb=16
   double decay0_fe2_mod16(double e2_, void * params_);
 
+  /// \brief Probability distribution for energy of second e-/e+ for modebb=16
+  double decay0_fe2_mod19(double e2_, void * params_);
+
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_FE2_MODS_H

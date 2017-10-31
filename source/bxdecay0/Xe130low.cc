@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Xe130low.h>
 
@@ -24,24 +40,6 @@
 #include <bxdecay0/beta_1fu.h>
 
 namespace bxdecay0 {
-
-  // Xe130low.f 
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  // 
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  // 
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  // 
 
   void Xe130low (i_random & prng_,
                  event & event_,
@@ -88,7 +86,7 @@ namespace bxdecay0 {
         decay0_pair (prng_, event_, 0.772, tclev, thlev, tdlev);      // conversion to pair
         /* CARE */
       }
-    else 
+    else
       {
         decay0_electron (prng_, event_, 1.759, tclev, thlev, tdlev);  // conversion to electron
         decay0_gamma (prng_, event_, 0.035, 0., 0., tdlev);
@@ -132,7 +130,7 @@ namespace bxdecay0 {
     }
     return;
   }
-  
+
 } // end of namespace bxdecay0
 
 // end of Xe130low.cc

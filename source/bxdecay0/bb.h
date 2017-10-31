@@ -5,6 +5,9 @@
 #include <string>
 #include <fstream>
 
+// This project:
+#include <bxdecay0/bb_utils.h>
+
 namespace bxdecay0 {
 
   /// \brief Energy range information for DBD generation
@@ -39,11 +42,11 @@ namespace bxdecay0 {
   {
     int nevents;        ///< Number of events
     int ievstart;       ///< Number of the first generated event
-    int irndmst;        ///<
-    int iwrfile;        ///<
-    std::string chfile; ///< Output file name
-    int icurrent;       ///< From common/currentev/
-    std::ofstream fout; ///< Output file stream
+    int irndmst;        ///< (unused)
+    int iwrfile;        ///< (unused)
+    std::string chfile; ///< Output file name (unused)
+    int icurrent;       ///< From common/currentev/ (unused)
+    std::ofstream fout; ///< Output file stream (unused)
 
     /// Default constructor
     genbbpar();
@@ -56,56 +59,6 @@ namespace bxdecay0 {
     void _set_defaults();
 
   };
-
-  /// \brief Mode of double beta (- or +) decay:
-  // [SI - spectral index]
-  enum modebb_type {
-      MODEBB_UNDEF            = 0,  ///< Undefined
-      MODEBB_0NUBB_0_2N       = 1,  ///< 0nubb with neutrino mass, 0+ -> 0+,      2n
-      MODEBB_1                = MODEBB_0NUBB_0_2N,
-      MODEBB_0NUBB_RHCL_0_2N  = 2,  ///< 0nubb with rhc-lambda,    0+ -> 0+,      2n
-      MODEBB_2                = MODEBB_0NUBB_RHCL_0_2N,
-      MODEBB_0NUBB_RHCL_02_N  = 3,  ///< 0nubb with rhc-lambda,    0+ -> 0+, 2+,  N*
-      MODEBB_3                = MODEBB_0NUBB_RHCL_02_N,
-      MODEBB_2NUBB_0_2N       = 4,  ///< 2nubb,                    0+ -> 0+,      2n
-      MODEBB_4                = MODEBB_2NUBB_0_2N,
-      MODEBB_0NUBB_MAJ1_0_2N  = 5,  ///< 0nuM1bb (Majoron, SI=1),  0+ -> 0+,      2n
-      MODEBB_5                = MODEBB_0NUBB_MAJ1_0_2N,
-      MODEBB_0NUBB_MAJ3_0_2N  = 6,  ///< 0nuM3bb (Majoron, SI=3),  0+ -> 0+,      2n
-      MODEBB_6                = MODEBB_0NUBB_MAJ3_0_2N,
-      MODEBB_0NUBB_RHCL_2_2N  = 7,  ///< 0nubb with rhc-lambda,    0+ -> 2+,      2n
-      MODEBB_7                = MODEBB_0NUBB_RHCL_2_2N,
-      MODEBB_2NUBB_2_2N       = 8,  ///< 2nubb,                    0+ -> 2+,      2n, N*
-      MODEBB_8                = MODEBB_2NUBB_2_2N,
-      MODEBB_0NUKB_02         = 9,  ///< 0nuKb+                    0+ -> 0+, 2+
-      MODEBB_9                = MODEBB_0NUKB_02,
-      MODEBB_2NUKB_02         = 10, ///< 2nuKb+                    0+ -> 0+, 2+
-      MODEBB_10               = MODEBB_2NUKB_02,
-      MODEBB_0NUKK_02         = 11, ///< 0nu2K                     0+ -> 0+, 2+
-      MODEBB_11               = MODEBB_0NUKK_02,
-      MODEBB_2NUKK_02         = 12, ///< 2nu2K                     0+ -> 0+, 2+
-      MODEBB_12               = MODEBB_2NUKK_02,
-      MODEBB_0NUBB_MAJ7_0_2N  = 13, ///< 0nuM7bb (Majoron, SI=7)   0+ -> 0+,      2n
-      MODEBB_13               = MODEBB_0NUBB_MAJ7_0_2N,
-      MODEBB_0NUBB_MAJ2_0_2N  = 14, ///< 0nuM2bb (Majoron, SI=2)   0+ -> 0+,      2n
-      MODEBB_14               = MODEBB_0NUBB_MAJ2_0_2N,
-      MODEBB_2NUBB_BOSE_0     = 15, ///< 2nubb with bosonic nu's   0+ -> 0+
-      MODEBB_15               = MODEBB_2NUBB_BOSE_0,
-      MODEBB_2NUBB_BOSE_2     = 16, ///< 2nubb with bosonic nu's   0+ -> 2+
-      MODEBB_16               = MODEBB_2NUBB_BOSE_2,
-      MODEBB_0NUBB_RHCE_0     = 17, ///< 0nubb with rhc-eta        0+ -> 0+       simplified expression
-      MODEBB_17               = MODEBB_0NUBB_RHCE_0,
-      MODEBB_0NUBB_RHCE_0_NME = 18, ///< 0nubb with rhc-eta        0+ -> 0+       with specific NMEs
-      MODEBB_18               = MODEBB_0NUBB_RHCE_0_NME,
-      MODEBB_MIN              = MODEBB_1,
-      MODEBB_MAX              = MODEBB_18
-    };
-
-  /// Return the label associated to a DBD mode
-  std::string decay0_dbd_mode_label(int);
-
-  /// Check if a DBD mode supports limits set on generated energy sum
-  bool decay0_supports_esum_limits(int modebb_);
 
   /// \brief Internal working data:
   struct denrange
@@ -193,6 +146,9 @@ namespace bxdecay0 {
 
     /// Reset
     void reset();
+
+    /// Dump
+    void dump(std::ostream & out_, const std::string & indent_ = "") const;
 
   protected:
 

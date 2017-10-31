@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/Bi207.h>
 
@@ -29,24 +45,6 @@
 #include <bxdecay0/PbAtShell.h>
 
 namespace bxdecay0 {
-
-  // Bi207.f
-  // This file was extracted from the 'decay0' program by V.I. Tretyak
-  // Copyright 1995-2011 V.I. Tretyak
-  // This program is free software
-  // it under the terms of the GNU General Public License as published by
-  // the Free Software Foundation
-  // your option) any later version.
-  //
-  // This program is distributed in the hope that it will be useful, but
-  // WITHOUT ANY WARRANTY
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  // General Public License for more details.
-  //
-  // You should have received a copy of the GNU General Public License
-  // along with this program
-  // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-  //
 
   void Bi207(i_random & prng_,
              event & event_,
@@ -205,20 +203,20 @@ namespace bxdecay0 {
     p=prng_()*(cg+cK+cL+cM);
     if (p <= cg) {
       decay0_gamma(prng_, event_, Egamma, tclev, thlev, tdlev);
-      ipg1064 = &event_.grab_last_particle(); 
+      ipg1064 = &event_.grab_last_particle();
     }
     else if (p <= cg+cK) {
       decay0_electron(prng_, event_, Egamma-EbindK, tclev, thlev, tdlev);
-      ipe1064 = &event_.grab_last_particle(); 
+      ipe1064 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 88,0.,0.,tdlev);
     }
     else if (p <= cg+cK+cL) {
       decay0_electron(prng_, event_, Egamma-EbindL,tclev,thlev,tdlev);
-      ipe1064 = &event_.grab_last_particle(); 
+      ipe1064 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 15,0.,0.,tdlev);
     } else {
       decay0_electron(prng_, event_, Egamma-EbindM,tclev,thlev,tdlev);
-      ipe1064 = &event_.grab_last_particle(); 
+      ipe1064 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 3,0.,0.,tdlev);
     }
     goto label_57000;
@@ -283,21 +281,21 @@ namespace bxdecay0 {
     p=prng_()*(cg+cK+cL+cM);
     if (p <= cg) {
       decay0_gamma(prng_, event_, Egamma,tclev,thlev,tdlev);
-      ipg570 = &event_.grab_last_particle(); 
+      ipg570 = &event_.grab_last_particle();
     }
     else if (p <= cg+cK) {
       decay0_electron(prng_, event_, Egamma-EbindK,tclev,thlev,tdlev);
-      ipe570 = &event_.grab_last_particle(); 
+      ipe570 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 88,0.,0.,tdlev);
     }
     else if (p <= cg+cK+cL) {
       decay0_electron(prng_, event_, Egamma-EbindL,tclev,thlev,tdlev);
-      ipe570 = &event_.grab_last_particle(); 
+      ipe570 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 15,0.,0.,tdlev);
     }
     else {
       decay0_electron(prng_, event_, Egamma-EbindM,tclev,thlev,tdlev);
-      ipe570 = &event_.grab_last_particle(); 
+      ipe570 = &event_.grab_last_particle();
       PbAtShell(prng_, event_, 3,0.,0.,tdlev);
     }
     // Angular correlation between gammas and conversion electrons of 1064 and
@@ -349,11 +347,11 @@ namespace bxdecay0 {
       goto label_3;
     }
     ip1064->set_momentum(p1064 * stet1 * std::cos (phi1),
-			 p1064 * stet1 * std::sin (phi1),
-			 p1064 * ctet1);
+                         p1064 * stet1 * std::sin (phi1),
+                         p1064 * ctet1);
     ip570->set_momentum(p570 * stet2 * std::cos (phi2),
-			 p570 * stet2 * std::sin (phi2),
-			 p570 * ctet2);
+                         p570 * stet2 * std::sin (phi2),
+                         p570 * ctet2);
     return;
   }
   // end of Bi207.f

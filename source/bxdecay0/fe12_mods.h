@@ -47,6 +47,13 @@ namespace bxdecay0 {
   ///        eq. (27b) integrated in Enu1)
   double decay0_fe12_mod16(double e2_, void * params_);
 
+
+  /// \brief Two-dimensional probability distribution for energies of e-/e+ for
+  ///        modebb=19 (as tsimpr needs)
+  ///        (2nu2b with violation of Lorentz invariance; also equivalent to
+  ///        0nu2b with Majoron with spectral index = 4, 0+ -> 0+, 2n mechanism)
+  double decay0_fe12_mod19(double e2_, void * params_);
+
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_FE12_MODS_H

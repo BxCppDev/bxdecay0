@@ -1,3 +1,19 @@
+// Copyright 1995-2016 V.I. Tretyak
+// Copyright 2011-2017 F. Mauger
+//
+// This program is free software: you  can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free  Software Foundation, either  version 3 of the  License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // Ourselves:
 #include <bxdecay0/bb.h>
 
@@ -12,6 +28,7 @@
 #include <gsl/gsl_math.h>
 
 // This project:
+#include <bxdecay0/utils.h>
 #include <bxdecay0/i_random.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/gauss.h>
@@ -20,51 +37,9 @@
 #include <bxdecay0/fe12_mods.h>
 #include <bxdecay0/dshelp1.h>
 #include <bxdecay0/dgmlt1.h>
+#include <bxdecay0/fermi.h>
 
 namespace bxdecay0 {
-
-  bool decay0_supports_esum_limits(int modebb_)
-  {
-    switch(modebb_) {
-    case MODEBB_4:
-    case MODEBB_5:
-    case MODEBB_6:
-    case MODEBB_8:
-    case MODEBB_10:
-    case MODEBB_13:
-      return true;
-    default:
-      return false;
-    }
-  }
-
-  std::string decay0_dbd_mode_label(int modebb_)
-  {
-    switch(modebb_) {
-    case MODEBB_1:  return "0nubb with neutrino mass, 0+ -> 0+,      2n";
-    case MODEBB_2:  return "0nubb with rhc-lambda,    0+ -> 0+,      2n";
-    case MODEBB_3:  return "0nubb with rhc-lambda,    0+ -> 0+, 2+,  N*";
-    case MODEBB_4:  return "2nubb,                    0+ -> 0+,      2n";
-    case MODEBB_5:  return "0nuM1bb (Majoron, SI=1),  0+ -> 0+,      2n";
-    case MODEBB_6:  return "0nuM3bb (Majoron, SI=3),  0+ -> 0+,      2n";
-    case MODEBB_7:  return "0nubb with rhc-lambda,    0+ -> 2+,      2n";
-    case MODEBB_8:  return "2nubb,                    0+ -> 2+,      2n, N*";
-    case MODEBB_9:  return "0nuKb+                    0+ -> 0+, 2+";
-    case MODEBB_10: return "2nuKb+                    0+ -> 0+, 2+";
-    case MODEBB_11: return "0nu2K                     0+ -> 0+, 2+";
-    case MODEBB_12: return "2nu2K                     0+ -> 0+, 2+";
-    case MODEBB_13: return "0nuM7bb (Majoron, SI=7)   0+ -> 0+,      2n";
-    case MODEBB_14: return "0nuM2bb (Majoron, SI=2)   0+ -> 0+,      2n";
-    case MODEBB_15: return "2nubb with bosonic nu's   0+ -> 0+";
-    case MODEBB_16: return "2nubb with bosonic nu's   0+ -> 2+";
-    case MODEBB_17: return "0nubb with rhc-eta        0+ -> 0+       simplified expression";
-    case MODEBB_18: return "0nubb with rhc-eta        0+ -> 0+       with specific NMEs";
-    default : return "";
-    }
-    return "";
-  }
-
-  /*****************************************************/
 
   void enrange::_set_defaults()
   {
@@ -183,19 +158,8 @@ namespace bxdecay0 {
 
 
   /*
-    c             file chfile_eta should be of the following structure:
-    c             line 1 - comment
-    c             line 2 - comment
-    c             line 3 - 7 NMEs: chi_GTw, chi_Fw, chi'_GT, chi'_F, chi'_T, chi'_P, chi'_R
-    open(unit=33,file=chfile_eta)
-    read(33,18001) chline
-    read(33,18001) chline
-    read(33,*) chi_GTw,chi_Fw,chip_GT,chip_F,chip_T,
-    chip_P,chip_R
-    close(unit=33)
-    print *,'NMEs: ',chi_GTw,chi_Fw,chip_GT,chip_F,chip_T,
-    chip_P,chip_R
-  */
+   * 7 NMEs: chi_GTw, chi_Fw, chi'_GT, chi'_F, chi'_T, chi'_P, chi'_R
+   */
   eta_nme::eta_nme()
   {
     _set_defaults();
@@ -208,6 +172,37 @@ namespace bxdecay0 {
   }
 
   /*****************************************************/
+
+  void bbpars::dump(std::ostream & out_, const std::string & indent_) const
+  {
+    out_ << indent_ << "|-- enrange : " << "\n";
+    out_ << indent_ << "|   |-- ebb1        : " << ebb1 << " (MeV)\n";
+    out_ << indent_ << "|   |-- ebb2        : " << ebb2 << " (MeV)\n";
+    out_ << indent_ << "|   |-- toallevents : " << toallevents << "\n";
+    out_ << indent_ << "|   |-- levelE      : " << levelE << "\n";
+    out_ << indent_ << "|   |-- itrans02    : " << itrans02 << "\n";
+    out_ << indent_ << "|   `-- chdspin     : '" << chdspin << "'\n";
+    out_ << indent_ << "|-- denrange : " << "\n";
+    out_ << indent_ << "|   |-- dens        : " << dens << "\n";
+    out_ << indent_ << "|   |-- denf        : " << denf << "\n";
+    out_ << indent_ << "|   `-- mode        : " << mode << "\n";
+    out_ << indent_ << "|-- helpbb : " << "\n";
+    out_ << indent_ << "|   |-- Zd          : " << Zd << "\n";
+    out_ << indent_ << "|   |-- Ad          : " << Ad << "\n";
+    out_ << indent_ << "|   |-- e0          : " << e0 << "\n";
+    out_ << indent_ << "|   `-- e1          : " << e1 << "\n";
+    out_ << indent_ << "|-- modebb   : " << modebb   << "\n";
+    out_ << indent_ << "|-- Qbb      : " << Qbb      << "\n";
+    out_ << indent_ << "|-- Edlevel  : " << Edlevel  << "\n";
+    out_ << indent_ << "|-- EK       : " << EK       << "\n";
+    out_ << indent_ << "|-- Zdbb     : " << Zdbb     << "\n";
+    out_ << indent_ << "|-- Adbb     : " << Adbb     << "\n";
+    out_ << indent_ << "|-- istartbb : " << istartbb << "\n";
+    out_ << indent_ << "|-- spthe1   : [" << SPSIZE  << "]\n";
+    out_ << indent_ << "|-- spthe2   : [" << SPSIZE  << "]\n";
+    out_ << indent_ << "`-- spmax    : " << spmax << "\n";
+    return;
+  }
 
   void bbpars::_set_defaults()
   {
@@ -245,8 +240,12 @@ namespace bxdecay0 {
   /*********************************************************************/
   void decay0_bb(i_random & prng_, event & event_, void * params_)
   {
+    static bool trace = is_trace("bb");
+    if (trace) std::cerr << "[trace] bxdecay0::bb: Entering..." << std::endl;
     bbpars * pars = static_cast<bbpars *>(params_);
-
+    if (trace) {
+      pars->dump(std::cerr, "[trace] ");
+    }
     // From enrange:
     double & ebb1 = pars->ebb1;
     double & ebb2 = pars->ebb2;
@@ -262,8 +261,8 @@ namespace bxdecay0 {
     int    & mode = pars->mode;
 
     // From helpbb:
-    // double & Zd = pars->Zd;
-    // double & Ad = pars->Ad;
+    double & Zd = pars->Zd;
+    double & Ad = pars->Ad;
     double & e0 = pars->e0;
     double & e1 = pars->e1;
 
@@ -295,8 +294,8 @@ namespace bxdecay0 {
     static const double emass2 = emass * emass;
 
     // Decay parameters :
-    // Zd = Zdbb;
-    // Ad = Adbb;
+    Zd = Zdbb;
+    Ad = Adbb;
 
     double t; // time
     double relerr;
@@ -319,6 +318,7 @@ namespace bxdecay0 {
       // fixed energies of e+ and X-ray; no angular correlation
       decay0_particle(prng_,event_,POSITRON,e0,e0,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
     if (modebb == MODEBB_11) {
@@ -326,17 +326,21 @@ namespace bxdecay0 {
       decay0_particle(prng_,event_,GAMMA,e0,e0,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
     if (modebb == MODEBB_12) {
       // fixed energies of two X-rays; no angular correlation
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
 
     // If already initialized, skip
     if (istartbb == 0) {
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Initializing the kinematics..." << std::endl;
       // Initializing the kinematics:
       // calculate the theoretical energy spectrum of first particle with step
       // of 1 keV and find its maximum
@@ -347,14 +351,19 @@ namespace bxdecay0 {
       if (ebb2 > e0) {
         ebb2 = e0;
       }
+      if (trace) std::cerr << "[trace] bxdecay0::bb: ebb1 = " << ebb1 << std::endl;
+      if (trace) std::cerr << "[trace] bxdecay0::bb: ebb2 = " << ebb2 << std::endl;
       spmax = -1.; // Initialize
       //double b2amin=+1.e20; // coefficients in angular correlation
       //double b2amax=-1.e20; // for eta-h term of 2b0nu
       relerr = 1.e-4;
       //relerr = 1.e-3;
       imax = (int) (e0 * 1000.);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: e0   = " << e0 << std::endl;
+      if (trace) std::cerr << "[trace] bxdecay0::bb: imax = " << imax << std::endl;
       for (int i = 1; i <= imax; i++) {
         e1 = i / 1000.;
+        if (trace) std::cerr << "[trace] bxdecay0::bb: => e1 = " << e1 << std::endl;
         double e1h = e1;
         spthe1[i-1] = 0.;
         if (modebb == MODEBB_1) {
@@ -368,9 +377,13 @@ namespace bxdecay0 {
         }
         double elow  = std::max(1.e-4, ebb1 - e1 + 1.e-4);
         double ehigh = std::max(1.e-4, ebb2 - e1 + 1.e-4);
+        if (trace) std::cerr << "[trace] bxdecay0::bb: elow  = " << elow << std::endl;
+        if (trace) std::cerr << "[trace] bxdecay0::bb: ehigh = " << ehigh << std::endl;
+        if (trace) std::cerr << "[trace] bxdecay0::bb: relerr = " << relerr << std::endl;
         // print *,'e1,elow,ehigh=',e1,elow,ehigh
         if (modebb == MODEBB_4 && e1 < e0) {
-          spthe1[i-1] = decay0_gauss(decay0_fe12_mod4,elow,ehigh,relerr,params_);
+          if (trace) std::cerr << "[trace] bxdecay0::bb: Calling decay0_gauss( decay0_fe12_mod4,...)... " << std::endl;
+           spthe1[i-1] = decay0_gauss(decay0_fe12_mod4,elow,ehigh,relerr,params_);
         }
         if (modebb == MODEBB_5 && e1 < e0) {
           // if (TRACE) {
@@ -413,10 +426,17 @@ namespace bxdecay0 {
         if (modebb == MODEBB_18) {
           spthe1[i-1] = decay0_fe1_mod18(e1h,params_);
         }
+        if (modebb == MODEBB_19 && e1 < e0) {
+          spthe1[i-1] = decay0_gauss(decay0_fe12_mod19,elow,ehigh,relerr,params_);
+        }
+        if (trace) std::cerr << "[trace] bxdecay0::bb: spthe1[" << (i-1) << "] = " << spthe1[i-1] << std::endl;
+
         if (spthe1[i-1] > spmax) {
           spmax = spthe1[i-1];
-        }
+          if (trace) std::cerr << "[trace] bxdecay0::bb: Updating spmax = " << spmax << std::endl;
+       }
       }
+      if (trace) std::cerr << "[trace] bxdecay0::bb: zeroing spthe1[" << (imax) << "...]" << std::endl;
       for (int i = imax + 1; i <= (int) bbpars::SPSIZE; i++) {
         spthe1[i-1] = 0.;
       }
@@ -430,8 +450,10 @@ namespace bxdecay0 {
       //   }
       // }
       toallevents = 1.;
-      if (modebb == MODEBB_4 || modebb == MODEBB_5 || modebb == MODEBB_6 ||
-          modebb == MODEBB_8 || modebb == MODEBB_13 || modebb == MODEBB_14) {
+      if (modebb == MODEBB_4 || modebb == MODEBB_5 || modebb == MODEBB_6
+          || modebb == MODEBB_8 || modebb == MODEBB_13 || modebb == MODEBB_14
+          || modebb == MODEBB_15 || modebb == MODEBB_16 || modebb == MODEBB_19
+          ) {
         mode = modebb;
         dens = 0.;
         denf = e0;
@@ -441,28 +463,71 @@ namespace bxdecay0 {
         denf = ebb2;
         double r2 = decay0_dgmlt1(decay0_dshelp1,0.,denf,8,8,d_el,params_);
         toallevents = r1 / r2;
-      }
-      else if (modebb == MODEBB_10) {
+      } else if (modebb == MODEBB_10) {
         toallevents = decay0_gauss(decay0_fe1_mod10,1.e-4,e0+1.e-4,relerr,params_)
           /decay0_gauss(decay0_fe1_mod10,ebb1+1.e-4,ebb2+1.e-4,relerr,params_);
       }
+      if (modebb == MODEBB_20) {
+        double emax=e0/4.;
+        double tmax=emax/emass;
+        double pmax=std::sqrt(tmax*(tmax+2.));
+        spmax=gsl_pow_4((tmax+1.)*pmax*decay0_fermi(Zdbb,emax));
+      }
       istartbb = 1;
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Initializing the kinematics done." << std::endl;
+    } else {
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Skip the initialization of the kinematics." << std::endl;
     }
-
+    // Starting the generation:
+  label_1 :
+    if (modebb == MODEBB_20) {
+      double t0=e0/emass;
+  label_4 :
+      double t1=prng_()*t0;
+      double t2=prng_()*t0;
+      double t3=prng_()*t0;
+      double t4=t0-t1-t2-t3;
+      if (t4 < 0.) goto label_4;
+      double p1=std::sqrt(t1*(t1+2.));
+      double p2=std::sqrt(t2*(t2+2.));
+      double p3=std::sqrt(t3*(t3+2.));
+      double p4=std::sqrt(t4*(t4+2.));
+      double r=(t1+1.)*p1*decay0_fermi(Zdbb,t1*emass)
+         *(t2+1.)*p2*decay0_fermi(Zdbb,t2*emass)
+         *(t3+1.)*p3*decay0_fermi(Zdbb,t3*emass)
+         *(t4+1.)*p4*decay0_fermi(Zdbb,t4*emass);
+      double rr=prng_()*spmax;
+      if (rr > r) goto label_4;
+      // Isotropical emission of 4 electrons:
+      double t;
+      decay0_particle(prng_,event_,ELECTRON,
+                      t1*emass,t1*emass,
+                      0.,pi,0.,twopi,0.,0.,t);
+      decay0_particle(prng_,event_,ELECTRON,
+                      t2*emass,t2*emass,
+                      0.,pi,0.,twopi,0.,0.,t);
+      decay0_particle(prng_,event_,ELECTRON,
+                      t3*emass,t3*emass,
+                      0.,pi,0.,twopi,0.,0.,t);
+      decay0_particle(prng_,event_,ELECTRON,
+                      t4*emass,t4*emass,
+                      0.,pi,0.,twopi,0.,0.,t);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
+      return;
+    }
     // Rejection method :
     int k;
-    do {
-      if (modebb != MODEBB_10) {
-        e1 = ebb2 * prng_();
-      }
-      if (modebb == MODEBB_10) {
-        e1 = ebb1 + (ebb2 - ebb1) * prng_();
-      }
-      k = (int) (e1 * 1000.);
-      if (k < 1) {
-        k = 1;
-      }
-    } while (spmax * prng_() > spthe1[k - 1]);
+    if (modebb != MODEBB_10) {
+      e1 = ebb2 * prng_();
+    }
+    if (modebb == MODEBB_10) {
+      e1 = ebb1 + (ebb2 - ebb1) * prng_();
+    }
+    k = (int) (e1 * 1000.);
+    if (k < 1) {
+      k = 1;
+    }
+    if (spmax * prng_() > spthe1[k - 1]) goto label_1;
 
     // second e-/e+ or X-ray
     double e2;
@@ -475,7 +540,7 @@ namespace bxdecay0 {
     }
     else if (modebb == MODEBB_4 || modebb == MODEBB_5 || modebb == MODEBB_6 ||
              modebb == MODEBB_8 || modebb == MODEBB_13 || modebb == MODEBB_14 ||
-             modebb == MODEBB_15 || modebb == MODEBB_16) {
+             modebb == MODEBB_15 || modebb == MODEBB_16 || modebb == MODEBB_19) {
       // something else is emitted - energy of second e-/e+ is random
       double re2s = std::max(0., ebb1 - e1);
       double re2f = ebb2 - e1;
@@ -508,6 +573,7 @@ namespace bxdecay0 {
         if (modebb == MODEBB_14) fe2 = decay0_fe2_mod14(e2,params_);
         if (modebb == MODEBB_15) fe2 = decay0_fe2_mod15(e2,params_);
         if (modebb == MODEBB_16) fe2 = decay0_fe2_mod16(e2,params_);
+        if (modebb == MODEBB_19) fe2 = decay0_fe2_mod19(e2,params_);
       } while (f2max * prng_() > fe2);
     } else if (modebb == MODEBB_10) {
       // c energy of X-ray is fixed; no angular correlation
@@ -515,6 +581,7 @@ namespace bxdecay0 {
       // c          if (e1 < ebb1 || e1.gt.ebb2) go to 1
       decay0_particle(prng_,event_,POSITRON,e1,e1,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
+      if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
     if (e2 != e2) {
@@ -628,6 +695,7 @@ namespace bxdecay0 {
                       p2 * stet2 * std::sin(phi2),
                       p2 * ctet2);
     event_.add_particle(part);
+    if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
     return;
   }
 
