@@ -12,9 +12,10 @@ Introduction
 ============
 
 This    example   ``ex03.cxx``    illustrates   the    use   of    the
-``bxdecay0::genbbsub`` function to generate random Co-60 decay events.
+``bxdecay0::decay0_generator``  class to  generate random  Co-60 decay
+events.
 
-As in ``ex01``,  the program stores the generated events  in an output
+As in ``ex03``,  the program stores the generated events  in an output
 ASCII file  using a very simple  format.  The parsing of  this file is
 let as an exercise to the user.
 
@@ -50,7 +51,7 @@ Run
       $ _install.d/bin/ex03
 
 
-#. Enjoy the ``gendecay0.data`` output file!
+#. Enjoy the ``bxdecay_ex03.data`` output file!
 
 
 

@@ -128,7 +128,7 @@ int main()
     fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
     fout << "#" << std::endl;
     fout << "#   #@event_start" << std::endl;
-    fout << "#   event-time" << std::endl;
+    fout << "#   event-time nuclide" << std::endl;
     fout << "#   number-of-particles" << std::endl;
     fout << "#   code1 time1 px1 py1 pz1 name"  << std::endl;
     fout << "#   ..." << std::endl;
