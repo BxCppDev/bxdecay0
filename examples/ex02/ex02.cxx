@@ -37,11 +37,10 @@
 #include <HepMC/WriterAscii.h>
 
 // This project:
-#include <bxdecay0/std_random.h> // Random number interface
-#include <bxdecay0/event.h>      // Generated event model
-#include <bxdecay0/bb.h>         // Nuclear decay and double beta decay parameters
-#include <bxdecay0/genbbsub.h>   // Main decay generation routine
-#include <bxdecay0/version.h>    // Library version
+#include <bxdecay0/version.h>          // Library version
+#include <bxdecay0/std_random.h>       // Random number interface
+#include <bxdecay0/event.h>            // Generated event model
+#include <bxdecay0/decay0_generator.h> // Main decay0 generator
 
 int main()
 {
@@ -59,135 +58,147 @@ int main()
     unsigned int seed = 314159;
 
     // Number of generated events:
-    std::size_t nevents = 100;
+    std::size_t nevents = 10;
+
+    // Output file name:
+    std::string foutname("bxdecay_ex02-hepmc3-ascii.data");
 
     // Parameters of the decay:
-    bxdecay0::bbpars bb_params;
-    bb_params.ebb1 = 0.0; // Minimum energy (MeV)
-    bb_params.ebb2 = 4.3; // Maximum energy (MeV)
-    bb_params.toallevents = 1.0; /* Statistical weight of the event
-                                  * with respect to the total energy
-                                  * spectrum.
-                                  */
-    // Mode: double beta decay:
-    int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
 
     // Isotope:
-    std::string chnuclide = "Mo100";
+    std::string nuclide = "Mo100";
 
     // Daughter's energy level (ground state):
     int ilevel = 0;
 
-    // DBD mode (neutrinoless):
-    int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+    // DBD mode (two neutrino):
+    bxdecay0::modebb_type modebb = bxdecay0::MODEBB_4;
 
-    // Activity of the decaying source in becquerel:
+    // Activity of the decaying source (becquerel):
     double activity = 2.0;
+
+    // The random generator:
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
+
+    // The event generator:
+    bxdecay0::decay0_generator decay0;
+
+    // Configuration:
+    decay0.set_debug(false);
+    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+    decay0.set_decay_isotope(nuclide);
+    decay0.set_decay_dbd_level(0); // ground state
+    decay0.set_decay_dbd_mode(modebb);
+    decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
+
+    // Initialization;
+    decay0.initialize(prng);
+
+    // Print:
+    decay0.smart_dump(std::clog, "Decay0 DBD generator: ", "[info] ");
+    /* Statistical weight of the event
+     * with respect to the total energy
+     * spectrum.
+     */
+    double toallevents = decay0.get_bb_params().toallevents;
+    std::clog << "test1: Ratio toallevents = " << toallevents << "\n";
 
     /***************************************/
     /* Initialization of working resources */
     /***************************************/
 
-    // Random generator:
-    std::default_random_engine generator(seed);
-    bxdecay0::std_random prng(generator);
-
-    // Decay event (collection of generated particles):
-    bxdecay0::event decay;
-
-    // Initialize the generator:
-    int ier = 0;
-    bxdecay0::genbbsub(prng,
-                       decay,
-                       i2bbs,
-                       chnuclide,
-                       ilevel,
-                       modebb,
-                       bxdecay0::GENBBSUB_ISTART_INIT,
-                       ier,
-                       bb_params);
-    if (ier != 0) {
-      throw std::logic_error("genbbsub initialization !");
-    }
-    decay.reset();
-
-    // Run info:
+    // HepMC run info:
     std::shared_ptr<HepMC::GenRunInfo> runInfoPtr(std::make_shared<HepMC::GenRunInfo>());
-    runInfoPtr->add_attribute("weight",
-                              std::make_shared<HepMC::DoubleAttribute>(bb_params.toallevents));
-
-    HepMC::GenRunInfo::ToolInfo random_info;
-    random_info.name = "bxdecay0::std_random";
-    random_info.version = std::to_string(seed);
-    random_info.description = "BxDecay0 random number generator";
-    runInfoPtr->tools().push_back(random_info);
+    runInfoPtr->add_attribute("seed",
+                              std::make_shared<HepMC::IntAttribute>(seed));
+    runInfoPtr->add_attribute("activity",
+                              std::make_shared<HepMC::DoubleAttribute>(activity));
+    runInfoPtr->add_attribute("nevents",
+                              std::make_shared<HepMC::IntAttribute>(nevents));
+    std::string cat_string = bxdecay0::decay0_generator::decay_category_to_label(decay0.get_decay_category());
+    runInfoPtr->add_attribute("category",
+                              std::make_shared<HepMC::StringAttribute>(cat_string));
+    runInfoPtr->add_attribute("nuclide",
+                              std::make_shared<HepMC::StringAttribute>(decay0.get_decay_isotope()));
+    runInfoPtr->add_attribute("daughter_level",
+                              std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_level()));
+    runInfoPtr->add_attribute("mode_bb",
+                              std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_mode()));
+    if (decay0.has_decay_dbd_esum_range()) {
+      runInfoPtr->add_attribute("min_energy",
+                                std::make_shared<HepMC::DoubleAttribute>(decay0.get_decay_dbd_esum_range_lower()));
+      runInfoPtr->add_attribute("max_energy",
+                                std::make_shared<HepMC::DoubleAttribute>(decay0.get_decay_dbd_esum_range_upper()));
+      runInfoPtr->add_attribute("toallevents",
+                                std::make_shared<HepMC::DoubleAttribute>(toallevents));
+    }
 
     HepMC::GenRunInfo::ToolInfo decay0_info;
-    decay0_info.name = "BxDecay0";
+    decay0_info.name = "bxdecay0";
     decay0_info.version = BXDECAY0_LIB_VERSION;
     decay0_info.description = "BxDecay0 nuclear decay event generator";
     runInfoPtr->tools().push_back(decay0_info);
 
+    // HepMC output:
     HepMC::WriterAscii writer("gendecay0-hepmc3-ascii.data", runInfoPtr);
 
     /**************************/
     /* Decay Event generation */
     /**************************/
 
+    // Random engine for the event time:
     std::exponential_distribution<> decay_timer(activity);
+
+    // Generated decay event (collection of generated particles):
+    bxdecay0::event gendecay;
+
     // Loop on events:
     for (std::size_t ievent = 0; ievent < nevents; ievent++) {
 
       // Randomize the decay event:
-      bxdecay0::genbbsub(prng,
-                         decay,
-                         i2bbs,
-                         chnuclide,
-                         ilevel,
-                         modebb,
-                         bxdecay0::GENBBSUB_ISTART_GENERATE,
-                         ier,
-                         bb_params);
-      if (ier != 0) {
-        throw std::logic_error("genbbsub failed!");
-      }
+      decay0.shoot(prng, gendecay);
 
       // Force the time of the decay:
       double evtime = decay_timer(generator);
-      decay.set_time(evtime);
+      gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
+      if (debug) gendecay.print(std::cerr, "DBD event:", "[debug] ");
 
       // Build a Hep MC event:
+      static const double C_LIGHT_MM_PER_SEC = 3e11;
       std::shared_ptr<HepMC::GenEvent> genEvtPtr =
         std::make_shared<HepMC::GenEvent>(runInfoPtr,
                                           HepMC::Units::MEV,
                                           HepMC::Units::MM);
       genEvtPtr->set_event_number(ievent);
       std::shared_ptr<HepMC::GenVertex> genVtxPtr
-        = std::make_shared<HepMC::GenVertex>(HepMC::FourVector(0.,0.,0.,decay.get_time()));
+        = std::make_shared<HepMC::GenVertex>(HepMC::FourVector(0.,
+                                                               0.,
+                                                               0.,
+                                                               gendecay.get_time() * C_LIGHT_MM_PER_SEC));
       genEvtPtr->add_vertex(genVtxPtr);
 
       double part_time = 0.0;
-      for (const auto & particle : decay.get_particles()) {
+      for (const auto & particle : gendecay.get_particles()) {
         std::shared_ptr<HepMC::GenParticle> genPartPtr
           = std::make_shared<HepMC::GenParticle>();
         // http://pdg.lbl.gov/mc_particle_id_contents.html
         int pid = 0;
         switch (particle.get_code()) {
-        case bxdecay0::GAMMA : pid = 22; break;
+        case bxdecay0::GAMMA    : pid =  22; break;
         case bxdecay0::POSITRON : pid = -11; break;
-        case bxdecay0::ELECTRON : pid = 11; break;
-        case bxdecay0::NEUTRON : pid = 2112; break;
-        case bxdecay0::PROTON : pid = 2212; break;
-        case bxdecay0::ALPHA : pid = 1000020040; break;
+        case bxdecay0::ELECTRON : pid =  11; break;
+        case bxdecay0::NEUTRON  : pid =  2112; break;
+        case bxdecay0::PROTON   : pid =  2212; break;
+        case bxdecay0::ALPHA    : pid =  1000020040; break;
         default: break;
         }
         if (particle.has_time()) {
+          // Cumulative particle time:
           part_time += particle.get_time();
         }
-        static const double C_LIGHT_MM_PER_SEC = 3e11;
         genPartPtr->set_pid(pid);
         genPartPtr->set_momentum(HepMC::FourVector(particle.get_px(),
                                                    particle.get_py(),
@@ -195,11 +206,20 @@ int main()
                                                    part_time * C_LIGHT_MM_PER_SEC));
         genVtxPtr->add_particle_out(genPartPtr);
       }
+
+      // Store the HepMC event:
       writer.write_event(*genEvtPtr.get());
 
       // Clear the event:
-      decay.reset();
+      gendecay.reset();
     }
+
+    /***************/
+    /* Termination */
+    /***************/
+
+    // terminate the generator:
+    decay0.reset();
 
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;

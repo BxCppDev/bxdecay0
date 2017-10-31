@@ -13,7 +13,7 @@ Introduction
 ============
 
 This    example   ``ex02.cxx``    illustrates   the    use   of    the
-``bxdecay0::genbbsub`` function  to generate random double  beta decay
+``bxdecay0::decay0_generator`` class  to generate random double  beta decay
 events for various isotopes and decay modes.
 
 The program  stores the generated events  in an output file  using the
@@ -55,7 +55,7 @@ Run
       $ _install.d/bin/ex02
 
 
-#. Enjoy the ``gendecay0-hepmc3-ascii.data`` output file!
+#. Enjoy the ``bxdecay_ex02-hepmc3-ascii.data`` output file!
 
 
 
