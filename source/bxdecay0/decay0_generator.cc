@@ -241,6 +241,11 @@ namespace bxdecay0 {
     return;
   }
 
+  const std::string & decay0_generator::get_decay_isotope() const
+  {
+    return _decay_isotope_;
+  }
+
   bool decay0_generator::has_decay_version() const
   {
     return !_decay_version_.empty();

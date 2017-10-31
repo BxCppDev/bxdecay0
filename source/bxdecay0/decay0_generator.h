@@ -112,6 +112,9 @@ namespace bxdecay0 {
     /// Set the decaying isotope
     void set_decay_isotope(const std::string &);
 
+    /// Return the decaying isotope
+    const std::string & get_decay_isotope() const;
+
     /// Check if decay version is set
     bool has_decay_version() const;
 

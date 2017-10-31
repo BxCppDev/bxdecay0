@@ -12,7 +12,6 @@ int main()
   bxdecay0::std_random prng(generator);
 
   bxdecay0::decay0_generator decay0;
-  decay0.set_debug(false);
   decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
   decay0.set_decay_isotope("Mo100");
   decay0.set_decay_dbd_level(0);
