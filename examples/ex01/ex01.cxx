@@ -27,11 +27,10 @@
 #include <fstream>
 
 // This project:
-#include <bxdecay0/std_random.h> // Random number interface
-#include <bxdecay0/event.h>      // Generated event model
-#include <bxdecay0/bb.h>         // Nuclear decay and double beta decay parameters
-#include <bxdecay0/genbbsub.h>   // Main decay generation routine
-#include <bxdecay0/version.h>    // Library version
+#include <bxdecay0/version.h>          // Library version
+#include <bxdecay0/std_random.h>       // Random number interface
+#include <bxdecay0/event.h>            // Generated event model
+#include <bxdecay0/decay0_generator.h> // Main decay0 generator
 
 int main()
 {
@@ -49,33 +48,51 @@ int main()
     unsigned int seed = 314159;
 
     // Number of generated events:
-    std::size_t nevents = 100;
+    std::size_t nevents = 10;
 
     // Output file name:
-    std::string foutname("gendecay0.data");
+    std::string foutname("bxdecay_ex01.data");
 
     // Parameters of the decay:
-    bxdecay0::bbpars bb_params;
-    bb_params.ebb1 = 0.0; // Minimum energy (MeV)
-    bb_params.ebb2 = 4.3; // Maximum energy (MeV)
-    bb_params.toallevents = 1.0; /* Statistical weight of the event
-                                  * with respect to the total energy
-                                  * spectrum.
-                                  */
-    // Mode: double beta decay:
-    int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
 
     // Isotope:
-    std::string chnuclide = "Mo100";
+    std::string nuclide = "Mo100";
 
     // Daughter's energy level (ground state):
     int ilevel = 0;
 
-    // DBD mode (neutrinoless):
-    int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+    // DBD mode (two neutrino):
+    bxdecay0::modebb_type modebb = bxdecay0::MODEBB_4;
 
-    // Activity of the decaying source in becquerel:
+    // Activity of the decaying source (becquerel):
     double activity = 2.0;
+
+    // The random generator:
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
+
+    // The event generator:
+    bxdecay0::decay0_generator decay0;
+
+    // Configuration:
+    decay0.set_debug(false);
+    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+    decay0.set_decay_isotope(nuclide);
+    decay0.set_decay_dbd_level(0); // ground state
+    decay0.set_decay_dbd_mode(modebb);
+    decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
+
+    // Initialization;
+    decay0.initialize(prng);
+
+    // Print:
+    decay0.smart_dump(std::clog, "Decay0 DBD generator: ", "[info] ");
+    /* Statistical weight of the event
+     * with respect to the total energy
+     * spectrum.
+     */
+    double toallevents = decay0.get_bb_params().toallevents;
+    std::clog << "test1: Ratio toallevents = " << toallevents << "\n";
 
     /***************************************/
     /* Initialization of working resources */
@@ -84,42 +101,28 @@ int main()
     // Output file for generated decay events:
     std::ofstream fout(foutname.c_str());
 
-    // Random generator:
-    std::default_random_engine generator(seed);
-    bxdecay0::std_random prng(generator);
-
-    // Decay event (collection of generated particles):
-    bxdecay0::event decay;
-
-    // Initialize the generator:
-    int ier = 0;
-    bxdecay0::genbbsub(prng,
-                       decay,
-                       i2bbs,
-                       chnuclide,
-                       ilevel,
-                       modebb,
-                       bxdecay0::GENBBSUB_ISTART_INIT,
-                       ier,
-                       bb_params);
-    if (ier != 0) {
-      throw std::logic_error("genbbsub initialization !");
-    }
-    decay.reset();
+    // Store format options:
+    uint32_t store_flags =
+      bxdecay0::event::STORE_EVENT_DECO
+      | bxdecay0::event::STORE_EVENT_TIME
+      | bxdecay0::particle::STORE_PARTICLE_NAME;
 
     // Store config/metadata in the file header:
     fout << "#!bxdecay0 " << BXDECAY0_LIB_VERSION << std::endl;
-    fout << "#@run_start" << std::endl;
+    fout << "#@run_info_start" << std::endl;
     fout << "#@seed=" << seed << std::endl;
     fout << "#@activity=" << activity << ' ' << "Bq" << std::endl;
     fout << "#@nevents=" << nevents << std::endl;
-    fout << "#@min_energy=" << bb_params.ebb1 << ' ' << "MeV" << std::endl;
-    fout << "#@max_energy=" << bb_params.ebb2 << ' ' << "MeV" << std::endl;
-    fout << "#@toallevents=" << bb_params.toallevents << std::endl;
-    fout << "#@type=" << i2bbs << std::endl;
-    fout << "#@nuclide=" << chnuclide << std::endl;
-    fout << "#@daughter_level=" << ilevel << std::endl;
-    fout << "#@mode_bb=" << modebb << std::endl;
+    fout << "#@category=" << decay0.get_decay_category() << std::endl;
+    fout << "#@nuclide=" << decay0.get_decay_isotope() << std::endl;
+    fout << "#@daughter_level=" << decay0.get_decay_dbd_level() << std::endl;
+    fout << "#@mode_bb=" << decay0.get_decay_dbd_mode() << std::endl;
+    if (decay0.has_decay_dbd_esum_range()) {
+      fout << "#@min_energy=" << decay0.get_decay_dbd_esum_range_lower() << ' ' << "MeV" << std::endl;
+      fout << "#@max_energy=" << decay0.get_decay_dbd_esum_range_upper() << ' ' << "MeV" << std::endl;
+      fout << "#@toallevents=" << toallevents << std::endl;
+    }
+    fout << "#@run_info_stop" << std::endl;
     fout << "#" << std::endl;
     fout << "# Format of an event (time in second,  momentum in MeV/c):" << std::endl;
     fout << "#" << std::endl;
@@ -137,48 +140,40 @@ int main()
     /* Decay Event generation */
     /**************************/
 
+    // Random engine for the event time:
     std::exponential_distribution<> decay_timer(activity);
+
+    // Generated decay event (collection of generated particles):
+    bxdecay0::event gendecay;
+
     // Loop on events:
     for (std::size_t ievent = 0; ievent < nevents; ievent++) {
 
       // Randomize the decay event:
-      bxdecay0::genbbsub(prng,
-                         decay,
-                         i2bbs,
-                         chnuclide,
-                         ilevel,
-                         modebb,
-                         bxdecay0::GENBBSUB_ISTART_GENERATE,
-                         ier,
-                         bb_params);
-      if (ier != 0) {
-        throw std::logic_error("genbbsub failed!");
-      }
+      decay0.shoot(prng, gendecay);
 
       // Force the time of the decay:
       double evtime = decay_timer(generator);
-      decay.set_time(evtime);
+      gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug) decay.print(std::cerr, "DBD event:", "[debug] ");
+      if (debug) gendecay.print(std::cerr, "DBD event:", "[debug] ");
 
-      // Store events:
-      uint32_t store_flags =
-        bxdecay0::event::STORE_EVENT_DECO
-        | bxdecay0::event::STORE_EVENT_TIME
-        | bxdecay0::particle::STORE_PARTICLE_NAME;
-      decay.store(fout, store_flags);
+      // Store the event:
+      gendecay.store(fout, store_flags);
 
       // Clear the event:
-      decay.reset();
+      gendecay.reset();
     }
 
     /***************/
     /* Termination */
     /***************/
 
-    fout << "#@run_stop" << std::endl;
     fout.close();
+
+    // terminate the generator:
+    decay0.reset();
 
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;

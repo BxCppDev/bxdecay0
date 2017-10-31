@@ -3,7 +3,7 @@ BxDecay0 example ex01
 ================================
 
 :author: François Mauger
-:date: 2017-10-30
+:date: 2017-10-31
 :copyright: Copyright (C) 2017 the BxCppDev group
 
 .. contents::
@@ -12,7 +12,7 @@ Introduction
 ============
 
 This    example   ``ex01.cxx``    illustrates   the    use   of    the
-``bxdecay0::genbbsub`` function  to generate random double  beta decay
+``bxdecay0::decay0_generator`` class  to generate random double  beta decay
 events for various isotopes and decay modes.
 
 The program stores the generated events  in an output ASCII file using
@@ -51,7 +51,7 @@ Run
       $ _install.d/bin/ex01
 
 
-#. Enjoy the ``gendecay0.data`` output file!
+#. Enjoy the ``bxdecay_ex01.data`` output file!
 
 
 
