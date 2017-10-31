@@ -100,6 +100,7 @@ int main()
 
     // Output file for generated decay events:
     std::ofstream fout(foutname.c_str());
+    fout.precision(15);
 
     // Store format options:
     uint32_t store_flags =
