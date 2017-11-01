@@ -660,34 +660,34 @@ List of daughter nucleus excited states in double beta decay
 List of supported double beta decay modes
 -----------------------------------------
 
-1. 0nubb(mn) 0+ -> 0+ {2n},
-2. 0nubb(rhc-lambda) 0+ -> 0+ {2n},
-3. 0nubb(rhc-lambda) 0+ -> 0+, 2+ {N*},
-4. 2nubb 0+ -> 0+ {2n},
-5. 0nubbM1 0+ -> 0+ {2n}
+1. ``bxdecay0::MODEBB_1`` : 0nubb(mn) 0+ -> 0+ {2n},
+2. ``bxdecay0::MODEBB_2`` : 0nubb(rhc-lambda) 0+ -> 0+ {2n},
+3. ``bxdecay0::MODEBB_3`` : 0nubb(rhc-lambda) 0+ -> 0+, 2+ {N*},
+4. ``bxdecay0::MODEBB_4`` : 2nubb 0+ -> 0+ {2n},
+5. ``bxdecay0::MODEBB_5`` : 0nubbM1 0+ -> 0+ {2n}
 
    Majoron with spectral index SI=1 (old M of Gelmini-Roncadelli),
-6. 0nubbM3 0+ -> 0+ {2n}
+6. ``bxdecay0::MODEBB_6`` : 0nubbM3 0+ -> 0+ {2n}
 
    Majoron with SI=3 (vector M, double M, charged M),
-7. 0nubb(rhc-lambda) 0+ -> 2+ {2n},
-8. 2nubb 0+ -> 2+ {2n}, {N*},
-9. 0nuKb+ 0+ -> 0+, 2+,
-10. 2nuKb+ 0+ -> 0+, 2+,
-11. 0nu2K 0+ -> 0+, 2+,
-12. 2nu2K 0+ -> 0+, 2+,
-13. 0nubbM7 0+ -> 0+ {2n}
+7. ``bxdecay0::MODEBB_7`` : 0nubb(rhc-lambda) 0+ -> 2+ {2n},
+8. ``bxdecay0::MODEBB_8`` : 2nubb 0+ -> 2+ {2n}, {N*},
+9. ``bxdecay0::MODEBB_9`` : 0nuKb+ 0+ -> 0+, 2+,
+10. ``bxdecay0::MODEBB_10`` : 2nuKb+ 0+ -> 0+, 2+,
+11. ``bxdecay0::MODEBB_11`` : 0nu2K 0+ -> 0+, 2+,
+12. ``bxdecay0::MODEBB_12`` : 2nu2K 0+ -> 0+, 2+,
+13. ``bxdecay0::MODEBB_13`` : 0nubbM7 0+ -> 0+ {2n}
 
     Majoron with SI=7,
-14. 0nubbM2 0+ -> 0+ {2n}
+14. ``bxdecay0::MODEBB_14`` : 0nubbM2 0+ -> 0+ {2n}
 
     Majoron with SI=2 (bulk M of Mohapatra)
-15. 2nubb 0+ -> 0+ with bosonic neutrinos,
-16. 2nubb 0+ -> 2+ with bosonic neutrinos,
-17. 0nubb(rhc-eta) 0+ -> 0+ simplified expression,
-18. 0nubb(rhc-eta) 0+ -> 0+ with specified NMEs.
-19. 2nubb with LV  0+ -> 0+, with Lorentz violation
-20. 0nu4b          0+ -> 0+, quadruple beta decay
+15. ``bxdecay0::MODEBB_15`` : 2nubb 0+ -> 0+ with bosonic neutrinos,
+16. ``bxdecay0::MODEBB_16`` : 2nubb 0+ -> 2+ with bosonic neutrinos,
+17. ``bxdecay0::MODEBB_17`` : 0nubb(rhc-eta) 0+ -> 0+ simplified expression,
+18. ``bxdecay0::MODEBB_18`` : 0nubb(rhc-eta) 0+ -> 0+ with specified NMEs.
+19. ``bxdecay0::MODEBB_19`` : 2nubb with LV  0+ -> 0+, with Lorentz violation
+20. ``bxdecay0::MODEBB_20`` : 0nu4b          0+ -> 0+, quadruple beta decay
 
 SI: *Spectral Index* for Majoron modes.
 
