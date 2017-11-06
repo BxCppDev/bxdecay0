@@ -2,7 +2,7 @@
 bxdecay0 - C++ port of the legacy Decay0/GENBB FORTRAN library
 ============================================================================
 
-:author: François Mauger
+:authors: François Mauger
 :date: 2017-10-30
 :copyright: Copyright (C) 2017 the BxCppDev group
 
@@ -68,10 +68,10 @@ Plumbing
 The core of the BxDecay0 code  does not follow a fully object-oriented
 approach.   In order  to ensure  the easy  synchronization of  its low
 level code  with the original  Decay0/GENBB code, BxDecay0  mimics the
-layout of  the Fortran  code (including massive  usage of  *GOTO*s !).
+layout of  the Fortran  code (including massive  usage of  *GOTOs*!).
 BxDecay0 thus provides a large collection of plain generator functions
-for  about 100  radioactive nuclei  split in  two categories:  *double
-beta* decays and *background/calibration* decays.  When a Decay0/GENBB
+for  about 100  radioactive nuclei  split in  two categories:
+*double beta* decays and *background/calibration* decays.  When a Decay0/GENBB
 fix or  improvement is published in  the original Fortran code  by its
 author (V.Tretyak),  it is thus  rather easy to adequately  change the
 C++ code in the relevant section in BxDecay0.
@@ -314,13 +314,13 @@ Authors and contributors
 
 * Vladimir Tretyak (KINR_, Kiev Institute for Nuclear Research, Lepton
   Physics Department, Ukraine) is the original author and maintener of
-  the Fortran Decay0/GENBB project,
+  the Fortran Decay0/GENBB package,
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
   de Caen, `Université de Caen  Normandie`_, France) is the author and
   maintener   of  the   C++  port   of  Decay0/GENBB   within  Bayeux_
-  (https://github.com/BxCppDev/Bayeux) and the BxDecay0 library,
+  (https://github.com/BxCppDev/Bayeux) and the current BxDecay0 library,
 * Emma Mauger (`Université de Caen  Normandie`_) has performed a large
-  part of the extraction and port  of the standalone BxDecay0 from the
+  part of the extraction and port to C++ of the standalone BxDecay0 from the
   Bayeux_ *genbb* library module.
 
 References
@@ -330,7 +330,7 @@ References
   talk_ given at Laboratori Nazionali del Gran Sasso, 17 March 2015  :
 * O.A.Ponkratenko, V.I.Tretyak, Yu.G.Zdesenko,
   *Event Generator DECAY4 for Simulating Double-Beta Processes and Decays of Radioactive Nuclei*,
-  Phys. At. Nucl. 63 (2000) 1282 (nucl-ex/0104018)
+  Phys. At. Nucl. 63 (2000) 1282 (`nucl-ex/0104018 <https://arxiv.org/pdf/nucl-ex/0104018.pdf>`_)
 
 .. _talk: https://agenda.infn.it/materialDisplay.py?materialId=slides&confId=9358
 
