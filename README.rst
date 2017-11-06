@@ -3,7 +3,7 @@ bxdecay0 - C++ port of the legacy Decay0/GENBB FORTRAN library
 ============================================================================
 
 :authors: François Mauger
-:date: 2017-10-30
+:date: 2017-11-06
 :copyright: Copyright (C) 2017 the BxCppDev group
 
 The *BxDecay0* C++ library provides a set of classes and functions for
@@ -40,7 +40,7 @@ experiments.
 
 From 2005 to 2011, the NEMO3 collaboration has initiated a R&D program
 to   design   a  new   generation   double   beta  decay   experiment:
-SuperNEMO. The  choice was  made to  use C++  as the  main programming
+SuperNEMO_. The  choice was  made to  use C++  as the  main programming
 language.  In this context, François  Mauger has created a C++ version
 of GENBB. The first version was  a C++ wrapper of the original Fortran
 code,  using binding  mechanism based  on plain  static C  structures.
@@ -58,6 +58,8 @@ through a simple wrapping interface, particularly the ones provided by
 the C++ standard library can be  used by default.  However the user is
 free to  provide its own  uniform deviates random generator  (based on
 GSL_, ROOT_ or whatever).
+
+.. _SuperNEMO: http://supernemo.org/
 
 Design
 ======

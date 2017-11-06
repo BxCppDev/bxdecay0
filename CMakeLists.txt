@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 # - Versioning
 set(BxDecay0_VERSION_MAJOR 1)
 set(BxDecay0_VERSION_MINOR 0)
-set(BxDecay0_VERSION_PATCH 1)
+set(BxDecay0_VERSION_PATCH 0)
 set(BxDecay0_VERSION "${BxDecay0_VERSION_MAJOR}.${BxDecay0_VERSION_MINOR}.${BxDecay0_VERSION_PATCH}")
 
 message("[info] BxDecay0_VERSION_MAJOR = ${BxDecay0_VERSION_MAJOR}")
