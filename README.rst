@@ -63,10 +63,10 @@ wrapping interface, particularly the ones provided by the C++ standard
 to provide its  own uniform deviates random generator  (based on GSL_,
 ROOT_ or whatever).
 
-Version:
+Versions:
 
-- Initial: port from Decay0 2017-03-01 and Bayeux 3
-- Current release: updated from Decay0 2018-12-05
+- Prerelease 1.0.0 : mixed port from Decay0 2017-03-01 and Bayeux 3
+- First release 1.0.0 : updated from Decay0 2018-12-05
 
 
 .. _SuperNEMO: http://supernemo.org/

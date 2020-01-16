@@ -37,7 +37,7 @@ endif()
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
 
 # - Version of the original fortran Decay0
-set(BxDecay0_DECAY0_VERSION "2017-03-01")
+set(BxDecay0_DECAY0_VERSION "2018-12-05")
 message("[info] Original Decay0 version = '${BxDecay0_DECAY0_VERSION}'")
 
 #-----------------------------------------------------------------------
@@ -256,7 +256,6 @@ set(BxDecay0_HEADERS
   source/bxdecay0/Ta180mB.h  # Added from 2018-12-05
   source/bxdecay0/Ta180mEC.h # Added from 2018-12-05
   source/bxdecay0/Yb170low.h # Added from 2018-12-05
-
   source/bxdecay0/decay0_generator.h
   )
 
@@ -435,9 +434,6 @@ set(BxDecay0_SOURCES
 
 message("[info] BxDecay0_SOURCES = '${BxDecay0_SOURCES}'")
 
-set(BxDecay0_PRIVATE_HEADERS
-  )
-
 set(BxDecay0_TESTS
   source/bxdecay0/testing/test_resource.cxx
   source/bxdecay0/testing/test_decay0.cxx
@@ -471,7 +467,6 @@ include_directories(${PROJECT_BINARY_DIR}/source)
 
 add_library(Bayeux_decay0 SHARED
   ${BxDecay0_HEADERS}
-  # ${BxDecay0_PRIVATE_HEADERS}
   ${BxDecay0_SOURCES}
   )
 
