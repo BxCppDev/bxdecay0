@@ -12,7 +12,7 @@
 #              SI=2 - bulk M of Mohapatra
 #              SI=3 - double M, vector M, charged M
 #              SI=7
-# BEWARE: The original Decay0 Fortran code has changed the index of thje Majoron mode
+# BEWARE: The original Decay0 Fortran code has changed the index of the Majoron mode
 # from versions above 2017. We thus use an index map to ensure backward compatibility.
 #
 # 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150
