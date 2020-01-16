@@ -1,10 +1,10 @@
-/// \file bxdecay0/decay0.h
+/// \file bxdecay0/decay0_generator.h
 /* Author(s):     Francois Mauger <mauger@lpccaen.in2p3.fr>
  * Creation date: 2013-05-04
- * Last modified: 2017-10-31
+ * Last modified: 2020-01-15
  *
  * License:
- * Copyright 2013-2017 F. Mauger
+ * Copyright 2013-2020 F. Mauger
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,9 +72,9 @@ namespace bxdecay0 {
     ~decay0_generator();
 
     /// Smart print
-    void smart_dump(std::ostream& out = std::clog,
-                    const std::string& title  = "",
-                    const std::string& indent = "") const;
+    void smart_dump(std::ostream & out_ = std::clog,
+                    const std::string & title_  = "",
+                    const std::string & indent_ = "") const;
 
     /// Check initialization status
     bool is_initialized() const;
@@ -124,11 +124,14 @@ namespace bxdecay0 {
     /// Check if decay dbd mode is set
     bool has_decay_dbd_mode() const;
 
+    /// Set the DBD mode by label
+    void set_decay_dbd_mode_by_label(const std::string & dbd_mode_label_);
+
     /// Set the DBD mode
-    void set_decay_dbd_mode(const modebb_type);
+    void set_decay_dbd_mode(const dbd_mode_type);
 
     /// Return the DBD mode
-    modebb_type get_decay_dbd_mode() const;
+    dbd_mode_type get_decay_dbd_mode() const;
 
     /// Check if decay dbd level is set
     bool has_decay_dbd_level() const;
@@ -184,17 +187,17 @@ namespace bxdecay0 {
     bool   _debug_       = false; //!< Debug flag
 
     // Configuration:
-    decay_category_type  _decay_category_; //!< Category of the decay
-    std::string _decay_isotope_;           //!< Decaying isotope
-    std::string _decay_version_;           //!< Decay version
-    int         _decay_dbd_level_;         //!< DBD level of the daughter nucleus
-    modebb_type _decay_dbd_mode_;          //!< DBD mode
-    double      _energy_min_;              //!< Minimum energy sum
-    double      _energy_max_;              //!< Maximum energy sum
+    decay_category_type _decay_category_; //!< Category of the decay
+    std::string _decay_isotope_;          //!< Decaying isotope
+    std::string _decay_version_;          //!< Decay version
+    int         _decay_dbd_level_;        //!< DBD level of the daughter nucleus
+    dbd_mode_type _decay_dbd_mode_;       //!< DBD mode
+    double      _energy_min_;             //!< Minimum energy sum
+    double      _energy_max_;             //!< Maximum energy sum
 
     // Working internal data:
     size_t _event_count_; //!< Current event count
-    std::unique_ptr<bxdecay0::bbpars> _bb_params_; //!< Decay parameters
+    std::unique_ptr<bxdecay0::bbpars> _bb_params_; //!< Decay0 parameters
 
   };
 

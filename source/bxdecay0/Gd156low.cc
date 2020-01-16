@@ -1,5 +1,5 @@
 // Copyright 1995-2016 V.I. Tretyak
-// Copyright 2011-2017 F. Mauger
+// Copyright 2011-2020 F. Mauger
 //
 // This program is free software: you  can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -532,9 +532,6 @@ namespace bxdecay0 {
     return;
   }
   // end of Gd156low.f
-
-
-
 
 } // end of namespace bxdecay0
 

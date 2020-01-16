@@ -247,6 +247,16 @@ set(BxDecay0_HEADERS
   source/bxdecay0/Zn65.h
   source/bxdecay0/Zr92low.h
   source/bxdecay0/Zr96.h
+  source/bxdecay0/Dy162low.h # Added from 2018-12-05
+  source/bxdecay0/Dy164low.h # Added from 2018-12-05
+  source/bxdecay0/Er168low.h # Added from 2018-12-05
+  source/bxdecay0/Gd154low.h # Added from 2018-12-05
+  source/bxdecay0/Hf176low.h # Added from 2018-12-05
+  source/bxdecay0/Nd144low.h # Added from 2018-12-05
+  source/bxdecay0/Ta180mB.h  # Added from 2018-12-05
+  source/bxdecay0/Ta180mEC.h # Added from 2018-12-05
+  source/bxdecay0/Yb170low.h # Added from 2018-12-05
+
   source/bxdecay0/decay0_generator.h
   )
 
@@ -334,6 +344,7 @@ set(BxDecay0_SOURCES
   source/bxdecay0/Gd158low.cc
   source/bxdecay0/Ge70low.cc
   source/bxdecay0/Ge74low.cc
+  source/bxdecay0/Hf176low.cc
   source/bxdecay0/Hf180low.cc
   source/bxdecay0/Hf182.cc
   source/bxdecay0/Hg198low.cc
@@ -410,6 +421,15 @@ set(BxDecay0_SOURCES
   source/bxdecay0/Zn65.cc
   source/bxdecay0/Zr92low.cc
   source/bxdecay0/Zr96.cc
+  source/bxdecay0/Dy162low.cc # Added from 2018-12-05
+  source/bxdecay0/Dy164low.cc # Added from 2018-12-05
+  source/bxdecay0/Er168low.cc # Added from 2018-12-05
+  source/bxdecay0/Gd154low.cc # Added from 2018-12-05
+  source/bxdecay0/Hf176low.cc # Added from 2018-12-05
+  source/bxdecay0/Nd144low.cc # Added from 2018-12-05
+  source/bxdecay0/Ta180mB.cc  # Added from 2018-12-05
+  source/bxdecay0/Ta180mEC.cc # Added from 2018-12-05
+  source/bxdecay0/Yb170low.cc # Added from 2018-12-05
   source/bxdecay0/decay0_generator.cc
  )
 
@@ -545,7 +565,7 @@ endif()
 if(BXDECAY0_ENABLE_TESTING)
   foreach(_testsource ${BxDecay0_TESTS})
     set(_bxdecay0_TEST_ENVIRONMENT
-      "BXDECAY0_RESOURCE=${PROJECT_SOURCE_DIR}/resources"
+      "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources"
       )
     get_filename_component(_testname "${_testsource}" NAME_WE)
     set(_testname "bxdecay0-${_testname}")

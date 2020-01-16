@@ -62,7 +62,7 @@ int main()
     int level = 0;
 
     // DBD mode (two neutrino):
-    bxdecay0::modebb_type modebb = bxdecay0::MODEBB_4;
+    bxdecay0::dbd_mode_type dbd_mode = bxdecay0::DBDMODE_4;
 
     // Activity of the decaying source (becquerel):
     double activity = 2.0;
@@ -79,7 +79,7 @@ int main()
     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
     decay0.set_decay_isotope(nuclide);
     decay0.set_decay_dbd_level(level);
-    decay0.set_decay_dbd_mode(modebb);
+    decay0.set_decay_dbd_mode(dbd_mode);
     decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
 
     // Initialization;
@@ -117,7 +117,7 @@ int main()
     fout << "#@category=" << decay0.get_decay_category() << std::endl;
     fout << "#@nuclide=" << decay0.get_decay_isotope() << std::endl;
     fout << "#@daughter_level=" << decay0.get_decay_dbd_level() << std::endl;
-    fout << "#@mode_bb=" << decay0.get_decay_dbd_mode() << std::endl;
+    fout << "#@dbd_mode=" << decay0.get_decay_dbd_mode() << std::endl;
     if (decay0.has_decay_dbd_esum_range()) {
       fout << "#@min_energy=" << decay0.get_decay_dbd_esum_range_lower() << ' ' << "MeV" << std::endl;
       fout << "#@max_energy=" << decay0.get_decay_dbd_esum_range_upper() << ' ' << "MeV" << std::endl;

@@ -64,7 +64,7 @@ void test1()
   decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
   decay0.set_decay_isotope("Mo100");
   decay0.set_decay_dbd_level(0);
-  decay0.set_decay_dbd_mode(bxdecay0::MODEBB_4);
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_4); // DBDMODE_2NUBB_0_2N
   decay0.set_decay_dbd_esum_range(2.0, 4.3);
   decay0.initialize(prng);
   decay0.smart_dump(std::clog, "Decay0 DBD generator: ", "[info] ");

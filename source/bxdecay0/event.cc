@@ -1,7 +1,7 @@
 /** bxdecay0/event.cc
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2017-2020 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2017-2020 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -75,6 +75,11 @@ namespace bxdecay0 {
   }
 
   const std::vector<particle> & event::get_particles() const
+  {
+    return _particles_;
+  }
+
+  std::vector<particle> & event::grab_particles()
   {
     return _particles_;
   }

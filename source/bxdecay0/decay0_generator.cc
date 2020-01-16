@@ -51,7 +51,7 @@ namespace bxdecay0 {
     _decay_isotope_ = "";
     _decay_version_ = "";
     _decay_dbd_level_ = DBD_LEVEL_INVALID;
-    _decay_dbd_mode_ = MODEBB_UNDEF;
+    _decay_dbd_mode_ = DBDMODE_UNDEF;
     _energy_min_ = std::numeric_limits<double>::quiet_NaN();
     _energy_max_ = std::numeric_limits<double>::quiet_NaN();
     _event_count_ = 0;
@@ -152,7 +152,7 @@ namespace bxdecay0 {
     }
 
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
-      const std::map<modebb_type,dbd_record> & dbd_modes_dict = decay0_dbd_modes();
+      const std::map<dbd_mode_type,dbd_record> & dbd_modes_dict = dbd_modes();
       if (is_debug()) {
         for (const auto & md : dbd_modes_dict) {
           std::cerr << "[debug] " << "decay0_generator::initialize: "
@@ -275,16 +275,22 @@ namespace bxdecay0 {
 
   bool decay0_generator::has_decay_dbd_mode() const
   {
-    return _decay_dbd_mode_ != MODEBB_UNDEF;
+    return _decay_dbd_mode_ != DBDMODE_UNDEF;
   }
 
-  void decay0_generator::set_decay_dbd_mode(const modebb_type mode_)
+  void decay0_generator::set_decay_dbd_mode_by_label(const std::string & dbd_mode_label_)
+  {
+    set_decay_dbd_mode(dbd_mode_from_label(dbd_mode_label_));
+    return;
+  }
+
+  void decay0_generator::set_decay_dbd_mode(const dbd_mode_type mode_)
   {
     _decay_dbd_mode_ = mode_;
     return;
   }
 
-  modebb_type decay0_generator::get_decay_dbd_mode() const
+  dbd_mode_type decay0_generator::get_decay_dbd_mode() const
   {
     return _decay_dbd_mode_;
   }
@@ -388,14 +394,15 @@ namespace bxdecay0 {
     }
     _grab_bb_params_().reset();
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
-      _grab_bb_params_().modebb   = _decay_dbd_mode_;
+      // Set the BB mode with the proper legacy value from the Decay0 engine:
+      _grab_bb_params_().modebb  = dbd_legacy_mode(_decay_dbd_mode_);
       _grab_bb_params_().istartbb = 0;
 
-      const std::set<modebb_type> & dbdmwer = decay0_dbd_modes_with_esum_range();
+      const std::set<dbd_mode_type> & dbdmwer = dbd_modes_with_esum_range();
       if (is_debug()) {
         std::cerr << "[debug] decay0_generator::_init_: " << "Decay DBD mode : " << _decay_dbd_mode_ << std::endl;
       }
-      if (decay0_supports_esum_range(_decay_dbd_mode_)) {
+      if (dbd_supports_esum_range(_decay_dbd_mode_)) {
         if (!std::isnan(_energy_min_)) {
           if (is_debug()) {
             std::cerr << "[debug] decay0_generator::_init_: " << "Setting DBD energy min to "

@@ -1,8 +1,8 @@
 /** \file bxdecay0/event.h
  *  \brief Generated event
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2017-2020 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2017-2020 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -81,6 +81,9 @@ namespace bxdecay0 {
 
     /// Return the ordered list of particles
     const std::vector<particle> & get_particles() const;
+
+    /// Return the ordered list of particles
+    std::vector<particle> & grab_particles();
 
     /// Return a mutable reference to the last particle
     /// This method is provided only for internal usage.

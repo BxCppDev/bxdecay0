@@ -130,7 +130,7 @@ namespace bxdecay0 {
     , public eta_nme
   {
     static const unsigned int SPSIZE = 4300;
-    int    modebb;   ///< Mode of double beta (- or +) decay (from 1 to 18)
+    int    modebb;   ///< Mode (legacy Decay0 value) of double beta (- or +) decay (from 1 to 20)
     double Qbb;      ///< Energy release in double beta process: difference between masses of parent and daughter atoms (MeV);
     double Edlevel;  ///< Energy of level of daughter nucleus to which transition occured (MeV);
     double EK;       ///< Binding energy of electron on K shell of parent atom (MeV) (for modebb=10 and 11);

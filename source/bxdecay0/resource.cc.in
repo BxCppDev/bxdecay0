@@ -50,7 +50,7 @@ namespace bxdecay0 {
     return get_resource_root(overriden_env_);
   }
 
-  std::string get_resource(const std::string& rname_, bool overriden_env_)
+  std::string get_resource(const std::string & rname_, bool overriden_env_)
   {
     if (rname_[0] == '/') {
       throw std::logic_error("Invalid resource name '" + rname_ + "'!");

@@ -65,15 +65,20 @@
 #include <bxdecay0/Co60.h>
 #include <bxdecay0/Cs136.h>
 #include <bxdecay0/Cs137.h>
+#include <bxdecay0/Dy162low.h>
+#include <bxdecay0/Dy164low.h>
+#include <bxdecay0/Er168low.h>
 #include <bxdecay0/Eu147.h>
 #include <bxdecay0/Eu152.h>
 #include <bxdecay0/Eu154.h>
 #include <bxdecay0/Fe58low.h>
 #include <bxdecay0/Gd146.h>
+#include <bxdecay0/Gd154low.h>
 #include <bxdecay0/Gd156low.h>
 #include <bxdecay0/Gd158low.h>
 #include <bxdecay0/Ge70low.h>
 #include <bxdecay0/Ge74low.h>
+#include <bxdecay0/Hf176low.h>
 #include <bxdecay0/Hf180low.h>
 #include <bxdecay0/Hf182.h>
 #include <bxdecay0/Hg198low.h>
@@ -93,6 +98,7 @@
 #include <bxdecay0/Na22.h>
 #include <bxdecay0/Nb96.h>
 #include <bxdecay0/Nd142low.h>
+#include <bxdecay0/Nd144low.h>
 #include <bxdecay0/Ni64low.h>
 #include <bxdecay0/Os186low.h>
 #include <bxdecay0/Os190low.h>
@@ -129,6 +135,8 @@
 #include <bxdecay0/Sn116low.h>
 #include <bxdecay0/Sn120low.h>
 #include <bxdecay0/Sr90.h>
+#include <bxdecay0/Ta180mB.h>
+#include <bxdecay0/Ta180mEC.h>
 #include <bxdecay0/Ta182.h>
 #include <bxdecay0/Te122low.h>
 #include <bxdecay0/Te124low.h>
@@ -147,6 +155,7 @@
 #include <bxdecay0/Xe135.h>
 #include <bxdecay0/Y88.h>
 #include <bxdecay0/Y90.h>
+#include <bxdecay0/Yb170low.h>
 #include <bxdecay0/Zn65.h>
 #include <bxdecay0/Zr92low.h>
 #include <bxdecay0/Zr96.h>
@@ -197,7 +206,7 @@ namespace bxdecay0 {
           bb_params_.levelE=0;
           bb_params_.itrans02=0;
         } else if (name_starts_with(chnuclide_,"Ca46")) {
-          bb_params_.Qbb=0.989;
+          bb_params_.Qbb=0.988; // was 0.989
           bb_params_.Zdbb=22.;
           bb_params_.Adbb=46.;
           bb_params_.EK=0.;
@@ -213,7 +222,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Ca48")) {
-          bb_params_.Qbb=4.267;
+          bb_params_.Qbb=4.268; // was 4.267
           bb_params_.Zdbb=22.;
           bb_params_.Adbb=48.;
           bb_params_.EK=0.;
@@ -310,7 +319,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1 || ilevel_ == 2) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Se82")) {
-          bb_params_.Qbb=2.996;
+          bb_params_.Qbb=2.998; // was 2.996
           bb_params_.Zdbb=36.;
           bb_params_.Adbb=82.;
           bb_params_.EK=0.;
@@ -343,7 +352,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Zr94")) {
-          bb_params_.Qbb=1.142;
+          bb_params_.Qbb=1.145 ; // was 1.142
           bb_params_.Zdbb=42.;
           bb_params_.Adbb=94.;
           bb_params_.EK=0.;
@@ -359,7 +368,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Zr96")) {
-          bb_params_.Qbb=3.349;
+          bb_params_.Qbb=3.356; // was 3.349
           bb_params_.Zdbb=42.;
           bb_params_.Adbb=96.;
           bb_params_.EK=0.;
@@ -386,7 +395,7 @@ namespace bxdecay0 {
               // we suppose here that 2713 keV level is 2+
               ilevel_ == 9) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Mo92")) {
-          bb_params_.Qbb=1.652;
+          bb_params_.Qbb=1.650; // was 1.652;
           bb_params_.Zdbb=-40.;
           bb_params_.Adbb=92.;
           bb_params_.EK=0.018;
@@ -451,7 +460,7 @@ namespace bxdecay0 {
           if (ilevel_ == 8)  bb_params_.EK=0.003;
           if (ilevel_ == 9)  bb_params_.EK=0.002;
         } else if (name_starts_with(chnuclide_,"Ru104")) {
-          bb_params_.Qbb=1.301;
+          bb_params_.Qbb=1.299; // was 1.301
           bb_params_.Zdbb=46.;
           bb_params_.Adbb=104.;
           bb_params_.EK=0.;
@@ -505,7 +514,7 @@ namespace bxdecay0 {
           bb_params_.levelE=0;
           bb_params_.itrans02=0;
         } else if (name_starts_with(chnuclide_,"Cd114")) {
-          bb_params_.Qbb=0.543;
+          bb_params_.Qbb=0.545; // was 0.543;
           bb_params_.Zdbb=50.;
           bb_params_.Adbb=114.;
           bb_params_.EK=0.;
@@ -705,7 +714,7 @@ namespace bxdecay0 {
           // only 2L capture is allowed energetically for 2400 keV level
           if (ilevel_ == 9)  bb_params_.EK=0.006;
         } else if (name_starts_with(chnuclide_,"Ce138")) {
-          bb_params_.Qbb=0.693;
+          bb_params_.Qbb=0.691; // was 0.693 
           bb_params_.Zdbb=-56.;
           bb_params_.Adbb=138.;
           bb_params_.EK=0.037;
@@ -737,18 +746,22 @@ namespace bxdecay0 {
           bb_params_.Zdbb=62.;
           bb_params_.Adbb=148.;
           bb_params_.EK=0.;
-          if (ilevel_ < 0 || ilevel_ > 2) {
+          if (ilevel_ < 0 || ilevel_ > 5) {
             std::cerr << "[error] " << "bxdecay0::genbbsub: "
                       << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
             ier_=1;
             if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
             return;
           }
+          // Modified in 2018-12-05:
           if (ilevel_ == 0) bb_params_.levelE=0;
           if (ilevel_ == 1) bb_params_.levelE=550;
-          if (ilevel_ == 2) bb_params_.levelE=1455;
-          if (ilevel_ == 0) bb_params_.itrans02=0;
-          if (ilevel_ == 1 || ilevel_ == 2) bb_params_.itrans02=2;
+          if (ilevel_ == 2) bb_params_.levelE=1424;
+          if (ilevel_ == 3) bb_params_.levelE=1454;
+          if (ilevel_ == 4) bb_params_.levelE=1664;
+          if (ilevel_ == 5) bb_params_.levelE=1921;
+          if (ilevel_ == 0 || ilevel_ == 2 || ilevel_ == 5) bb_params_.itrans02=0;
+          if (ilevel_ == 1 || ilevel_ == 3 || ilevel_ == 4) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Nd150")) {
           bb_params_.Qbb=3.371;
           bb_params_.Zdbb=62.;
@@ -769,6 +782,45 @@ namespace bxdecay0 {
           if (ilevel_ == 5) bb_params_.levelE=1256;
           if (ilevel_ == 0 || ilevel_ == 2 || ilevel_ == 5) bb_params_.itrans02=0;
           if (ilevel_ == 1 || ilevel_ == 3 || ilevel_ == 4) bb_params_.itrans02=2;
+        } else if (name_starts_with(chnuclide_,"Sm144")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=1.782;
+          bb_params_.Zdbb=-60.;
+          bb_params_.Adbb=144.;
+          bb_params_.EK=0.044;
+          if (ilevel_ < 0 || ilevel_ > 2) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=697;
+          if (ilevel_ == 2) bb_params_.levelE=1561;
+          if (ilevel_ == 0) bb_params_.itrans02=0;
+          if (ilevel_ == 1 || ilevel_ == 2) bb_params_.itrans02=2;       
+        } else if (name_starts_with(chnuclide_,"Sm154")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=1.251;
+          bb_params_.Zdbb=64.;
+          bb_params_.Adbb=154.;
+          bb_params_.EK=0.050;
+          if (ilevel_ < 0 || ilevel_ > 5) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=123;
+          if (ilevel_ == 2) bb_params_.levelE=681;
+          if (ilevel_ == 3) bb_params_.levelE=815;
+          if (ilevel_ == 4) bb_params_.levelE=996;
+          if (ilevel_ == 5) bb_params_.levelE=112;
+          if (ilevel_ == 0  ||  ilevel_ == 2  ||  ilevel_ == 5) bb_params_.itrans02=0;
+          if (ilevel_ == 1  ||  ilevel_ == 3  ||  ilevel_ == 4) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Dy156")) {
           bb_params_.Qbb=2.006;
           bb_params_.Zdbb=-64.;
@@ -808,7 +860,7 @@ namespace bxdecay0 {
           if (ilevel_ == 14)  bb_params_.EK=0.008;
           if (ilevel_ == 15)  bb_params_.EK=0.004;
         } else if (name_starts_with(chnuclide_,"Dy158")) {
-          bb_params_.Qbb=0.283;
+          bb_params_.Qbb=0.282; // was 0.283
           bb_params_.Zdbb=-64.;
           bb_params_.Adbb=156.;
           bb_params_.EK=0.050;
@@ -824,7 +876,105 @@ namespace bxdecay0 {
           if (ilevel_ == 2) bb_params_.levelE=261;
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
-          if (ilevel_ == 2)  bb_params_.EK=0.008;
+          if (ilevel_ == 2) bb_params_.EK=0.008;
+        } else if (name_starts_with(chnuclide_,"Er162")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=1.847; 
+          bb_params_.Zdbb=-66.;
+          bb_params_.Adbb=162.;
+          bb_params_.EK=0.054;
+          if (ilevel_ < 0 || ilevel_ > 7) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          // KL capture - approximation (in fact, X rays energies should be 54 and 9 keV, but not 31.5 keV both)
+          if(ilevel_ == 7) bb_params_.EK=0.0315; 
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=81;
+          if (ilevel_ == 2) bb_params_.levelE=888;
+          if (ilevel_ == 3) bb_params_.levelE=1400;
+          if (ilevel_ == 4) bb_params_.levelE=1453;
+          if (ilevel_ == 5) bb_params_.levelE=1666;
+          if (ilevel_ == 6) bb_params_.levelE=1728;
+          if (ilevel_ == 7) bb_params_.levelE=1783;
+          if (ilevel_ == 0 || ilevel_ == 3 || ilevel_ == 5) {
+            bb_params_.itrans02=0;
+          } 
+          if (ilevel_ == 1 || ilevel_ == 2 || ilevel_ == 4 || ilevel_ == 6 || ilevel_ == 7) {
+            bb_params_.itrans02=2;
+          }
+        } else if (name_starts_with(chnuclide_,"Er164")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=0.025; 
+          bb_params_.Zdbb=-66.;
+          bb_params_.Adbb=164.;
+          bb_params_.EK=0.009;
+          if (ilevel_ != 0) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          bb_params_.levelE=0;
+          bb_params_.itrans02=0;
+        } else if (name_starts_with(chnuclide_,"Er170")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=0.655; 
+          bb_params_.Zdbb=70.;
+          bb_params_.Adbb=174.;
+          bb_params_.EK=0.061;
+          if (ilevel_ < 0 || ilevel_ > 1) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=84;
+          if (ilevel_ == 0) bb_params_.itrans02=0;
+          if (ilevel_ == 1) bb_params_.itrans02=2;
+        } else if (name_starts_with(chnuclide_,"Yb168")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=1.409; 
+          bb_params_.Zdbb=-68.;
+          bb_params_.Adbb=168.;
+          bb_params_.EK=0.057;
+          if (ilevel_ < 0 || ilevel_ > 4) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=80;
+          if (ilevel_ == 2) bb_params_.levelE=821;
+          if (ilevel_ == 3) bb_params_.levelE=1217;
+          if (ilevel_ == 4) bb_params_.levelE=1276;
+          if (ilevel_ == 0 || ilevel_ == 3) bb_params_.itrans02=0;
+          if (ilevel_ == 1 || ilevel_ == 2 || ilevel_ == 4) bb_params_.itrans02=2;
+        } else if (name_starts_with(chnuclide_,"Yb176")) {
+          // New in 2018-12-05:
+          bb_params_.Qbb=1.085; 
+          bb_params_.Zdbb=72.;
+          bb_params_.Adbb=176.;
+          bb_params_.EK=0.065;
+          if (ilevel_ < 0 || ilevel_ > 1) {
+            std::cerr << "[error] " << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_=1;
+            if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            return;
+          }
+          if (ilevel_ == 0) bb_params_.levelE=0;
+          if (ilevel_ == 1) bb_params_.levelE=88;
+          if (ilevel_ == 0) bb_params_.itrans02=0;
+          if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"W180")) {
           bb_params_.Qbb=0.143;
           bb_params_.Zdbb=-72.;
@@ -840,7 +990,7 @@ namespace bxdecay0 {
           bb_params_.levelE=0;
           bb_params_.itrans02=0;
         } else if (name_starts_with(chnuclide_,"W186")) {
-          bb_params_.Qbb=0.492;
+          bb_params_.Qbb=0.491; // was 0.492
           bb_params_.Zdbb=76.;
           bb_params_.Adbb=186.;
           bb_params_.EK=0.;
@@ -856,7 +1006,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Os184")) {
-          bb_params_.Qbb=1.451;
+          bb_params_.Qbb=1.453; // was 1.451
           bb_params_.Zdbb=-74.;
           bb_params_.Adbb=184.;
           bb_params_.EK=0.070;
@@ -877,13 +1027,13 @@ namespace bxdecay0 {
           if (ilevel_ == 7) bb_params_.levelE=1431;
           if (ilevel_ == 0 || ilevel_ == 3 || ilevel_ == 5) bb_params_.itrans02=0;
           if (ilevel_ == 1 || ilevel_ == 2 || ilevel_ == 4 ||
-              ilevel_ == 7 || ilevel_ == 7) bb_params_.itrans02=2;
+              ilevel_ == 6 || ilevel_ == 7) bb_params_.itrans02=2;
           // for decay to 1386 keV level, electron captures from LL or higher atomic shells are possible
           if( ilevel_ == 6) bb_params_.EK=0.012;
           // for decay to 1431 keV level, electron captures from LM, MM or higher atomic shells are possible
           if (ilevel_ == 7) bb_params_.EK=0.;
         } else if (name_starts_with(chnuclide_,"Os192")) {
-          bb_params_.Qbb=0.408;
+          bb_params_.Qbb=0.406; // was 0.408
           bb_params_.Zdbb=78.;
           bb_params_.Adbb=192.;
           bb_params_.EK=0.;
@@ -899,7 +1049,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Pt190")) {
-          bb_params_.Qbb=1.384;
+          bb_params_.Qbb=1.401; // was 1.384
           bb_params_.Zdbb=-76.;
           bb_params_.Adbb=190.;
           bb_params_.EK=0.074;
@@ -921,7 +1071,7 @@ namespace bxdecay0 {
           // for decay to 1382 keV level, electron captures from N or higher atomic shells are possible
           if (ilevel_ == 5)  bb_params_.EK=0.;
         } else if (name_starts_with(chnuclide_,"Pt198")) {
-          bb_params_.Qbb=1.049;
+          bb_params_.Qbb=1.050; // was 1.049
           bb_params_.Zdbb=80.;
           bb_params_.Adbb=198.;
           bb_params_.EK=0.;
@@ -937,7 +1087,7 @@ namespace bxdecay0 {
           if (ilevel_ == 0) bb_params_.itrans02=0;
           if (ilevel_ == 1) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Bi214")) {
-          bb_params_.Qbb=2.180;
+          bb_params_.Qbb=2.179; // was 2.180
           bb_params_.Zdbb=85.;
           bb_params_.Adbb=214.;
           bb_params_.EK=0.;
@@ -951,7 +1101,7 @@ namespace bxdecay0 {
           bb_params_.levelE=0;
           bb_params_.itrans02=0;
         } else if (name_starts_with(chnuclide_,"Pb214")) {
-          bb_params_.Qbb=4.289;
+          bb_params_.Qbb=4.287; // was 4.289
           bb_params_.Zdbb=84.;
           bb_params_.Adbb=214.;
           bb_params_.EK=0.;
@@ -965,7 +1115,7 @@ namespace bxdecay0 {
           bb_params_.levelE=0;
           bb_params_.itrans02=0;
         } else if (name_starts_with(chnuclide_,"Po218")) {
-          bb_params_.Qbb=3.141;
+          bb_params_.Qbb=3.140; // was 3.141
           bb_params_.Zdbb=86.;
           bb_params_.Adbb=218.;
           bb_params_.EK=0.;
@@ -1004,14 +1154,16 @@ namespace bxdecay0 {
         if (bb_params_.itrans02 == 2) bb_params_.chdspin="2+";
         if (bb_params_.itrans02 == 0
             && name_starts_with(chnuclide_,"Bi214")) bb_params_.chdspin="1-";
-        if (bb_params_.modebb < MODEBB_MIN || bb_params_.modebb > MODEBB_MAX) {
+        if (bb_params_.modebb < LEGACY_MODEBB_MIN || bb_params_.modebb > LEGACY_MODEBB_MAX) {
           std::cerr << "[error] " << "bxdecay0::genbbsub: "
                     << "Unknown double beta mode (" << bb_params_.modebb << ") ! \n";
           ier_=1;
           if (trace) std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
           return;
         }
-        std::string modebb_desc = decay0_dbd_mode_description(static_cast<modebb_type>(bb_params_.modebb));
+        dbd_mode_type dbd_mode
+          = dbd_mode_from_legacy_modebb(static_cast<legacy_modebb_type>(bb_params_.modebb));
+        std::string modebb_desc = dbd_mode_description(dbd_mode);
         // (1) Checking the consistency of data: energy
         {
           if (trace) std::cerr << "[debug] bxdecay0::genbbsub: (1) Checking the consistency of data: energy..." << std::endl;
@@ -1020,8 +1172,8 @@ namespace bxdecay0 {
           e0 = std::numeric_limits<double>::quiet_NaN();
           if (bb_params_.Zdbb >= 0.) e0=bb_params_.Qbb;
           if (bb_params_.Zdbb < 0.) e0=bb_params_.Qbb-4.*emass;
-          if (bb_params_.modebb == MODEBB_9 || bb_params_.modebb == MODEBB_10) e0=bb_params_.Qbb- bb_params_.EK-2.*emass;
-          if (bb_params_.modebb == MODEBB_11 || bb_params_.modebb == MODEBB_12) e0=bb_params_.Qbb-2.* bb_params_.EK;
+          if (bb_params_.modebb == LEGACY_MODEBB_9 || bb_params_.modebb == LEGACY_MODEBB_10) e0=bb_params_.Qbb- bb_params_.EK-2.*emass;
+          if (bb_params_.modebb == LEGACY_MODEBB_11 || bb_params_.modebb == LEGACY_MODEBB_12) e0=bb_params_.Qbb-2.* bb_params_.EK;
           if (e0 != e0) {
             std::cerr << "[error] "
                       << "bxdecay0::genbbsub: "
@@ -1246,10 +1398,17 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Ce142")) Nd142low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Nd148")) Sm148low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Nd150")) Sm150low(prng_, event_, bb_params_.levelE);
+      if (name_starts_with(chnuclide_,"Sm144")) Nd144low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"Sm154")) Gd154low(prng_, event_, bb_params_.levelE); // New 2018-12-05
       if (name_starts_with(chnuclide_,"Dy156")) Gd156low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Dy158")) Gd158low(prng_, event_, bb_params_.levelE);
-      if (name_starts_with(chnuclide_,"W180")) Hf180low(prng_, event_, bb_params_.levelE);
-      if (name_starts_with(chnuclide_,"W186")) Os186low(prng_, event_, bb_params_.levelE);
+      if (name_starts_with(chnuclide_,"Er162")) Dy162low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"Er164")) Dy164low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"Er170")) Yb170low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"Yb168")) Er168low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"Yb176")) Hf176low(prng_, event_, bb_params_.levelE); // New 2018-12-05
+      if (name_starts_with(chnuclide_,"W180"))  Hf180low(prng_, event_, bb_params_.levelE);
+      if (name_starts_with(chnuclide_,"W186"))  Os186low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Pt190")) Os190low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Pt198")) Hg198low(prng_, event_, bb_params_.levelE);
       if (name_starts_with(chnuclide_,"Bi214")) {
@@ -1358,6 +1517,8 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Sb126")) Sb126(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Sb133")) Sb133(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Sr90")) Sr90(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Ta180m-B-")) Ta180mB(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Ta180m-EC")) Ta180mEC(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Ta182")) Ta182(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Te133")) Te133(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Te133m")) Te133m(prng_, event_, 0., tdnuc);

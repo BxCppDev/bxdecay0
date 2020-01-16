@@ -47,12 +47,15 @@ namespace bxdecay0 {
       double e2 = d_el_[1];
       df2_[i] = 0.0;
       if (e1 > 0. && e2 > 0. && e1 + e2 < e0) {
-        if (mode == MODEBB_4)  df2_[i] = decay0_fe12_mod4(e2, params_);
-        if (mode == MODEBB_5)  df2_[i] = decay0_fe12_mod5(e2, params_);
-        if (mode == MODEBB_6)  df2_[i] = decay0_fe12_mod6(e2, params_);
-        if (mode == MODEBB_8)  df2_[i] = decay0_fe12_mod8(e2, params_);
-        if (mode == MODEBB_13) df2_[i] = decay0_fe12_mod13(e2, params_);
-        if (mode == MODEBB_14) df2_[i] = decay0_fe12_mod14(e2, params_);
+        if (mode == LEGACY_MODEBB_4)  df2_[i] = decay0_fe12_mod4(e2, params_);
+        if (mode == LEGACY_MODEBB_5)  df2_[i] = decay0_fe12_mod5(e2, params_);
+        if (mode == LEGACY_MODEBB_6)  df2_[i] = decay0_fe12_mod6(e2, params_);
+        if (mode == LEGACY_MODEBB_13) df2_[i] = decay0_fe12_mod13(e2, params_);
+        if (mode == LEGACY_MODEBB_14) df2_[i] = decay0_fe12_mod14(e2, params_);
+        if (mode == LEGACY_MODEBB_8)  df2_[i] = decay0_fe12_mod8(e2, params_);
+        if (mode == LEGACY_MODEBB_15) df2_[i] = decay0_fe12_mod15(e2, params_);
+        if (mode == LEGACY_MODEBB_16) df2_[i] = decay0_fe12_mod16(e2, params_);
+        if (mode == LEGACY_MODEBB_19) df2_[i] = decay0_fe12_mod19(e2, params_);
       }
       if (d_el_[0] + d_el_[1] < dens || d_el_[0] + d_el_[1] > denf) {
         df2_[i] = 0.0;

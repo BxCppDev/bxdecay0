@@ -48,7 +48,7 @@ int main()
       int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
       std::string chnuclide = "Mo100";
       int ilevel = 0;
-      int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+      int modebb = bxdecay0::LEGACY_MODEBB_1;
       int istart = bxdecay0::GENBBSUB_ISTART_INIT;
       int ier = 0;
       bxdecay0::bbpars bb_params;

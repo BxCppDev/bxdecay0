@@ -48,7 +48,7 @@ int main()
     double decay_time = std::numeric_limits<double>::quiet_NaN();
     bxdecay0::bbpars pars;
     // DBD basic parameters:
-    pars.modebb = bxdecay0::MODEBB_4;
+    pars.modebb = bxdecay0::DBDMODE_4;
     pars.Qbb     = 3.034; // MeV
     pars.Edlevel = 0.324; // MeV
     pars.EK      = 0.0;
@@ -66,9 +66,7 @@ int main()
     for (int i = 0; i < 10; i++) {
       bxdecay0::event decay;
       decay.set_time(0.0);
-      bxdecay0::decay0_bb(prng,
-                          decay,
-                          &pars);
+      bxdecay0::decay0_bb(prng, decay, &pars);
       decay.print(std::clog, "DBD event:", "[info] ");
       decay.reset();
     }

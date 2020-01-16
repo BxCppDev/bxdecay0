@@ -69,7 +69,7 @@ int main()
     int ilevel = 0;
 
     // DBD mode (neutrinoless):
-    int modebb = bxdecay0::MODEBB_0NUBB_0_2N;
+    int modebb = bxdecay0::LEGACY_MODEBB_1; // 0vbb
 
     // Activity of the decaying source in becquerel:
     double activity = 2.0;

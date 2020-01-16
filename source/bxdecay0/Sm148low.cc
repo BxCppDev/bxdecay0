@@ -1,5 +1,5 @@
 // Copyright 1995-2016 V.I. Tretyak
-// Copyright 2011-2017 F. Mauger
+// Copyright 2011-2020 F. Mauger
 //
 // This program is free software: you  can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,8 @@
 
 namespace bxdecay0 {
 
+  // History:
+  // - Updated from decay0_2018-12-05
   void Sm148low(i_random & prng_,
                 event & event_,
                 const int levelkev_)
@@ -60,28 +62,50 @@ namespace bxdecay0 {
     // initially
     // 0+(gs) - 0 keV,
     // 2+(1) - 550 keV,
-    // 2+(2) - 1455 keV.
+    // 2+(2) - 1454 keV.
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 30.11.1995.
     tclev=0.;
-    if (levelkev_ == 1455) goto label_1455;
+    if (levelkev_ == 1921) goto label_1921;
+    if (levelkev_ == 1664) goto label_1664;
+    if (levelkev_ == 1454) goto label_1454;
+    if (levelkev_ == 1424) goto label_1424;
     if (levelkev_ ==  550) goto label_550;
     if (levelkev_ ==  0) goto label_10000;
     goto label_20000;
-  label_1455  :
-    thlev=0.6e-12;
+  label_1921  :
+    thlev=0.;
+    decay0_nucltransK(prng_, event_, 1.371,0.047,1.3e-3,3.6e-5,tclev,thlev,tdlev);
+    goto label_550;
+  label_1664  :
+    thlev=0.25e-12;
     p=100.*prng_();
-    if (p <= 42.) goto label_14551;
-    goto label_14552;
-  label_14551  :
-    decay0_nucltransK(prng_, event_, 1.455,0.047,1.1e-3,0.3e-4,tclev,thlev,tdlev);
+    if (p <= 34.04) goto label_16641;
+    goto label_16642;
+  label_16641  :
+    decay0_nucltransK(prng_, event_, 1.664,0.047,1.0e-3,1.4e-4,tclev,thlev,tdlev);
     return;
-  label_14552  :
-    decay0_nucltransK(prng_, event_, 0.904,0.047,2.8e-3,0.,tclev,thlev,tdlev);
+  label_16642  :
+    decay0_nucltransK(prng_, event_, 1.114,0.047,2.8e-3,5.7e-7,tclev,thlev,tdlev);
+    goto label_550;
+  label_1454  :
+    thlev=0.285e-12;
+    p=100.*prng_();
+    if (p <= 49.9) goto label_14541;
+    goto label_14542;
+  label_14541  :
+    decay0_nucltransK(prng_, event_, 1.454,0.047,1.2e-3,0.6e-4,tclev,thlev,tdlev);
+    return;
+  label_14542  :
+    decay0_nucltransK(prng_, event_, 0.904,0.047,3.4e-3,0.,tclev,thlev,tdlev);
+    goto label_550;
+  label_1424  :
+    thlev=0.;
+    decay0_nucltransK(prng_, event_, 0.874,0.047,3.3e-3,0.,tclev,thlev,tdlev);
     goto label_550;
   label_550  :
-    thlev=7.3e-12;
-    decay0_nucltransK(prng_, event_, 0.550,0.047,9.0e-3,0.,tclev,thlev,tdlev);
+    thlev=7.72e-12;
+    decay0_nucltransK(prng_, event_, 0.550,0.047,1.0e-2,0.,tclev,thlev,tdlev);
     return;
   label_10000  :
     return;
@@ -90,9 +114,6 @@ namespace bxdecay0 {
     return;
   }
   // end of Sm148low.f
-
-
-
 
 } // end of namespace bxdecay0
 

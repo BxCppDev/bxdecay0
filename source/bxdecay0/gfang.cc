@@ -49,22 +49,19 @@ namespace bxdecay0 {
         sinth_=dsith;
         cosph_=dux/dsith;
         sinph_=duy/dsith;
-      }
-      else if (duz > 0.) {
+      } else if (duz > 0.) {
         rotate_=false;
         costh_=1.;
         sinth_=0.;
         cosph_=1.;
         sinph_=0.;
-      }
-      else {
+      } else {
         costh_=-1.;
         sinth_=0.;
         cosph_=1.;
         sinph_=0.;
       }
-    }
-    else {
+    } else {
       costh_=duz;
       double dsith=std::sqrt((one+duz)*(one-duz));
       sinth_=dsith;

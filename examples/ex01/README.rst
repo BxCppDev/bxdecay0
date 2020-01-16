@@ -12,18 +12,18 @@ Introduction
 ============
 
 This    example   ``ex01.cxx``    illustrates   the    use   of    the
-``bxdecay0::decay0_generator`` class  to generate random double  beta decay
-events for various isotopes and decay modes.
+``bxdecay0::decay0_generator``  class to  generate random  double beta
+decay events for various isotopes and decay modes.
 
 The program stores the generated events  in an output ASCII file using
-a very simple format.  The parsing of this file is  let as an exercise
+a very simple format.  The parsing of  this file is let as an exercise
 to the user.
 
 Build
 =====
 
-#. BxDecay0 should be setup on your system, i.e. the ``bxdecay0-query`` utility script
-   should be in your path.
+#. BxDecay0   should    be   setup   on   your    system,   i.e.   the
+   ``bxdecay0-query`` utility script should be in your path.
 #. Cd in the BxDecay0's ``ex01`` source directory:
 #. Configure and build ``ex01`` from a dedicated build directory:
 
@@ -40,7 +40,6 @@ Build
       $ cd ..
       $ rm -fr _build.d/  # Remove the temporary build directory
 
-
 Run
 ===
 
@@ -52,8 +51,6 @@ Run
 
 
 #. Enjoy the ``bxdecay_ex01.data`` output file!
-
-
 
 ..
    The end.

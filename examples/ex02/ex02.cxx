@@ -61,7 +61,7 @@ int main()
     std::size_t nevents = 10;
 
     // Output file name:
-    std::string foutname("bxdecay_ex02-hepmc3-ascii.data");
+    std::string fout_name("bxdecay_ex02-hepmc3-ascii.data");
 
     // Parameters of the decay:
 
@@ -72,7 +72,7 @@ int main()
     int level = 0;
 
     // DBD mode (two neutrino):
-    bxdecay0::modebb_type modebb = bxdecay0::MODEBB_4;
+    bxdecay0::dbd_mode_type dbd_mode = bxdecay0::DBDMODE_2NUBB_0_2N; // 2vbb
 
     // Activity of the decaying source (becquerel):
     double activity = 2.0;
@@ -89,7 +89,7 @@ int main()
     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
     decay0.set_decay_isotope(nuclide);
     decay0.set_decay_dbd_level(level); // ground state
-    decay0.set_decay_dbd_mode(modebb);
+    decay0.set_decay_dbd_mode(dbd_mode);
     decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
 
     // Initialization;
@@ -123,7 +123,7 @@ int main()
                               std::make_shared<HepMC::StringAttribute>(decay0.get_decay_isotope()));
     runInfoPtr->add_attribute("daughter_level",
                               std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_level()));
-    runInfoPtr->add_attribute("mode_bb",
+    runInfoPtr->add_attribute("dbd_mode",
                               std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_mode()));
     if (decay0.has_decay_dbd_esum_range()) {
       runInfoPtr->add_attribute("min_energy",
@@ -141,7 +141,7 @@ int main()
     runInfoPtr->tools().push_back(decay0_info);
 
     // HepMC output:
-    HepMC::WriterAscii writer("gendecay0-hepmc3-ascii.data", runInfoPtr);
+    HepMC::WriterAscii writer(fout_name.c_str(), runInfoPtr);
 
     /**************************/
     /* Decay Event generation */
@@ -168,8 +168,8 @@ int main()
 
       // Build a Hep MC event:
       static const double C_LIGHT_MM_PER_SEC = 3e11;
-      std::shared_ptr<HepMC::GenEvent> genEvtPtr =
-        std::make_shared<HepMC::GenEvent>(runInfoPtr,
+      std::shared_ptr<HepMC::GenEvent> genEvtPtr 
+        = std::make_shared<HepMC::GenEvent>(runInfoPtr,
                                           HepMC::Units::MEV,
                                           HepMC::Units::MM);
       genEvtPtr->set_event_number(ievent);

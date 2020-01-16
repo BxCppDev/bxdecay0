@@ -51,7 +51,7 @@ int main()
     std::size_t nevents = 10;
 
     // Output file name:
-    std::string foutname("bxdecay_ex03.data");
+    std::string fout_name("bxdecay_ex03.data");
 
     // Parameters of the decay:
 
@@ -84,7 +84,7 @@ int main()
     /***************************************/
 
     // Output file for generated decay events:
-    std::ofstream fout(foutname.c_str());
+    std::ofstream fout(fout_name.c_str());
 
     // Store format options:
     uint32_t store_flags =

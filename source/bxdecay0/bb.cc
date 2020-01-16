@@ -38,6 +38,7 @@
 #include <bxdecay0/dshelp1.h>
 #include <bxdecay0/dgmlt1.h>
 #include <bxdecay0/fermi.h>
+#include <bxdecay0/tgold.h>
 
 namespace bxdecay0 {
 
@@ -206,7 +207,7 @@ namespace bxdecay0 {
 
   void bbpars::_set_defaults()
   {
-    modebb  = MODEBB_UNDEF;
+    modebb  = LEGACY_MODEBB_UNDEF;
     Qbb     = std::numeric_limits<double>::quiet_NaN();
     Edlevel = std::numeric_limits<double>::quiet_NaN();
     EK      = std::numeric_limits<double>::quiet_NaN();
@@ -276,7 +277,7 @@ namespace bxdecay0 {
     const double & chip_R  = pars->chip_R;
 
     // From bbpars:
-    const int    & modebb = pars->modebb;
+    const int      modebb = pars->modebb;
     const double & Qbb = pars->Qbb;
     const double & Edlevel = pars->Edlevel;
     const double & EK = pars->EK;
@@ -308,20 +309,20 @@ namespace bxdecay0 {
     if (Zdbb < 0.) {
       e0 = Qbb - Edlevel - 4. * emass;
     }
-    if (modebb == MODEBB_9 || modebb == MODEBB_10) {
+    if (modebb == LEGACY_MODEBB_9 || modebb == LEGACY_MODEBB_10) {
       e0 = Qbb - Edlevel - EK - 2. * emass;
     }
-    if (modebb == MODEBB_11 || modebb == MODEBB_12) {
+    if (modebb == LEGACY_MODEBB_11 || modebb == LEGACY_MODEBB_12) {
       e0 = Qbb - Edlevel - 2. * EK;
     }
-    if (modebb == MODEBB_9) {
+    if (modebb == LEGACY_MODEBB_9) {
       // fixed energies of e+ and X-ray; no angular correlation
       decay0_particle(prng_,event_,POSITRON,e0,e0,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
       if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
-    if (modebb == MODEBB_11) {
+    if (modebb == LEGACY_MODEBB_11) {
       // one gamma and two X-rays with fixed energies; no angular correlation
       decay0_particle(prng_,event_,GAMMA,e0,e0,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
@@ -329,7 +330,7 @@ namespace bxdecay0 {
       if (trace) std::cerr << "[trace] bxdecay0::bb: Exiting." << std::endl;
       return;
     }
-    if (modebb == MODEBB_12) {
+    if (modebb == LEGACY_MODEBB_12) {
       // fixed energies of two X-rays; no angular correlation
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
       decay0_particle(prng_,event_,GAMMA,EK,EK,0.,pi,0.,twopi,0.,0.,t);
@@ -366,13 +367,13 @@ namespace bxdecay0 {
         if (trace) std::cerr << "[trace] bxdecay0::bb: => e1 = " << e1 << std::endl;
         double e1h = e1;
         spthe1[i-1] = 0.;
-        if (modebb == MODEBB_1) {
+        if (modebb == LEGACY_MODEBB_1) {
           spthe1[i-1] = decay0_fe1_mod1(e1h,params_);
         }
-        if (modebb == MODEBB_2) {
+        if (modebb == LEGACY_MODEBB_2) {
           spthe1[i-1] = decay0_fe1_mod2(e1h,params_);
         }
-        if (modebb == MODEBB_3) {
+        if (modebb == LEGACY_MODEBB_3) {
           spthe1[i-1] = decay0_fe1_mod3(e1h,params_);
         }
         double elow  = std::max(1.e-4, ebb1 - e1 + 1.e-4);
@@ -381,52 +382,44 @@ namespace bxdecay0 {
         if (trace) std::cerr << "[trace] bxdecay0::bb: ehigh = " << ehigh << std::endl;
         if (trace) std::cerr << "[trace] bxdecay0::bb: relerr = " << relerr << std::endl;
         // print *,'e1,elow,ehigh=',e1,elow,ehigh
-        if (modebb == MODEBB_4 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_4 && e1 < e0) {
           if (trace) std::cerr << "[trace] bxdecay0::bb: Calling decay0_gauss( decay0_fe12_mod4,...)... " << std::endl;
            spthe1[i-1] = decay0_gauss(decay0_fe12_mod4,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_5 && e1 < e0) {
-          // if (TRACE) {
-          //   DT_LOG_TRACE(datatools::logger::PRIO_TRACE,
-          //                "MODEBB_5: decay0_gauss: e1=" << e1 << " e0=" << e0);
-          // }
+        if (modebb == LEGACY_MODEBB_5 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod5,elow,ehigh,relerr,params_);
-          // if (TRACE) {
-          //   DT_LOG_TRACE(datatools::logger::PRIO_TRACE,
-          //                "MODEBB_5: decay0_gauss done.");
-          // }
         }
-        if (modebb == MODEBB_6 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_6 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod6,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_7) {
+        if (modebb == LEGACY_MODEBB_7) {
           spthe1[i-1] = decay0_fe1_mod7(e1h,params_);
         }
-        if (modebb == MODEBB_8 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_8 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod8,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_10) {
+        if (modebb == LEGACY_MODEBB_10) {
           spthe1[i-1] = decay0_fe1_mod10(e1h,params_);
         }
-        if (modebb == MODEBB_13 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_13 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod13,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_14 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_14 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod14,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_15 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_15 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod15,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_16 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_16 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod16,elow,ehigh,relerr,params_);
         }
-        if (modebb == MODEBB_17) {
+        if (modebb == LEGACY_MODEBB_17) {
           spthe1[i-1] = decay0_fe1_mod17(e1h,params_);
         }
-        if (modebb == MODEBB_18) {
+        if (modebb == LEGACY_MODEBB_18) {
           spthe1[i-1] = decay0_fe1_mod18(e1h,params_);
         }
-        if (modebb == MODEBB_19 && e1 < e0) {
+        if (modebb == LEGACY_MODEBB_19 && e1 < e0) {
           spthe1[i-1] = decay0_gauss(decay0_fe12_mod19,elow,ehigh,relerr,params_);
         }
         if (trace) std::cerr << "[trace] bxdecay0::bb: spthe1[" << (i-1) << "] = " << spthe1[i-1] << std::endl;
@@ -450,9 +443,9 @@ namespace bxdecay0 {
       //   }
       // }
       toallevents = 1.;
-      if (modebb == MODEBB_4 || modebb == MODEBB_5 || modebb == MODEBB_6
-          || modebb == MODEBB_8 || modebb == MODEBB_13 || modebb == MODEBB_14
-          || modebb == MODEBB_15 || modebb == MODEBB_16 || modebb == MODEBB_19
+      if (modebb == LEGACY_MODEBB_4 || modebb == LEGACY_MODEBB_5 || modebb == LEGACY_MODEBB_6
+          || modebb == LEGACY_MODEBB_8 || modebb == LEGACY_MODEBB_13 || modebb == LEGACY_MODEBB_14
+          || modebb == LEGACY_MODEBB_15 || modebb == LEGACY_MODEBB_16 || modebb == LEGACY_MODEBB_19
           ) {
         mode = modebb;
         dens = 0.;
@@ -463,11 +456,11 @@ namespace bxdecay0 {
         denf = ebb2;
         double r2 = decay0_dgmlt1(decay0_dshelp1,0.,denf,8,8,d_el,params_);
         toallevents = r1 / r2;
-      } else if (modebb == MODEBB_10) {
+      } else if (modebb == LEGACY_MODEBB_10) {
         toallevents = decay0_gauss(decay0_fe1_mod10,1.e-4,e0+1.e-4,relerr,params_)
           /decay0_gauss(decay0_fe1_mod10,ebb1+1.e-4,ebb2+1.e-4,relerr,params_);
       }
-      if (modebb == MODEBB_20) {
+      if (modebb == LEGACY_MODEBB_20) {
         double emax=e0/4.;
         double tmax=emax/emass;
         double pmax=std::sqrt(tmax*(tmax+2.));
@@ -480,7 +473,7 @@ namespace bxdecay0 {
     }
     // Starting the generation:
   label_1 :
-    if (modebb == MODEBB_20) {
+    if (modebb == LEGACY_MODEBB_20) {
       double t0=e0/emass;
   label_4 :
       double t1=prng_()*t0;
@@ -517,10 +510,10 @@ namespace bxdecay0 {
     }
     // Rejection method :
     int k;
-    if (modebb != MODEBB_10) {
+    if (modebb != LEGACY_MODEBB_10) {
       e1 = ebb2 * prng_();
     }
-    if (modebb == MODEBB_10) {
+    if (modebb == LEGACY_MODEBB_10) {
       e1 = ebb1 + (ebb2 - ebb1) * prng_();
     }
     k = (int) (e1 * 1000.);
@@ -532,15 +525,15 @@ namespace bxdecay0 {
     // second e-/e+ or X-ray
     double e2;
     e2 = std::numeric_limits<double>::quiet_NaN();
-    if (modebb == MODEBB_1 || modebb == MODEBB_2 || modebb == MODEBB_3 ||
-        modebb == MODEBB_7 || modebb == MODEBB_17 || modebb == MODEBB_18) {
+    if (modebb == LEGACY_MODEBB_1 || modebb == LEGACY_MODEBB_2 || modebb == LEGACY_MODEBB_3 ||
+        modebb == LEGACY_MODEBB_7 || modebb == LEGACY_MODEBB_17 || modebb == LEGACY_MODEBB_18) {
       // modes with no emission of other particles beside of two e-/e+:
       // energy of second e-/e+ is calculated
       e2 = e0 - e1;
     }
-    else if (modebb == MODEBB_4 || modebb == MODEBB_5 || modebb == MODEBB_6 ||
-             modebb == MODEBB_8 || modebb == MODEBB_13 || modebb == MODEBB_14 ||
-             modebb == MODEBB_15 || modebb == MODEBB_16 || modebb == MODEBB_19) {
+    else if (modebb == LEGACY_MODEBB_4 || modebb == LEGACY_MODEBB_5 || modebb == LEGACY_MODEBB_6 ||
+             modebb == LEGACY_MODEBB_8 || modebb == LEGACY_MODEBB_13 || modebb == LEGACY_MODEBB_14 ||
+             modebb == LEGACY_MODEBB_15 || modebb == LEGACY_MODEBB_16 || modebb == LEGACY_MODEBB_19) {
       // something else is emitted - energy of second e-/e+ is random
       double re2s = std::max(0., ebb1 - e1);
       double re2f = ebb2 - e1;
@@ -549,15 +542,23 @@ namespace bxdecay0 {
       int ke2f = (int) (re2f * 1000.);
       for (int ke2 = ke2s; ke2 <= ke2f; ke2++) {
         e2 = ke2 / 1000.;
-        if (modebb == MODEBB_4)  spthe2[ke2-1] = decay0_fe2_mod4(e2,params_);
-        if (modebb == MODEBB_5)  spthe2[ke2-1] = decay0_fe2_mod5(e2,params_);
-        if (modebb == MODEBB_6)  spthe2[ke2-1] = decay0_fe2_mod6(e2,params_);
-        if (modebb == MODEBB_8)  spthe2[ke2-1] = decay0_fe2_mod8(e2,params_);
-        if (modebb == MODEBB_13) spthe2[ke2-1] = decay0_fe2_mod13(e2,params_);
-        if (modebb == MODEBB_14) spthe2[ke2-1] = decay0_fe2_mod14(e2,params_);
-        if (modebb == MODEBB_15) spthe2[ke2-1] = decay0_fe2_mod15(e2,params_);
-        if (modebb == MODEBB_16) spthe2[ke2-1] = decay0_fe2_mod16(e2,params_);
+        // if (modebb == LEGACY_MODEBB_4)  spthe2[ke2-1] = decay0_fe2_mod4(e2,params_);
+        if (modebb == LEGACY_MODEBB_5)  spthe2[ke2-1] = decay0_fe2_mod5(e2,params_);
+        if (modebb == LEGACY_MODEBB_6)  spthe2[ke2-1] = decay0_fe2_mod6(e2,params_);
+        if (modebb == LEGACY_MODEBB_8)  spthe2[ke2-1] = decay0_fe2_mod8(e2,params_);
+        if (modebb == LEGACY_MODEBB_13) spthe2[ke2-1] = decay0_fe2_mod13(e2,params_);
+        if (modebb == LEGACY_MODEBB_14) spthe2[ke2-1] = decay0_fe2_mod14(e2,params_);
+        if (modebb == LEGACY_MODEBB_15) spthe2[ke2-1] = decay0_fe2_mod15(e2,params_);
+        if (modebb == LEGACY_MODEBB_16) spthe2[ke2-1] = decay0_fe2_mod16(e2,params_);
+        // if (modebb == LEGACY_MODEBB_19) spthe2[ke2-1] = decay0_fe2_mod19(e2,params_);
         if (spthe2[ke2-1] > f2max) f2max = spthe2[ke2-1];
+      }
+      double e2max;
+      if(modebb == LEGACY_MODEBB_4) {
+        decay0_tgold(re2s, 0.5* (re2s+re2f), re2f, decay0_fe2_mod4, 1.e-3, 2, e2max, f2max, params_);
+      }
+      if(modebb == LEGACY_MODEBB_19) {
+        decay0_tgold(re2s, 0.5* (re2s+re2f), re2f, decay0_fe2_mod19, 1.e-3, 2, e2max, f2max, params_);
       }
       // Rejection method :
       double fe2;
@@ -565,17 +566,17 @@ namespace bxdecay0 {
       e2 = std::numeric_limits<double>::quiet_NaN();
       do {
         e2 = re2s + (re2f - re2s) * prng_();
-        if (modebb == MODEBB_4)  fe2 = decay0_fe2_mod4(e2,params_);
-        if (modebb == MODEBB_5)  fe2 = decay0_fe2_mod5(e2,params_);
-        if (modebb == MODEBB_6)  fe2 = decay0_fe2_mod6(e2,params_);
-        if (modebb == MODEBB_8)  fe2 = decay0_fe2_mod8(e2,params_);
-        if (modebb == MODEBB_13) fe2 = decay0_fe2_mod13(e2,params_);
-        if (modebb == MODEBB_14) fe2 = decay0_fe2_mod14(e2,params_);
-        if (modebb == MODEBB_15) fe2 = decay0_fe2_mod15(e2,params_);
-        if (modebb == MODEBB_16) fe2 = decay0_fe2_mod16(e2,params_);
-        if (modebb == MODEBB_19) fe2 = decay0_fe2_mod19(e2,params_);
+        if (modebb == LEGACY_MODEBB_4)  fe2 = decay0_fe2_mod4(e2,params_);
+        if (modebb == LEGACY_MODEBB_5)  fe2 = decay0_fe2_mod5(e2,params_);
+        if (modebb == LEGACY_MODEBB_6)  fe2 = decay0_fe2_mod6(e2,params_);
+        if (modebb == LEGACY_MODEBB_8)  fe2 = decay0_fe2_mod8(e2,params_);
+        if (modebb == LEGACY_MODEBB_13) fe2 = decay0_fe2_mod13(e2,params_);
+        if (modebb == LEGACY_MODEBB_14) fe2 = decay0_fe2_mod14(e2,params_);
+        if (modebb == LEGACY_MODEBB_15) fe2 = decay0_fe2_mod15(e2,params_);
+        if (modebb == LEGACY_MODEBB_16) fe2 = decay0_fe2_mod16(e2,params_);
+        if (modebb == LEGACY_MODEBB_19) fe2 = decay0_fe2_mod19(e2,params_);
       } while (f2max * prng_() > fe2);
-    } else if (modebb == MODEBB_10) {
+    } else if (modebb == LEGACY_MODEBB_10) {
       // c energy of X-ray is fixed; no angular correlation
       // c          allevents=allevents+1.
       // c          if (e1 < ebb1 || e1.gt.ebb2) go to 1
@@ -595,17 +596,17 @@ namespace bxdecay0 {
     double a = 1.;
     double b = -b1 * b2;
     double c = 0.;
-    if (modebb == MODEBB_2) {
+    if (modebb == LEGACY_MODEBB_2) {
       b = b1 * b2;
     }
-    if (modebb == MODEBB_3) {
+    if (modebb == LEGACY_MODEBB_3) {
       double w1 = e1 + emass;
       double w2 = e2 + emass;
       a = 3. * (w1*w2+emass2) * (gsl_pow_2(p1) + gsl_pow_2(p2));
       b = -p1 * p2 * (gsl_pow_2(w1+w2) + 4. * (w1 * w2 + gsl_pow_2(emass)));
       c = 2. * gsl_pow_2(p1 * p2);
     }
-    if (modebb == MODEBB_7) {
+    if (modebb == LEGACY_MODEBB_7) {
       double w1 = e1 + emass;
       double w2 = e2 + emass;
       a = 5. * (w1 * w2 + emass2) * (gsl_pow_2(p1) + gsl_pow_2(p2))
@@ -613,20 +614,20 @@ namespace bxdecay0 {
       b = -p1 * p2 * (10. * (w1 * w2 + emass2) + gsl_pow_2(p1) + gsl_pow_2(p2));
       c = 3. * gsl_pow_2(p1 * p2);
     }
-    if (modebb == MODEBB_8) {
+    if (modebb == LEGACY_MODEBB_8) {
       b = b1 * b2 / 3.;
     }
-    if (modebb == MODEBB_15) {
+    if (modebb == LEGACY_MODEBB_15) {
       a = 9.* gsl_pow_2(e0-e1-e2) + 21. * gsl_pow_2(e2-e1);
       b = -b1 * b2 * (9. * gsl_pow_2(e0-e1-e2) - 7. * gsl_pow_2(e2-e1));
     }
-    if (modebb == MODEBB_16) {
+    if (modebb == LEGACY_MODEBB_16) {
       b = b1 * b2 / 3.;
     }
-    if (modebb == MODEBB_17) {
+    if (modebb == LEGACY_MODEBB_17) {
       b = b1 * b2;
     }
-    if (modebb == MODEBB_18) {
+    if (modebb == LEGACY_MODEBB_18) {
       double et0 = e0 / emass + 1.; // total energies in the units of electron mass
       double et1 = e1 / emass + 1.;
       double et2 = e2 / emass + 1.;

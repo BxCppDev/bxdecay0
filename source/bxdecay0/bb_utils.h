@@ -8,74 +8,141 @@
 
 namespace bxdecay0 {
 
-  /// \brief Mode of double beta (- or +) decay:
-  // [SI - spectral index]
-  enum modebb_type {
-    MODEBB_UNDEF            = 0,  ///< Undefined
-    MODEBB_0NUBB_0_2N       = 1,  ///< 0nubb with neutrino mass, 0+ -> 0+,      2n
-    MODEBB_1                = MODEBB_0NUBB_0_2N,
-    MODEBB_0NUBB_RHCL_0_2N  = 2,  ///< 0nubb with rhc-lambda,    0+ -> 0+,      2n
-    MODEBB_2                = MODEBB_0NUBB_RHCL_0_2N,
-    MODEBB_0NUBB_RHCL_02_N  = 3,  ///< 0nubb with rhc-lambda,    0+ -> 0+, 2+,  N*
-    MODEBB_3                = MODEBB_0NUBB_RHCL_02_N,
-    MODEBB_2NUBB_0_2N       = 4,  ///< 2nubb,                    0+ -> 0+,      2n
-    MODEBB_4                = MODEBB_2NUBB_0_2N,
-    MODEBB_0NUBB_MAJ1_0_2N  = 5,  ///< 0nuM1bb (Majoron, SI=1),  0+ -> 0+,      2n
-    MODEBB_5                = MODEBB_0NUBB_MAJ1_0_2N,
-    MODEBB_0NUBB_MAJ3_0_2N  = 6,  ///< 0nuM3bb (Majoron, SI=3),  0+ -> 0+,      2n
-    MODEBB_6                = MODEBB_0NUBB_MAJ3_0_2N,
-    MODEBB_0NUBB_RHCL_2_2N  = 7,  ///< 0nubb with rhc-lambda,    0+ -> 2+,      2n
-    MODEBB_7                = MODEBB_0NUBB_RHCL_2_2N,
-    MODEBB_2NUBB_2_2N       = 8,  ///< 2nubb,                    0+ -> 2+,      2n, N*
-    MODEBB_8                = MODEBB_2NUBB_2_2N,
-    MODEBB_0NUKB_02         = 9,  ///< 0nuKb+                    0+ -> 0+, 2+
-    MODEBB_9                = MODEBB_0NUKB_02,
-    MODEBB_2NUKB_02         = 10, ///< 2nuKb+                    0+ -> 0+, 2+
-    MODEBB_10               = MODEBB_2NUKB_02,
-    MODEBB_0NUKK_02         = 11, ///< 0nu2K                     0+ -> 0+, 2+
-    MODEBB_11               = MODEBB_0NUKK_02,
-    MODEBB_2NUKK_02         = 12, ///< 2nu2K                     0+ -> 0+, 2+
-    MODEBB_12               = MODEBB_2NUKK_02,
-    MODEBB_0NUBB_MAJ7_0_2N  = 13, ///< 0nuM7bb (Majoron, SI=7)   0+ -> 0+, 2n
-    MODEBB_13               = MODEBB_0NUBB_MAJ7_0_2N,
-    MODEBB_0NUBB_MAJ2_0_2N  = 14, ///< 0nuM2bb (Majoron, SI=2)   0+ -> 0+, 2n
-    MODEBB_14               = MODEBB_0NUBB_MAJ2_0_2N,
-    MODEBB_2NUBB_BOSE_0     = 15, ///< 2nubb with bosonic nu's   0+ -> 0+
-    MODEBB_15               = MODEBB_2NUBB_BOSE_0,
-    MODEBB_2NUBB_BOSE_2     = 16, ///< 2nubb with bosonic nu's   0+ -> 2+
-    MODEBB_16               = MODEBB_2NUBB_BOSE_2,
-    MODEBB_0NUBB_RHCE_0     = 17, ///< 0nubb with rhc-eta        0+ -> 0+, simplified expression
-    MODEBB_17               = MODEBB_0NUBB_RHCE_0,
-    MODEBB_0NUBB_RHCE_0_NME = 18, ///< 0nubb with rhc-eta        0+ -> 0+, with specific NMEs
-    MODEBB_18               = MODEBB_0NUBB_RHCE_0_NME,
-    MODEBB_2NUBB_LV_0       = 19, ///< 2nubb with LV             0+ -> 0+, with Lorentz violation
-    MODEBB_19               = MODEBB_2NUBB_LV_0,
-    MODEBB_0NU4B_0          = 20, ///< 0nu4b                     0+ -> 0+, quadruple beta decay
-                                  ///< possible only for Zr96, Xe136, Nd150
-    MODEBB_20               = MODEBB_0NU4B_0,
-    MODEBB_MIN              = MODEBB_1,
-    MODEBB_MAX              = MODEBB_20
+  /// \brief Mode of double beta decay (DBD) used inside BxDecay0 (bb- or bb+)
+  ///
+  /// This type  has been introduced to  ensure backward compatibility
+  /// with  the so-called  'modebb' index  used in  the legacy  Decay0
+  /// program which  has changed from  versions to another  making the
+  /// BxDecay0 interface  unstable.  A  mapping system is  provided to
+  /// guarantee the proper association between the BxDecay0's DBD mode
+  /// and the Decay0 modebb values.
+  enum dbd_mode_type {
+    DBDMODE_UNDEF = 0, ///< Undefined
+    
+    DBDMODE_0NUBB_MN_0_2N = 1,  
+    DBDMODE_1 = DBDMODE_0NUBB_MN_0_2N,
+
+    DBDMODE_0NUBB_RHC_LAMBDA_0_2N = 2, 
+    DBDMODE_2 = DBDMODE_0NUBB_RHC_LAMBDA_0_2N,
+
+    DBDMODE_0NUBB_RHC_LAMBDA_02_N = 3, 
+    DBDMODE_3 = DBDMODE_0NUBB_RHC_LAMBDA_02_N,
+
+    DBDMODE_2NUBB_0_2N = 4, 
+    DBDMODE_4 = DBDMODE_2NUBB_0_2N,
+
+    DBDMODE_0NUBB_M1_0_2N = 5, 
+    DBDMODE_5 = DBDMODE_0NUBB_M1_0_2N,
+
+    DBDMODE_0NUBB_M3_0_2N  = 6, 
+    DBDMODE_6 = DBDMODE_0NUBB_M3_0_2N,
+
+    DBDMODE_0NUBB_RHC_LAMBDA_2_2N = 7,  
+    DBDMODE_7 = DBDMODE_0NUBB_RHC_LAMBDA_2_2N,
+
+    DBDMODE_2NUBB_2_2N = 8, 
+    DBDMODE_8 = DBDMODE_2NUBB_2_2N,
+
+    DBDMODE_0NUKB_02 = 9, 
+    DBDMODE_9 = DBDMODE_0NUKB_02,
+
+    DBDMODE_2NUKB_02 = 10,
+    DBDMODE_10 = DBDMODE_2NUKB_02,
+
+    DBDMODE_0NU2K_02 = 11, 
+    DBDMODE_11 = DBDMODE_0NU2K_02,
+
+    DBDMODE_2NU2K_02 = 12, 
+    DBDMODE_12 = DBDMODE_2NU2K_02,
+
+    DBDMODE_0NUBB_M7_0_2N = 13,
+    DBDMODE_13 = DBDMODE_0NUBB_M7_0_2N,
+
+    DBDMODE_0NUBB_M2_0_2N = 14,
+    DBDMODE_14 = DBDMODE_0NUBB_M2_0_2N,
+
+    DBDMODE_2NUBB_BOSONIC_0  = 15, 
+    DBDMODE_15 = DBDMODE_2NUBB_BOSONIC_0,
+
+    DBDMODE_2NUBB_BOSONIC_2  = 16, 
+    DBDMODE_16 = DBDMODE_2NUBB_BOSONIC_2,
+
+    DBDMODE_0NUBB_RHC_ETA_S_0 = 17,
+    DBDMODE_17 = DBDMODE_0NUBB_RHC_ETA_S_0,
+
+    DBDMODE_0NUBB_RHC_ETA_NMES_0 = 18,
+    DBDMODE_18 = DBDMODE_0NUBB_RHC_ETA_NMES_0,
+
+    DBDMODE_2NUBB_LV_0 = 19,
+    DBDMODE_19 = DBDMODE_2NUBB_LV_0,
+
+    // Neutrinoless quadruple beta decay, possible only for Zr96, Xe136, Nd150
+    DBDMODE_0NU4B_0 = 20, 
+    DBDMODE_20 = DBDMODE_0NU4B_0,
+
+    DBDMODE_MIN = DBDMODE_1,
+    DBDMODE_MAX = DBDMODE_20
   };
 
-  // Return the dictionary of DBD modes
+  /// \brief The legacy values used for the BB mode in the Fortran Decay0 program
+  enum legacy_modebb_type {
+    LEGACY_MODEBB_UNDEF = 0, ///< Undefined
+    LEGACY_MODEBB_1 = 1, 
+    LEGACY_MODEBB_2 = 2, 
+    LEGACY_MODEBB_3 = 3, 
+    LEGACY_MODEBB_4 = 4, 
+    LEGACY_MODEBB_5 = 5, 
+    LEGACY_MODEBB_6 = 6, 
+    LEGACY_MODEBB_7 = 7, 
+    LEGACY_MODEBB_8 = 8, 
+    LEGACY_MODEBB_9 = 9, 
+    LEGACY_MODEBB_10 = 10, 
+    LEGACY_MODEBB_11 = 11, 
+    LEGACY_MODEBB_12 = 12, 
+    LEGACY_MODEBB_13 = 13, 
+    LEGACY_MODEBB_14 = 14, 
+    LEGACY_MODEBB_15 = 15, 
+    LEGACY_MODEBB_16 = 16, 
+    LEGACY_MODEBB_17 = 17, 
+    LEGACY_MODEBB_18 = 18, 
+    LEGACY_MODEBB_19 = 19, 
+    LEGACY_MODEBB_20 = 20,
+    LEGACY_MODEBB_MIN = 1,
+    LEGACY_MODEBB_MAX = 20
+  };
+
+  /// \brief DBD mode record
   struct dbd_record {
-    modebb_type modebb;
-    // bool        esum_range = false;
-    std::string description;
+    dbd_mode_type      dbd_mode = DBDMODE_UNDEF; ///< BxDecay0 DBD mode
+    std::string        unique_label; ///< Unique label identifying the DBD mode
+    legacy_modebb_type legacy_modebb = LEGACY_MODEBB_UNDEF; ///< Associated legacy Decay0 mode
+    std::string        description; ///< Description string of the DBD mode
   };
 
   /// Return the set of DBD modes with description
-  const std::map<modebb_type,dbd_record> & decay0_dbd_modes();
+  const std::map<dbd_mode_type, dbd_record> & dbd_modes();
 
-  /// Return the label associated to a DBD mode
-  std::string decay0_dbd_mode_description(const modebb_type modebb_);
+  /// Return the DBD mode associated to a given label
+  dbd_mode_type dbd_mode_from_label(const std::string & label_);
+
+  /// Return the DBD mode associated to a given label
+  dbd_mode_type dbd_mode_from_legacy_modebb(const legacy_modebb_type legacy_modebb_);
+
+  /// Return the label associated to a given DBD mode
+  std::string dbd_mode_label(const dbd_mode_type dbd_mode_);
+  
+  /// Return the label associated to a given DBD mode
+  std::string dbd_mode_description(const dbd_mode_type dbd_mode_);
+
+  /// Return the BB Decay0 legacy mode assocated to the given DBD mode
+  legacy_modebb_type dbd_legacy_mode(const dbd_mode_type dbd_mode_);
 
   /// Return the set of DBD modes with support for energy sum range
-  const std::set<modebb_type> & decay0_dbd_modes_with_esum_range();
+  const std::set<dbd_mode_type> & dbd_modes_with_esum_range();
 
-  /// Check if a DBD mode has support for energy sum range
-  bool decay0_supports_esum_range(const modebb_type modebb_);
-
+  /// Check if a given DBD mode has support for energy sum range
+  bool dbd_supports_esum_range(const dbd_mode_type dbd_mode_);
+  
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_BB_UTILS_H
