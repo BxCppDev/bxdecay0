@@ -38,19 +38,19 @@ message (STATUS "BxDecay0_VERSION       ='${BxDecay0_VERSION}'")
 message (STATUS "BxDecay0_INCLUDE_DIRS  ='${BxDecay0_INCLUDE_DIRS}'")
 message (STATUS "BxDecay0_LIBRARIES     ='${BxDecay0_LIBRARIES}'")
 
-find_package(HepMC CONFIG)
-message (STATUS "HEPMC_INCLUDE_DIR      = '${HEPMC_INCLUDE_DIR}'")
-message (STATUS "HEPMC_LIBRARIES        = '${HEPMC_LIBRARIES}'")
+find_package(HepMC3 CONFIG)
+message (STATUS "HEPMC3_INCLUDE_DIR      = '${HEPMC3_INCLUDE_DIR}'")
+message (STATUS "HEPMC3_LIBRARIES        = '${HEPMC3_LIBRARIES}'")
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_definitions(${BxDecay0_DEFINITIONS})
 include_directories(${PROJECT_SOURCE_DIR}
   ${BxDecay0_INCLUDE_DIRS}
-  ${HEPMC_INCLUDE_DIR}
+  ${HEPMC3_INCLUDE_DIR}
   )
 link_libraries(${BxDecay0_LIBRARIES}
-  ${HEPMC_LIBRARIES}
+  ${HEPMC3_LIBRARIES}
   )
 
 add_executable(ex02 ex02.cxx)

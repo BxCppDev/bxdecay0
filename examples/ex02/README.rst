@@ -32,12 +32,15 @@ Build
 
    .. code:: bash
 
-      $ mkdir _build.d/   # Make a temporary build directory
+      $ mkdir _build.d/  # Make a temporary build directory
       $ cd _build.d/
+      $ # Update the PATH for the spack-installed HepMC library:
+      $ export PATH=$(spack find --format "{prefix}" bxdecay0)/bin:${PATH}
+      $ export PATH=$(spack find --format "{prefix}" hepmc3)/bin:${PATH}
       $ cmake \
 	     -DCMAKE_INSTALL_PREFIX=$(pwd)/../_install.d \
 	     -DBxDecay0_DIR=$(bxdecay0-query --cmakedir) \
-	     -DHepMC_DIR=$(HepMC-config --prefix)/share/HepMC/cmake \
+	     -DHepMC3_DIR=$(HepMC3-config --prefix)/share/HepMC/cmake \
 	     ..
       $ make
       $ make install

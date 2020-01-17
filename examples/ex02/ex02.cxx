@@ -28,13 +28,13 @@
 
 // Third party library:
 // - HepMC:
-#include <HepMC/GenRunInfo.h>
-#include <HepMC/GenParticle.h>
-#include <HepMC/GenEvent.h>
-#include <HepMC/GenVertex.h>
-#include <HepMC/Attribute.h>
-#include <HepMC/FourVector.h>
-#include <HepMC/WriterAscii.h>
+#include <HepMC3/GenRunInfo.h>
+#include <HepMC3/GenParticle.h>
+#include <HepMC3/GenEvent.h>
+#include <HepMC3/GenVertex.h>
+#include <HepMC3/Attribute.h>
+#include <HepMC3/FourVector.h>
+#include <HepMC3/WriterAscii.h>
 
 // This project:
 #include <bxdecay0/version.h>          // Library version
@@ -109,39 +109,39 @@ int main()
     /***************************************/
 
     // HepMC run info:
-    std::shared_ptr<HepMC::GenRunInfo> runInfoPtr(std::make_shared<HepMC::GenRunInfo>());
+    std::shared_ptr<HepMC3::GenRunInfo> runInfoPtr(std::make_shared<HepMC3::GenRunInfo>());
     runInfoPtr->add_attribute("seed",
-                              std::make_shared<HepMC::IntAttribute>(seed));
+                              std::make_shared<HepMC3::IntAttribute>(seed));
     runInfoPtr->add_attribute("activity",
-                              std::make_shared<HepMC::DoubleAttribute>(activity));
+                              std::make_shared<HepMC3::DoubleAttribute>(activity));
     runInfoPtr->add_attribute("nevents",
-                              std::make_shared<HepMC::IntAttribute>(nevents));
+                              std::make_shared<HepMC3::IntAttribute>(nevents));
     std::string cat_string = bxdecay0::decay0_generator::decay_category_to_label(decay0.get_decay_category());
     runInfoPtr->add_attribute("category",
-                              std::make_shared<HepMC::StringAttribute>(cat_string));
+                              std::make_shared<HepMC3::StringAttribute>(cat_string));
     runInfoPtr->add_attribute("nuclide",
-                              std::make_shared<HepMC::StringAttribute>(decay0.get_decay_isotope()));
+                              std::make_shared<HepMC3::StringAttribute>(decay0.get_decay_isotope()));
     runInfoPtr->add_attribute("daughter_level",
-                              std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_level()));
+                              std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_level()));
     runInfoPtr->add_attribute("dbd_mode",
-                              std::make_shared<HepMC::IntAttribute>(decay0.get_decay_dbd_mode()));
+                              std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_mode()));
     if (decay0.has_decay_dbd_esum_range()) {
       runInfoPtr->add_attribute("min_energy",
-                                std::make_shared<HepMC::DoubleAttribute>(decay0.get_decay_dbd_esum_range_lower()));
+                                std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_lower()));
       runInfoPtr->add_attribute("max_energy",
-                                std::make_shared<HepMC::DoubleAttribute>(decay0.get_decay_dbd_esum_range_upper()));
+                                std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_upper()));
       runInfoPtr->add_attribute("toallevents",
-                                std::make_shared<HepMC::DoubleAttribute>(toallevents));
+                                std::make_shared<HepMC3::DoubleAttribute>(toallevents));
     }
 
-    HepMC::GenRunInfo::ToolInfo decay0_info;
+    HepMC3::GenRunInfo::ToolInfo decay0_info;
     decay0_info.name = "bxdecay0";
     decay0_info.version = BXDECAY0_LIB_VERSION;
     decay0_info.description = "BxDecay0 nuclear decay event generator";
     runInfoPtr->tools().push_back(decay0_info);
 
     // HepMC output:
-    HepMC::WriterAscii writer(fout_name.c_str(), runInfoPtr);
+    HepMC3::WriterAscii writer(fout_name.c_str(), runInfoPtr);
 
     /**************************/
     /* Decay Event generation */
@@ -168,13 +168,13 @@ int main()
 
       // Build a Hep MC event:
       static const double C_LIGHT_MM_PER_SEC = 3e11;
-      std::shared_ptr<HepMC::GenEvent> genEvtPtr 
-        = std::make_shared<HepMC::GenEvent>(runInfoPtr,
-                                          HepMC::Units::MEV,
-                                          HepMC::Units::MM);
+      std::shared_ptr<HepMC3::GenEvent> genEvtPtr 
+        = std::make_shared<HepMC3::GenEvent>(runInfoPtr,
+                                          HepMC3::Units::MEV,
+                                          HepMC3::Units::MM);
       genEvtPtr->set_event_number(ievent);
-      std::shared_ptr<HepMC::GenVertex> genVtxPtr
-        = std::make_shared<HepMC::GenVertex>(HepMC::FourVector(0.,
+      std::shared_ptr<HepMC3::GenVertex> genVtxPtr
+        = std::make_shared<HepMC3::GenVertex>(HepMC3::FourVector(0.,
                                                                0.,
                                                                0.,
                                                                gendecay.get_time() * C_LIGHT_MM_PER_SEC));
@@ -182,8 +182,8 @@ int main()
 
       double part_time = 0.0;
       for (const auto & particle : gendecay.get_particles()) {
-        std::shared_ptr<HepMC::GenParticle> genPartPtr
-          = std::make_shared<HepMC::GenParticle>();
+        std::shared_ptr<HepMC3::GenParticle> genPartPtr
+          = std::make_shared<HepMC3::GenParticle>();
         // http://pdg.lbl.gov/mc_particle_id_contents.html
         int pid = 0;
         switch (particle.get_code()) {
@@ -200,7 +200,7 @@ int main()
           part_time += particle.get_time();
         }
         genPartPtr->set_pid(pid);
-        genPartPtr->set_momentum(HepMC::FourVector(particle.get_px(),
+        genPartPtr->set_momentum(HepMC3::FourVector(particle.get_px(),
                                                    particle.get_py(),
                                                    particle.get_pz(),
                                                    part_time * C_LIGHT_MM_PER_SEC));
