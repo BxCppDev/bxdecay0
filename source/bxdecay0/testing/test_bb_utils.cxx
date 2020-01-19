@@ -56,7 +56,6 @@ int main()
     }
     std::clog << std::endl;
     
-    
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
