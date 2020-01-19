@@ -8,6 +8,12 @@
 
 namespace bxdecay0 {
 
+  /// Return the set of supported DBD isotopes
+  const std::set<std::string> & dbd_isotopes();
+
+  /// Return the set of supported "background" isotopes
+  const std::set<std::string> & background_isotopes();
+
   /// \brief Mode of double beta decay (DBD) used inside BxDecay0 (bb- or bb+)
   ///
   /// This type  has been introduced to  ensure backward compatibility

@@ -447,6 +447,7 @@ set(BxDecay0_TESTS
   source/bxdecay0/testing/test_alpha.cxx
   source/bxdecay0/testing/test_pair.cxx
   source/bxdecay0/testing/test_fermi.cxx
+  source/bxdecay0/testing/test_bb_utils.cxx
   source/bxdecay0/testing/test_bb.cxx
   source/bxdecay0/testing/test_genbbsub.cxx
   source/bxdecay0/testing/test_decay0_generator.cxx

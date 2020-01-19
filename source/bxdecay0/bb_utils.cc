@@ -26,7 +26,74 @@
 #include <bxdecay0/resource.h>
 
 namespace bxdecay0 {
+  const std::set<std::string> & dbd_isotopes()
+  {
+    bool trace = false;
+    static std::set<std::string> _dbd_isotopes;
+    if (_dbd_isotopes.size() == 0) {
+      std::string filename = get_resource("data/dbd_isotopes.lis", true);
+      std::ifstream fin(filename.c_str());
+      if (!fin) {
+        throw std::logic_error("bxdecay0::dbd_isotopes: Cannot open resource file '" + filename + "'!");
+      }
+      while (fin) {
+        std::string line;
+        std::getline(fin, line);
+        if (trace) std::cerr << "[trace] line = " << line << std::endl;
+        std::string first_word;
+        {
+          // Skip comment and blank lines:
+          std::istringstream line_iss(line);
+          line_iss >> std::ws >> first_word;
+          if (first_word.empty()) continue;
+          if (first_word[0] == '#') continue;
+        }
+        // Isotope:
+        std::string dbd_isotope = first_word;
+        _dbd_isotopes.insert(dbd_isotope);
+        fin >> std::ws;
+        if (fin.eof()) {
+          break;
+        }
+      }
+    }
+    return _dbd_isotopes;
+  }
 
+  const std::set<std::string> & background_isotopes()
+  {
+    bool trace = false;
+    static std::set<std::string> _background_isotopes;
+    if (_background_isotopes.size() == 0) {
+      std::string filename = get_resource("data/background_isotopes.lis", true);
+      std::ifstream fin(filename.c_str());
+      if (!fin) {
+        throw std::logic_error("bxdecay0::background_isotopes: Cannot open resource file '" + filename + "'!");
+      }
+      while (fin) {
+        std::string line;
+        std::getline(fin, line);
+        if (trace) std::cerr << "[trace] line = " << line << std::endl;
+        std::string first_word;
+        {
+          // Skip comment and blank lines:
+          std::istringstream line_iss(line);
+          line_iss >> std::ws >> first_word;
+          if (first_word.empty()) continue;
+          if (first_word[0] == '#') continue;
+        }
+        // Isotope:
+        std::string background_isotope = first_word;
+        _background_isotopes.insert(background_isotope);
+        fin >> std::ws;
+        if (fin.eof()) {
+          break;
+        }
+      }
+    }
+    return _background_isotopes;
+  }
+     
   const std::map<dbd_mode_type, dbd_record> & dbd_modes()
   {
     bool trace = false;
@@ -35,7 +102,7 @@ namespace bxdecay0 {
       std::string filename = get_resource("data/dbd_modes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
-        throw std::logic_error("bxdecay0::get_dbd_modes: Cannot open resource file '" + filename + "'!");
+        throw std::logic_error("bxdecay0::dbd_modes: Cannot open resource file '" + filename + "'!");
       }
       while (fin) {
         std::string line;
