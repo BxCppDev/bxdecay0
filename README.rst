@@ -299,6 +299,8 @@ The following program is taken from the BxDecay0's ``ex00`` example:
      decay0.set_decay_isotope("Mo100");
      decay0.set_decay_dbd_level(0);
      decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1);
+     // or :
+     // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
      decay0.initialize(prng);
 
      std::size_t nevents = 10;
@@ -783,7 +785,7 @@ List of supported double beta decay modes
 From the ``bxdecay0::bb_utils.h`` C++ header and the ``dbd_modes.lis`` resource file:
 
 ============== ========================= ============ ============================================================
-BxDecay0 mode           Label             Decay0 mode  Description
+BxDecay0 mode   Identification label      Decay0 mode  Description
 ============== ========================= ============ ============================================================
 ``DBDMODE_1``  ``0nubb_mn``              1            0nubb(mn)         0+ -> 0+     {2n} with neutrino mass 
 ``DBDMODE_2``  ``0nubb_rhc_lambda_0``    2            0nubb(rhc-lambda) 0+ -> 0+     {2n} with RHC lambda 
@@ -863,11 +865,13 @@ From the ``background_isotopes.lis`` resource file:
 * ``Mn54``
 * ``Na22``
 * ``P32``
+* ``Pa231`` (added from Bayeux : 2013-09-06)
 * ``Pa234m``
 * ``Pb210``
 * ``Pb211``
 * ``Pb212``
 * ``Pb214``
+* ``Ra226`` (added from Bayeux : 2013-07-11)
 * ``Ra228``
 * ``Rb87``
 * ``Rh106``
@@ -892,10 +896,6 @@ From the ``background_isotopes.lis`` resource file:
 * ``Y90``
 * ``Zn95``
 * ``Zr96`` (for ``Zr96+Nb96``)
-
-.. Check in Bayeux !
-..   * ``Pa231`` (added 2013-09-06),
-..   * ``Ra226`` (added 2013-07-11),
 
 Additional comment
 ------------------

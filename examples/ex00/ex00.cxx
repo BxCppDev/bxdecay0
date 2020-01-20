@@ -15,6 +15,8 @@ int main()
   decay0.set_decay_isotope("Mo100");
   decay0.set_decay_dbd_level(0);
   decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1);
+  // or :
+  // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
   decay0.initialize(prng);
 
   std::size_t nevents = 10;
