@@ -29,6 +29,8 @@
 namespace bxdecay0 {
 
   /// \brief Supported particles code
+  ///
+  /// The particle codes are from the legacy Geant3 system
   enum particle_code
   {
     INVALID_PARTICLE  = 0, ///< Invalid particle code
