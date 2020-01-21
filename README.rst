@@ -281,7 +281,7 @@ Usage
 Basic program
 -------------
 
-The following program is taken from the BxDecay0's ``ex00`` example:
+The following program is extracted from the BxDecay0's ``ex00`` example:
 
 .. code:: c++
 
