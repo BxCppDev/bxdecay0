@@ -359,7 +359,7 @@ Authors and contributors
   de Caen, `Université de Caen  Normandie`_, France) is the author and
   maintener   of  the  original C++  port   of  Decay0   within  Bayeux_
   and the BxDecay0 library,
-* Emma Mauger (`Université de Caen  Normandie`_) has done a large
+* Emma Mauger (formerly `Université de Caen Normandie`_) has done a large
   part of the extraction and port to C++ of the standalone BxDecay0 from the
   original Bayeux_ *genbb* library module.
 
