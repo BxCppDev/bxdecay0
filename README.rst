@@ -1,12 +1,12 @@
 ============================================================================
-bxdecay0 - C++ port of the legacy Decay0 FORTRAN library
+BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger
 :date: 2020-01-16
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
-The *BxDecay0* C++ library provides a set of classes and functions for
+The **BxDecay0** C++ library provides a set of classes and functions for
 the random  generation of simulated  nuclear decays. It consists  in a
 C++ port of  the original Decay0 Fortran program (also  known as GENBB
 in  some other  context) written  and maintained  by Vladimir  Tretyak
@@ -17,7 +17,7 @@ experimental research.
 BxDecay0 aims to  be used by any C++ simulation  program that needs to
 generate  the kinematics  of primary  particles emitted  from specific
 nuclear  decays  (example:  input  for a  Geant4_  based  Monte  Carlo
-simulation  program).  It  can be  easily "interfaced  with the  HepMC_
+simulation  program).  It  can be  easily interfaced  with the  HepMC_
 event/particle model or any other client application.
 
 .. contents::
@@ -65,7 +65,8 @@ ROOT_ or whatever).
 
 Versions:
 
-- Prerelease 1.0.0 : mixed port from Decay0 2017-03-01 and Bayeux 3
+- Prerelease 1.0.0  : mixed port  from Decay0 2017-03-01  and embedded
+  decay0 C++ code in Bayeux 3 based on Decay0 2013.
 - First release 1.0.0 : updated from Decay0 2018-12-05
 
 
@@ -429,10 +430,7 @@ From the ``dbd_isotopes.lis`` resource file:
 * ``Yb176``
 
 
-.. To be checked in Bayeux:
-.. * ``Rn226`` (for ``Rn226``).
-
-List of daughter nucleus excited states in double beta decay
+  List of daughter nucleus excited states in double beta decay
 ------------------------------------------------------------
 
 * ``Ca40`` :
@@ -659,13 +657,13 @@ List of daughter nucleus excited states in double beta decay
   4. 2+ (3) {1.194 MeV}
   5. 0+ (2) {1.256 MeV}
 
-* ``Sm144-Nd144`` :
+* ``Sm144-Nd144`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.697 MeV}
   2. 2+ (2)  {1.561 MeV}
 
-* ``Sm154-Gd144`` :
+* ``Sm154-Gd144`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.123 MeV}
@@ -699,7 +697,7 @@ List of daughter nucleus excited states in double beta decay
   1. 2+ (1) {0.080 MeV}
   2. 4+ (1) {0.261 MeV}
  
-* ``Er162-Dy162`` :
+* ``Er162-Dy162`` (new : Decay0 2018-12-05) :
   
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.081 MeV}
@@ -710,14 +708,27 @@ List of daughter nucleus excited states in double beta decay
   6. 2+ (4)  {1.728 MeV}
   7. 2+ (5)  {1.783 MeV}
   
-* ``Er164-Dy164`` :
+* ``Er164-Dy164`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV};
  
-* ``Er170-Yb170`` :
+* ``Er170-Yb170`` (new : Decay0 2018-12-05) :
 
    0. 0+ (gs)     {0 MeV}
    1. 2+ (1)  {0.084 MeV}
+ 
+* ``Yb168-Er168`` (new : Decay0 2018-12-05) :
+ 
+  0. 0+ (gs)     {0 MeV}
+  1. 2+ (1)  {0.080 MeV}
+  2. 2+ (2)  {0.821 MeV}
+  3. 0+ (1)  {1.217 MeV}
+  4. 2+ (3)  {1.276 MeV}
+
+* ``Yb176-Hf176`` (new : Decay0 2018-12-05) :
+ 
+  0. 0+ (gs)     {0 MeV}
+  1. 2+ (1)  {0.088 MeV}
 
 * ``W180-Hf180`` :
 

@@ -3,6 +3,7 @@
 #  BxDecay0_VERSION       - BxDecay0 version
 #  BxDecay0_DEFINITIONS   - compile definitions needed to use BxDecay0
 #  BxDecay0_INCLUDE_DIRS  - include directories for BxDecay0
+#  BxDecay0_LIBRARY_DIR   - lib directories for BxDecay0
 #  BxDecay0_LIBRARIES     - libraries to link against
 
 #----------------------------------------------------------------------
@@ -64,8 +65,11 @@ if(NOT BxDecay0_TARGETS_LOADED)
   set(BxDecay0_TARGETS_LOADED 1)
 endif()
 
+set(BxDecay0_LIBRARY_DIR "${__bxdecay0_config_dir}/@BXDECAY0_CMAKEDIR_TO_LIBDIR@")
+mark_as_advanced(BxDecay0_LIBRARY_DIR)
+
 # - BxDecay0 itself
-set(BxDecay0_LIBRARY Bayeux_decay0 CACHE FILE "BxDecay0 library (imported)")
+set(BxDecay0_LIBRARY BxDecay0 CACHE FILE "BxDecay0 library (imported)")
 mark_as_advanced(BxDecay0_LIBRARY)
 
 set(BxDecay0_LIBRARIES ${BxDecay0_LIBRARY})

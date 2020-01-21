@@ -1,4 +1,4 @@
-# - Top level CMakeLists.txt for bxdecay0 C++ library
+# - Top level CMakeLists.txt for BxDecay0 C++ library
 
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
@@ -68,8 +68,13 @@ file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_INCLUDEDIR
   "${CMAKE_INSTALL_FULL_CMAKEDIR}/${BxDecay0_TAG}"
   "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
   )
+file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_LIBDIR
+  "${CMAKE_INSTALL_FULL_CMAKEDIR}/${BxDecay0_TAG}"
+  "${CMAKE_INSTALL_FULL_LIBDIR}"
+  )
 message(STATUS "[info] BXDECAY0_BINDIR_TO_RESOURCEDIR  = '${BXDECAY0_BINDIR_TO_RESOURCEDIR}'")
 message(STATUS "[info] BXDECAY0_CMAKEDIR_TO_INCLUDEDIR = '${BXDECAY0_CMAKEDIR_TO_INCLUDEDIR}'")
+message(STATUS "[info] BXDECAY0_CMAKEDIR_TO_LIBDIR     = '${BXDECAY0_CMAKEDIR_TO_LIBDIR}'")
 
 # - Dependencies
 find_package(GSL 1.15 REQUIRED)
@@ -466,7 +471,7 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/source)
 include_directories(${PROJECT_BINARY_DIR}/source)
 
-add_library(Bayeux_decay0 SHARED
+add_library(BxDecay0 SHARED
   ${BxDecay0_HEADERS}
   ${BxDecay0_SOURCES}
   )
@@ -475,13 +480,13 @@ set(BxDecay0_OTHER_LIBS
   GSL::gsl GSL::gslcblas
   )
 
-target_link_libraries(Bayeux_decay0 ${BxDecay0_OTHER_LIBS})
+target_link_libraries(BxDecay0 ${BxDecay0_OTHER_LIBS})
 
 # - Set RPATH as needed
-set_target_properties(Bayeux_decay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
+set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
 
 # - Use BinReloc
-set_target_properties(Bayeux_decay0 PROPERTIES COMPILE_DEFINITIONS ENABLE_BINRELOC)
+set_target_properties(BxDecay0 PROPERTIES COMPILE_DEFINITIONS ENABLE_BINRELOC)
 
 install( FILES
   ${BxDecay0_HEADERS}
@@ -492,7 +497,7 @@ install( FILES
   )
 
 install( FILES
-  ${PROJECT_BINARY_DIR}/libBayeux_decay0${CMAKE_SHARED_LIBRARY_SUFFIX}
+  ${PROJECT_BINARY_DIR}/libBxDecay0${CMAKE_SHARED_LIBRARY_SUFFIX}
   DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
   GROUP_READ GROUP_EXECUTE
@@ -511,17 +516,17 @@ install( FILES
   WORLD_READ WORLD_EXECUTE
   )
 
-# configure_file(cmake/bxdecay0.pc.in
-#   ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
-#   @ONLY)
+configure_file(cmake/bxdecay0.pc.in
+  ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
+  @ONLY)
 
-# install( FILES
-#   ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
-#   DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig/
-#   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-#   GROUP_READ GROUP_EXECUTE
-#   WORLD_READ WORLD_EXECUTE
-#   )
+install( FILES
+  ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig/
+  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
 
 install( DIRECTORY
   ${PROJECT_SOURCE_DIR}/examples
@@ -569,7 +574,7 @@ if(BXDECAY0_ENABLE_TESTING)
       # source/bxdecay0/testing/test.h
       # source/bxdecay0/testing/test.cc
       )
-    target_link_libraries(${_testname} Bayeux_decay0 ${BxDecay0_OTHER_LIBS})
+    target_link_libraries(${_testname} BxDecay0 ${BxDecay0_OTHER_LIBS})
     # - On Apple, ensure dynamic_lookup of undefined symbols
     if(APPLE)
       set_target_properties(${_testname} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -590,7 +595,7 @@ endif()
 #-----------------------------------------------------------------------
 # Install targets and resources
 #
-install(TARGETS Bayeux_decay0
+install(TARGETS BxDecay0
   EXPORT  BxDecay0Targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -602,7 +607,7 @@ install(TARGETS Bayeux_decay0
 # Done here so that external package variables are visible
 #
 # - Targets
-export(TARGETS Bayeux_decay0
+export(TARGETS BxDecay0
   FILE ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0Targets.cmake
   )
 install(EXPORT BxDecay0Targets
