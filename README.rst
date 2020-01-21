@@ -286,33 +286,41 @@ The following program is taken from the BxDecay0's ``ex00`` example:
 .. code:: c++
 
    #include <iostream>
-   #include <bxdecay0/std_random.h>
-   #include <bxdecay0/event.h>
-   #include <bxdecay0/decay0_generator.h>
+   #include <bxdecay0/std_random.h>        # Wrapper for the standard random module's PRNG
+   #include <bxdecay0/event.h>             # Decaying event data model
+   #include <bxdecay0/decay0_generator.h>  # Decay0 generator with OOP interface
 
    int main()
    {
-     unsigned int seed = 314159;
-     std::default_random_engine generator(seed);
-     bxdecay0::std_random prng(generator);
+     # Declare and configure a PRNG:
+     unsigned int seed = 314159;                 # Random seed
+     std::default_random_engine generator(seed); # Standard PRNG
+     bxdecay0::std_random prng(generator);       # PRNG wrapper
 
+     # Declare the Decay0 generator:
      bxdecay0::decay0_generator decay0;
-     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
-     decay0.set_decay_isotope("Mo100");
-     decay0.set_decay_dbd_level(0);
-     decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1);
+     
+     # Configure the Decay0 generator:
+     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD); # Double-beta decay process
+     decay0.set_decay_isotope("Mo100");              # Emitter nucleus
+     decay0.set_decay_dbd_level(0);                  # Daughter nucleus' ground state
+     decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); # Neutrinoless double-beta decay (mass mechanism)
      // or :
      // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
+     
+     # Initialize the Decay0 generator.
+     # We need to pass some PRNG to pre-compute some quantities from energy distributions:
      decay0.initialize(prng);
 
+     # Shoot some decay events:
      std::size_t nevents = 10;
      for (std::size_t ievent = 0; ievent < nevents; ievent++) {
-       bxdecay0::event gendecay;
-       decay0.shoot(prng, gendecay);
-       gendecay.store(std::cout);
+       bxdecay0::event gendecay;     # Declare an empty decay event
+       decay0.shoot(prng, gendecay); # Randomize a decay event
+       gendecay.store(std::cout);    # Basic ASCII output
      }
 
-     decay0.reset();
+     decay0.reset(); # Terminate the generator
      return 0;
    }
 ..
