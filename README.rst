@@ -52,18 +52,18 @@ Fortran  and  CERNLIB.   This  code  was integrated  in  2011  as  the
 
 This release of the BxDecay0 C++  library is extracted from the Bayeux
 ``genbb_help`` module with some changes from the 2017-03-01 release of
-the Decay0  program by Vladimir Tretyak.  It has then been  updated to
+the Decay0 program  by Vladimir Tretyak.  It has then  been updated to
 the 2018-12-05 release.
 
 BxDecay0 is  a standalone library  with very few  dependencies (mostly
 the  GSL_ library  for numerical  integration and  a few  special math
 functions).   External random  engines can  be used  through a  simple
-wrapping interface, particularly the ones provided by the C++ standard
-``random`` library can  be used by default.  However the  user is free
-to provide its  own uniform deviates random generator  (based on GSL_,
-ROOT_ or whatever).
+wrapping functor interface, particularly the  ones provided by the C++
+standard ``random`` library can be  used by default.  However the user
+is free to provide its own uniform deviates random generator (based on
+GSL_, ROOT_ or whatever).
 
-Versions:
+**Versions:**
 
 - Prerelease 1.0.0  : mixed port  from Decay0 2017-03-01  and embedded
   decay0 C++ code in Bayeux 3 based on Decay0 2013.
@@ -98,15 +98,15 @@ a  modern OOP  context  (static data  structures).   The BxDecay0  API
 introduces its own OOP data  model through the ``bxdecay0::event`` and
 ``bxdecay0::particle`` classes (see the ``ex01`` example).  It is thus
 easy to  use such  classes through  any C++  client program  and/or to
-interface with some  high level event generator  library (i.e. HepMC).
+interface with some  high level event generator  library (i.e. HepMC3).
 See the ``ex02`` example.
 
 More, BxDecay0 provides the ``bxdecay0::decay0_generator`` class which
 wraps low-level functions with a simple OOP interface.
 
-Finaly, it is also possible, to use the low level routines ported from
-the original Fortran code. However it  is not recommended and should be
-reserved to experts.
+Finally, it is also possible to use the low level C++ functions ported
+from  the original  Fortran code.  However it  is not  recommended and
+should be reserved to experts and developpers of the library.
 
 .. raw:: pdf
 
@@ -162,6 +162,7 @@ Clone the Git development repository on your filesystem:
 
    $ cd /tmp
    $ git clone https://github.com/BxCppDev/bxdecay0.git bxdecay0.git
+   $ cd bxdecay0.git 
 ..
 
 Or download the archive associated to a released version :
@@ -348,12 +349,14 @@ Authors and contributors
   the Fortran Decay0 package,
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
   de Caen, `Université de Caen  Normandie`_, France) is the author and
-  maintener   of  the   C++  port   of  Decay0   within  Bayeux_
-  (https://github.com/BxCppDev/Bayeux) and the current BxDecay0 library,
+  maintener   of  the  original C++  port   of  Decay0   within  Bayeux_
+  and the BxDecay0 library,
 * Emma Mauger (`Université de Caen  Normandie`_) has done a large
   part of the extraction and port to C++ of the standalone BxDecay0 from the
-  Bayeux_ *genbb* library module.
+  original Bayeux_ *genbb* library module.
 
+
+  
 References
 ===========
 
@@ -429,69 +432,72 @@ From the ``dbd_isotopes.lis`` resource file:
 * ``Yb168``
 * ``Yb176``
 
+.. raw:: pdf
 
-  List of daughter nucleus excited states in double beta decay
-------------------------------------------------------------
+   PageBreak
 
-* ``Ca40`` :
+List of daughter nucleus excited states in double beta decay
+----------------------------------------------------------------
+
+* ``Ca40`` ->  ``Ar40`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Ca46`` :
+* ``Ca46`` ->  ``Ti46`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.889 MeV}
 
-* ``Ca48-Ti48`` :
+* ``Ca48`` ->  ``Ti48`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.984 MeV}
   2. 2+ (2) {2.421 MeV}
 
-* ``Ni58-Fe58`` :
+* ``Ni58`` ->  ``Fe58`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.811 MeV}
   2. 2+ (2) {1.675 MeV}
 
-* ``Zn64-Ni64`` :
+* ``Zn64`` ->  ``Ni64`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Zn70-Ge70`` :
+* ``Zn70`` ->  ``Ge70`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Ge76-Se76`` :
+* ``Ge76`` ->  ``Se76`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.559 MeV}
   2. 0+ (1) {1.122 MeV}
   3. 2+ (2) {1.216 MeV}
 
-* ``Se74-Ge74`` :
+* ``Se74`` ->  ``Ge74`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.596 MeV}
   2. 2+ (2) {1.204 MeV}
 
-* ``Se82-Kr82`` :
+* ``Se82`` ->  ``Kr82`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.776 MeV}
   2. 2+ (2) {1.475 MeV}
 
-* ``Sr84-Kr84`` :
+* ``Sr84`` ->  ``Kr84`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.882 MeV}
 
-* ``Zr94-Mo94`` :
+* ``Zr94`` ->  ``Mo94`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.871 MeV}
 
-* ``Zr96-Mo96`` :
+* ``Zr96`` ->  ``Mo96`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.778 MeV}
@@ -504,13 +510,13 @@ From the ``dbd_isotopes.lis`` resource file:
   8. 2+ (6) {2.700 MeV}
   9. 2+?(7) {2.713 MeV}
 
-* ``Mo92-Zr92`` :
+* ``Mo92`` ->  ``Zr92`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.934 MeV}
   2. 0+ (1) {1.383 MeV}
 
-* ``Mo100-Ru100`` :
+* ``Mo100`` ->  ``Ru100`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.540 MeV}
@@ -518,7 +524,7 @@ From the ``dbd_isotopes.lis`` resource file:
   3. 2+ (2) {1.362 MeV}
   4. 0+ (2) {1.741 MeV}
 
-* ``Ru96-Mo96`` :
+* ``Ru96`` ->  ``Mo96`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.778 MeV}
@@ -531,12 +537,12 @@ From the ``dbd_isotopes.lis`` resource file:
   8. 2+ (6) {2.700 MeV}
   9. 2+?(7) {2.713 MeV}
 
-* ``Ru104-Pd104`` :
+* ``Ru104`` ->  ``Pd104`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.556 MeV}
 
-* ``Cd106-Pd106`` :
+* ``Cd106`` ->  ``Pd106`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.512 MeV}
@@ -545,15 +551,15 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (3) {1.562 MeV}
   5. 0+ (2) {1.706 MeV}
 
-* ``Cd108-Pd108`` :
+* ``Cd108`` ->  ``Pd108`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Cd114-Sn114`` :
+* ``Cd114`` ->  ``Sn114`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Cd116-Sn116`` :
+* ``Cd116`` ->  ``Sn116`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {1.294 MeV}
@@ -562,7 +568,7 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (2) {2.112 MeV}
   5. 2+ (3) {2.225 MeV}
 
-* ``Sn112-Cd112`` :
+* ``Sn112`` ->  ``Cd112`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.618 MeV}
@@ -572,11 +578,11 @@ From the ``dbd_isotopes.lis`` resource file:
   5. 2+ (3) {1.469 MeV}
   6. 0+ (3) {1.871 MeV}
 
-* ``Sn122-Te122`` :
+* ``Sn122`` ->  ``Te122`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Sn124-Te124`` :
+* ``Sn124`` ->  ``Te124`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.603 MeV}
@@ -588,24 +594,24 @@ From the ``dbd_isotopes.lis`` resource file:
   7. 0+ (3) {2.153 MeV}
   8. 2+ (5) {2.182 MeV}
 
-* ``Te120-Sn120`` :
+* ``Te120`` ->  ``Sn120`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {1.171 MeV}
 
-* ``Te128-Xe128`` :
+* ``Te128`` ->  ``Xe128`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.443 MeV}
 
-* ``Te130-Xe130`` :
+* ``Te130`` ->  ``Xe130`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.536 MeV}
   2. 2+ (2) {1.122 MeV}
   3. 0+ (1) {1.794 MeV}
 
-* ``Xe136-Ba136`` :
+* ``Xe136`` ->  ``Ba136`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.819 MeV}
@@ -618,7 +624,7 @@ From the ``dbd_isotopes.lis`` resource file:
   8. 0+ (3) {2.315 MeV}
   9. 2+ (6) {2.400 MeV}
 
-* ``Ce136-Ba136`` :
+* ``Ce136`` ->  ``Ba136`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.819 MeV}
@@ -631,15 +637,15 @@ From the ``dbd_isotopes.lis`` resource file:
   8. 0+ (3) {2.315 MeV}
   9. 2+ (6) {2.400 MeV}
 
-* ``Ce138-Ba138`` :
+* ``Ce138`` ->  ``Ba138`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Ce142-Nd142`` :
+* ``Ce142`` ->  ``Nd142`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Nd148-Sm148`` :
+* ``Nd148`` ->  ``Sm148`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.550 MeV}
@@ -648,7 +654,7 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (3) {1.664 MeV}
   5. 0+ (2) {1.921 MeV}
 
-* ``Nd150-Sm150`` :
+* ``Nd150`` ->  ``Sm150`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.334 MeV}
@@ -657,13 +663,13 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (3) {1.194 MeV}
   5. 0+ (2) {1.256 MeV}
 
-* ``Sm144-Nd144`` (new : Decay0 2018-12-05) :
+* ``Sm144`` ->  ``Nd144`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.697 MeV}
   2. 2+ (2)  {1.561 MeV}
 
-* ``Sm154-Gd144`` (new : Decay0 2018-12-05) :
+* ``Sm154`` ->  ``Gd144`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.123 MeV}
@@ -672,7 +678,7 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (3)  {0.996 MeV}
   5. 0+ (2)  {1.182 MeV}
 
-* ``Dy156-Gd156`` :
+* ``Dy156`` ->  ``Gd156`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.089 MeV}
@@ -691,13 +697,13 @@ From the ``dbd_isotopes.lis`` resource file:
   14. 0+ (5) {1.989 MeV}
   15. 2+ (8) {2.004 MeV}
 
-* ``Dy158-Gd158`` :
+* ``Dy158`` ->  ``Gd158`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.080 MeV}
   2. 4+ (1) {0.261 MeV}
  
-* ``Er162-Dy162`` (new : Decay0 2018-12-05) :
+* ``Er162`` ->  ``Dy162`` (new : Decay0 2018-12-05) :
   
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.081 MeV}
@@ -708,16 +714,16 @@ From the ``dbd_isotopes.lis`` resource file:
   6. 2+ (4)  {1.728 MeV}
   7. 2+ (5)  {1.783 MeV}
   
-* ``Er164-Dy164`` (new : Decay0 2018-12-05) :
+* ``Er164`` ->  ``Dy164`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV};
  
-* ``Er170-Yb170`` (new : Decay0 2018-12-05) :
+* ``Er170`` ->  ``Yb170`` (new : Decay0 2018-12-05) :
 
    0. 0+ (gs)     {0 MeV}
    1. 2+ (1)  {0.084 MeV}
  
-* ``Yb168-Er168`` (new : Decay0 2018-12-05) :
+* ``Yb168`` ->  ``Er168`` (new : Decay0 2018-12-05) :
  
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.080 MeV}
@@ -725,21 +731,21 @@ From the ``dbd_isotopes.lis`` resource file:
   3. 0+ (1)  {1.217 MeV}
   4. 2+ (3)  {1.276 MeV}
 
-* ``Yb176-Hf176`` (new : Decay0 2018-12-05) :
+* ``Yb176`` ->  ``Hf176`` (new : Decay0 2018-12-05) :
  
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.088 MeV}
 
-* ``W180-Hf180`` :
+* ``W180`` ->  ``Hf180`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``W186-Os186`` :
+* ``W186`` ->  ``Os186`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.137 MeV}
 
-* ``Os184-W184`` :
+* ``Os184`` ->  ``W184`` :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.111 MeV}
@@ -750,12 +756,12 @@ From the ``dbd_isotopes.lis`` resource file:
   6. 2+ (4)  {1.386 MeV}
   7. 2+ (5)  {1.431 MeV}  
 
-* ``Os192-Pt192`` :
+* ``Os192`` ->  ``Pt192`` :
 
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.317 MeV}
 
-* ``Pt190-Os190`` :
+* ``Pt190`` ->  ``Os190`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.187 MeV}
@@ -764,24 +770,24 @@ From the ``dbd_isotopes.lis`` resource file:
   4. 2+ (3) {1.115 MeV}
   5. 0+ (2) {1.382 MeV}
 
-* ``Pt198-Hg198`` :
+* ``Pt198`` ->  ``Hg198`` :
 
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.412 MeV}
 
-* ``Bi214-At214`` :
+* ``Bi214`` ->  ``At214`` :
 
   0. 1- (gs) {0 MeV}
 
-* ``Pb214-Po214`` :
+* ``Pb214`` ->  ``Po214`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Po218-Rn218`` :
+* ``Po218`` ->  ``Rn218`` :
 
   0. 0+ (gs) {0 MeV}
 
-* ``Rn222-Ra222`` :
+* ``Rn222`` ->  ``Ra222`` :
 
   0. 0+ (gs) {0 MeV}
 
