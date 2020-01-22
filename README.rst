@@ -281,46 +281,52 @@ Usage
 Basic program
 -------------
 
-The following program is extracted from the BxDecay0's ``ex00`` example:
+The  following  program  is  extracted from  the  BxDecay0's  ``ex00``
+example. It  randomly generates  10 simulated events  corresponding to
+the neutrinoless double beta decay (DBD) process of :sup:`100`Mo.  The
+resulting events are printed in the  terminal in a very simple format.
+It  is of  course  possible to  adapt  this program  and  use the  OOP
+interface  of  the  ``bxdecay0::event``  class  in  order  to  extract
+physical quantities of interest (particles' type and momentum...).
 
 .. code:: c++
 
    #include <iostream>
-   #include <bxdecay0/std_random.h>        # Wrapper for the standard random module's PRNG
-   #include <bxdecay0/event.h>             # Decay event data model
-   #include <bxdecay0/decay0_generator.h>  # Decay0 generator with OOP interface
+   #include <bxdecay0/std_random.h>        // Wrapper for the standard random module's PRNG
+   #include <bxdecay0/event.h>             // Decay event data model
+   #include <bxdecay0/decay0_generator.h>  // Decay0 generator with OOP interface
 
    int main()
    {
-     # Declare a PRNG:
-     unsigned int seed = 314159;                 # Random seed
-     std::default_random_engine generator(seed); # Standard PRNG
-     bxdecay0::std_random prng(generator);       # PRNG wrapper
+     // Declare a PRNG:
+     unsigned int seed = 314159;                 // Random seed
+     std::default_random_engine generator(seed); // Standard PRNG
+     bxdecay0::std_random prng(generator);       // PRNG wrapper
 
-     # Declare a Decay0 generator:
+     // Declare a Decay0 generator:
      bxdecay0::decay0_generator decay0;
      
-     # Configure the Decay0 generator:
-     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD); # Double-beta decay process
-     decay0.set_decay_isotope("Mo100");              # Emitter nucleus
-     decay0.set_decay_dbd_level(0);                  # Ground state of the daughter nucleus
-     decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); # Neutrinoless DBD (mass mechanism)
+     // Configure the Decay0 generator:
+     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD); // Double-beta decay process
+     decay0.set_decay_isotope("Mo100");              // Emitter nucleus
+     decay0.set_decay_dbd_level(0);                  // Ground state of the daughter nucleus
+     decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); // Neutrinoless DBD (mass mechanism)
      // or :
      // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
      
-     # Initialize the Decay0 generator.
-     # We need to pass some PRNG to pre-compute some quantities from energy distributions:
+     // Initialize the Decay0 generator.
+     // We need to pass some PRNG to pre-compute some quantities from energy distributions:
      decay0.initialize(prng);
 
-     # Shoot some decay events:
+     // Shoot some decay events:
      std::size_t nevents = 10;
      for (std::size_t ievent = 0; ievent < nevents; ievent++) {
-       bxdecay0::event gendecay;     # Declare an empty decay event
-       decay0.shoot(prng, gendecay); # Randomize the decay event
-       gendecay.store(std::cout);    # Basic ASCII output
+       bxdecay0::event gendecay;     // Declare an empty decay event
+       decay0.shoot(prng, gendecay); // Randomize the decay event
+       gendecay.store(std::cout);    // Basic ASCII output
      }
 
-     decay0.reset(); # Terminate the generator
+     decay0.reset(); // Terminate the generator
      return 0;
    }
 ..
