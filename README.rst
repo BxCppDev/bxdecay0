@@ -849,7 +849,8 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
 * The original Decay0 code has changed the so-called *modebb* index of
   some Majoron modes  from versions above 2017 with  respect to former
   versions.  We thus use an index map to ensure backward compatibility
-  and force the BxDecay0 interface stable.
+  and force the BxDecay0 interface stable with respect to the original
+  C++ port in the Bayeux_/genbb module.
 * 5, 6, 13, 14 are Majoron modes with spectral index SI:
   
   - SI=1 - old Gelmini-Roncadelli Majoron
