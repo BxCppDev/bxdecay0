@@ -283,8 +283,8 @@ Basic program
 
 The  following  program  is  extracted from  the  BxDecay0's  ``ex00``
 example. It  randomly generates  10 simulated events  corresponding to
-the neutrinoless double beta decay (DBD) process of :sup:`100` Mo.  The
-resulting events are printed in the  terminal in a very simple format.
+the neutrinoless double beta decay (DBD) process of :sup:`100` Mo to the ground state of :sup:`100` Ru.
+The resulting events are printed in the  terminal in a very simple format.
 It  is of  course  possible to  adapt  this program  and  use the  OOP
 interface  of  the  ``bxdecay0::event``  class  in  order  to  extract
 physical quantities of interest (particles' type and momentum...).
