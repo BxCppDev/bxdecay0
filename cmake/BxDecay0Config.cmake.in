@@ -4,6 +4,7 @@
 #  BxDecay0_DEFINITIONS   - compile definitions needed to use BxDecay0
 #  BxDecay0_INCLUDE_DIRS  - include directories for BxDecay0
 #  BxDecay0_LIBRARY_DIR   - lib directories for BxDecay0
+#  BxDecay0_LIBRARY       - BxDecay0 library name
 #  BxDecay0_LIBRARIES     - libraries to link against
 
 #----------------------------------------------------------------------
@@ -72,6 +73,7 @@ mark_as_advanced(BxDecay0_LIBRARY_DIR)
 set(BxDecay0_LIBRARY BxDecay0 CACHE FILE "BxDecay0 library (imported)")
 mark_as_advanced(BxDecay0_LIBRARY)
 
-set(BxDecay0_LIBRARIES ${BxDecay0_LIBRARY})
+set(BxDecay0_LIBRARIES ${BxDecay0_LIBRARY_DIR}/lib${BxDecay0_LIBRARY}${CMAKE_SHARED_LIBRARY_SUFFIX})
+mark_as_advanced(BxDecay0_LIBRARIES)
 
 # - end
