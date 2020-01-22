@@ -935,7 +935,7 @@ Additional comment
 Unlike  the  original  Decay0  code, BxDecay0  does  not  support  the
 generation   of   so-called   *artifical*  events   (Compton,   Moller
 scattering, e+e- pair).  It should  not be difficult to implement such
-generators by yourself.
+generators by yourself independently of BxDecay0.
 
 .. Links
 
