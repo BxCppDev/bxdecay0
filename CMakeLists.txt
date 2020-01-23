@@ -15,7 +15,6 @@ project(BxDecay0 VERSION 1.0.0)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2018-12-05")
 
-
 # - Load Custom Modules
 #   a dedicated FindGSL.cmake (extracted from CMake 3.5) is provided
 #   because CMake 3.0 has none.
@@ -449,16 +448,12 @@ target_link_libraries(BxDecay0 PUBLIC GSL::gsl)
 # - Set RPATH as needed
 set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
 
-install( FILES
-  ${BxDecay0_HEADERS}
+install(FILES ${BxDecay0_HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bxdecay0
-  PERMISSIONS OWNER_READ OWNER_WRITE
-  GROUP_READ
-  WORLD_READ
   )
 
 install(TARGETS BxDecay0
-  EXPORT  BxDecay0Targets
+  EXPORT BxDecay0Targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -481,12 +476,8 @@ configure_file(cmake/bxdecay0.pc.in
   ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
   @ONLY)
 
-install( FILES
-  ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
+install(FILES ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
-  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
   )
 
 install( DIRECTORY
@@ -522,65 +513,73 @@ install( FILES
 include(CTest)
 
 if(BUILD_TESTING)
+  set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
+  
   foreach(_testsource ${BxDecay0_TESTS})
-    set(_bxdecay0_TEST_ENVIRONMENT
-      "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources"
-      )
-    get_filename_component(_testname "${_testsource}" NAME_WE)
+   get_filename_component(_testname "${_testsource}" NAME_WE)
     set(_testname "bxdecay0-${_testname}")
-    add_executable(${_testname} ${_testsource}
-      # source/bxdecay0/testing/test.h
-      # source/bxdecay0/testing/test.cc
-      )
-    target_link_libraries(${_testname} BxDecay0 ${BxDecay0_OTHER_LIBS})
-    # - On Apple, ensure dynamic_lookup of undefined symbols
-    if(APPLE)
-      set_target_properties(${_testname} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    endif()
+    add_executable(${_testname} ${_testsource})
+    target_link_libraries(${_testname} BxDecay0)
     add_test(NAME ${_testname} COMMAND ${_testname})
     set_property(TEST ${_testname}
       APPEND PROPERTY ENVIRONMENT ${_bxdecay0_TEST_ENVIRONMENT}
-      )
-    # - For now, dump them into the testing output directory
-    set_target_properties(${_testname}
-      PROPERTIES
-      RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bxdecay0_tests
-      ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bxdecay0_tests
       )
   endforeach()
 endif()
 
 #-----------------------------------------------------------------------
-# Install targets and resources
-#
-#-----------------------------------------------------------------------
 # Configure/Install support files
-# Done here so that external package variables are visible
-#
-# - Targets
-export(TARGETS BxDecay0
-  FILE ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0Targets.cmake
+# - PkgConfig
+configure_file(cmake/bxdecay0.pc.in
+  "${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc"
+  @ONLY)
+
+install(FILES "${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc"
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
   )
+
+# - CMake
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+   "${PROJECT_BINARY_DIR}/BxDecay0ConfigVersion.cmake"
+   VERSION ${BxDecay0_VERSION}
+   COMPATIBILITY SameMajorVersion
+   )
+
+# Build tree
+# targets...
+export(EXPORT BxDecay0Targets
+  NAMESPACE BxDecay0
+  FILE "${PROJECT_BINARY_DIR}/BxDecay0Targets.cmake"
+  )
+# config file...
+set(BxDecay0_CONFIG_INCLUDEDIR "${PROJECT_SOURCE_DIR}/source")
+configure_package_config_file(cmake/BxDecay0Config.cmake.in
+  "${PROJECT_BINARY_DIR}/BxDecay0Config.cmake"
+  INSTALL_DESTINATION "."
+  INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}"
+  PATH_VARS BxDecay0_CONFIG_INCLUDEDIR
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+
+# Install Tree
+# targets...
 install(EXPORT BxDecay0Targets
-  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}
+  NAMESPACE 
+  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
-
-# - Versioning (build and install trees)
-configure_file(${PROJECT_SOURCE_DIR}/cmake/BxDecay0ConfigVersion.cmake.in
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0ConfigVersion.cmake
-  @ONLY
-  )
-
-# - Config (build and install trees *at present*)
-configure_file(${PROJECT_SOURCE_DIR}/cmake/BxDecay0Config.cmake.in
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0Config.cmake
-  @ONLY
+set(BxDecay0_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+configure_package_config_file(cmake/BxDecay0Config.cmake.in
+  "${PROJECT_BINARY_DIR}/cmake/BxDecay0Config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_CMAKEDIR}/BxDecay0"
+  PATH_VARS BxDecay0_CONFIG_INCLUDEDIR
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
   )
 
 install(FILES
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0ConfigVersion.cmake
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}/BxDecay0Config.cmake
-  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/${BxDecay0_TAG}
+  ${PROJECT_BINARY_DIR}/BxDecay0ConfigVersion.cmake
+  ${PROJECT_BINARY_DIR}/cmake/BxDecay0Config.cmake
+  DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
 
 # - end of CMakeLists.txt

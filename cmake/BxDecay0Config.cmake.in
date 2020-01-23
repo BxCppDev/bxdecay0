@@ -1,11 +1,6 @@
 # - Config file for the BxDecay0 package
 # It defines the following variables
 #  BxDecay0_VERSION       - BxDecay0 version
-#  BxDecay0_DEFINITIONS   - compile definitions needed to use BxDecay0
-#  BxDecay0_INCLUDE_DIRS  - include directories for BxDecay0
-#  BxDecay0_LIBRARY_DIR   - lib directories for BxDecay0
-#  BxDecay0_LIBRARY       - BxDecay0 library name
-#  BxDecay0_LIBRARIES     - libraries to link against
 
 #----------------------------------------------------------------------
 # This program is free software: you can redistribute it and/or modify
@@ -22,58 +17,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #----------------------------------------------------------------------
 
-#-----------------------------------------------------------------------
-# Locate ourselves, since all our config files should have been installed
-# alongside us...
-#
-get_filename_component(__bxdecay0_config_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-
 set(BxDecay0_VERSION @BxDecay0_VERSION@)
-mark_as_advanced(BxDecay0_VERSION)
 
-#-----------------------------------------------------------------------
-# Build option
-set(BxDecay0_DEFINITIONS @BXDECAY0_DEFINITIONS@)
-if(CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS ${BxDecay0_DEFINITIONS})
-endif()
+@PACKAGE_INIT@
 
-#-----------------------------------------------------------------------
-# Hard code paths to headers
-#
-
-set(BxDecay0_INCLUDE_DIR "${__bxdecay0_config_dir}/@BXDECAY0_CMAKEDIR_TO_INCLUDEDIR@")
-mark_as_advanced(BxDecay0_INCLUDE_DIR)
-
-set(BxDecay0_INCLUDE_DIRS
-  "${BxDecay0_INCLUDE_DIR}"
-  )
+set_and_check(BxDecay0_INCLUDE_DIR @PACKAGE_BxDecay0_CONFIG_INCLUDEDIR@)
 
 #-----------------------------------------------------------------------
 # Handle paths/targets for third party deps here...
-
+#
 set(BxDecay0_GSL_VERSION @GSL_VERSION@)
 set(GSL_ROOT_DIR @GSL_ROOT_DIR@)
 find_package(GSL ${BxDecay0_GSL_VERSION} REQUIRED)
-
 
 #-----------------------------------------------------------------------
 # Include the file listing all the imported targets.
 # This is installed in the same location as us...
 #
 if(NOT BxDecay0_TARGETS_LOADED)
-  include("${__bxdecay0_config_dir}/BxDecay0Targets.cmake")
+  include("${CMAKE_CURRENT_LISTDIR}/BxDecay0Targets.cmake")
   set(BxDecay0_TARGETS_LOADED 1)
 endif()
 
-set(BxDecay0_LIBRARY_DIR "${__bxdecay0_config_dir}/@BXDECAY0_CMAKEDIR_TO_LIBDIR@")
-mark_as_advanced(BxDecay0_LIBRARY_DIR)
-
-# - BxDecay0 itself
-set(BxDecay0_LIBRARY BxDecay0 CACHE FILE "BxDecay0 library (imported)")
-mark_as_advanced(BxDecay0_LIBRARY)
-
-set(BxDecay0_LIBRARIES ${BxDecay0_LIBRARY_DIR}/lib${BxDecay0_LIBRARY}${CMAKE_SHARED_LIBRARY_SUFFIX})
-mark_as_advanced(BxDecay0_LIBRARIES)
-
-# - end
+set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
