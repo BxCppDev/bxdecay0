@@ -15,11 +15,6 @@ project(BxDecay0 VERSION 1.0.0)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2018-12-05")
 
-# - Load Custom Modules
-#   a dedicated FindGSL.cmake (extracted from CMake 3.5) is provided
-#   because CMake 3.0 has none.
-list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
-
 #-----------------------------------------------------------------------
 # - Standard UNIX Tool install paths, including relative paths for use
 # by applications requiring resources
@@ -431,8 +426,6 @@ target_include_directories(BxDecay0 PUBLIC
 )
 # GSL may be a private dep, only seems to appear in .cc files
 target_link_libraries(BxDecay0 PUBLIC GSL::gsl)
-
-# - Set RPATH as needed
 set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
 
 install(FILES ${BxDecay0_HEADERS}
@@ -447,23 +440,19 @@ install(TARGETS BxDecay0
   )
 
 
-install( DIRECTORY
-  ${PROJECT_SOURCE_DIR}/examples
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
-install( DIRECTORY
-  ${PROJECT_SOURCE_DIR}/resources/data
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
   )
 
-install( FILES
-  ${PROJECT_SOURCE_DIR}/LICENSE.txt
+install(FILES ${PROJECT_SOURCE_DIR}/LICENSE.txt
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
 include(CTest)
-
 if(BUILD_TESTING)
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
   
@@ -543,5 +532,3 @@ install(FILES
   ${PROJECT_BINARY_DIR}/cmake/BxDecay0Config.cmake
   DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
-
-# - end of CMakeLists.txt
