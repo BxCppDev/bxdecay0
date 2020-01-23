@@ -32,8 +32,8 @@ if("${isSystemDir}" STREQUAL "-1")
 endif()
 
 # BxDecay0
-message (STATUS "[info] Finding package BxRabbitMQ with 'manager' component...")
-find_package(BxDecay0 1.0 REQUIRED CONFIG COMPONENTS manager)
+message (STATUS "[info] Finding package BxDecay0...")
+find_package(BxDecay0 1.0 REQUIRED CONFIG)
 message (STATUS "BxDecay0_VERSION       ='${BxDecay0_VERSION}'")
 message (STATUS "BxDecay0_INCLUDE_DIRS  ='${BxDecay0_INCLUDE_DIRS}'")
 message (STATUS "BxDecay0_LIBRARIES     ='${BxDecay0_LIBRARIES}'")
