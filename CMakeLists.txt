@@ -39,19 +39,6 @@ set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
 # Resources directories based on name-version subdirs
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
 
-file(RELATIVE_PATH BXDECAY0_BINDIR_TO_RESOURCEDIR
-  "${CMAKE_INSTALL_FULL_BINDIR}"
-  "${CMAKE_INSTALL_FULL_DATAROOTDIR}/${BxDecay0_TAG}"
-  )
-file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_INCLUDEDIR
-  "${CMAKE_INSTALL_FULL_CMAKEDIR}/${BxDecay0_TAG}"
-  "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
-  )
-file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_LIBDIR
-  "${CMAKE_INSTALL_FULL_CMAKEDIR}/${BxDecay0_TAG}"
-  "${CMAKE_INSTALL_FULL_LIBDIR}"
-  )
-
 # - Dependencies
 find_package(GSL 2.4 REQUIRED)
 
@@ -460,55 +447,20 @@ install(TARGETS BxDecay0
   )
 
 
-configure_file(source/utilities/bxdecay0-query.in
-  ${PROJECT_BINARY_DIR}/source/utilities/bxdecay0-query
-  @ONLY)
-
-install( FILES
-  ${PROJECT_BINARY_DIR}/source/utilities/bxdecay0-query
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
-  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
-  )
-
-configure_file(cmake/bxdecay0.pc.in
-  ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
-  @ONLY)
-
-install(FILES ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
-  )
-
 install( DIRECTORY
   ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
-  FILE_PERMISSIONS OWNER_READ
-  GROUP_READ
-  WORLD_READ
-  DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
   )
 
 install( DIRECTORY
   ${PROJECT_SOURCE_DIR}/resources/data
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
-  FILE_PERMISSIONS OWNER_READ
-  GROUP_READ
-  WORLD_READ
-  DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
   )
 
 install( FILES
   ${PROJECT_SOURCE_DIR}/LICENSE.txt
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
-  PERMISSIONS OWNER_READ OWNER_WRITE
-  GROUP_READ
-  WORLD_READ
-)
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
+  )
 
 include(CTest)
 
@@ -529,6 +481,16 @@ endif()
 
 #-----------------------------------------------------------------------
 # Configure/Install support files
+# bxdecay0-config program
+configure_file(source/utilities/bxdecay0-query.in
+  ${PROJECT_BINARY_DIR}/bxdecay0-query
+  @ONLY)
+
+install(FILES
+  ${PROJECT_BINARY_DIR}/bxdecay0-query
+  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  )
+
 # - PkgConfig
 configure_file(cmake/bxdecay0.pc.in
   "${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc"
