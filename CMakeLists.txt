@@ -53,7 +53,7 @@ file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_LIBDIR
   )
 
 # - Dependencies
-find_package(GSL 1.15 REQUIRED)
+find_package(GSL 2.4 REQUIRED)
 
 # - Publish headers
 configure_file(source/bxdecay0/version.h.in
