@@ -11,9 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: sudo apt-get install g++ cmake libgsl-dev     
+      run: sudo apt-get install g++ cmake libgsl-dev ninja-build  
     - name: Configure
-      run: mkdir build && cd build && cmake ..
+      run: mkdir build && cd build && cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
     - name: Build
       run: cmake --build build
     - name: Test
