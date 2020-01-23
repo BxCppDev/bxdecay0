@@ -222,26 +222,26 @@ Add the following line in your shell startup script (i.e. ``~/.bashrc``):
 ..
 
 
-The ``bxdecay0-query`` script will be usable from your projects:
+The ``bxdecay0-config`` script will be usable from your projects:
 
 .. code:: sh
 
-   $ which bxdecay0-query
+   $ which bxdecay0-config
 ..
 
 
 Utilities
 ---------
 
-* The   ``bxdecay0-query``  utility   script  allows   you  to   fetch
+* The   ``bxdecay0-config``  utility   script  allows   you  to   fetch
   informations about your installation of the BxDecay0 library.
 
   .. code:: sh
 
-     $ bxdecay0-query --help
-     $ bxdecay0-query --prefix
-     $ bxdecay0-query --version
-     $ bxdecay0-query --cmakedir
+     $ bxdecay0-config --help
+     $ bxdecay0-config --prefix
+     $ bxdecay0-config --version
+     $ bxdecay0-config --cmakedir
   ..
 
 
@@ -256,7 +256,7 @@ Utilities
 
   .. code:: sh
 
-     $ cmake -DBxDecay0_DIR="$(bxdecay0-query --cmakedir)" ...
+     $ cmake -DBxDecay0_DIR="$(bxdecay0-config --cmakedir)" ...
   ..
 
 

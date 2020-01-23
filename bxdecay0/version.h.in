@@ -2,7 +2,7 @@
 #define BXDECAY0_VERSION_H
 
 //! String encoded full version number, e.g. "1.2.3", available at compile time
-#define BXDECAY0_LIB_VERSION "@BxDecay0_VERSION_MAJOR@.@BxDecay0_VERSION_MINOR@.@BxDecay0_VERSION_PATCH@"
+#define BXDECAY0_LIB_VERSION "@BxDecay0_VERSION@"
 
 #define BXDECAY0_DECAY0_VERSION "@BxDecay0_DECAY0_VERSION@"
 

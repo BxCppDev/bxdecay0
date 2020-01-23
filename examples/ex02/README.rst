@@ -25,7 +25,7 @@ Build
 =====
 
 #. BxDecay0   should    be   setup   on   your    system,   i.e.   the
-   ``bxdecay0-query`` utility script should be in your path.
+   ``bxdecay0-config`` utility script should be in your path.
 #. Cd in the BxDecay0's ``ex02`` source directory:
 #. Configure  and build  ``ex02``  from a  dedicated build  directory,
    assuming HepMC3 is installed from *Linuxbrew* :
@@ -38,14 +38,10 @@ Build
       $ export PATH=$(spack find --format "{prefix}" bxdecay0)/bin:${PATH}
       $ export PATH=$(spack find --format "{prefix}" hepmc3)/bin:${PATH}
       $ cmake \
-	     -DCMAKE_INSTALL_PREFIX=$(pwd)/../_install.d \
-	     -DBxDecay0_DIR=$(bxdecay0-query --cmakedir) \
+	     -DBxDecay0_DIR=$(bxdecay0-config --cmakedir) \
 	     -DHepMC3_DIR=$(HepMC3-config --prefix)/share/HepMC/cmake \
 	     ..
       $ make
-      $ make install
-      $ cd ..
-      $ rm -fr _build.d/  # Remove the temporary build directory
    ..
 
 Run
@@ -55,7 +51,7 @@ Run
 
    .. code:: bash
 
-      $ _install.d/bin/ex02
+      $ ./ex02
    ..
 
 #. Enjoy the ``bxdecay_ex02-hepmc3-ascii.data`` output file!
