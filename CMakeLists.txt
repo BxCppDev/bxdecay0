@@ -470,12 +470,12 @@ endif()
 #-----------------------------------------------------------------------
 # Configure/Install support files
 # bxdecay0-config program
-configure_file(source/utilities/bxdecay0-query.in
-  ${PROJECT_BINARY_DIR}/bxdecay0-query
+configure_file(bxdecay0-config.in
+  ${PROJECT_BINARY_DIR}/bxdecay0-config
   @ONLY)
 
 install(FILES
-  ${PROJECT_BINARY_DIR}/bxdecay0-query
+  ${PROJECT_BINARY_DIR}/bxdecay0-config
   DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
 

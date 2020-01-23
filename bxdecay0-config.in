@@ -26,7 +26,7 @@
 # used from some  client scripts (i.e. wrapper/launcher  scripts for a
 # batch system on a computing farm).
 
-APPNAME="bxdecay0-query"
+APPNAME="bxdecay0-config"
 prefix_dir="@CMAKE_INSTALL_PREFIX@"
 version_str="@BxDecay0_VERSION@"
 orig_version_str="@BxDecay0_DECAY0_VERSION@"
@@ -43,7 +43,7 @@ function print_usage()
 
     cat<<EOF
 
-bxdecay0-query - Utility script to fetch informations about the BxDecay0 library installation.
+bxdecay0-config - Utility script to fetch informations about the BxDecay0 library installation.
 
 Options:
   -h [ --help ]          Print help.

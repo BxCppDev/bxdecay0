@@ -22,7 +22,7 @@ let as an exercise to the user.
 Build
 =====
 
-#. BxDecay0 should be setup on your system, i.e. the ``bxdecay0-query`` utility script
+#. BxDecay0 should be setup on your system, i.e. the ``bxdecay0-config`` utility script
    should be in your path.
 #. Cd in the BxDecay0's ``ex03`` source directory:
 #. Configure and build ``ex03`` from a dedicated build directory:
@@ -31,15 +31,8 @@ Build
 
       $ mkdir _build.d/   # Make a temporary build directory
       $ cd _build.d/
-      $ cmake \
-	     -DCMAKE_INSTALL_PREFIX=$(pwd)/../_install.d \
-	     -DBxDecay0_DIR=$(bxdecay0-query --cmakedir) \
-	     ..
+      $ cmake -DBxDecay0_DIR=$(bxdecay0-config --cmakedir) ..
       $ make
-      $ make install
-      $ cd ..
-      $ rm -fr _build.d/  # Remove the temporary build directory
-
 
 Run
 ===
@@ -48,7 +41,7 @@ Run
 
    .. code:: bash
 
-      $ _install.d/bin/ex03
+      $ ./ex03
 
 
 #. Enjoy the ``bxdecay_ex03.data`` output file!

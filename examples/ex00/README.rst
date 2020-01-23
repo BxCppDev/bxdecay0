@@ -23,7 +23,7 @@ Build
 =====
 
 #. BxDecay0   should    be   setup   on   your    system,   i.e.   the
-   ``bxdecay0-query`` utility script should be in your path.
+   ``bxdecay0-config`` utility script should be in your path.
 #. Cd in the BxDecay0's ``ex00`` source directory:
 #. Configure and build ``ex00`` from a dedicated build directory:
 
@@ -31,14 +31,8 @@ Build
 
       $ mkdir _build.d/   # Make a temporary build directory
       $ cd _build.d/
-      $ cmake \
-	     -DCMAKE_INSTALL_PREFIX=$(pwd)/../_install.d \
-	     -DBxDecay0_DIR=$(bxdecay0-query --cmakedir) \
-	     ..
+      $ cmake -DBxDecay0_DIR=$(bxdecay0-config --cmakedir) ..
       $ make
-      $ make install
-      $ cd ..
-      $ rm -fr _build.d/  # Remove the temporary build directory
    ..
 
 Run
@@ -48,7 +42,7 @@ Run
 
    .. code:: bash
 
-      $ _install.d/bin/ex00 > bxdecay_ex00.data
+      $ ./ex00 > bxdecay_ex00.data
    ..
 
 #. Enjoy the ``bxdecay_ex00.data`` output file!
