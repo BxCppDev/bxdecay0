@@ -120,14 +120,14 @@ Preparation of your system
 
 BxDecay0 is developped  on a Ubuntu Linux (18.04 LTS)  and should work
 on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
-(i.e. GNU g++ >= 4.9).
+(i.e. GNU g++ >= 4.9) including macOS.
 
 Requirements for Ubuntu 18.04 LTS
 ---------------------------------
 
 The following lines give some hints  to prepare your system before the
-installation  of BxDecay0.  Some  instructions may  vary  on your  own
-system.
+installation  of BxDecay0.   Some instructions  may vary  depending on
+your own system.
 
 #. Install GNU C++ compiler:
 
@@ -170,8 +170,8 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxprotobuftools/archive/1.0.0.tar.gz
-   $ tar xvzf 1.0.0.tar.gz
+   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.0.tar.gz
+   $ tar xvzf bxdecay0-1.0.0.tar.gz
    $ cd bxdecay0-1.0.0
 ..
 
@@ -229,22 +229,12 @@ The ``bxdecay0-query`` script will be usable from your projects:
    $ which bxdecay0-query
 ..
 
-Using Linuxbrew
----------------
-
-As  an alternative  to  the manual  installation  proposed above,  the
-BxCppDev   group  provides   the   ``bxdecay0``   formula_  from   the
-``bxcppdev/homebrew-bxtap``  Linuxbrew  tap.  This allows  to  install
-BxDecay0 from the Linuxbrew package management system.
-
-.. _formula: https://github.com/BxCppDev/homebrew-bxtap
-
 
 Utilities
 ---------
 
 * The   ``bxdecay0-query``  utility   script  allows   you  to   fetch
-  informations about your BxDecay0 installation.
+  informations about your installation of the BxDecay0 library.
 
   .. code:: sh
 
@@ -277,6 +267,15 @@ Utilities
 
 Usage
 ======
+
+Build support
+-------------
+
+BxDecay0  comes  with  CMake  and pkg-config  support.   The  BxDecay0
+installation  directory contains  dedicated scripts  usable by  client
+applications.
+
+
 
 Basic program
 -------------
