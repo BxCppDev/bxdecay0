@@ -1,25 +1,4 @@
 # - Top level CMakeLists.txt for BxDecay0 C++ library
-
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-
-# - Versioning
-set(BxDecay0_VERSION_MAJOR 1)
-set(BxDecay0_VERSION_MINOR 0)
-set(BxDecay0_VERSION_PATCH 0)
-set(BxDecay0_VERSION "${BxDecay0_VERSION_MAJOR}.${BxDecay0_VERSION_MINOR}.${BxDecay0_VERSION_PATCH}")
-
-message("[info] BxDecay0_VERSION_MAJOR = ${BxDecay0_VERSION_MAJOR}")
-message("[info] BxDecay0_VERSION_MINOR = ${BxDecay0_VERSION_MINOR}")
-message("[info] BxDecay0_VERSION_PATCH = ${BxDecay0_VERSION_PATCH}")
-message("[info] BxDecay0_VERSION       = '${BxDecay0_VERSION}'")
-
-project(bxdecay0 VERSION ${BxDecay0_VERSION} LANGUAGES CXX)
-message("[info] Project name           = '${PROJECT_NAME}'")
-message("[info] Project version        = '${PROJECT_VERSION}'")
-message("[info] Source directory       = '${CMAKE_SOURCE_DIR}'")
-message("[info] Build directory        = '${CMAKE_BINARY_DIR}'")
-message("[info] Install directory      = '${CMAKE_INSTALL_PREFIX}'")
-
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(STATUS "${PROJECT_NAME} requires an out-of-source build.")
   message(STATUS "Please remove these files from ${CMAKE_BINARY_DIR} first:")
@@ -31,14 +10,16 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "in-source build detected")
 endif()
 
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+project(BxDecay0 VERSION 1.0.0)
+# - Version of the original fortran Decay0
+set(BxDecay0_DECAY0_VERSION "2018-12-05")
+
+
 # - Load Custom Modules
 #   a dedicated FindGSL.cmake (extracted from CMake 3.5) is provided
 #   because CMake 3.0 has none.
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
-
-# - Version of the original fortran Decay0
-set(BxDecay0_DECAY0_VERSION "2018-12-05")
-message("[info] Original Decay0 version = '${BxDecay0_DECAY0_VERSION}'")
 
 #-----------------------------------------------------------------------
 # - Standard UNIX Tool install paths, including relative paths for use
@@ -58,7 +39,6 @@ set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
 
 # Resources directories based on name-version subdirs
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
-message("[info] BxDecay0 tag = '${BxDecay0_TAG}'")
 
 file(RELATIVE_PATH BXDECAY0_BINDIR_TO_RESOURCEDIR
   "${CMAKE_INSTALL_FULL_BINDIR}"
@@ -72,17 +52,9 @@ file(RELATIVE_PATH BXDECAY0_CMAKEDIR_TO_LIBDIR
   "${CMAKE_INSTALL_FULL_CMAKEDIR}/${BxDecay0_TAG}"
   "${CMAKE_INSTALL_FULL_LIBDIR}"
   )
-message(STATUS "[info] BXDECAY0_BINDIR_TO_RESOURCEDIR  = '${BXDECAY0_BINDIR_TO_RESOURCEDIR}'")
-message(STATUS "[info] BXDECAY0_CMAKEDIR_TO_INCLUDEDIR = '${BXDECAY0_CMAKEDIR_TO_INCLUDEDIR}'")
-message(STATUS "[info] BXDECAY0_CMAKEDIR_TO_LIBDIR     = '${BXDECAY0_CMAKEDIR_TO_LIBDIR}'")
 
 # - Dependencies
 find_package(GSL 1.15 REQUIRED)
-message(STATUS "[info] GSL_VERSION      = '${GSL_VERSION}'")
-message(STATUS "[info] GSL_INCLUDE_DIRS = '${GSL_INCLUDE_DIRS}'")
-message(STATUS "[info] GSL_LIBRARIES    = '${GSL_LIBRARIES}'")
-
-message(STATUS "[info] Project binary directory = '${PROJECT_BINARY_DIR}'")
 
 # - Publish headers
 configure_file(source/bxdecay0/version.h.in
@@ -264,7 +236,6 @@ set(BxDecay0_HEADERS
   source/bxdecay0/decay0_generator.h
   )
 
-message("[info] BxDecay0_HEADERS = '${BxDecay0_HEADERS}'")
 configure_file(source/bxdecay0/resource.cc.in
   ${PROJECT_BINARY_DIR}/source/bxdecay0/resource.cc  @ONLY)
 
@@ -437,7 +408,6 @@ set(BxDecay0_SOURCES
   source/bxdecay0/decay0_generator.cc
  )
 
-message("[info] BxDecay0_SOURCES = '${BxDecay0_SOURCES}'")
 
 set(BxDecay0_TESTS
   source/bxdecay0/testing/test_resource.cxx
@@ -458,7 +428,6 @@ set(BxDecay0_TESTS
   source/bxdecay0/testing/test_decay0_generator.cxx
   )
 
-message("[info] BxDecay0_TESTS = '${BxDecay0_TESTS}'")
 
 set(BXDECAY0_DEFINITIONS
   -std=c++11
@@ -476,11 +445,7 @@ add_library(BxDecay0 SHARED
   ${BxDecay0_SOURCES}
   )
 
-set(BxDecay0_OTHER_LIBS
-  GSL::gsl GSL::gslcblas
-  )
-
-target_link_libraries(BxDecay0 ${BxDecay0_OTHER_LIBS})
+target_link_libraries(BxDecay0 GSL::gsl)
 
 # - Set RPATH as needed
 set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
@@ -490,19 +455,19 @@ set_target_properties(BxDecay0 PROPERTIES COMPILE_DEFINITIONS ENABLE_BINRELOC)
 
 install( FILES
   ${BxDecay0_HEADERS}
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/bxdecay0
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bxdecay0
   PERMISSIONS OWNER_READ OWNER_WRITE
   GROUP_READ
   WORLD_READ
   )
 
-install( FILES
-  ${PROJECT_BINARY_DIR}/libBxDecay0${CMAKE_SHARED_LIBRARY_SUFFIX}
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
-  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-  GROUP_READ GROUP_EXECUTE
-  WORLD_READ WORLD_EXECUTE
+install(TARGETS BxDecay0
+  EXPORT  BxDecay0Targets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
+
 
 configure_file(source/utilities/bxdecay0-query.in
   ${PROJECT_BINARY_DIR}/source/utilities/bxdecay0-query
@@ -522,7 +487,7 @@ configure_file(cmake/bxdecay0.pc.in
 
 install( FILES
   ${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig/
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
   GROUP_READ GROUP_EXECUTE
   WORLD_READ WORLD_EXECUTE
@@ -530,7 +495,7 @@ install( FILES
 
 install( DIRECTORY
   ${PROJECT_SOURCE_DIR}/examples
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   FILE_PERMISSIONS OWNER_READ
   GROUP_READ
   WORLD_READ
@@ -541,7 +506,7 @@ install( DIRECTORY
 
 install( DIRECTORY
   ${PROJECT_SOURCE_DIR}/resources/data
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
   FILE_PERMISSIONS OWNER_READ
   GROUP_READ
   WORLD_READ
@@ -558,12 +523,9 @@ install( FILES
   WORLD_READ
 )
 
-option(BXDECAY0_ENABLE_TESTING "Build unit testing system for BxDecay0" ON)
-if(BXDECAY0_ENABLE_TESTING)
-  enable_testing()
-endif()
+include(CTest)
 
-if(BXDECAY0_ENABLE_TESTING)
+if(BUILD_TESTING)
   foreach(_testsource ${BxDecay0_TESTS})
     set(_bxdecay0_TEST_ENVIRONMENT
       "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources"
@@ -595,13 +557,6 @@ endif()
 #-----------------------------------------------------------------------
 # Install targets and resources
 #
-install(TARGETS BxDecay0
-  EXPORT  BxDecay0Targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-
 #-----------------------------------------------------------------------
 # Configure/Install support files
 # Done here so that external package variables are visible

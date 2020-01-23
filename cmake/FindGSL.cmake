@@ -66,7 +66,6 @@
 #  License text for the above reference.)
 
 # File extracted from CMake 3.5
-message(STATUS "[info] FindGSL: CMake 3.5 version...")
 
 # Include these modules to handle the QUIETLY and REQUIRED arguments.
 find_package(PackageHandleStandardArgs)
