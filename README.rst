@@ -171,9 +171,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.0.tar.gz
-   $ tar xvzf bxdecay0-1.0.0.tar.gz
-   $ cd bxdecay0-1.0.0
+   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.1.tar.gz
+   $ tar xvzf bxdecay0-1.0.1.tar.gz
+   $ cd bxdecay0-1.0.1
 ..
 
 
@@ -194,7 +194,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0-1.0.0
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0-1.0.1
 ..
 
 
