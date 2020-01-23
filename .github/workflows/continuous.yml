@@ -1,0 +1,20 @@
+name: Continuous
+
+on:
+  pull_request:
+    branches: 
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: sudo apt-get install g++ cmake libgsl-dev     
+    - name: Configure
+      run: mkdir build && cd build && cmake ..
+    - name: Build
+      run: cmake --build build
+    - name: Test
+      run: cd build && ctest
