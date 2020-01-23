@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak, Emma Mauger
-:date: 2020-01-16
+:date: 2020-01-23
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
 The **BxDecay0** C++ library provides a set of classes and functions for
@@ -218,7 +218,7 @@ Add the following line in your shell startup script (i.e. ``~/.bashrc``):
 
 .. code:: sh
 
-   $ export PATH=${HOME}/bxdecay0/bin:$PATH
+   $ export PATH=${HOME}/bxdecay0/bin:${PATH}
 ..
 
 
@@ -229,8 +229,17 @@ The ``bxdecay0-config`` script will be usable from your projects:
    $ which bxdecay0-config
 ..
 
+One may want to use the ``pkg-config`` utility:
 
-Utilities
+.. code:: sh
+
+   $ export PKG_CONFIG_PATH=${HOME}/bxdecay0/lib/pkgconfig:${PKG_CONFIG_PATH}
+   $ pkg-config --exists bxdecay0 && echo ok
+   ok
+..
+
+
+Utility
 ---------
 
 * The   ``bxdecay0-config``  utility   script  allows   you  to   fetch
@@ -243,22 +252,6 @@ Utilities
      $ bxdecay0-config --version
      $ bxdecay0-config --cmakedir
   ..
-
-
-* CMake  configuration  scripts  are      provided:
-
-  * ``BxDecay0Config.cmake``,
-  * ``BxDecay0ConfigVersion.cmake``.
-
-  The ``find_package(BxDecay0 1.0 CONFIG)`` CMake command can be given
-  the  following variable  to locate  BxDecay0 on  your system  from a
-  client project which uses the CMake build system:
-
-  .. code:: sh
-
-     $ cmake -DBxDecay0_DIR="$(bxdecay0-config --cmakedir)" ...
-  ..
-
 
 .. raw:: pdf
 
@@ -275,6 +268,34 @@ BxDecay0  comes  with  CMake  and pkg-config  support.   The  BxDecay0
 installation  directory contains  dedicated scripts  usable by  client
 applications.
 
+* CMake  configuration  scripts  are provided:
+
+  * ``BxDecay0Config.cmake``,
+  * ``BxDecay0ConfigVersion.cmake``.
+
+  The ``find_package(BxDecay0 1.0 CONFIG)`` CMake command can be given
+  the  following variable  to locate  BxDecay0 on  your system  from a
+  client project which uses the CMake build system:
+
+  .. code:: sh
+
+     $ cmake -DBxDecay0_DIR="$(bxdecay0-config --cmakedir)" ...
+  ..
+
+* A ``pkg-config`` script is provided:
+
+  * ``bxdecay0.pc``.
+
+  Usage:
+  
+  .. code:: sh
+
+     $ pkg-config --cflags bxdecay0
+     -I/path/to/bxdecay0/install/dir/lib/pkgconfig/../../include
+     $ pkg-config --libs bxdecay0
+     -L/path/to/bxdecay0/install/dir/lib/pkgconfig/../../lib \
+       -lBxDecay0 -lgsl -lgslcblas -lm
+  ..
 
 
 Basic program
@@ -291,9 +312,9 @@ physical quantities of interest (particles' type and momentum...).
 .. code:: c++
 
    #include <iostream>
-   #include <bxdecay0/std_random.h>        // Wrapper for the standard random module's PRNG
-   #include <bxdecay0/event.h>             // Decay event data model
-   #include <bxdecay0/decay0_generator.h>  // Decay0 generator with OOP interface
+   #include <bxdecay0/std_random.h>       // Wrapper for the standard random PRNG
+   #include <bxdecay0/event.h>            // Decay event data model
+   #include <bxdecay0/decay0_generator.h> // Decay0 generator with OOP interface
 
    int main()
    {
@@ -306,15 +327,18 @@ physical quantities of interest (particles' type and momentum...).
      bxdecay0::decay0_generator decay0;
      
      // Configure the Decay0 generator:
-     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD); // Double-beta decay process
+     decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+                                                     // Double-beta decay process
      decay0.set_decay_isotope("Mo100");              // Emitter nucleus
-     decay0.set_decay_dbd_level(0);                  // Ground state of the daughter nucleus
+     decay0.set_decay_dbd_level(0);                  // Ground state of the daughter
+                                                     // nucleus
      decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); // Neutrinoless DBD (mass mechanism)
      // or :
      // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
      
      // Initialize the Decay0 generator.
-     // We need to pass some PRNG to pre-compute some quantities from energy distributions:
+     // We need to pass some PRNG to pre-compute some quantities
+     // from energy distributions:
      decay0.initialize(prng);
 
      // Shoot some decay events:
@@ -366,8 +390,8 @@ Authors and contributors
   and the BxDecay0 library,
 * Emma Mauger (formerly `Université de Caen Normandie`_) has done a large
   part of the extraction and port to C++ of the standalone BxDecay0 from the
-  original Bayeux_ *genbb* library module.
-
+  original Bayeux_ *genbb* library module,
+* Ben Morgan (Warwick University): CMake build system and package reorganization.
 
   
 References
