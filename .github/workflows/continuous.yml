@@ -1,0 +1,32 @@
+name: Continuous
+
+on:
+  pull_request:
+    branches: 
+      - develop
+
+jobs:
+  build-ubuntu18:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt-get install g++ cmake libgsl-dev ninja-build  
+    - name: Configure
+      run: mkdir build && cd build && cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+    - name: Build
+      run: cmake --build build
+    - name: Test
+      run: cd build && ctest
+  build-macos-catalina:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: brew install cmake gsl ninja  
+      - name: Configure
+        run: mkdir build && cd build && cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: cd build && ctest
