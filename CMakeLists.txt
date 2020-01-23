@@ -429,29 +429,25 @@ set(BxDecay0_TESTS
   )
 
 
-set(BXDECAY0_DEFINITIONS
-  -std=c++11
-  )
-
-if(CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS ${BXDECAY0_DEFINITIONS})
+# For now, use CMAKE_CXX_STANDARD to apply flag.
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 11)
 endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-include_directories(${PROJECT_SOURCE_DIR}/source)
-include_directories(${PROJECT_BINARY_DIR}/source)
-
-add_library(BxDecay0 SHARED
-  ${BxDecay0_HEADERS}
-  ${BxDecay0_SOURCES}
-  )
-
-target_link_libraries(BxDecay0 GSL::gsl)
+add_library(BxDecay0 SHARED ${BxDecay0_HEADERS} ${BxDecay0_SOURCES})
+target_compile_definitions(BxDecay0 PRIVATE ENABLE_BINRELOC)
+target_include_directories(BxDecay0 PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>
+  $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/source>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+# GSL may be a private dep, only seems to appear in .cc files
+target_link_libraries(BxDecay0 PUBLIC GSL::gsl)
 
 # - Set RPATH as needed
 set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
-
-# - Use BinReloc
-set_target_properties(BxDecay0 PROPERTIES COMPILE_DEFINITIONS ENABLE_BINRELOC)
 
 install( FILES
   ${BxDecay0_HEADERS}
