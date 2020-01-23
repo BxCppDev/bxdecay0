@@ -14,25 +14,25 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(BxDecay0 VERSION 1.0.0)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2018-12-05")
+set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
 
-#-----------------------------------------------------------------------
-# - Standard UNIX Tool install paths, including relative paths for use
-# by applications requiring resources
+# - Standard Modules
+# For "BUILD_TESTING" option
+include(CTest)
+
+# Install directories
 include(GNUInstallDirs)
 
-# - Validate that certain paths are relative, otherwise relocation may fail
+# Require relative paths to support relocation
 foreach(_dir BINDIR LIBDIR INCLUDEDIR DATAROOTDIR)
   if(IS_ABSOLUTE "${CMAKE_INSTALL_${_dir}}")
-    message(FATAL_ERROR "[fatal] Absolute path for CMAKE_INSTALL_${_dir} not allowed")
+    message(FATAL_ERROR "Absolute path for CMAKE_INSTALL_${_dir} not allowed")
   endif()
 endforeach()
 
 # Add a path for CMake config files
 set(CMAKE_INSTALL_CMAKEDIR      ${CMAKE_INSTALL_LIBDIR}/cmake)
 set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
-
-# Resources directories based on name-version subdirs
-set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
 
 # - Dependencies
 find_package(GSL 2.4 REQUIRED)
@@ -390,25 +390,6 @@ set(BxDecay0_SOURCES
  )
 
 
-set(BxDecay0_TESTS
-  source/bxdecay0/testing/test_resource.cxx
-  source/bxdecay0/testing/test_decay0.cxx
-  source/bxdecay0/testing/test_tsimpr.cxx
-  source/bxdecay0/testing/test_particle.cxx
-  source/bxdecay0/testing/test_std_random.cxx
-  source/bxdecay0/testing/test_event.cxx
-  source/bxdecay0/testing/test_positron.cxx
-  source/bxdecay0/testing/test_electron.cxx
-  source/bxdecay0/testing/test_gamma.cxx
-  source/bxdecay0/testing/test_alpha.cxx
-  source/bxdecay0/testing/test_pair.cxx
-  source/bxdecay0/testing/test_fermi.cxx
-  source/bxdecay0/testing/test_bb_utils.cxx
-  source/bxdecay0/testing/test_bb.cxx
-  source/bxdecay0/testing/test_genbbsub.cxx
-  source/bxdecay0/testing/test_decay0_generator.cxx
-  )
-
 
 # For now, use CMAKE_CXX_STANDARD to apply flag.
 if(NOT CMAKE_CXX_STANDARD)
@@ -452,8 +433,26 @@ install(FILES ${PROJECT_SOURCE_DIR}/LICENSE.txt
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
-include(CTest)
 if(BUILD_TESTING)
+  set(BxDecay0_TESTS
+    source/bxdecay0/testing/test_resource.cxx
+    source/bxdecay0/testing/test_decay0.cxx
+    source/bxdecay0/testing/test_tsimpr.cxx
+    source/bxdecay0/testing/test_particle.cxx
+    source/bxdecay0/testing/test_std_random.cxx
+    source/bxdecay0/testing/test_event.cxx
+    source/bxdecay0/testing/test_positron.cxx
+    source/bxdecay0/testing/test_electron.cxx
+    source/bxdecay0/testing/test_gamma.cxx
+    source/bxdecay0/testing/test_alpha.cxx
+    source/bxdecay0/testing/test_pair.cxx
+    source/bxdecay0/testing/test_fermi.cxx
+    source/bxdecay0/testing/test_bb_utils.cxx
+    source/bxdecay0/testing/test_bb.cxx
+    source/bxdecay0/testing/test_genbbsub.cxx
+    source/bxdecay0/testing/test_decay0_generator.cxx
+    )
+
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
   
   foreach(_testsource ${BxDecay0_TESTS})
