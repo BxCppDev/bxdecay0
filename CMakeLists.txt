@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.0)
+project(BxDecay0 VERSION 1.0.1)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2018-12-05")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -46,52 +46,52 @@ configure_file(bxdecay0/config.h.in
 set(BxDecay0_HEADERS
   ${PROJECT_BINARY_DIR}/bxdecay0/version.h
   ${PROJECT_BINARY_DIR}/bxdecay0/config.h
-  bxdecay0/resource.h #
-  bxdecay0/common.h #
-  bxdecay0/divdif.h #
-  bxdecay0/dgmlt1.h #
-  bxdecay0/dgmlt2.h #
-  bxdecay0/dshelp1.h #
-  bxdecay0/dshelp2.h #
-  bxdecay0/gauss.h #
-  bxdecay0/tsimpr.h #
-  bxdecay0/particle_utils.h #
-  bxdecay0/particle.h #
-  bxdecay0/i_random.h #
-  bxdecay0/i_decay_generator.h #
-  bxdecay0/std_random.h #
-  bxdecay0/event.h #
-  bxdecay0/positron.h #
-  bxdecay0/electron.h #
-  bxdecay0/gamma.h #
-  bxdecay0/alpha.h #
-  bxdecay0/gfang.h #
-  bxdecay0/gdrot.h #
-  bxdecay0/tgold.h #
-  bxdecay0/plog69.h #
-  bxdecay0/compton1.h #
-  bxdecay0/compton.h #
-  bxdecay0/moller1.h #
-  bxdecay0/moller.h #
-  bxdecay0/pair.h #
-  bxdecay0/pairext1.h #
-  bxdecay0/pairext.h #
-  bxdecay0/beta2.h #
-  bxdecay0/beta1.h #
-  bxdecay0/beta.h #
-  bxdecay0/beta_1fu.h #
-  bxdecay0/fermi.h #
-  bxdecay0/funbeta.h #
-  bxdecay0/funbeta_1fu.h #
-  bxdecay0/funbeta1.h #
-  bxdecay0/funbeta2.h #
-  bxdecay0/fe1_mods.h  #
-  bxdecay0/fe2_mods.h #
-  bxdecay0/fe12_mods.h #
-  bxdecay0/nucltransK.h #
-  bxdecay0/nucltransKL.h #
-  bxdecay0/nucltransKLM.h #
-  bxdecay0/nucltransKLM_Pb.h #
+  bxdecay0/resource.h
+  bxdecay0/common.h
+  bxdecay0/divdif.h
+  bxdecay0/dgmlt1.h
+  bxdecay0/dgmlt2.h
+  bxdecay0/dshelp1.h
+  bxdecay0/dshelp2.h
+  bxdecay0/gauss.h
+  bxdecay0/tsimpr.h
+  bxdecay0/particle_utils.h
+  bxdecay0/particle.h
+  bxdecay0/i_random.h
+  bxdecay0/i_decay_generator.h
+  bxdecay0/std_random.h
+  bxdecay0/event.h
+  bxdecay0/positron.h
+  bxdecay0/electron.h
+  bxdecay0/gamma.h
+  bxdecay0/alpha.h
+  bxdecay0/gfang.h
+  bxdecay0/gdrot.h
+  bxdecay0/tgold.h
+  bxdecay0/plog69.h
+  bxdecay0/compton1.h
+  bxdecay0/compton.h
+  bxdecay0/moller1.h
+  bxdecay0/moller.h
+  bxdecay0/pair.h
+  bxdecay0/pairext1.h
+  bxdecay0/pairext.h
+  bxdecay0/beta2.h
+  bxdecay0/beta1.h
+  bxdecay0/beta.h
+  bxdecay0/beta_1fu.h
+  bxdecay0/fermi.h
+  bxdecay0/funbeta.h
+  bxdecay0/funbeta_1fu.h
+  bxdecay0/funbeta1.h
+  bxdecay0/funbeta2.h
+  bxdecay0/fe1_mods.h  
+  bxdecay0/fe2_mods.h
+  bxdecay0/fe12_mods.h
+  bxdecay0/nucltransK.h
+  bxdecay0/nucltransKL.h
+  bxdecay0/nucltransKLM.h
+  bxdecay0/nucltransKLM_Pb.h
   bxdecay0/bb.h
   bxdecay0/bb_utils.h
   bxdecay0/decay0_generator.h
@@ -214,6 +214,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Ta180mB.h  # Added from 2018-12-05
   bxdecay0/Ta180mEC.h # Added from 2018-12-05
   bxdecay0/Yb170low.h # Added from 2018-12-05
+  # Main wrapper class
   bxdecay0/decay0_generator.h
   )
 
@@ -389,8 +390,6 @@ set(BxDecay0_SOURCES
   bxdecay0/decay0_generator.cc
  )
 
-
-
 # For now, use CMAKE_CXX_STANDARD to apply flag.
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 11)
@@ -419,7 +418,6 @@ install(TARGETS BxDecay0
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
-
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}

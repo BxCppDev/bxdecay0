@@ -68,6 +68,7 @@ GSL_, ROOT_ or whatever).
 - Prerelease 1.0.0  : mixed port  from Decay0 2017-03-01  and embedded
   decay0 C++ code in Bayeux 3 based on Decay0 2013.
 - First release 1.0.0 : updated from Decay0 2018-12-05
+- First production release 1.0.1 : updated build system
 
 
 .. _SuperNEMO: http://supernemo.org/
