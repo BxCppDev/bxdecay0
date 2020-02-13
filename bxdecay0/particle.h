@@ -130,8 +130,8 @@ namespace bxdecay0 {
   private:
 
     particle_code _code_;        ///< Particle code
-    double        _time_;        ///< Particle generation delay time after previous particle in the event (second)
-    double        _momentum_[3]; ///< Particle momentum * c (in  MeV)
+    double        _time_;        ///< Particle generation delay time after the previous particle in the event (unit: second)
+    double        _momentum_[3]; ///< Particle momentum (unit: MeV/c)
 
   };
 

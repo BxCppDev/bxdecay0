@@ -36,7 +36,8 @@ inc_dir="${prefix_dir}/@CMAKE_INSTALL_INCLUDEDIR@"
 data_dir="${prefix_dir}/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@"
 example_dir="${data_dir}/examples"
 resource_dir="${data_dir}/resources"
-cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/@BxDecay0_TAG@"
+# cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/@BxDecay0_TAG@"
+cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/BxDecay0"
 
 function print_usage()
 {

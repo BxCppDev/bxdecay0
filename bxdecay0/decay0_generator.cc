@@ -192,7 +192,6 @@ namespace bxdecay0 {
     return;
   }
 
-
   const bxdecay0::bbpars & decay0_generator::get_bb_params() const
   {
     decay0_generator * mutable_this = const_cast<decay0_generator*>(this);

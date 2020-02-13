@@ -35,8 +35,11 @@ find_package(GSL ${BxDecay0_GSL_VERSION} REQUIRED)
 # This is installed in the same location as us...
 #
 if(NOT BxDecay0_TARGETS_LOADED)
-  include("${CMAKE_CURRENT_LISTDIR}/BxDecay0Targets.cmake")
+  include("${CMAKE_CURRENT_LIST_DIR}/BxDecay0Targets.cmake")
   set(BxDecay0_TARGETS_LOADED 1)
 endif()
 
-set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
+set(BxDecay0_LIBRARIES BxDecay0)
+### set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
+
+# - end

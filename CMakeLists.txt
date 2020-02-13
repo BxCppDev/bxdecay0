@@ -15,6 +15,7 @@ project(BxDecay0 VERSION 1.0.1)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2018-12-05")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
+message(STATUS "==============> BxDecay0_TAG=${BxDecay0_TAG}")
 
 # - Standard Modules
 # For "BUILD_TESTING" option
@@ -94,6 +95,7 @@ set(BxDecay0_HEADERS
   bxdecay0/nucltransKLM_Pb.h
   bxdecay0/bb.h
   bxdecay0/bb_utils.h
+  bxdecay0/dbd_gA.h
   bxdecay0/decay0_generator.h
   bxdecay0/utils.h
   bxdecay0/genbbsub.h
@@ -387,6 +389,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Ta180mB.cc  # Added from 2018-12-05
   bxdecay0/Ta180mEC.cc # Added from 2018-12-05
   bxdecay0/Yb170low.cc # Added from 2018-12-05
+  bxdecay0/dbd_gA.cc
   bxdecay0/decay0_generator.cc
  )
 
@@ -448,6 +451,7 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb_utils.cxx
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
+    bxdecay0/testing/test_dbd_gA.cxx
     bxdecay0/testing/test_decay0_generator.cxx
     )
 
