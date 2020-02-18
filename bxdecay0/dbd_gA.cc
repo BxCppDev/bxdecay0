@@ -184,7 +184,7 @@ namespace bxdecay0 {
     }
 
     // Build the path of the tabulated p.d.f. resource file:
-    {
+    if (_shooting_ == SHOOTING_REJECTION) {
       std::ostringstream outs;
       outs << "data/dbd_gA/" << _nuclide_ << '/' << process_label(_process_) << '/'
            << "tab_pdf.data";
@@ -193,12 +193,23 @@ namespace bxdecay0 {
       _tabulated_pdf_file_path_ = fres;
     }
     
+    // if (_shooting_ == SHOOTING_XXX) {
+    //   build another path for tabulated cumulative probabilities (CDF)
+    // }
+    
     // _pimpl_ = std::make_unique<pimpl_type>();
     _pimpl_.reset(new pimpl_type);
     
-    _load_tabulated_pdf_();
-    _build_pdf_interpolator_();
+    if (_shooting_ == SHOOTING_REJECTION) {
+      _load_tabulated_pdf_();     // Loading tabulated joint PDF
+      _build_pdf_interpolator_(); // Build a dedicated joint PDF interpolator
+    }
     
+    // if (_shooting_ == SHOOTING_XXX) {
+    //   call another private method to load tabulated cumulative probabilities (CDF)
+    //   call another private method to load tabulated cumulative probabilities (CDF)
+    // }
+  
     _initialized_ = true;
     return;
   }
@@ -256,7 +267,7 @@ namespace bxdecay0 {
   {
     std::ifstream f_tab_pdf(_tabulated_pdf_file_path_.c_str());
     if (! f_tab_pdf) {
-      throw std::logic_error("bxdecay0::dbd_gA::initialize: Cannot open file '"
+      throw std::logic_error("bxdecay0::dbd_gA::_load_tabulated_pdf_: Cannot open file '"
                              + _tabulated_pdf_file_path_ + "'!");
     }
     bool debug = false;
@@ -435,7 +446,7 @@ namespace bxdecay0 {
   void dbd_gA::reset()
   {
     if (!is_initialized()) {
-      throw std::logic_error("bxdecay0::dbd_gA::initialize: Generator is not initialized!");
+      throw std::logic_error("bxdecay0::dbd_gA::reset: Generator is not initialized!");
     }
     _initialized_ = false;
 
@@ -489,6 +500,11 @@ namespace bxdecay0 {
     if (_shooting_ == SHOOTING_REJECTION) {
       _shoot_rejection_(prng_, e1_, e2_);
     }
+
+    // if (_shooting_ == SHOOTING_XXX) {
+    //   call another shoot method using the tabulated cumulative probabilities (CDF)
+    //   _shoot_xxx_(prng_, e1_, e2_);
+    // }
     
     return;
   }

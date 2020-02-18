@@ -63,6 +63,7 @@ namespace bxdecay0 {
     enum shooting_type {
       SHOOTING_UNDEF,    ///< Undefined E1/E2 randomization method
       SHOOTING_REJECTION ///< Von Neumann rejection sampling method
+      //, SHOOTING_XXX   ///< Specify another sampling method
     };
 
     /// Check is a nuclide is supported
