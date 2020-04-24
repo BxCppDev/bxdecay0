@@ -393,7 +393,8 @@ Authors and contributors
   part of the extraction and port to C++ of the standalone BxDecay0 from the
   original Bayeux_ *genbb* library module,
 * Ben Morgan (Warwick University): CMake build system and package reorganization.
-
+* Malak Hoballah and Laurent Simard (LAL Orsay) (support for DBD generator with gA process)
+  
   
 References
 ===========
@@ -862,6 +863,10 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
 ``DBDMODE_18`` ``0nubb_rhc_eta_nmes``    18           0nubb(rhc-eta)    0+ -> 0+ with RHC eta and specific NMEs
 ``DBDMODE_19`` ``2nub_lv``               19           2nubb(LV)         0+ -> 0+ with Lorentz violation
 ``DBDMODE_20`` ``0nu4b``                 20           0nu4b             0+ -> 0+ Quadruple beta decay
+``DBDMODE_21`` ``2nubb_gA_g0``           NA           2nubbg0           0+ -> 0+     {2n} (g0)
+``DBDMODE_22`` ``2nubb_gA_g2``           NA           2nubbg2           0+ -> 0+     {2n} (g2)
+``DBDMODE_23`` ``2nubb_gA_g22``          NA           2nubbg22          0+ -> 0+     {2n} (g22)
+``DBDMODE_24`` ``2nubb_gA_g4``           NA           2nubbg4           0+ -> 0+     {2n} (g4)
 ============== ========================= ============ ============================================================
 
 .. raw:: pdf
@@ -882,8 +887,11 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
   - SI=7
   - SI=2 - bulk M of Mohapatra
 	       
-* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150
+* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150      
+* 21, 22, 23, 24: two neutrino double beta decay, gA modes g0, g2, g22, g4 possible only for Se82, Mo100,
+  Cd116, Nd150 (only to the daughter ground state).
 
+  
 List of standard radioactive isotopes (background/calibration)
 --------------------------------------------------------------
 

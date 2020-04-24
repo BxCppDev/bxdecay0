@@ -26,6 +26,7 @@
 #include <bxdecay0/resource.h>
 
 namespace bxdecay0 {
+  
   const std::set<std::string> & dbd_isotopes()
   {
     bool trace = false;
@@ -140,7 +141,11 @@ namespace bxdecay0 {
         if (!parse_iss) {
           throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename + "'! Cannot decode legacy Decay0 mode");
         }
-        record.legacy_modebb = static_cast<legacy_modebb_type>(legacy_modebb);
+        if (legacy_modebb >= 0) {
+          record.legacy_modebb = static_cast<legacy_modebb_type>(legacy_modebb);
+        } else {
+          record.legacy_modebb = LEGACY_MODEBB_NA;
+        }
 
         // Description:
         std::getline(parse_iss, record.description);

@@ -76,7 +76,7 @@ void test1()
     std::ofstream fout2("test_dbd_gA_2.data");
     std::ofstream fout3("test_dbd_gA_3.data");
     std::ofstream fout4("test_dbd_gA_4.data");
-    int N = 1000000;
+    int N = 10000;
     for (int i = 0; i < N; i++) {
       if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
       double e1;
@@ -109,18 +109,12 @@ void test2()
   gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_INVERSE_TRANSFORM_METHOD);
   gA_generator.initialize();
   gA_generator.print(std::clog, "gA DBD generator", "[info] ");
-
-  // {
-  //   std::ofstream fout1("test2_dbd_gA_1.data");
-  //   gA_generator.plot_interpolated_cdf(fout1, 20);
-  //   fout1 << std::endl;
-  // }
   
   {
     std::ofstream fout2("test2_dbd_gA_2.data");
     std::ofstream fout3("test2_dbd_gA_3.data");
     std::ofstream fout4("test2_dbd_gA_4.data");
-    int N = 1000000;
+    int N = 10000;
     for (int i = 0; i < N; i++) {
       if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
       double e1;

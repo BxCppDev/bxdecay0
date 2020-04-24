@@ -196,8 +196,12 @@ namespace bxdecay0 {
     double      _energy_max_;             //!< Maximum energy sum
 
     // Working internal data:
-    size_t _event_count_; //!< Current event count
-    std::unique_ptr<bxdecay0::bbpars> _bb_params_; //!< Decay0 parameters
+    // size_t _event_count_; //!< Current event count
+    // std::unique_ptr<bxdecay0::bbpars> _bb_params_; //!< Decay0 parameters
+
+    struct pimpl_type;
+    struct pimpl_deleter_type { void operator()(pimpl_type*) const; };
+    std::unique_ptr<pimpl_type, pimpl_deleter_type> _pimpl_; ///< Private implementation
 
   };
 

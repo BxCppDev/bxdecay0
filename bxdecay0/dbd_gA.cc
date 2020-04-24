@@ -918,6 +918,15 @@ namespace bxdecay0 {
     return;
   }
 
+  void dbd_gA::shoot(i_random & prng_, event & ev_)
+  {
+    double e1, e2, cos12;
+    this->shoot_e1_e2(prng_, e1, e2);
+    this->shoot_cos_theta(prng_, e1, e2, cos12);
+    export_to_event(prng_, e1, e2, cos12, ev_);
+    return;
+  }
+
   void load_optimized_cdf_array(const std::string & in_str_, std::vector<double> & tab_cprobs_)
   {
     bool debug = false;

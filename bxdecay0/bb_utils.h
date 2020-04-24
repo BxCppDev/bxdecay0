@@ -86,6 +86,22 @@ namespace bxdecay0 {
     DBDMODE_0NU4B_0 = 20, 
     DBDMODE_20 = DBDMODE_0NU4B_0,
 
+    // Double beta decay with gA process (g0) only for Se82, Mo100, Cd116, Nd150
+    DBDMODE_2NUBB_GA_G0 = 21, 
+    DBDMODE_21 = DBDMODE_2NUBB_GA_G0,
+
+    // Double beta decay with gA process (g2) only for Se82, Mo100, Cd116, Nd150
+    DBDMODE_2NUBB_GA_G2 = 22, 
+    DBDMODE_22 = DBDMODE_2NUBB_GA_G2,
+
+    // Double beta decay with gA process (g22) only for Se82, Mo100, Cd116, Nd150
+    DBDMODE_2NUBB_GA_G22 = 23, 
+    DBDMODE_23 = DBDMODE_2NUBB_GA_G22,
+
+    // Double beta decay with gA process (g4) only for Se82, Mo100, Cd116, Nd150
+    DBDMODE_2NUBB_GA_G4 = 24, 
+    DBDMODE_24 = DBDMODE_2NUBB_GA_G4,
+
     DBDMODE_MIN = DBDMODE_1,
     DBDMODE_MAX = DBDMODE_20
   };
@@ -114,7 +130,8 @@ namespace bxdecay0 {
     LEGACY_MODEBB_19 = 19, 
     LEGACY_MODEBB_20 = 20,
     LEGACY_MODEBB_MIN = 1,
-    LEGACY_MODEBB_MAX = 20
+    LEGACY_MODEBB_MAX = 20,
+    LEGACY_MODEBB_NA  = -1 ///< Unsupported by legacy decay0
   };
 
   /// \brief DBD mode record

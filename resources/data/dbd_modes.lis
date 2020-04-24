@@ -37,5 +37,9 @@
 18  0nubb_rhc_eta_nmes   18 0nubb(rhc-eta)    0+ -> 0+ with RHC eta and specific NMEs
 19  2nub_lv              19 2nubb(LV)         0+ -> 0+ with Lorentz violation
 20  0nu4b                20 0nu4b             0+ -> 0+ quadruple beta
+21  2nubb_gA_g0          -1 2nubbg0           0+ -> 0+     {2n} (g0)
+22  2nubb_gA_g2          -1 2nubbg2           0+ -> 0+     {2n} (g2)
+23  2nubb_gA_g22         -1 2nubbg22          0+ -> 0+     {2n} (g22)
+24  2nubb_gA_g4          -1 2nubbg4           0+ -> 0+     {2n} (g4)
 # end
 

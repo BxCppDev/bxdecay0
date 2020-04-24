@@ -35,6 +35,7 @@
 
 void test1();
 void test2();
+void test3();
 
 int main()
 {
@@ -42,6 +43,7 @@ int main()
   try {
     test1();
     test2();
+    test3();
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
@@ -104,6 +106,35 @@ void test2()
     decay0.shoot(prng, decay);
     decay.set_time(0.0);
     decay.print(std::clog, "Background event:", "[info] ");
+    decay.store(std::cout);
+  }
+
+  decay0.reset();
+  return;
+}
+
+void test3()
+{
+  std::clog << "\ntest3:\n";
+  unsigned int seed = 314159;
+  std::default_random_engine generator(seed);
+  bxdecay0::std_random prng(generator);
+
+  bxdecay0::decay0_generator decay0;
+  decay0.set_debug(true);
+  decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+  decay0.set_decay_isotope("Se82");
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_21); // DBDMODE_2NUBB_GA_G0
+  decay0.set_decay_dbd_level(0);
+  decay0.initialize(prng);
+  decay0.smart_dump(std::clog, "DBD generator: ", "[info] ");
+
+  bxdecay0::event decay;
+  std::size_t nevents = 2;
+  for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+    decay0.shoot(prng, decay);
+    decay.set_time(0.0);
+    decay.print(std::clog, "DBD event:", "[info] ");
     decay.store(std::cout);
   }
 

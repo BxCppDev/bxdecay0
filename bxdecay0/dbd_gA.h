@@ -117,6 +117,9 @@ namespace bxdecay0 {
     /// Interpolated sample of the p.d.f. for plotting
     void plot_interpolated_pdf(std::ostream & out_, const unsigned int nsamples_ = 100) const;
 
+    /// Shoot an event
+    void shoot(i_random & prng_, event & event_);
+
     /// Build a "event" object from randomized kinematic quantities
     static void export_to_event(i_random & prng_,
                                 const double e1_,
