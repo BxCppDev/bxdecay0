@@ -436,6 +436,7 @@ install(FILES ${PROJECT_SOURCE_DIR}/LICENSE.txt
 
 if(BUILD_TESTING)
   set(BxDecay0_TESTS
+    bxdecay0/testing/test_utils.cxx
     bxdecay0/testing/test_resource.cxx
     bxdecay0/testing/test_decay0.cxx
     bxdecay0/testing/test_tsimpr.cxx

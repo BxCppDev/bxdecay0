@@ -1,17 +1,15 @@
 # Grid
 3.0              # Maximum energy sum (MeV)
 
-# Format of the E1 and E2 kinetic energy samplings:
-#   sampling_mode_E1 nb_samples_E1 E1_min E1_max 
-#   sampling_mode_E2 nb_samples_E2 E2_min E2_max 
-linear 8 0.0 3.0 # E1 sampling (MeV) 
-linear 8 0.0 3.0 # E2 sampling (MeV) 
+# Format of the kinetic energy sampling:
+# Probability E_min E_max E_step nb_samples 
+Probability 0.2 2.7 0.3125 8  
 
-# Tabulated P.d.f. using the above E1 and E2 sampling:
+# Tabulated p.d.f. using the above E1 and E2 sampling:
 #
 #         min                         max
-#      +---+---+---+---+---+---+---+---+-----------> E2
-#      |
+#      +---+---+---+---+---+---+---+---+--|----------> E2
+#      |                                 E_max
 #  min +   *   *   *   *   *   *   *   *
 #      |
 #      +   *   *   *   *   *   *   *   '
@@ -28,24 +26,26 @@ linear 8 0.0 3.0 # E2 sampling (MeV)
 #      |
 #  max +   *   '   '   '   '   '   '   '
 #      |
+#      - E_max
+#      |
 #      v
 #    E1
 #
-0.05 0.20 0.30 0.30 0.20 0.05 0.01 0.00
+0.05 0.20 0.30 0.30 0.20 0.05 0.01 0.001
 
-0.20 0.35 0.35 0.25 0.12 0.01 0.00 0.00
+0.20 0.35 0.35 0.25 0.12 0.01 0.001
 
-0.30 0.35 0.30 0.12 0.01 0.00 0.00 0.00
+0.30 0.35 0.30 0.12 0.01 0.001
 
-0.30 0.25 0.12 0.01 0.00 0.00 0.00 0.00
+0.30 0.25 0.12 0.01 0.001 
 
-0.20 0.12 0.01 0.00 0.00 0.00 0.00 0.00
+0.20 0.12 0.01 0.001 
 
-0.05 0.01 0.00 0.00 0.00 0.00 0.00 0.00
+0.05 0.01 0.001 
 
-0.01 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+0.01 0.001 
 
-0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+0.001 
 
 # end
 

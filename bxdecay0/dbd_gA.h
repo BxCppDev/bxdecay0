@@ -1,8 +1,9 @@
 /// \file bxdecay0/dbd_gA.h
 /* Author(s):     Francois Mauger <mauger@lpccaen.in2p3.fr>
+ *                Malak Hoballah
  *
  * Creation date: 2020-02-05
- * Last modified: 2020-02-05
+ * Last modified: 2020-04-22
  *
  * License:
  * Copyright 2020-2020 F. Mauger
@@ -62,8 +63,8 @@ namespace bxdecay0 {
     /// \brief The shooting method
     enum shooting_type {
       SHOOTING_UNDEF,    ///< Undefined E1/E2 randomization method
-      SHOOTING_REJECTION ///< Von Neumann rejection sampling method
-      //, SHOOTING_XXX   ///< Specify another sampling method
+      SHOOTING_REJECTION, ///< Von Neumann rejection sampling method
+      SHOOTING_INVERSE_TRANSFORM_METHOD, ///< Inverse transformation method, cumulative probability 
     };
 
     /// Check is a nuclide is supported
@@ -78,6 +79,12 @@ namespace bxdecay0 {
     /// Destructor
     ~dbd_gA();
 
+    /// Set the debug flag
+    void set_debug(bool debug_);
+
+    /// Check the debug flag
+    bool is_debug() const;
+    
     /// Set the DBD emitter nuclide
     void set_nuclide(const std::string & nuclide_);
 
@@ -116,26 +123,30 @@ namespace bxdecay0 {
                                 const double e2_,
                                 const double cos12_,
                                 event & ev_);
-
     
   private:
 
     void _load_tabulated_pdf_();
     
     void _build_pdf_interpolator_();
+
+    void _load_tabulated_cdf_opt_();
     
-    void _shoot_rejection_(i_random & prng_, double & e1_, double & e2_);
-   
+    void _shoot_e1_e2_rejection_(i_random & prng_, double & e1_, double & e2_);
+
+    void _shoot_e1_e2_inverse_transform_method_(i_random & prng_, double & e1_, double & e2_);
+     
   private:
 
     // Configuration:
     std::string  _nuclide_; ///< DBD emitter nuclide
     process_type _process_ = PROCESS_UNDEF; ///< Process
     shooting_type _shooting_ = SHOOTING_UNDEF; ///< Shooting method
-      
+    bool _debug_ = false;
+
     // Working data:
     bool _initialized_ = false; ///< Initialization flag
-    std::string _tabulated_pdf_file_path_; ///< Effective path for the tabulated p.d.f. file
+    std::string _tabulated_prob_file_path_; ///< Effective path for the tabulated p.d.f. of c.d.f. file
 
     // The machinery for tabulated p.d.f. management and interpolation
     // is hidden using the "PIMPL" idiom.
@@ -148,6 +159,9 @@ namespace bxdecay0 {
 
   };
 
+  /// Parse a line which encode an array of cumulated probabilities tabulating a c.d.f. 
+  void load_optimized_cdf_array(const std::string & in_str_, std::vector<double> & tab_cprobs_);
+  
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_DBD_GA_H
