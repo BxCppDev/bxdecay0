@@ -16,9 +16,9 @@ int main()
   bxdecay0::std_random prng(generator);
   
   bxdecay0::dbd_gA gA_generator;
-  gA_generator.set_nuclide("Test");
+  gA_generator.set_nuclide("Se");
   gA_generator.set_process(bxdecay0::dbd_gA::PROCESS_G0);
-  gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_REJECTION);
+  gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_INVERSE_TRANSFORM_METHOD);
   gA_generator.initialize();
   gA_generator.print(std::clog, "gA DBD generator", "[info] ");
 

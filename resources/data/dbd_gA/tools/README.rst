@@ -2,7 +2,7 @@
 BxDecay0 DBD gA dataset
 ==============================
 
-Original datasets provided by R.
+Original datasets provided by Ratislav Dvornicki.
 
 
 Supported isotopes:
