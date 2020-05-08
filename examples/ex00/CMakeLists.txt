@@ -4,4 +4,4 @@ project(bxdecay0_ex00)
 
 find_package(BxDecay0 1.0 REQUIRED CONFIG)
 add_executable (ex00 ex00.cxx)
-target_link_libraries(ex00 BxDecay0::BxDecay0)
+target_link_libraries(ex00 BxDecay0)

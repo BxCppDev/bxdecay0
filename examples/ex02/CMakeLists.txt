@@ -7,4 +7,5 @@ find_package(HepMC3 REQUIRED CONFIG)
 
 add_executable(ex02 ex02.cxx)
 target_include_dirs(ex02 ${HEPMC3_INCLUDE_DIRS})
-target_link_libraries(ex02 BxDecay0::BxDecay0 ${HEPMC3_LIBRARIES})
+target_link_libraries(ex02 BxDecay0 ${HEPMC3_LIBRARIES})
+
