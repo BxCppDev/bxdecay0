@@ -323,7 +323,7 @@ namespace bxdecay0 {
           bb_params_.Zdbb=36.;
           bb_params_.Adbb=82.;
           bb_params_.EK=0.;
-          if (ilevel_ < 0 || ilevel_ > 2) {
+          if (ilevel_ < 0 || ilevel_ > 9) {
             std::cerr << "[error] " << "bxdecay0::genbbsub: "
                       << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
             ier_=1;
@@ -331,10 +331,21 @@ namespace bxdecay0 {
             return;
           }
           if (ilevel_ == 0) bb_params_.levelE=0;
-          if (ilevel_ == 1) bb_params_.levelE=776;
+          if (ilevel_ == 1) bb_params_.levelE=777;
           if (ilevel_ == 2) bb_params_.levelE=1475;
-          if (ilevel_ == 0) bb_params_.itrans02=0;
-          if (ilevel_ == 1 || ilevel_ == 2) bb_params_.itrans02=2;
+          if (ilevel_ == 3) bb_params_.levelE=1488;
+          if (ilevel_ == 4) bb_params_.levelE=1957;
+          if (ilevel_ == 5) bb_params_.levelE=2172;
+          if (ilevel_ == 6) bb_params_.levelE=2450;
+          if (ilevel_ == 7) bb_params_.levelE=2480;
+          if (ilevel_ == 8) bb_params_.levelE=2656;
+          if (ilevel_ == 9) bb_params_.levelE=2945;
+          if (ilevel_ == 0) bb_params_.itrans02 = 0;
+          bb_params_.itrans02=0;
+          if (ilevel_ == 0 || ilevel_ == 3 || ilevel_ == 5
+              || ilevel_ == 6) bb_params_.itrans02 = 0;
+          if (ilevel_ == 1 || ilevel_ == 2 || ilevel_ == 4
+              || ilevel_ == 7 || ilevel_ == 8 || ilevel_ == 9) bb_params_.itrans02=2;
         } else if (name_starts_with(chnuclide_,"Sr84")) {
           bb_params_.Qbb=1.790;
           bb_params_.Zdbb=-36.;

@@ -522,12 +522,19 @@ List of daughter nucleus excited states in double beta decay
   1. 2+ (1) {0.596 MeV}
   2. 2+ (2) {1.204 MeV}
 
-* ``Se82`` ->  ``Kr82`` :
+* ``Se82`` ->  ``Kr82`` : (updated from Decay0 : 2020-04-20)
 
   0. 0+ (gs) {0 MeV}
-  1. 2+ (1) {0.776 MeV}
-  2. 2+ (2) {1.475 MeV}
-
+  1. 2+ (1)  {0.777 MeV}
+  2. 2+ (2)  {1.475 MeV}
+  3. 0+ (1)  {1.488 MeV}
+  4. 2+ (3)  {1.957 MeV}
+  5. 0+ (2)  {2.172 MeV}
+  6. 0+ (3)  {2.450 MeV}
+  7. 2+ (4)  {2.480 MeV}
+  8. 2+ (5)  {2.656 MeV}
+  9. 2+ (6)  {2.945 MeV}
+	      
 * ``Sr84`` ->  ``Kr84`` :
 
   0. 0+ (gs) {0 MeV}
@@ -891,7 +898,7 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
 	       
 * 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150      
 * 21, 22, 23, 24: two neutrino double beta decay, gA modes g0, g2, g22, g4 possible only for Se82, Mo100,
-  Cd116, Nd150 (only to the daughter ground state).
+  Cd116, Nd150 (only to the daughter nucleus' ground state).
 
   
 List of standard radioactive isotopes (background/calibration)
