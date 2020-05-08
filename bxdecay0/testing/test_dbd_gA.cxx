@@ -114,9 +114,9 @@ void test2()
     std::ofstream fout2("test2_dbd_gA_2.data");
     std::ofstream fout3("test2_dbd_gA_3.data");
     std::ofstream fout4("test2_dbd_gA_4.data");
-    int N = 10000;
+    int N = 1000000;
     for (int i = 0; i < N; i++) {
-      if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
+      if (i % 10000 == 0) std::cerr << "[log] i = " << i << '\n';
       double e1;
       double e2;
       gA_generator.shoot_e1_e2(prng, e1, e2);

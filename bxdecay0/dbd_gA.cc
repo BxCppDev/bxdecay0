@@ -802,40 +802,40 @@ namespace bxdecay0 {
     e2_ = 0.0;
     double e1_rand = prng_();
     int ie1_found = -1;
-    for (unsigned int ie1 = 1; ie1 < _pimpl_->tab_prob.e1_cprobs.size(); ie1++) {
+    for (unsigned int ie1 = 0; ie1 < _pimpl_->tab_prob.e1_cprobs.size(); ie1++) {
       if (e1_rand <= _pimpl_->tab_prob.e1_cprobs[ie1]) {
         ie1_found = ie1;
         break;
       }
     }
     if (ie1_found == -1) {
-      throw std::logic_error("bxdecay0::dbd_gA::_shoot_inverse_transform_method2_: Cound not find the E1 c.d.f. sample!"); 
+      throw std::logic_error("bxdecay0::dbd_gA::_shoot_inverse_transform_method_: Cound not find the E1 c.d.f. sample!"); 
     }
     if (debug) {
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_: Found the E1 c.d.f. sample #" << ie1_found << " < " << _pimpl_->tab_prob.e1_cprobs.size() << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_: Found the E1 c.d.f. sample #" << ie1_found << " < " << _pimpl_->tab_prob.e1_cprobs.size() << std::endl;
       std::cerr.precision(16);
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - min prob = " << _pimpl_->tab_prob.e1_cprobs[ie1_found-1] << std::endl;
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - max prob = " << _pimpl_->tab_prob.e1_cprobs[ie1_found] << std::endl;
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - prob     = " << e1_rand << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - min prob = " << _pimpl_->tab_prob.e1_cprobs[ie1_found-1] << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - max prob = " << _pimpl_->tab_prob.e1_cprobs[ie1_found] << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - prob     = " << e1_rand << std::endl;
     }
     const std::vector<double> & sampled_e2cdf = _pimpl_->tab_prob.e2_cprobs[ie1_found];
     int je2_found = -1;
     double e2_rand = prng_();
-    for (unsigned int je2 = 1; je2 < sampled_e2cdf.size(); je2++) {
+    for (unsigned int je2 = 0; je2 < sampled_e2cdf.size(); je2++) {
       if (e2_rand <= sampled_e2cdf[je2]) {
         je2_found = je2;
         break;
       }
     }
     if (je2_found == -1) {
-      throw std::logic_error("bxdecay0::dbd_gA::_shoot_inverse_transform_method2_: Cound not find the E2 c.d.f. sample!"); 
+      throw std::logic_error("bxdecay0::dbd_gA::_shoot_inverse_transform_method_: Cound not find the E2 c.d.f. sample!"); 
     }
     if (debug) {
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_: Found the E2 c.d.f. sample #" << je2_found << " < " << sampled_e2cdf.size() << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_: Found the E2 c.d.f. sample #" << je2_found << " < " << sampled_e2cdf.size() << std::endl;
       std::cerr.precision(16);
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - min prob = " << sampled_e2cdf[je2_found-1] << std::endl;
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - max prob = " << sampled_e2cdf[je2_found] << std::endl;
-      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method2_:  - prob     = " << e2_rand << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - min prob = " << sampled_e2cdf[je2_found-1] << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - max prob = " << sampled_e2cdf[je2_found] << std::endl;
+      std::cerr << "[debug] bxdecay0::dbd_gA::_shoot_inverse_transform_method_:  - prob     = " << e2_rand << std::endl;
     }
     
     // E1 sampling:
@@ -849,7 +849,15 @@ namespace bxdecay0 {
     }
     double re1 = (e1_rand - cprob1_min) / (cprob1_max - cprob1_min);
     e1_ = e1_min + (e1_max - e1_min) * re1;
-    
+    // e1_ = e1_max;
+    // if (e1_ < 0.0) {
+    //   std::cerr << "[trace] ie1_found=" << ie1_found << std::endl;
+    //   std::cerr << "[trace] e1_rand=" << e1_rand << std::endl;
+    //   std::cerr << "[trace] cprob1_min=" << cprob1_min << std::endl;
+    //   std::cerr << "[trace] cprob1_max=" << cprob1_max << std::endl;
+    //   std::cerr << "[trace] re1=" << re1 << std::endl;
+    // }
+
     // E2 sampling:
     double e2_max = _pimpl_->tab_prob.energies[je2_found];
     double cprob2_max = sampled_e2cdf[je2_found];
@@ -861,6 +869,14 @@ namespace bxdecay0 {
     }
     double re2 = (e2_rand - cprob2_min) / (cprob2_max - cprob2_min);
     e2_ = e2_min + (e2_max - e2_min) * re2;
+    // e2_ = e2_max;
+    // if (e2_ < 0.0) {
+    //   std::cerr << "[trace] je2_found=" << je2_found << std::endl;
+    //   std::cerr << "[trace] e2_rand=" << e2_rand << std::endl;
+    //   std::cerr << "[trace] cprob2_min=" << cprob2_min << std::endl;
+    //   std::cerr << "[trace] cprob2_max=" << cprob2_max << std::endl;
+    //   std::cerr << "[trace] re2=" << re2 << std::endl;
+    // }
     
     return;
   }
