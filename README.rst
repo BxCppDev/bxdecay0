@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak, Emma Mauger
-:date: 2020-01-23
+:date: 2020-05-09
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
 The **BxDecay0** C++ library provides a set of classes and functions for
@@ -53,7 +53,7 @@ Fortran  and  CERNLIB.   This  code  was integrated  in  2011  as  the
 This release of the BxDecay0 C++  library is extracted from the Bayeux
 ``genbb_help`` module with some changes from the 2017-03-01 release of
 the Decay0 program  by Vladimir Tretyak.  It has then  been updated to
-the 2018-12-05 release.
+the 2018-12-05 and 2020-04-20 releases.
 
 BxDecay0 is  a standalone library  with very few  dependencies (mostly
 the  GSL_ library  for numerical  integration and  a few  special math
@@ -69,7 +69,11 @@ GSL_, ROOT_ or whatever).
   decay0 C++ code in Bayeux 3 based on Decay0 2013.
 - First release 1.0.0 : updated from Decay0 2018-12-05
 - First production release 1.0.1 : updated build system
+- Release 1.0.2 :
 
+  - updated from Decay0 2020-04-20,
+  - add support for 2nubb gA processes for a few isotopes of interest
+    (pure C++ implementation with required external dataset)
 
 .. _SuperNEMO: http://supernemo.org/
 
@@ -367,7 +371,7 @@ List of examples
   with HepMC3 formatted ASCII output,
 * ``ex03`` : Generation of Co60 decay events with plain ASCII output,
 * ``ex04`` : Use of the *plumbing* ``bxdecay0::genbbsub`` function (expert/developper only).
-* ``ex04`` : Use of the *plumbing* ``bxdecay0::dbd_gA`` class.
+* ``ex05`` : Use of the ``bxdecay0::dbd_gA`` class.
 
 .. raw:: pdf
 

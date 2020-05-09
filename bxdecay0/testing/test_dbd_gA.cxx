@@ -1,7 +1,7 @@
 /** test_dbd_gA.cxx
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2020 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2020 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -38,7 +38,7 @@ int main()
   int error_code = EXIT_SUCCESS;
   try {
     
-    // test1();
+    test1();
     test2();
 
   } catch (std::exception & error) {
@@ -59,14 +59,13 @@ void test1()
   bxdecay0::std_random prng(generator);
   
   bxdecay0::dbd_gA gA_generator;
-  gA_generator.set_nuclide("Test");
   gA_generator.set_nuclide("Se82");
   gA_generator.set_process(bxdecay0::dbd_gA::PROCESS_G0);
   gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_REJECTION);
   gA_generator.initialize();
   gA_generator.print(std::clog, "gA DBD generator", "[info] ");
 
-  {
+  if (gA_generator.get_shooting() == bxdecay0::dbd_gA::SHOOTING_REJECTION) {
     std::ofstream fout1("test_dbd_gA_1.data");
     gA_generator.plot_interpolated_pdf(fout1, 40);
     fout1 << std::endl;
@@ -114,9 +113,9 @@ void test2()
     std::ofstream fout2("test2_dbd_gA_2.data");
     std::ofstream fout3("test2_dbd_gA_3.data");
     std::ofstream fout4("test2_dbd_gA_4.data");
-    int N = 1000000;
+    int N = 100000;
     for (int i = 0; i < N; i++) {
-      if (i % 10000 == 0) std::cerr << "[log] i = " << i << '\n';
+      if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
       double e1;
       double e2;
       gA_generator.shoot_e1_e2(prng, e1, e2);

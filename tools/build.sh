@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# A Bash script to build and install devel BxDecay0 on Ubuntu (16.04).
+# A Bash script to build and install devel BxDecay0 on Ubuntu (YY.04).
 
 opwd=$(pwd)
 function my_exit()
@@ -13,7 +13,6 @@ function my_exit()
 
 function do_usage()
 {
-
     cat<<EOF
 
 build.sh [options]

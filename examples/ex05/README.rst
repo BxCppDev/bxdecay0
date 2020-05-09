@@ -53,7 +53,7 @@ mode.
 
 #. Output files:
 
-   * ``bxdecay_ex05_1.data`` : tabulated p.d.f. and randomized (E1,E2) kinetic energies of the betas		
+   * ``bxdecay_ex05_1.data`` : randomized (E1,E2) kinetic energies of the betas		
    * ``bxdecay_ex05_2.data`` : generated individual kinetic energies of the betas		
    * ``bxdecay_ex05_3.data`` : sum of generated individual kinetic energy of the betas
    * ``bxdecay_ex05_4.data`` : generated cosines of the angle between individual momenta of the betas
@@ -61,16 +61,15 @@ mode.
 #. Sample images:
 	 
    .. figure:: images/bxdecay0_ex05_2d-pdf_random.jpg
-      :width: 75%
+      :width: 95%
 
-      Tabulated 2-dimension p.d.f. for (E1,E2) kinetic energies of the betas
-      and randomized (E1,E2)
+      Randomized (E1,E2) kinetic energies of the two emitted electrons
    
      
    .. figure:: images/bxdecay0_ex05_e1e2.jpg
       :width: 75%
 
-      Histograms of generated E1 and E2 individual kinetic energy 
+      Histograms of generated E1 and E2 individual kinetic energies
 
    .. figure:: images/bxdecay0_ex05_esum.jpg
       :width: 75%

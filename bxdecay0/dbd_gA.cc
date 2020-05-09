@@ -159,6 +159,11 @@ namespace bxdecay0 {
   {
     return _debug_;
   }
+  
+  const std::string & dbd_gA::get_nuclide() const
+  {
+    return _nuclide_;
+  }
 
   void dbd_gA::set_nuclide(const std::string & nuclide_)
   {
@@ -170,6 +175,11 @@ namespace bxdecay0 {
     return;
   }
 
+  dbd_gA::process_type dbd_gA::get_process() const
+  {
+    return _process_;
+  }
+
   void dbd_gA::set_process(const process_type process_)
   {
     if (process_ == PROCESS_UNDEF) {
@@ -177,6 +187,11 @@ namespace bxdecay0 {
     }
     _process_ = process_;
     return; 
+  }
+
+  dbd_gA::shooting_type dbd_gA::get_shooting() const
+  {
+    return _shooting_;
   }
 
   void dbd_gA::set_shooting(const shooting_type shooting_)
@@ -256,6 +271,9 @@ namespace bxdecay0 {
 
   void dbd_gA::plot_interpolated_pdf(std::ostream & out_, const unsigned int nsamples_) const
   {
+    if (_pimpl_->pdf_interpolator.interp == nullptr) {
+      throw std::logic_error("bxdecay0::dbd_gA::plot_interpolated_pdf: No p.d.f. interpolator!");
+    }
     double e1_min = _pimpl_->tab_prob.e_samples[0].front();
     double e1_max = _pimpl_->tab_prob.e_samples[0].back();
     double e1_step = (e1_max - e1_min) / nsamples_;

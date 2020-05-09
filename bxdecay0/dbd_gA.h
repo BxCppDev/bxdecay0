@@ -84,12 +84,21 @@ namespace bxdecay0 {
 
     /// Check the debug flag
     bool is_debug() const;
-    
+ 
+    /// Return the shooting nuclide
+    const std::string & get_nuclide() const;
+   
     /// Set the DBD emitter nuclide
     void set_nuclide(const std::string & nuclide_);
 
+    /// Return the process
+    process_type get_process() const;
+
     /// Set the process
     void set_process(const process_type process_);
+
+    /// Return the shooting method
+    shooting_type get_shooting() const;
 
     /// Set the shooting method
     void set_shooting(const shooting_type shooting_);

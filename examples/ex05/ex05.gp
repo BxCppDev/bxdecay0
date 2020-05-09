@@ -3,11 +3,12 @@ set title "BxDecay0 - Example ex05"
 Qbb = 3.0
 set grid
 # set key out
+set size ratio -1
 set xlabel "E_1 (MeV)"
 set ylabel "E_2 (MeV)"
 set zlabel "p.d.f."
-splot [0:Qbb][0:Qbb] 'bxdecay0_ex05_1.data' title "Tabulated p.d.f." with lines, \
-      'bxdecay0_ex05_2.data' every 10 u 1:2:(0.0) title "Random points (10%)" with dots
+plot [0:Qbb][0:Qbb] \
+      'bxdecay0_ex05.data' every 10 u 1:2:(0.0) title "Random points (10%)" with dots
 pause -1 "Hit [Enter]..."
 set term push
 set terminal jpeg
@@ -16,9 +17,8 @@ replot
 set output
 set terminal pop
 
-! cut -d' ' -f1 bxdecay0_ex05_2.data | gsl-histogram 0.0 4.0 80 > bxdecay0_ex05_e1.his
-! cut -d' ' -f2 bxdecay0_ex05_2.data | gsl-histogram 0.0 4.0 80 > bxdecay0_ex05_e2.his
-! gsl-histogram 0.0 4.0 80 < bxdecay0_ex05_3.data > bxdecay0_ex05_esum.his
+! cut -d' ' -f1 bxdecay0_ex05.data | gsl-histogram 0.0 4.0 80 > bxdecay0_ex05_e1.his
+! cut -d' ' -f2 bxdecay0_ex05.data | gsl-histogram 0.0 4.0 80 > bxdecay0_ex05_e2.his
 
 set xlabel "E (MeV)"
 set ylabel "Counts / 50 keV"
@@ -33,6 +33,8 @@ replot
 set output
 set terminal pop
 
+! cut -d' ' -f3 bxdecay0_ex05.data | gsl-histogram 0.0 4.0 80 > bxdecay0_ex05_esum.his
+
 set xlabel "E_{sum} (MeV)"
 set ylabel "Counts / 50 keV"
 plot [0:4.0][0:] 'bxdecay0_ex05_esum.his' using (0.5*($1+$2)):3 title "Random" with histeps
@@ -44,10 +46,10 @@ replot
 set output
 set terminal pop
 
-! gsl-histogram 0.0 1.0 50 < bxdecay0_ex05_4.data > bxdecay0_ex05_cos12.his
+! cut -d' ' -f4 bxdecay0_ex05.data | gsl-histogram 0.0 2.0 100 > bxdecay0_ex05_cos12.his
 set xlabel "cos_{12}"
 set ylabel "Counts / 0.02"
-plot [0:1.2][0:] 'bxdecay0_ex05_cos12.his' using (0.5*($1+$2)):3 title "Random" with histeps
+plot [-1.2:1.2][0:] 'bxdecay0_ex05_cos12.his' using (0.5*($1+$2)-1.0):3 title "Random" with histeps
 pause -1 "Hit [Enter]..."
 set term push
 set terminal jpeg
@@ -55,6 +57,12 @@ set output "bxdecay0_ex05_cos12.jpg"
 replot
 set output
 set terminal pop
+
+! rm -f bxdecay0_ex05_cos12.his
+! rm -f bxdecay0_ex05_esum.his
+! rm -f bxdecay0_ex05_e1.his
+! rm -f bxdecay0_ex05_e2.his
+## ! rm -f bxdecay0_ex05.data
 
 # end
 
