@@ -3,7 +3,7 @@ BxDecay0 example ex05
 ================================
 
 :author: François Mauger
-:date: 2020-13-12
+:date: 2020-05-10
 :copyright: Copyright (C) 2020 the BxCppDev group
 
 .. contents::
