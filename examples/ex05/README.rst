@@ -39,8 +39,8 @@ Build
 Run
 ===
 
-The example program uses a mock DBD emitter nuclide (``"Test"``) and a
-fake  tabulated 2-dimension  p.d.f. to  represent the  distribution of
+The example program uses the Se-82 DBD emitter nuclide (``"Se82"``) and
+its  tabulated 2-dimension  c.d.f. to  represent the  distribution of
 individual kinetic energies of the  emitted beta particles in ``"g0"``
 mode.
 
