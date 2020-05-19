@@ -15,7 +15,6 @@ namespace bxdecay0 {
   bool name_starts_with(const std::string & name_,
                         const std::string & prefix_);
 
-
   /// 3D-vector
   ///
   ///  v = ( x )

@@ -127,7 +127,7 @@ BxDecay0 is developped  on a Ubuntu Linux (18.04 LTS)  and should work
 on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
 (i.e. GNU g++ >= 4.9) including macOS.
 
-Requirements for Ubuntu 18.04 LTS
+Requirements for Ubuntu 20.04 LTS
 ---------------------------------
 
 The following lines give some hints  to prepare your system before the
@@ -154,7 +154,7 @@ your own system.
 
       $ sudo apt-get install libgsl-dev
       $ gsl-config --version
-      2.4
+      2.5
    ..
 
 
@@ -191,14 +191,14 @@ in our home directory:
 
    $ mkdir /tmp/_build.d
    $ cd /tmp/_build.d
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0.git
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0.git
 ..
 
 or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/bxdecay0 /tmp/bxdecay0-1.0.1
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.1
 ..
 
 
@@ -223,7 +223,7 @@ Add the following line in your shell startup script (i.e. ``~/.bashrc``):
 
 .. code:: sh
 
-   $ export PATH=${HOME}/bxdecay0/bin:${PATH}
+   $ export PATH=${HOME}/sw/bxdecay0/bin:${PATH}
 ..
 
 
@@ -238,7 +238,7 @@ One may want to use the ``pkg-config`` utility:
 
 .. code:: sh
 
-   $ export PKG_CONFIG_PATH=${HOME}/bxdecay0/lib/pkgconfig:${PKG_CONFIG_PATH}
+   $ export PKG_CONFIG_PATH=${HOME}/sw/bxdecay0/lib/pkgconfig:${PKG_CONFIG_PATH}
    $ pkg-config --exists bxdecay0 && echo ok
    ok
 ..

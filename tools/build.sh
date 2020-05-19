@@ -19,7 +19,8 @@ build.sh [options]
 
 Options:
 
-  --help   print this help then exit
+  --help          print this help then exit
+  --prefix [path] set the installation directory
 
 EOF
     return 0
@@ -28,7 +29,7 @@ EOF
 src_dir=$(pwd)
 install_dir=$(pwd)/_install.d
 build_dir=$(pwd)/_build.d
-
+clean=false
 devel=false
 
 while [ -n "$1" ]; do
@@ -36,16 +37,23 @@ while [ -n "$1" ]; do
     if [ "${opt}" = "--help" ]; then
 	do_usage
     	my_exit 0
+    elif [ "${opt}" = "--prefix" ]; then
+	shift 1
+	install_dir="$1"
+    elif [ "${opt}" = "--clean" ]; then
+	clean=true
     fi
     shift 1
 done
 
-if [ -d ${install_dir} ]; then
-    rm -fr ${install_dir}
-fi
+if [ ${clean} = true ]; then
+    if [ -d ${install_dir} ]; then
+	rm -fr ${install_dir}
+    fi
 
-if [ -d ${build_dir} ]; then
-    rm -fr ${build_dir}
+    if [ -d ${build_dir} ]; then
+	rm -fr ${build_dir}
+    fi
 fi
 
 mkdir -p ${build_dir}
