@@ -390,16 +390,16 @@ Authors and contributors
 
 * Vladimir Tretyak (KINR_, Kiev Institute for Nuclear Research, Lepton
   Physics Department, Ukraine) is the original author and maintener of
-  the Fortran Decay0 package,
+  the Fortran Decay0 package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
   de Caen, `Université de Caen  Normandie`_, France) is the author and
   maintener   of  the  original C++  port   of  Decay0   within  Bayeux_
-  and the BxDecay0 library,
+  and the BxDecay0 library.
 * Emma Mauger (formerly `Université de Caen Normandie`_) has done a large
   part of the extraction and port to C++ of the standalone BxDecay0 from the
-  original Bayeux_ *genbb* library module,
+  original Bayeux_ *genbb* library module.
 * Ben Morgan (Warwick University): CMake build system and package reorganization.
-* Malak Hoballah and Laurent Simard (LAL Orsay) (support for DBD generator with gA process)
+* Malak Hoballah and Laurent Simard (LAL Orsay) (support for DBD generator with gA process).
   
   
 References
