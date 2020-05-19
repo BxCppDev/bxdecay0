@@ -123,7 +123,7 @@ Installing BxDecay0
 Preparation of your system
 --------------------------
 
-BxDecay0 is developped  on a Ubuntu Linux (18.04 LTS)  and should work
+BxDecay0 is developped  on a Ubuntu Linux (18.04/20.04 LTS)  and should work
 on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
 (i.e. GNU g++ >= 4.9) including macOS.
 
@@ -175,9 +175,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.1.tar.gz
-   $ tar xvzf bxdecay0-1.0.1.tar.gz
-   $ cd bxdecay0-1.0.1
+   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.2.tar.gz
+   $ tar xvzf bxdecay0-1.0.2.tar.gz
+   $ cd bxdecay0-1.0.2
 ..
 
 
@@ -198,7 +198,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.1
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.2
 ..
 
 
