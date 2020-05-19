@@ -1,9 +1,9 @@
 ============================================================
-DBD generator and the g4 processes
+DBD generator and the gA processes
 ============================================================
 
 :authors: F.Mauger (LPC Caen), M. Hoballah (LAL Orsay), L.Simard (LAL Orsay)
-:date: 2020-02-13
+:date: 2020-05-19
 
 Introduction
 =============
@@ -74,13 +74,13 @@ Resource data files
 
 
 The generator is provided with resource data files which
-contain the tabulated 2-dimension joint p.d.f.'s for the sampling of
+contain the tabulated 2-dimension joint p.d.f. ans c.d.f. for the sampling of
 kinetic energies of both emitted electrons for all supported nuclides and processes.
 
 * From the BxDecay0's package source directory,
   the base directory is : ``resources/data/dbd_gA/``
 * The files are installed automatically from the BxDecay0 installation prefix
-  in the following subdirectory: ``share/BxDecay0-1.0.1/resources/data/dbd_gA/``.
+  in the following subdirectory: ``share/BxDecay0-1.0.2/resources/data/dbd_gA/``.
   The generator is designed to automatically find and parse the proper resource file
   to be loaded in association to a given supported nuclide and gA process.
 * The structure of this directory should be:
@@ -88,7 +88,7 @@ kinetic energies of both emitted electrons for all supported nuclides and proces
   ::
      
      resources/data/dbd_gA/
-     |-- Ca48
+     |-- Cd116
      |   |-- g0
      |   |   |-- tab_ocdf.data
      |   |   `-- tab_pdf.data
@@ -114,13 +114,11 @@ kinetic energies of both emitted electrons for all supported nuclides and proces
      |   `-- g4
      |       |-- tab_ocdf.data
      |       `-- tab_pdf.data
+     |-- Nd150
      .
-     .  (more nuclides could be added)
-     .
-     `-- Test
-         `-- g0
-             `-- tab_pdf.data
-	     
+     ̀-- Se82
+         .
+	 .
   ..
 
 
@@ -138,7 +136,7 @@ kinetic energies of both emitted electrons for all supported nuclides and proces
 
   ::
 
-     3.034                 # Qbb end point in MeV
+     3.034                 # Maximum energy sum (MeV) i.e. Qbb end point
      Probability 0.010 3.030 0.00302 1000 # E regular/linear sampling model (MeV) 
      # 2D-tabulated joint probability P(E1,E2) in arbitrary units (1000x1000 values)
      P_0,0   P_0,1   P_0,2   P_0,3   . . .  P_0,998   P_0,999
@@ -150,29 +148,7 @@ kinetic energies of both emitted electrons for all supported nuclides and proces
      P_999,0
      
   ..
-     
-* TODO:
-
-  - Optimize the format:
-
-    - Consider to remove redundancies in the header:
-    - Consider not to store *zeroes* in the tabulated p.d.f..
-      The probability is obviously 0 for each node with E1+E2 > Qbb in the grid.
-      We could thus save  ~50 % of storage.
-
-    ::
-
-     3.034 # Qbb end point in MeV
-     1000  # E1 & E2 regular sampling model (MeV) 
-     P_0,0   P_0,1    . . .   P_0,998  P_0,999
-     P_1,0   P_1,1    . . .   P_1,998
-      .        .             .
-      .        .      .        
-      .        .           
-     P_998,0 P_998,1  
-     P_999,0 
-     
- 
+    
   - Consider to distribute gzip-ed ``tab_pdf.data``.
 
 The class
