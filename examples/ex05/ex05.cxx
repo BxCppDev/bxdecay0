@@ -25,8 +25,9 @@ int main()
  
   {
     std::ofstream fout("bxdecay0_ex05.data");
-    unsigned int nshoots = 1000000;
+    unsigned int nshoots = 10000000;
     for (int i = 0; i < nshoots; i++) {
+      if ((i % 10000) == 0) std::clog << "[log] #" << i << "/" << nshoots << std::endl; 
       double e1;
       double e2;
       double cos12;

@@ -44,19 +44,18 @@ its  tabulated 2-dimension  c.d.f. to  represent the  distribution of
 individual kinetic energies of the  emitted beta particles in ``"g0"``
 mode.
 
-#. Run the executable ``ex05``:
+#. Run the executable ``ex05`` (10 :sup:`7` generated events):
 
    .. code:: bash
 
       $ ./_build.d/ex05
    ..
 
-#. Output files:
+#. Output file: ``bxdecay_ex05.data`` :
 
-   * ``bxdecay_ex05_1.data`` : randomized (E1,E2) kinetic energies of the betas		
-   * ``bxdecay_ex05_2.data`` : generated individual kinetic energies of the betas		
-   * ``bxdecay_ex05_3.data`` : sum of generated individual kinetic energy of the betas
-   * ``bxdecay_ex05_4.data`` : generated cosines of the angle between individual momenta of the betas
+   * randomized (E1,E2) kinetic energies of the betas, 		
+   * sum of generated individual kinetic energy of the betas,
+   * cosine of the angle between individual momenta of the emitted betas (skipped by 1).
 
 #. Sample images:
 	 
@@ -70,11 +69,21 @@ mode.
       :width: 75%
 
       Histograms of generated E1 and E2 individual kinetic energies
+      
+   .. figure:: images/bxdecay0_ex05_e1e2_zoom.jpg
+      :width: 75%
+
+      Histograms of generated E1 and E2 individual kinetic energies (zoom at low energy)
 
    .. figure:: images/bxdecay0_ex05_esum.jpg
       :width: 75%
 	      
       Histogram of the sum of generated kinetic energies 
+
+   .. figure:: images/bxdecay0_ex05_esum_zoom.jpg
+      :width: 75%
+	      
+      Histogram of the sum of generated kinetic energies (zoom at low energy)
 
    .. figure:: images/bxdecay0_ex05_cos12.jpg
       :width: 75%
