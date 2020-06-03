@@ -21,6 +21,7 @@ Options:
 
   --help          print this help then exit
   --prefix [path] set the installation directory
+  --gsl-prefix [path] set the GSL installation directory
 
 EOF
     return 0
@@ -31,6 +32,7 @@ install_dir=$(pwd)/_install.d
 build_dir=$(pwd)/_build.d
 clean=false
 devel=false
+gsl_prefix=
 
 while [ -n "$1" ]; do
     opt="$1"
@@ -42,6 +44,9 @@ while [ -n "$1" ]; do
 	install_dir="$1"
     elif [ "${opt}" = "--clean" ]; then
 	clean=true
+    elif [ "${opt}" = "--gsl-prefix" ]; then
+	shift 1
+	gsl_prefix="$1"
     fi
     shift 1
 done
@@ -59,10 +64,23 @@ fi
 mkdir -p ${build_dir}
 
 cd ${build_dir}
+
+
+gsl_options=
+if [ "x${gsl_prefix}" != "x" ]; then
+    if [ ! -d ${gsl_prefix} ]; then
+	echo >&2 "[error] GSL prefix directory '${gsl_prefix}' does not exist! Abort!"
+	
+	my_exit 1
+    fi
+    gsl_options="-DGSL_ROOT_DIR=${gsl_prefix}"
+fi
+
 echo >&2 ""
 echo >&2 "[info] Configuring..."
 cmake \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+    ${gsl_options} \
     ${src_dir}
 if [ $? -ne 0 ]; then
     echo >&2 "[error] CMake failed! Abort!"
