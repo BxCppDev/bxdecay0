@@ -67,6 +67,15 @@ cd ${build_dir}
 
 
 gsl_options=
+if [ "x${gsl_prefix}" = "x" ]; then
+    which gsl-config > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	echo >&2 "[error] Cannot find 'gsl-config' on this system! Abort!"
+	my_exit 1
+    fi
+    gsl_prefix=$(gsl-config --prefix)
+fi
+
 if [ "x${gsl_prefix}" != "x" ]; then
     if [ ! -d ${gsl_prefix} ]; then
 	echo >&2 "[error] GSL prefix directory '${gsl_prefix}' does not exist! Abort!"
