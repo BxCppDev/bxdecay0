@@ -37,7 +37,6 @@ set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
 
 # Option:
 option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" ON)
-
 set(BXDECAY0_WITH_DBD_GA 0)
 if (BxDecay0_WITH_DBD_GA)
   set(BXDECAY0_WITH_DBD_GA 1)
