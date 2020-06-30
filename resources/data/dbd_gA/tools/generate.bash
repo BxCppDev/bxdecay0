@@ -100,7 +100,7 @@ function _process()
 function process_se()
 {
     isotope="Se82"
-    Qbb=2.998
+    Qbb=2.99512
     for ga_mode in ${ga_modes} ; do
 	_process ${isotope} ${ga_mode}  ${Qbb}
     done
@@ -110,7 +110,7 @@ function process_se()
 function process_mo()
 {
     isotope="Mo100"
-    Qbb=3.035
+    Qbb=3.0344
     for ga_mode in ${ga_modes} ; do
 	_process ${isotope} ${ga_mode}  ${Qbb}
     done
@@ -120,7 +120,7 @@ function process_mo()
 function process_cd()
 {
     isotope="Cd116"
-    Qbb=2.813
+    Qbb=2.8135
     for ga_mode in ${ga_modes} ; do
 	_process ${isotope} ${ga_mode}  ${Qbb}
     done
@@ -131,7 +131,7 @@ function process_cd()
 function process_nd()
 {
     isotope="Nd150"
-    Qbb=3.371
+    Qbb=3.37138
     for ga_mode in ${ga_modes} ; do
 	_process ${isotope} ${ga_mode}  ${Qbb}
     done

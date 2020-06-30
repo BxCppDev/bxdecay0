@@ -85,6 +85,12 @@ namespace bxdecay0 {
     /// Check the debug flag
     bool is_debug() const;
  
+    /// Return the dataset version
+    const std::string & get_dataset_version() const;
+  
+    /// Set the dataset version
+    void set_dataset_version(const std::string & dataset_version_);
+
     /// Return the shooting nuclide
     const std::string & get_nuclide() const;
    
@@ -152,6 +158,7 @@ namespace bxdecay0 {
 
     // Configuration:
     std::string  _nuclide_; ///< DBD emitter nuclide
+    std::string  _dataset_version_; ///< Dataset version
     process_type _process_ = PROCESS_UNDEF; ///< Process
     shooting_type _shooting_ = SHOOTING_UNDEF; ///< Shooting method
     bool _debug_ = false;

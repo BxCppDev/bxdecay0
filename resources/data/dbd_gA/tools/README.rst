@@ -2,15 +2,15 @@
 BxDecay0 DBD gA dataset
 ==============================
 
-Original datasets provided by Ratislav Dvornicki.
+Original Phase-Space Factors (PSF) datasets provided by Rastislav Dvornicki (email: dvornicky@fmph.uniba.sk).
 
 
 Supported isotopes:
 
- * ``Se82``  : Qbb = 2.998 MeV
- * ``Mo100`` : Qbb = 3.035 MeV
- * ``Cd116`` : Qbb = 2.813 MeV
- * ``Nd150`` : Qbb = 3.371 MeV
+ * ``Se82``  : Qbb = 2.99512 MeV, E_min = 0.12 keV
+ * ``Mo100`` : Qbb = 3.0344 MeV, E_min = 0.4 keV
+ * ``Cd116`` : Qbb = 2.8135 MeV, E_min = 0.5 keV
+ * ``Nd150`` : Qbb = 3.37138 MeV, E_min = 0.38 keV
 
 Supported modes:
 
@@ -34,7 +34,7 @@ Size of these files is 200-280 Mo each.
 Remarks:
 
 - we should know which Qbb has been used to compute the p.d.f.
-- we should  know which approximation  of the Fermi function  has been
+- we should know which approximation of the Fermi function has been
   used.
 
 
@@ -50,7 +50,7 @@ to encode the probabilities and minimizing precision loss.
 
    $ bash generate.bash \
       --input-orig-dir "/opt/ga" \
-      --output-base-dir "/tmp/dbd_ga/dataset"
+      --output-base-dir "/tmp/${USER}/dbd_ga/dataset"
 ..
 
 

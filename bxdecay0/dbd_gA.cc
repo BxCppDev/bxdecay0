@@ -112,7 +112,7 @@ namespace bxdecay0 {
     pimpl_type() = default;
     ~pimpl_type(){}
     // Attributes:
-    ::tabulated_prob_type   tab_prob;          ///< Tabulated joint p.d.f. or c.d.f. data
+    ::tabulated_prob_type   tab_prob;         ///< Tabulated joint p.d.f. or c.d.f. data
     ::pdf_interpolator_type pdf_interpolator; ///< 2D-interpolator for tabulated p.d.f.
   };
   
@@ -125,6 +125,7 @@ namespace bxdecay0 {
   // static
   bool dbd_gA::is_nuclide_supported(const std::string & id_)
   {
+    // v1.0:
     static const std::set<std::string> _sn({"Se82", "Mo100", "Cd116", "Nd150"}); 
     return _sn.count(id_);
   }
@@ -158,6 +159,17 @@ namespace bxdecay0 {
   bool dbd_gA::is_debug() const
   {
     return _debug_;
+  }
+
+  const std::string & dbd_gA::get_dataset_version() const
+  {
+    return _dataset_version_;
+  }
+  
+  void dbd_gA::set_dataset_version(const std::string & dataset_version_)
+  {
+    _dataset_version_ = dataset_version_;
+    return;
   }
   
   const std::string & dbd_gA::get_nuclide() const
@@ -213,6 +225,10 @@ namespace bxdecay0 {
     if (is_initialized()) {
       throw std::logic_error("bxdecay0::dbd_gA::initialize: Generator is already initialized!");
     }
+    if (_dataset_version_.empty()) {
+      _dataset_version_ = "v1.0";
+      // throw std::logic_error("bxdecay0::dbd_gA::initialize: Missing dataset version!");
+    }
     if (_nuclide_.empty()) {
       throw std::logic_error("bxdecay0::dbd_gA::initialize: Missing nuclide!");
     }
@@ -226,14 +242,14 @@ namespace bxdecay0 {
     // Build the path of the tabulated p.d.f. resource file:
     if (_shooting_ == SHOOTING_REJECTION) {
       std::ostringstream outs;
-      outs << "data/dbd_gA/" << _nuclide_ << '/' << process_label(_process_) << '/'
+      outs << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
            << "tab_pdf.data";
       _tabulated_prob_file_path_ = outs.str();
       std::string fres = get_resource(_tabulated_prob_file_path_, true);
       _tabulated_prob_file_path_ = fres;
     } else if (_shooting_ == SHOOTING_INVERSE_TRANSFORM_METHOD) {
       std::ostringstream outs;
-      outs << "data/dbd_gA/" << _nuclide_ << '/' << process_label(_process_) << '/'
+      outs << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
            << "tab_ocdf.data";
       _tabulated_prob_file_path_ = outs.str();
       std::string fres = get_resource(_tabulated_prob_file_path_, true);

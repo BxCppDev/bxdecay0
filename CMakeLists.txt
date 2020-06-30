@@ -426,8 +426,24 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
+# Load datasets for dbd_gA process:
+include(ExternalProject)
+
+ExternalProject_Add(bxdecay0data_dbd_gA
+  GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
+  GIT_TAG        "1.0.1"
+  PREFIX         "${CMAKE_BINARY_DIR}/bxdecay0data_dbd_gA"
+  # Trick: installing datasets in the BxDecay0 source directory:
+  INSTALL_DIR "${PROJECT_SOURCE_DIR}/resources/data"
+  CMAKE_ARGS
+    -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+    -DBXDECAY0DATA_WITH_DBD_GA=ON 
+  BUILD_COMMAND   make 
+  INSTALL_COMMAND make install
+)
+
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
-  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources/
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
   )
 
 install(FILES ${PROJECT_SOURCE_DIR}/LICENSE.txt
