@@ -72,8 +72,10 @@ GSL_, ROOT_ or whatever).
 - Release 1.0.2 :
 
   - updated from Decay0 2020-04-20,
-  - add support for 2nubb gA processes for a few isotopes of interest
-    (pure C++ implementation with required external dataset)
+  - add optional support for 2nubb gA processes for a few isotopes of interest
+    (as a pure C++ implementation with required large external dataset from the
+    https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which is
+    automatically loaded).
 
 .. _SuperNEMO: http://supernemo.org/
 
