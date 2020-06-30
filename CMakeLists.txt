@@ -15,7 +15,7 @@ project(BxDecay0 VERSION 1.0.2)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
-message(STATUS "==============> BxDecay0_TAG=${BxDecay0_TAG}")
+# message(STATUS "==============> BxDecay0_TAG=${BxDecay0_TAG}")
 
 # - Standard Modules
 # For "BUILD_TESTING" option
@@ -34,6 +34,14 @@ endforeach()
 # Add a path for CMake config files
 set(CMAKE_INSTALL_CMAKEDIR      ${CMAKE_INSTALL_LIBDIR}/cmake)
 set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
+
+# Option:
+option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" ON)
+
+set(BXDECAY0_WITH_DBD_GA 0)
+if (BxDecay0_WITH_DBD_GA)
+  set(BXDECAY0_WITH_DBD_GA 1)
+endif()
 
 # - Dependencies
 find_package(GSL 2.4 REQUIRED)
@@ -95,7 +103,6 @@ set(BxDecay0_HEADERS
   bxdecay0/nucltransKLM_Pb.h
   bxdecay0/bb.h
   bxdecay0/bb_utils.h
-  bxdecay0/dbd_gA.h
   bxdecay0/decay0_generator.h
   bxdecay0/utils.h
   bxdecay0/genbbsub.h
@@ -389,9 +396,14 @@ set(BxDecay0_SOURCES
   bxdecay0/Ta180mB.cc  # Added from 2018-12-05
   bxdecay0/Ta180mEC.cc # Added from 2018-12-05
   bxdecay0/Yb170low.cc # Added from 2018-12-05
-  bxdecay0/dbd_gA.cc
   bxdecay0/decay0_generator.cc
  )
+
+if (BXDECAY0_WITH_DBD_GA)
+  message(STATUS "Appending DBD gA classes...")
+  list(APPEND BxDecay0_HEADERS bxdecay0/dbd_gA.h)
+  list(APPEND BxDecay0_SOURCES bxdecay0/dbd_gA.cc)
+endif()
 
 # For now, use CMAKE_CXX_STANDARD to apply flag.
 if(NOT CMAKE_CXX_STANDARD)
@@ -426,21 +438,23 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
-# Load datasets for dbd_gA process:
-include(ExternalProject)
+if (BXDECAY0_WITH_DBD_GA)
+  # Load datasets for dbd_gA process:
+  include(ExternalProject)
 
-ExternalProject_Add(bxdecay0data_dbd_gA
-  GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
-  GIT_TAG        "1.0.1"
-  PREFIX         "${CMAKE_BINARY_DIR}/bxdecay0data_dbd_gA"
-  # Trick: installing datasets in the BxDecay0 source directory:
-  INSTALL_DIR "${PROJECT_SOURCE_DIR}/resources/data"
-  CMAKE_ARGS
+  ExternalProject_Add(bxdecay0data_dbd_gA
+    GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
+    GIT_TAG        "1.0.1"
+    PREFIX         "${CMAKE_BINARY_DIR}/bxdecay0data_dbd_gA"
+    # Trick: installing datasets in the BxDecay0 source directory:
+    INSTALL_DIR "${PROJECT_SOURCE_DIR}/resources/data"
+    CMAKE_ARGS
     -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
     -DBXDECAY0DATA_WITH_DBD_GA=ON 
-  BUILD_COMMAND   make 
-  INSTALL_COMMAND make install
-)
+    BUILD_COMMAND   make 
+    INSTALL_COMMAND make install
+    )
+endif()
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
@@ -468,10 +482,14 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb_utils.cxx
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
-    bxdecay0/testing/test_dbd_gA.cxx
     bxdecay0/testing/test_decay0_generator.cxx
     )
 
+  if (BXDECAY0_WITH_DBD_GA)
+    message(STATUS "Appending DBD gA test...")
+    list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
+  endif()
+    
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
   
   foreach(_testsource ${BxDecay0_TESTS})

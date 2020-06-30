@@ -29,6 +29,7 @@
 #include <limits>
 
 // This project:
+#include <bxdecay0/config.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/decay0_generator.h>
 #include <bxdecay0/std_random.h>
@@ -124,7 +125,11 @@ void test3()
   decay0.set_debug(true);
   decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
   decay0.set_decay_isotope("Se82");
+#if BXDECAY0_WITH_DBD_GA == 1 
   decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_21); // DBDMODE_2NUBB_GA_G0
+#else
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); 
+#endif
   decay0.set_decay_dbd_level(0);
   decay0.initialize(prng);
   decay0.smart_dump(std::clog, "DBD generator: ", "[info] ");

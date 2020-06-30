@@ -25,11 +25,14 @@
 #include <algorithm>
 
 // This project:
+#include <bxdecay0/config.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/bb.h>
 #include <bxdecay0/genbbsub.h>
 #include <bxdecay0/version.h>
+#if BXDECAY0_WITH_DBD_GA == 1 
 #include <bxdecay0/dbd_gA.h>
+#endif
 
 namespace bxdecay0 {
 
@@ -37,15 +40,19 @@ namespace bxdecay0 {
   struct decay0_generator::pimpl_type {
     pimpl_type() = default;
     ~pimpl_type() {
+#if BXDECAY0_WITH_DBD_GA == 1 
       if (dbd_ga_process.is_initialized()) {
         dbd_ga_process.reset();
       }
+#endif
     }
     // Attributes:
     size_t event_count = 0; //!< Current event count
     bbpars bb_params;       //!< Decay0 parameters
     bool   use_dbd_ga = false; //!< Flag to use the DBD gA generator
+#if BXDECAY0_WITH_DBD_GA == 1 
     dbd_gA dbd_ga_process;  //!< DBD gA generator    
+#endif
   };
   
   void decay0_generator::pimpl_deleter_type::operator()(decay0_generator::pimpl_type * ptr_) const
@@ -355,7 +362,11 @@ namespace bxdecay0 {
     int error = 0;
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
       if (_pimpl_->use_dbd_ga) {
-        _pimpl_->dbd_ga_process.shoot(prng_, event_);     
+#if BXDECAY0_WITH_DBD_GA == 1 
+        _pimpl_->dbd_ga_process.shoot(prng_, event_);
+#else
+        throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 generator does not support DBD gA process !");        
+#endif
       } else {
         bxdecay0::genbbsub(prng_,
                            event_,
@@ -404,9 +415,13 @@ namespace bxdecay0 {
     _pimpl_->event_count = 0;
     _pimpl_->bb_params.reset();
     if (_pimpl_->use_dbd_ga) {
+#if BXDECAY0_WITH_DBD_GA == 1 
       if (_pimpl_->dbd_ga_process.is_initialized()) {
         _pimpl_->dbd_ga_process.reset();
       }
+#else
+      throw std::logic_error("bxdecay0::decay0_generator::_reset_: Decay0 generator does not support DBD gA process !");        
+#endif
     }
     _pimpl_->use_dbd_ga = false;
     _set_defaults_();
@@ -428,6 +443,7 @@ namespace bxdecay0 {
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G2)
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G22)
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G4)) {
+#if BXDECAY0_WITH_DBD_GA == 1 
         // Special DBD gA modes:
         _pimpl_->dbd_ga_process.set_nuclide(_decay_isotope_);
         if (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G0) {
@@ -444,6 +460,9 @@ namespace bxdecay0 {
         }
         _pimpl_->dbd_ga_process.set_shooting(dbd_gA::SHOOTING_INVERSE_TRANSFORM_METHOD);
         _pimpl_->use_dbd_ga = true;
+#else
+        throw std::logic_error("bxdecay0::decay0_generator::_init_: Decay0 generator does not support DBD gA process !");       
+#endif
       } else {
         // Set the BB mode with the proper legacy value from the Decay0 engine:
         _grab_bb_params_().modebb  = dbd_legacy_mode(_decay_dbd_mode_);
@@ -483,10 +502,14 @@ namespace bxdecay0 {
 
     int error = 0;
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
-      if (_pimpl_->use_dbd_ga) {
+     if (_pimpl_->use_dbd_ga) {
+#if BXDECAY0_WITH_DBD_GA == 1 
         _pimpl_->dbd_ga_process.initialize();
-      } else {
-        if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
+#else
+        throw std::logic_error("bxdecay0::decay0_generator::_init_: Decay0 generator does not support DBD gA process !");        
+#endif
+     } else {
+       if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
         event dummy_event;
         bxdecay0::genbbsub(prng_,
                            dummy_event,
