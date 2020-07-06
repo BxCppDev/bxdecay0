@@ -79,6 +79,8 @@ GSL_, ROOT_ or whatever).
     
 - Release 1.0.3 :
 
+  - fix kinematics issue in DBD gA process
+
 .. _SuperNEMO: http://supernemo.org/
 
 Design
