@@ -940,17 +940,36 @@ namespace bxdecay0 {
     double p1y = 0.0;
     double p1z = p1;
     vector3 vp1 = make_vector3(p1x, p1y, p1z);
-    double sin12 = std::sqrt(1.0 - cos12_);
+    double sin12 = std::sqrt(1.0 - cos12_ * cos12_);
     double p2x = 0.0;
     double p2y = p2 * sin12;
     double p2z = p2 * cos12_;
     vector3 vp2 = make_vector3(p2x, p2y, p2z);
+    // //>>> 
+    // std::cerr << "[DEVEL] vp1 = ";
+    // ::bxdecay0::print(vp1, std::cerr);
+    // std::cerr << std::endl;
+    // std::cerr << "[DEVEL] vp2 = ";
+    // ::bxdecay0::print(vp2, std::cerr);
+    // std::cerr << std::endl;
+    // //<<<
     // Isotropic randomization of the rotation:
     double phi = twopi * prng_();
     double theta = std::acos(-1.0 + 2 * prng_());
     double psi = twopi * prng_();
+    // phi = 0.0;
+    // theta = 0.0;
+    // psi = 0.0;
     vector3 rvp1 = rotate_zyz(vp1, phi, theta, psi);
     vector3 rvp2 = rotate_zyz(vp2, phi, theta, psi);
+    // //>>> 
+    // std::cerr << "[DEVEL] rvp1 = ";
+    // ::bxdecay0::print(rvp1, std::cerr);
+    // std::cerr << std::endl;
+    // std::cerr << "[DEVEL] rvp2 = ";
+    // ::bxdecay0::print(rvp2, std::cerr);
+    // std::cerr << std::endl;
+    // //<<<
     // Built the particles:
     particle particle;
     particle.set_time(0.);
