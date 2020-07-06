@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak, Emma Mauger
-:date: 2020-05-09
+:date: 2020-07-06
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
 The **BxDecay0** C++ library provides a set of classes and functions for
@@ -70,12 +70,14 @@ GSL_, ROOT_ or whatever).
 - First release 1.0.0 : updated from Decay0 2018-12-05
 - First production release 1.0.1 : updated build system
 - Release 1.0.2 :
-
+  
   - updated from Decay0 2020-04-20,
   - add optional support for 2nubb gA processes for a few isotopes of interest
     (as a pure C++ implementation with required large external dataset from the
     https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which is
     automatically loaded).
+    
+- Release 1.0.3 :
 
 .. _SuperNEMO: http://supernemo.org/
 
@@ -177,9 +179,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.2.tar.gz
-   $ tar xvzf bxdecay0-1.0.2.tar.gz
-   $ cd bxdecay0-1.0.2
+   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.3.tar.gz
+   $ tar xvzf bxdecay0-1.0.3.tar.gz
+   $ cd bxdecay0-1.0.3
 ..
 
 
@@ -200,7 +202,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.2
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.3
 ..
 
 
@@ -208,7 +210,7 @@ Configuration options:
 ~~~~~~~~~~~~~~~~~~~~~~
 
 * ``BxDecay0_WITH_DBD_GA`` : Enable support for the specific generator
-  of DBD gA processes (default=``ON``).  This generator requires large
+  of DBD gA processes (default: ``ON``).  This generator requires large
   datasets of tabulated space-phase factors so if you don't need it in
   your  client code,  it is  better to  disable this  features for  it
   implies the downloading of external resource files (>1.5 GB).

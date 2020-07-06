@@ -11,11 +11,10 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.2)
+project(BxDecay0 VERSION 1.0.3)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
-# message(STATUS "==============> BxDecay0_TAG=${BxDecay0_TAG}")
 
 # - Standard Modules
 # For "BUILD_TESTING" option
