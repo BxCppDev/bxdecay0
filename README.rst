@@ -215,7 +215,7 @@ Configuration options:
   of DBD gA processes (default: ``ON``).  This generator requires large
   datasets of tabulated space-phase factors so if you don't need it in
   your  client code,  it is  better to  disable this  features for  it
-  implies the downloading of external resource files (>1.5 GB).
+  implies the downloading of external resource files (~1.7 GB).
   
   Example for disabling DBD gA generators:
 
@@ -223,10 +223,12 @@ Configuration options:
 
      $ cmake ... -DBxDecay0_WITH_DBD_GA=OFF ...
   ..
-
+  
 
 Build, test and install
 -----------------------
+
+You will need **Git with LFS support** in order to download data files specific to the DB gA processes.
 
 From the build directory:
 
