@@ -81,7 +81,7 @@ GSL_, ROOT_ or whatever).
 
   - fix kinematics issue in DBD gA process
 
-- Next release (pre-1.0.4) :
+- Release 1.0.4 :
 
   - fix usage of the optional ``BXDECAY0_RESOURCE_DIR`` env in ``bxdecay0-config`` script
   - support the optional ``BXDECAY0_PREFIX_DIR`` env in ``bxdecay0-config`` script and ``resource.cc.in``
