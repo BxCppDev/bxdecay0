@@ -35,7 +35,14 @@ namespace {
     }
     static std::string install_resource_root;
     if (install_resource_root.empty()) {
-      install_resource_root = "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@/resources";
+      std::string prefix_dir = "@CMAKE_INSTALL_PREFIX@";
+      {
+        const char * env_key = "BXDECAY0_PREFIX_DIR";
+        if (std::getenv(env_key)) {
+          prefix_dir = std::string(std::getenv(env_key));
+        }
+      }
+      install_resource_root = prefix_dir + "/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@/resources";
     }
     return install_resource_root;
   }
