@@ -81,6 +81,12 @@ GSL_, ROOT_ or whatever).
 
   - fix kinematics issue in DBD gA process
 
+- Next release (pre-1.0.4) :
+
+  - fix usage of the optional ``BXDECAY0_RESOURCE_DIR`` env in ``bxdecay0-config`` script
+  - support the optional ``BXDECAY0_PREFIX_DIR`` env in ``bxdecay0-config`` script and ``resource.cc.in``
+    (very basic manual support for package relocation)
+    
 .. _SuperNEMO: http://supernemo.org/
 
 Design
