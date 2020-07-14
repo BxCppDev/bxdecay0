@@ -4,7 +4,7 @@
 # the  BxDecay0 library.   This implementation  does not  support a
 # relocatable binary distribution of BxDecay0.
 #
-# Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
+# Copyright 2017-2020 François Mauger <mauger@lpccaen.in2p3.fr>
 #
 # This file is part of BxDecay0.
 #
@@ -23,8 +23,8 @@
 #
 # Description:  an  utility script  to  fetch  informations about  the
 # current BxDecay0  installation. This  should be very  useful when
-# used from some  client scripts (i.e. wrapper/launcher  scripts for a
-# batch system on a computing farm).
+# used from some  client scripts (i.e. build system scripts or
+# wrapper/launcher  scripts for a batch system on a computing farm).
 
 APPNAME="bxdecay0-config"
 prefix_dir="@CMAKE_INSTALL_PREFIX@"
@@ -67,7 +67,7 @@ Options:
 
   --version              Print version.
 
-  --original-version     Print version.of the original FORTRAN Decay0 code
+  --original-version     Print version of the original FORTRAN Decay0 code
 
   --prefix               Print installation prefix directory.
 
