@@ -440,6 +440,12 @@ if (BXDECAY0_WITH_DBD_GA)
   # Load datasets for dbd_gA process:
   include(ExternalProject)
 
+  # Must have git-lfs to properly checkout
+  find_program(GIT_LFS_EXECUTABLE git-lfs DOC "Path to git-lfs executable")
+  if (NOT GIT_LFS_EXECUTABLE)
+    message(FATAL_ERROR "git-lfs is required to build/install gA data for bxdecay0")
+  endif()
+
   ExternalProject_Add(bxdecay0data_dbd_gA
     GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
     GIT_TAG        "1.0.1"
