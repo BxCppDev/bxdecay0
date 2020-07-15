@@ -92,7 +92,7 @@ set(BxDecay0_HEADERS
   bxdecay0/funbeta_1fu.h
   bxdecay0/funbeta1.h
   bxdecay0/funbeta2.h
-  bxdecay0/fe1_mods.h  
+  bxdecay0/fe1_mods.h
   bxdecay0/fe2_mods.h
   bxdecay0/fe12_mods.h
   bxdecay0/nucltransK.h
@@ -448,9 +448,7 @@ if (BXDECAY0_WITH_DBD_GA)
     INSTALL_DIR "${PROJECT_SOURCE_DIR}/resources/data"
     CMAKE_ARGS
     -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-    -DBXDECAY0DATA_WITH_DBD_GA=ON 
-    BUILD_COMMAND   make 
-    INSTALL_COMMAND make install
+    -DBXDECAY0DATA_WITH_DBD_GA=ON
     )
 endif()
 
@@ -487,9 +485,9 @@ if(BUILD_TESTING)
     message(STATUS "Appending DBD gA test...")
     list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
   endif()
-    
+
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
-  
+
   foreach(_testsource ${BxDecay0_TESTS})
    get_filename_component(_testname "${_testsource}" NAME_WE)
     set(_testname "bxdecay0-${_testname}")
@@ -554,7 +552,7 @@ configure_package_config_file(cmake/BxDecay0Config.cmake.in
 # Install Tree
 # targets...
 install(EXPORT BxDecay0Targets
-  NAMESPACE 
+  NAMESPACE
   DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
 set(BxDecay0_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
