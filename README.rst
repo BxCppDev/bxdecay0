@@ -70,13 +70,13 @@ GSL_, ROOT_ or whatever).
 - First release 1.0.0 : updated from Decay0 2018-12-05
 - First production release 1.0.1 : updated build system
 - Release 1.0.2 :
-  
+
   - updated from Decay0 2020-04-20,
   - add optional support for 2nubb gA processes for a few isotopes of interest
     (as a pure C++ implementation with required large external dataset from the
     https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which is
     automatically loaded).
-    
+
 - Release 1.0.3 :
 
   - fix kinematics issue in DBD gA process
@@ -86,7 +86,7 @@ GSL_, ROOT_ or whatever).
   - fix usage of the optional ``BXDECAY0_RESOURCE_DIR`` env in ``bxdecay0-config`` script
   - support the optional ``BXDECAY0_PREFIX_DIR`` env in ``bxdecay0-config`` script and ``resource.cc.in``
     (very basic manual support for package relocation)
-    
+
 .. _SuperNEMO: http://supernemo.org/
 
 Design
@@ -152,7 +152,7 @@ your own system.
 
       $ sudo apt-get install g++
    ..
-   
+
 #. Install CMake:
 
    .. code:: sh
@@ -169,6 +169,13 @@ your own system.
       2.5
    ..
 
+#. Install git-lfs (required for DBD gA data):
+
+   .. code:: sh
+
+      $ sudo apt-get install git-lfs
+      $ git lfs install
+   ..
 
 Download BxDecay0 source code from the GitHub repository
 --------------------------------------------------------
@@ -179,7 +186,7 @@ Clone the Git development repository on your filesystem:
 
    $ cd /tmp
    $ git clone https://github.com/BxCppDev/bxdecay0.git bxdecay0.git
-   $ cd bxdecay0.git 
+   $ cd bxdecay0.git
 ..
 
 Or download the archive associated to a released version :
@@ -222,19 +229,17 @@ Configuration options:
   datasets of tabulated space-phase factors so if you don't need it in
   your  client code,  it is  better to  disable this  features for  it
   implies the downloading of external resource files (~1.7 GB).
-  
+
   Example for disabling DBD gA generators:
 
   .. code:: bash
 
      $ cmake ... -DBxDecay0_WITH_DBD_GA=OFF ...
   ..
-  
+
 
 Build, test and install
 -----------------------
-
-You will need **Git with LFS support** in order to download data files specific to the DB gA processes.
 
 From the build directory:
 
@@ -322,7 +327,7 @@ applications.
   * ``bxdecay0.pc``.
 
   Usage:
-  
+
   .. code:: sh
 
      $ pkg-config --cflags bxdecay0
@@ -361,7 +366,7 @@ physical quantities of interest (particles' type and momentum...).
 
      // Declare a Decay0 generator:
      bxdecay0::decay0_generator decay0;
-     
+
      // Configure the Decay0 generator:
      decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
                                                      // Double-beta decay process
@@ -371,7 +376,7 @@ physical quantities of interest (particles' type and momentum...).
      decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); // Neutrinoless DBD (mass mechanism)
      // or :
      // decay0.set_decay_dbd_mode_by_label("0nubb_mn");
-     
+
      // Initialize the Decay0 generator.
      // We need to pass some PRNG to pre-compute some quantities
      // from energy distributions:
@@ -430,8 +435,8 @@ Authors and contributors
   original Bayeux_ *genbb* library module.
 * Ben Morgan (Warwick University): CMake build system and package reorganization.
 * Malak Hoballah and Laurent Simard (LAL Orsay) (support for DBD generator with gA process).
-  
-  
+
+
 References
 ===========
 
@@ -568,7 +573,7 @@ List of daughter nucleus excited states in double beta decay
   7. 2+ (4)  {2.480 MeV}
   8. 2+ (5)  {2.656 MeV}
   9. 2+ (6)  {2.945 MeV}
-	      
+
 * ``Sr84`` ->  ``Kr84`` :
 
   0. 0+ (gs) {0 MeV}
@@ -784,9 +789,9 @@ List of daughter nucleus excited states in double beta decay
   0. 0+ (gs) {0 MeV}
   1. 2+ (1) {0.080 MeV}
   2. 4+ (1) {0.261 MeV}
- 
+
 * ``Er162`` ->  ``Dy162`` (new : Decay0 2018-12-05) :
-  
+
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.081 MeV}
   2. 2+ (2)  {0.888 MeV}
@@ -795,18 +800,18 @@ List of daughter nucleus excited states in double beta decay
   5. 0+ (2)  {1.666 MeV}
   6. 2+ (4)  {1.728 MeV}
   7. 2+ (5)  {1.783 MeV}
-  
+
 * ``Er164`` ->  ``Dy164`` (new : Decay0 2018-12-05) :
 
   0. 0+ (gs)     {0 MeV};
- 
+
 * ``Er170`` ->  ``Yb170`` (new : Decay0 2018-12-05) :
 
    0. 0+ (gs)     {0 MeV}
    1. 2+ (1)  {0.084 MeV}
- 
+
 * ``Yb168`` ->  ``Er168`` (new : Decay0 2018-12-05) :
- 
+
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.080 MeV}
   2. 2+ (2)  {0.821 MeV}
@@ -814,7 +819,7 @@ List of daughter nucleus excited states in double beta decay
   4. 2+ (3)  {1.276 MeV}
 
 * ``Yb176`` ->  ``Hf176`` (new : Decay0 2018-12-05) :
- 
+
   0. 0+ (gs)     {0 MeV}
   1. 2+ (1)  {0.088 MeV}
 
@@ -836,7 +841,7 @@ List of daughter nucleus excited states in double beta decay
   4. 2+ (3)  {1.121 MeV}
   5. 0+ (2)  {1.322 MeV}
   6. 2+ (4)  {1.386 MeV}
-  7. 2+ (5)  {1.431 MeV}  
+  7. 2+ (5)  {1.431 MeV}
 
 * ``Os192`` ->  ``Pt192`` :
 
@@ -886,19 +891,19 @@ From the ``bxdecay0::bb_utils.h`` C++ header and the ``dbd_modes.lis`` resource 
 ============== ========================= ============ ============================================================
 BxDecay0 mode   Identification label      Decay0 mode  Description
 ============== ========================= ============ ============================================================
-``DBDMODE_1``  ``0nubb_mn``              1            0nubb(mn)         0+ -> 0+     {2n} with neutrino mass 
-``DBDMODE_2``  ``0nubb_rhc_lambda_0``    2            0nubb(rhc-lambda) 0+ -> 0+     {2n} with RHC lambda 
-``DBDMODE_3``  ``0nubb_rhc_lambda_02``   3            0nubb(rhc-lambda) 0+ -> 0+, 2+ {N*} with RHC lambda 
+``DBDMODE_1``  ``0nubb_mn``              1            0nubb(mn)         0+ -> 0+     {2n} with neutrino mass
+``DBDMODE_2``  ``0nubb_rhc_lambda_0``    2            0nubb(rhc-lambda) 0+ -> 0+     {2n} with RHC lambda
+``DBDMODE_3``  ``0nubb_rhc_lambda_02``   3            0nubb(rhc-lambda) 0+ -> 0+, 2+ {N*} with RHC lambda
 ``DBDMODE_4``  ``2nubb``                 4            2nubb             0+ -> 0+     {2n}
 ``DBDMODE_5``  ``0nubbM1``               5            0nubbM1           0+ -> 0+     {2n} (Majoron, SI=1)
-``DBDMODE_6``  ``0nubbM3``               7            0nubbM3           0+ -> 0+     {2n} (Majoron, SI=3) 
-``DBDMODE_7``  ``0nubb_rhc_lambda_2``    9            0nubb(rhc-lambda) 0+ -> 2+     {2n} with RHC lambda 
+``DBDMODE_6``  ``0nubbM3``               7            0nubbM3           0+ -> 0+     {2n} (Majoron, SI=3)
+``DBDMODE_7``  ``0nubb_rhc_lambda_2``    9            0nubb(rhc-lambda) 0+ -> 2+     {2n} with RHC lambda
 ``DBDMODE_8``  ``2nubb_2``               10           2nubb             0+ -> 2+     {2n}, {N*}
 ``DBDMODE_9``  ``0nuKb+``                11           0nuKb+            0+ -> 0+, 2+
 ``DBDMODE_10`` ``2nuKb+``                12           2nuKb+            0+ -> 0+, 2+
 ``DBDMODE_11`` ``0nu2K``                 13           0nu2K             0+ -> 0+, 2+
 ``DBDMODE_12`` ``2nu2K``                 14           2nu2K             0+ -> 0+, 2+
-``DBDMODE_13`` ``0nubbM7``               8            0nubbM7           0+ -> 0+     {2n} (Majoron, SI=7) 
+``DBDMODE_13`` ``0nubbM7``               8            0nubbM7           0+ -> 0+     {2n} (Majoron, SI=7)
 ``DBDMODE_14`` ``0nubbM2``               6            0nubbM2           0+ -> 0+     (2n} (Majoron, SI=2)
 ``DBDMODE_15`` ``2nubb_bosonic_0``       15           2nubb             0+ -> 0+ with bosonic neutrinos
 ``DBDMODE_16`` ``2nubb_bosonic_2``       16           2nubb             0+ -> 2+ with bosonic neutrinos
@@ -924,17 +929,17 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
   and force the BxDecay0 interface stable with respect to the original
   C++ port in the Bayeux_/genbb module.
 * 5, 6, 13, 14 are Majoron modes with spectral index SI:
-  
+
   - SI=1 - old Gelmini-Roncadelli Majoron
   - SI=3 - double M, vector M, charged M
   - SI=7
   - SI=2 - bulk M of Mohapatra
-	       
-* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150      
+
+* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150
 * 21, 22, 23, 24: two neutrino double beta decay, gA modes g0, g2, g22, g4 possible only for Se82, Mo100,
   Cd116, Nd150 (only to the daughter nucleus' ground state).
 
-  
+
 List of standard radioactive isotopes (background/calibration)
 --------------------------------------------------------------
 
