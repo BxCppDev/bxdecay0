@@ -27,19 +27,64 @@
 # wrapper/launcher  scripts for a batch system on a computing farm).
 
 APPNAME="bxdecay0-config"
-prefix_dir="@CMAKE_INSTALL_PREFIX@"
-if [ -n "${BXDECAY0_PREFIX_DIR}" ]; then
-    echo >&2 "[log] Overriding BxDecay0 prefix dir from env 'BXDECAY0_PREFIX_DIR'..."
-    if [ ! -d "${BXDECAY0_PREFIX_DIR}" ]; then
-	echo >&2 "[error] Overridden BxDecay0 prefix dir '${BXDECAY0_PREFIX_DIR}' does not exist!"
-	exit 0
-    fi
-    prefix_dir="${BXDECAY0_PREFIX_DIR}"
+
+# Self-locate ourselves, allowing for symlinks
+#-----------------------------------------------------------------------
+# Determine location of this script.
+# NB, we don't always use the result of this calculation, but it does not
+# hurt to do it. Only possible error is if too long a chain of symbolic
+# links are used to point to the physical script.
+#
+# Resolve symbolic links to script - we should end up with a physical file
+script="$0"
+calldir=`pwd`
+loopcount=""
+
+while [ "x`readlink $script`" != "x" ] ; do
+  preloc=`dirname $script`
+  script=`readlink $script`
+
+  if [ ${script##/} = ${script##~} ] ; then
+    # The symbolic link was relative...
+    script="$preloc/$script"
+  fi
+  loopcount="l$loopcount"
+
+  if [ ${#loopcount} -gt 10 ] ; then
+    echo "error: more than 10 symbolic links to ${APPNAME} traversed."
+    exit 1
+  fi
+done
+
+# If we still have a relative path, then it must be relative to the
+# calling dir. NB we don't attempt to resolve directory symbolic
+# links or remove '.' or '..'
+if [ ${script##/} = ${script##~} ] ; then
+  script="$calldir/$script"
 fi
+
+#-----------------------------------------------------------------------
+# Finally, grab the directory in which the script is located,
+# using a helper function to resolve any intermediate ".."
+get_abs_filename() {
+  # $1 : relative filename
+  filename=$1
+  parentdir=$(dirname "${filename}")
+
+  if [ -d "${filename}" ]; then
+    echo "$(cd "${filename}" && pwd)"
+  elif [ -d "${parentdir}" ]; then
+    echo "$(cd "${parentdir}" && pwd)/$(basename "${filename}")"
+  fi
+}
+
+bin_dir="$(dirname $(get_abs_filename $script))"
+prefix_dir="$(get_abs_filename "${bin_dir}/@BxDecay0_BINDIR_TO_PREFIX@")"
+
 version_str="@BxDecay0_VERSION@"
 orig_version_str="@BxDecay0_DECAY0_VERSION@"
 lib_dir="${prefix_dir}/@CMAKE_INSTALL_LIBDIR@"
-bin_dir="${prefix_dir}/@CMAKE_INSTALL_BINDIR@"
+cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/BxDecay0"
 inc_dir="${prefix_dir}/@CMAKE_INSTALL_INCLUDEDIR@"
 data_dir="${prefix_dir}/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@"
 example_dir="${data_dir}/examples"
@@ -52,8 +97,7 @@ if [ -n "${BXDECAY0_RESOURCE_DIR}" ]; then
     fi
     resource_dir="${BXDECAY0_RESOURCE_DIR}"
 fi
-# cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/@BxDecay0_TAG@"
-cmake_dir="${prefix_dir}/@CMAKE_INSTALL_CMAKEDIR@/BxDecay0"
+
 
 function print_usage()
 {
