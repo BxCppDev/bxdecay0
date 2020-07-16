@@ -28,7 +28,7 @@ Build
    ``bxdecay0-config`` utility script should be in your path.
 #. Cd in the BxDecay0's ``ex02`` source directory:
 #. Configure  and build  ``ex02``  from a  dedicated build  directory,
-   assuming HepMC3 is installed from *Linuxbrew* :
+   assuming HepMC3 is installed from *spack* :
 
    .. code:: bash
 
