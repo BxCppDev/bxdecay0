@@ -186,7 +186,7 @@ Clone the Git development repository on your filesystem:
 
    $ cd /tmp
    $ git clone https://github.com/BxCppDev/bxdecay0.git bxdecay0.git
-   $ cd bxdecay0.git
+   $ ls -l bxdecay0.git/
 ..
 
 Or download the archive associated to a released version :
@@ -194,9 +194,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.3.tar.gz
-   $ tar xvzf bxdecay0-1.0.3.tar.gz
-   $ cd bxdecay0-1.0.3
+   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.4.tar.gz -O bxdecay0-1.0.4.tar.gz
+   $ tar xvzf bxdecay0-1.0.4.tar.gz
+   $ ls -l bxdecay0-1.0.4/
 ..
 
 
@@ -217,7 +217,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.3
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.4
 ..
 
 
@@ -225,16 +225,16 @@ Configuration options:
 ~~~~~~~~~~~~~~~~~~~~~~
 
 * ``BxDecay0_WITH_DBD_GA`` : Enable support for the specific generator
-  of DBD gA processes (default: ``ON``).  This generator requires large
+  of DBD gA processes (default: ``OFF``).  This generator requires large
   datasets of tabulated space-phase factors so if you don't need it in
   your  client code,  it is  better to  disable this  features for  it
   implies the downloading of external resource files (~1.7 GB).
 
-  Example for disabling DBD gA generators:
+  Example for enabling DBD gA generators:
 
   .. code:: bash
 
-     $ cmake ... -DBxDecay0_WITH_DBD_GA=OFF ...
+     $ cmake ... -DBxDecay0_WITH_DBD_GA=ON ...
   ..
 
 

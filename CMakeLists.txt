@@ -33,11 +33,11 @@ endforeach()
 # Add a path for CMake config files
 set(CMAKE_INSTALL_CMAKEDIR      ${CMAKE_INSTALL_LIBDIR}/cmake)
 set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
-message(STATUS "**** CMAKE_INSTALL_FULL_LIBDIR       = '${CMAKE_INSTALL_FULL_LIBDIR}'")
-message(STATUS "**** CMAKE_INSTALL_FULL_DATAROOTDIR  = '${CMAKE_INSTALL_FULL_DATAROOTDIR}'")
+# message(STATUS "**** CMAKE_INSTALL_FULL_LIBDIR       = '${CMAKE_INSTALL_FULL_LIBDIR}'")
+# message(STATUS "**** CMAKE_INSTALL_FULL_DATAROOTDIR  = '${CMAKE_INSTALL_FULL_DATAROOTDIR}'")
 
 set(BxDecay0_RESOURCE_DIR "${BxDecay0_TAG}/resources")
-message(STATUS "**** BxDecay0_RESOURCE_DIR           = '${BxDecay0_RESOURCE_DIR}'")
+# message(STATUS "**** BxDecay0_RESOURCE_DIR           = '${BxDecay0_RESOURCE_DIR}'")
 
 file(RELATIVE_PATH BxDecay0_LIBDIR_TO_RESOURCEDIR
   "${CMAKE_INSTALL_FULL_LIBDIR}"
@@ -45,11 +45,11 @@ file(RELATIVE_PATH BxDecay0_LIBDIR_TO_RESOURCEDIR
 file(RELATIVE_PATH BxDecay0_LIBDIR_TO_PREFIX
   "${CMAKE_INSTALL_FULL_LIBDIR}"
   "${CMAKE_INSTALL_PREFIX}")
-message(STATUS "**** BxDecay0_LIBDIR_TO_RESOURCEDIR = '${BxDecay0_LIBDIR_TO_RESOURCEDIR}'")
-message(STATUS "**** BxDecay0_LIBDIR_TO_PREFIX       = '${BxDecay0_LIBDIR_TO_PREFIX}'")
+# message(STATUS "**** BxDecay0_LIBDIR_TO_RESOURCEDIR = '${BxDecay0_LIBDIR_TO_RESOURCEDIR}'")
+# message(STATUS "**** BxDecay0_LIBDIR_TO_PREFIX       = '${BxDecay0_LIBDIR_TO_PREFIX}'")
 
 # Option:
-option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" ON)
+option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" OFF)
 set(BXDECAY0_WITH_DBD_GA 0)
 if (BxDecay0_WITH_DBD_GA)
   set(BXDECAY0_WITH_DBD_GA 1)
@@ -537,7 +537,7 @@ endif()
 # Configure/Install support files
 # bxdecay0-config program
 file(RELATIVE_PATH BxDecay0_BINDIR_TO_PREFIX "${CMAKE_INSTALL_FULL_BINDIR}" "${CMAKE_INSTALL_PREFIX}")
-message(STATUS "**** BxDecay0_BINDIR_TO_PREFIX       = '${BxDecay0_BINDIR_TO_PREFIX}'")
+# message(STATUS "**** BxDecay0_BINDIR_TO_PREFIX       = '${BxDecay0_BINDIR_TO_PREFIX}'")
 configure_file(bxdecay0-config.in
   ${PROJECT_BINARY_DIR}/bxdecay0-config
   @ONLY)
