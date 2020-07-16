@@ -198,6 +198,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Rh106.h
   bxdecay0/Rn218.h
   bxdecay0/Rn218low.h
+  bxdecay0/Rn222.h # Added from 2020-07-17
   bxdecay0/Ru100low.h
   bxdecay0/Sb125.h
   bxdecay0/Sb126.h
@@ -377,6 +378,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Rh106.cc
   bxdecay0/Rn218.cc
   bxdecay0/Rn218low.cc
+  bxdecay0/Rn222.cc # Added from 2020-07-17
   bxdecay0/Ru100low.cc
   bxdecay0/Sb125.cc
   bxdecay0/Sb126.cc

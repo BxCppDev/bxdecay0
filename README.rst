@@ -987,6 +987,7 @@ From the ``background_isotopes.lis`` resource file:
 * ``Ra228``
 * ``Rb87``
 * ``Rh106``
+* ``Rn222`` (added : 2020-07-17)
 * ``Sb125``
 * ``Sb126``
 * ``Sb133``
@@ -1006,7 +1007,7 @@ From the ``background_isotopes.lis`` resource file:
 * ``Xe135``
 * ``Y88``
 * ``Y90``
-* ``Zn95``
+* ``Zn65``
 * ``Zr96`` (for ``Zr96+Nb96``)
 
 Additional comment

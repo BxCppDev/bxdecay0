@@ -123,6 +123,7 @@
 #include <bxdecay0/Rh106.h>
 #include <bxdecay0/Rn218.h>
 #include <bxdecay0/Rn218low.h>
+#include <bxdecay0/Rn222.h>
 #include <bxdecay0/Ru100low.h>
 #include <bxdecay0/Sb125.h>
 #include <bxdecay0/Sb126.h>
@@ -147,6 +148,7 @@
 #include <bxdecay0/Ti48low.h>
 #include <bxdecay0/Tl207.h>
 #include <bxdecay0/Tl208.h>
+// #include <bxdecay0/U238.h>
 #include <bxdecay0/Xe128low.h>
 #include <bxdecay0/Xe129m.h>
 #include <bxdecay0/Xe130low.h>
@@ -1314,10 +1316,12 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_,"Ra228")) {
         } else if (name_starts_with(chnuclide_,"Rb87")) {
         } else if (name_starts_with(chnuclide_,"Rh106")) {
+        } else if (name_starts_with(chnuclide_,"Rn222")) { // Added 2020-07-17
         } else if (name_starts_with(chnuclide_,"Sb125")) {
         } else if (name_starts_with(chnuclide_,"Sb126")) {
         } else if (name_starts_with(chnuclide_,"Sb133")) {
         } else if (name_starts_with(chnuclide_,"Sr90")) {
+        } else if (name_starts_with(chnuclide_,"Ta180m")) {
         } else if (name_starts_with(chnuclide_,"Ta182")) {
         } else if (name_starts_with(chnuclide_,"Te133m")) {
         } else if (name_starts_with(chnuclide_,"Te133")) {
@@ -1325,6 +1329,7 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_,"Th234")) {
         } else if (name_starts_with(chnuclide_,"Tl207")) {
         } else if (name_starts_with(chnuclide_,"Tl208")) {
+        //        } else if (name_starts_with(chnuclide_,"U238")) {
         } else if (name_starts_with(chnuclide_,"Xe129m")) {
         } else if (name_starts_with(chnuclide_,"Xe131m")) {
         } else if (name_starts_with(chnuclide_,"Xe133")) {
@@ -1524,6 +1529,7 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Ra228")) Ra228(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Rb87")) Rb87(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Rh106")) Rh106(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Rn222")) Rn222(prng_, event_, 0., tdnuc); // Added 2020-07-17
       if (name_starts_with(chnuclide_,"Sb125")) Sb125(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Sb126")) Sb126(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Sb133")) Sb133(prng_, event_, 0., tdnuc);
@@ -1537,6 +1543,7 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Th234")) Th234(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Tl207")) Tl207(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Tl208")) Tl208(prng_, event_, 0., tdnuc);
+      // if (name_starts_with(chnuclide_,"U238")) U238(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe129m")) Xe129m(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe131m")) Xe131m(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe133")) Xe133(prng_, event_, 0., tdnuc);
