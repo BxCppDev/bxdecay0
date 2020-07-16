@@ -36,8 +36,6 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_interp2d.h>
 #include <gsl/gsl_math.h>
-// #include <gsl/gsl_fit.h>
-// #include <gsl/gsl_multifit.h>
 
 namespace {
 
