@@ -33,10 +33,14 @@
 #include <bxdecay0/event.h>
 #include <bxdecay0/decay0_generator.h>
 #include <bxdecay0/std_random.h>
+#include <bxdecay0/bb_utils.h>
 
 void test1();
 void test2();
 void test3();
+void test4();
+void test5();
+void test_backgrounds();
 
 int main()
 {
@@ -45,6 +49,9 @@ int main()
     test1();
     test2();
     test3();
+    test4();
+    test5();
+    test_backgrounds();
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
@@ -144,5 +151,93 @@ void test3()
   }
 
   decay0.reset();
+  return;
+}
+
+void test4()
+{
+  std::clog << "\ntest4:\n";
+  unsigned int seed = 314159;
+  std::default_random_engine generator(seed);
+  bxdecay0::std_random prng(generator);
+
+  bxdecay0::decay0_generator decay0;
+  // decay0.set_debug(true);
+  decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND);
+  decay0.set_decay_isotope("Rn222");
+  // decay0.set_decay_isotope("Ra228");
+  decay0.initialize(prng);
+  decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
+
+  bxdecay0::event decay;
+  std::size_t nevents = 1;
+  for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+    decay0.shoot(prng, decay);
+    decay.set_time(0.0);
+    decay.print(std::clog, "Background event:", "[info] ");
+    decay.store(std::cout);
+  }
+
+  decay0.reset();
+  return;
+}
+
+void test5()
+{
+  std::clog << "\ntest5:\n";
+  unsigned int seed = 314159;
+  std::default_random_engine generator(seed);
+  bxdecay0::std_random prng(generator);
+
+  bxdecay0::decay0_generator decay0;
+  // decay0.set_debug(true);
+  decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND);
+  decay0.set_decay_isotope("Ra226");
+  // decay0.set_decay_isotope("Ra228");
+  decay0.initialize(prng);
+  decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
+
+  bxdecay0::event decay;
+  std::size_t nevents = 1;
+  for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+    decay0.shoot(prng, decay);
+    decay.set_time(0.0);
+    decay.print(std::clog, "Background event:", "[info] ");
+    decay.store(std::cout);
+  }
+
+  decay0.reset();
+  return;
+}
+
+void test_backgrounds()
+{
+  std::clog << "\ntest_backgrounds:\n";
+
+  const auto & background_isotopes = bxdecay0::background_isotopes();
+  for (const auto & name : background_isotopes) {
+    std::clog << "Decay from isotope: '" << name << "'" << std::endl;
+    unsigned int seed = 314159;
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
+
+    bxdecay0::decay0_generator decay0;
+    // decay0.set_debug(true);
+    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND);
+    decay0.set_decay_isotope(name);
+    decay0.initialize(prng);
+    decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
+
+    bxdecay0::event decay;
+    std::size_t nevents = 1;
+    for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+      decay0.shoot(prng, decay);
+      decay.set_time(0.0);
+      decay.print(std::clog, "Background event:", "[info] ");
+      decay.store(std::cout);
+    }
+
+    decay0.reset();
+  }
   return;
 }
