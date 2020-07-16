@@ -1,0 +1,86 @@
+#include "relocatable_lib.h"
+
+// Standard Library:
+#include <string>
+#include <stdexcept>
+#include <iostream>
+
+#include "BinReloc.h"
+
+namespace {
+   
+  //! Convert BrInitError code to a string describing the error
+  //! \todo add errno to returned string
+  std::string BRErrorAsString(const BrInitError & err_)
+  {
+    std::string errMsg;
+    switch (err_) {
+    case BR_INIT_ERROR_NOMEM:
+      errMsg = "Unable to open /proc/self/maps";
+    case BR_INIT_ERROR_OPEN_MAPS:
+      errMsg = "Unable to read from /proc/self/maps";
+    case BR_INIT_ERROR_READ_MAPS:
+      errMsg = "The file format of /proc/self/maps";
+    case BR_INIT_ERROR_INVALID_MAPS:
+      errMsg = "The file format of /proc/self/maps is invalid";
+    case BR_INIT_ERROR_DISABLED:
+      errMsg = "Binary relocation disabled";
+    default:
+      throw std::runtime_error("relocatable_lib.cc: Invalid BrInitError");
+    }
+    return errMsg;
+  }
+
+  static bool _init_dirs = false;
+   
+  void init_directories()
+  {
+    // std::cerr << "\nbxdecay0: relocatable_lib.cc: init_directories entering" << std::endl;
+    if (::_init_dirs) return;
+    // std::cerr << "\nbxdecay0: relocatable_lib.cc: init_directories call br_init_lib" << std::endl;
+    BrInitError brErr;
+    int initSuccessful = br_init_lib(&brErr);
+    if (initSuccessful != 1) {
+      throw std::runtime_error("Initialization of BxDecay0 library's directories failed : "
+                               + std::to_string(brErr) + " (" + BRErrorAsString(brErr) + ")");
+    }
+    ::_init_dirs = true;
+  }
+
+  // //! Return relative path from application directory to root of resource dir
+  // std::string relative_lib_path_to_prefix_dir() {
+  //   return "@BxDecay0_LIBDIR_TO_PREFIX@";
+  // }
+  
+}
+
+namespace bxdecay0 {
+
+  std::string get_library_dir()
+  {
+    static std::string libPath;
+    if (libPath.empty()) {
+      init_directories();
+      init_directories();
+      char* exePath(0);
+      exePath = br_find_exe_dir("");
+      libPath = std::string(exePath);
+      free(exePath);
+      if (libPath.back() == '/') {
+        libPath = libPath.substr(0, libPath.length() - 1);
+      }
+      // std::cerr << "\nbxdecay0: relocatable_lib.cc: get_library_dir: '" << libPath << "'" << std::endl;
+    }
+    return libPath;
+    // boost::filesystem::path cLibPath = boost::filesystem::canonical(libPath);
+    // return cLibPath_path.string();
+  }
+  
+  // std::string get_prefix_dir()
+  // {
+  //   std::string libPath = get_library_dir();
+  //   std::string prefixPath = libPath + "/" + ::relative_lib_path_to_prefix_dir();
+  //   return prefixPath;
+  // }
+
+}

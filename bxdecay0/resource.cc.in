@@ -19,42 +19,46 @@
 
 // Standard Library:
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <cstdlib>
 #include <stdexcept>
 
+// Relocation:
+#include "relocatable_lib.h"
+
 namespace {
 
+  //! Return relative path from application directory to root of resource dir
+  std::string relative_lib_path_to_resource_dir() {
+    return "@BxDecay0_LIBDIR_TO_RESOURCEDIR@";
+  }
+
   //! Return the path to the root resource directory
-  std::string get_resource_root(bool overriden_env) {
-    if (overriden_env) {
-      const char * env_key = "BXDECAY0_RESOURCE_DIR";
-      if (std::getenv(env_key)) {
-        return std::string(std::getenv(env_key));
-      }
-    }
-    static std::string install_resource_root;
-    if (install_resource_root.empty()) {
-      std::string prefix_dir = "@CMAKE_INSTALL_PREFIX@";
-      {
-        const char * env_key = "BXDECAY0_PREFIX_DIR";
+  std::string get_resource_root(bool overriden_env_) {
+    static std::string _install_resource_root;
+    if (_install_resource_root.empty()) {
+      if (overriden_env_) {
+        const char * env_key = "BXDECAY0_RESOURCE_DIR";
         if (std::getenv(env_key)) {
-          prefix_dir = std::string(std::getenv(env_key));
+          _install_resource_root = std::string(std::getenv(env_key));
         }
       }
-      install_resource_root = prefix_dir + "/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@/resources";
+      if (_install_resource_root.empty()) {
+        std::string lib_dir = bxdecay0::get_library_dir();
+        _install_resource_root = lib_dir + "/" + relative_lib_path_to_resource_dir();
+      }
     }
-    return install_resource_root;
+    return _install_resource_root;
   }
 
 } // namespace
-
 
 namespace bxdecay0 {
 
   std::string get_resource_dir(bool overriden_env_)
   {
-    return get_resource_root(overriden_env_);
+    return ::get_resource_root(overriden_env_);
   }
 
   std::string get_resource(const std::string & rname_, bool overriden_env_)
@@ -63,7 +67,7 @@ namespace bxdecay0 {
       throw std::logic_error("Invalid resource name '" + rname_ + "'!");
     }
 
-    std::string fullpath(get_resource_root(overriden_env_) + "/" + rname_);
+    std::string fullpath(::get_resource_root(overriden_env_) + "/" + rname_);
     std::ifstream check(fullpath.c_str());
     if (!check.good()) {
       throw std::logic_error("Unreadable resource '" + fullpath + "'!");

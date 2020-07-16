@@ -33,6 +33,20 @@ endforeach()
 # Add a path for CMake config files
 set(CMAKE_INSTALL_CMAKEDIR      ${CMAKE_INSTALL_LIBDIR}/cmake)
 set(CMAKE_INSTALL_FULL_CMAKEDIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
+message(STATUS "**** CMAKE_INSTALL_FULL_LIBDIR       = '${CMAKE_INSTALL_FULL_LIBDIR}'")
+message(STATUS "**** CMAKE_INSTALL_FULL_DATAROOTDIR  = '${CMAKE_INSTALL_FULL_DATAROOTDIR}'")
+
+set(BxDecay0_RESOURCE_DIR "${BxDecay0_TAG}/resources")
+message(STATUS "**** BxDecay0_RESOURCE_DIR           = '${BxDecay0_RESOURCE_DIR}'")
+
+file(RELATIVE_PATH BxDecay0_LIBDIR_TO_RESOURCEDIR
+  "${CMAKE_INSTALL_FULL_LIBDIR}"
+  "${CMAKE_INSTALL_FULL_DATAROOTDIR}/${BxDecay0_RESOURCE_DIR}")
+file(RELATIVE_PATH BxDecay0_LIBDIR_TO_PREFIX
+  "${CMAKE_INSTALL_FULL_LIBDIR}"
+  "${CMAKE_INSTALL_PREFIX}")
+message(STATUS "**** BxDecay0_LIBDIR_TO_RESOURCEDIR = '${BxDecay0_LIBDIR_TO_RESOURCEDIR}'")
+message(STATUS "**** BxDecay0_LIBDIR_TO_PREFIX       = '${BxDecay0_LIBDIR_TO_PREFIX}'")
 
 # Option:
 option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" ON)
@@ -49,6 +63,11 @@ configure_file(bxdecay0/version.h.in
   ${PROJECT_BINARY_DIR}/bxdecay0/version.h @ONLY)
 configure_file(bxdecay0/config.h.in
   ${PROJECT_BINARY_DIR}/bxdecay0/config.h  @ONLY)
+
+string(RANDOM LENGTH 18 MANGLE_BINRELOC_MAIN)
+set(MANGLE_BINRELOC "BXDECAY0MB${MANGLE_BINRELOC_MAIN}")
+configure_file(bxdecay0/BinReloc.h.in ${PROJECT_BINARY_DIR}/bxdecay0/BinReloc.h @ONLY)
+configure_file(bxdecay0/relocatable_lib.cc.in ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc @ONLY)
 
 set(BxDecay0_HEADERS
   ${PROJECT_BINARY_DIR}/bxdecay0/version.h
@@ -228,8 +247,14 @@ set(BxDecay0_HEADERS
 configure_file(bxdecay0/resource.cc.in
   ${PROJECT_BINARY_DIR}/bxdecay0/resource.cc  @ONLY)
 
+include_directories("${PROJECT_SOURCE_DIR}/bxdecay0")
+include_directories("${PROJECT_BINARY_DIR}/bxdecay0")
 set(BxDecay0_SOURCES
+  bxdecay0/relocatable_lib.h
   ${PROJECT_BINARY_DIR}/bxdecay0/resource.cc
+  ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc 
+  ${PROJECT_BINARY_DIR}/bxdecay0/BinReloc.h
+  bxdecay0/BinReloc.c
   bxdecay0/divdif.cc
   bxdecay0/dgmlt1.cc
   bxdecay0/dgmlt2.cc
@@ -512,6 +537,7 @@ endif()
 # Configure/Install support files
 # bxdecay0-config program
 file(RELATIVE_PATH BxDecay0_BINDIR_TO_PREFIX "${CMAKE_INSTALL_FULL_BINDIR}" "${CMAKE_INSTALL_PREFIX}")
+message(STATUS "**** BxDecay0_BINDIR_TO_PREFIX       = '${BxDecay0_BINDIR_TO_PREFIX}'")
 configure_file(bxdecay0-config.in
   ${PROJECT_BINARY_DIR}/bxdecay0-config
   @ONLY)

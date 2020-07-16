@@ -28,6 +28,8 @@
 // This project:
 #include <bxdecay0/version.h>
 #include <bxdecay0/config.h>
+#include <bxdecay0/resource.h>
+#include <bxdecay0/bb_utils.h>
 
 int main()
 {
@@ -40,6 +42,10 @@ int main()
     std::clog << "BxDecay0 Licence       : " << "GPL 3" << std::endl;
     std::clog << "BxDecay0 version       : " << BXDECAY0_LIB_VERSION << std::endl;
     std::clog << "Decay0 version         : " << BXDECAY0_DECAY0_VERSION << std::endl;
+    std::clog << "Resource dir           : '" << bxdecay0::get_resource_dir(true) << "'" << std::endl;
+    
+    const std::set<std::string> & dbdIsotopes = bxdecay0::dbd_isotopes();
+    for (auto dbdIso : dbdIsotopes) std::clog << dbdIso << '\n';
     std::clog << "Bye." << std::endl;
 
   } catch (std::exception & error) {

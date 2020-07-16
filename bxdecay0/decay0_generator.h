@@ -155,10 +155,10 @@ namespace bxdecay0 {
     double get_decay_dbd_esum_range_upper() const;
 
     /// Check if a next event is available
-    virtual bool has_next() const;
+    bool has_next() const override;
 
     /// Shoot a decay event
-    virtual void shoot(i_random & prng_, event & event_);
+    void shoot(i_random & prng_, event & event_) override;
 
     /// Return the current number of generated events
     size_t get_event_count() const;
@@ -187,21 +187,18 @@ namespace bxdecay0 {
     bool   _debug_       = false; //!< Debug flag
 
     // Configuration:
-    decay_category_type _decay_category_; //!< Category of the decay
-    std::string _decay_isotope_;          //!< Decaying isotope
-    std::string _decay_version_;          //!< Decay version
-    int         _decay_dbd_level_;        //!< DBD level of the daughter nucleus
+    decay_category_type _decay_category_; //!< Category of the decay (DBD or 'background')
+    std::string   _decay_isotope_;        //!< Decaying isotope
+    std::string   _decay_version_;        //!< Decay version
+    int           _decay_dbd_level_;      //!< DBD level of the daughter nucleus
     dbd_mode_type _decay_dbd_mode_;       //!< DBD mode
-    double      _energy_min_;             //!< Minimum energy sum
-    double      _energy_max_;             //!< Maximum energy sum
+    double        _energy_min_;           //!< Minimum energy sum
+    double        _energy_max_;           //!< Maximum energy sum
 
     // Working internal data:
-    // size_t _event_count_; //!< Current event count
-    // std::unique_ptr<bxdecay0::bbpars> _bb_params_; //!< Decay0 parameters
-
     struct pimpl_type;
     struct pimpl_deleter_type { void operator()(pimpl_type*) const; };
-    std::unique_ptr<pimpl_type, pimpl_deleter_type> _pimpl_; ///< Private implementation
+    std::unique_ptr<pimpl_type, pimpl_deleter_type> _pimpl_; //!< Private implementation
 
   };
 

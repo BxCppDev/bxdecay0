@@ -47,11 +47,11 @@ namespace bxdecay0 {
 #endif
     }
     // Attributes:
-    size_t event_count = 0; //!< Current event count
-    bbpars bb_params;       //!< Decay0 parameters
+    size_t event_count = 0;    //!< Current event count
+    bbpars bb_params;          //!< Decay0 parameters
     bool   use_dbd_ga = false; //!< Flag to use the DBD gA generator
 #if BXDECAY0_WITH_DBD_GA == 1 
-    dbd_gA dbd_ga_process;  //!< DBD gA generator    
+    dbd_gA dbd_ga_process;     //!< DBD gA generator    
 #endif
   };
   
