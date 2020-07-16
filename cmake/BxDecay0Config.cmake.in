@@ -18,11 +18,7 @@
 #----------------------------------------------------------------------
 
 set(BxDecay0_VERSION @BxDecay0_VERSION@)
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 11)
-endif()
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(BxDecay0_CXX_STANDARD @CMAKE_CXX_STANDARD@)
 
 @PACKAGE_INIT@
 
@@ -44,7 +40,6 @@ if(NOT BxDecay0_TARGETS_LOADED)
   set(BxDecay0_TARGETS_LOADED 1)
 endif()
 
-set(BxDecay0_LIBRARIES BxDecay0)
-### set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
+set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
 
 # - end

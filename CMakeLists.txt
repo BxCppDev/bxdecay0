@@ -412,6 +412,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(BxDecay0 SHARED ${BxDecay0_HEADERS} ${BxDecay0_SOURCES})
 target_compile_definitions(BxDecay0 PRIVATE ENABLE_BINRELOC)
+# Ensure clients are aware of the minimum C++ standard we were compiled with
+target_compile_features(BxDecay0 PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 target_include_directories(BxDecay0 PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
@@ -439,6 +441,12 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
 if (BXDECAY0_WITH_DBD_GA)
   # Load datasets for dbd_gA process:
   include(ExternalProject)
+
+  # Must have git-lfs to properly checkout
+  find_program(GIT_LFS_EXECUTABLE git-lfs DOC "Path to git-lfs executable")
+  if (NOT GIT_LFS_EXECUTABLE)
+    message(FATAL_ERROR "git-lfs is required to build/install gA data for bxdecay0")
+  endif()
 
   ExternalProject_Add(bxdecay0data_dbd_gA
     GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
@@ -503,6 +511,7 @@ endif()
 #-----------------------------------------------------------------------
 # Configure/Install support files
 # bxdecay0-config program
+file(RELATIVE_PATH BxDecay0_BINDIR_TO_PREFIX "${CMAKE_INSTALL_FULL_BINDIR}" "${CMAKE_INSTALL_PREFIX}")
 configure_file(bxdecay0-config.in
   ${PROJECT_BINARY_DIR}/bxdecay0-config
   @ONLY)
@@ -536,7 +545,7 @@ write_basic_package_version_file(
 # Build tree
 # targets...
 export(EXPORT BxDecay0Targets
-  NAMESPACE BxDecay0
+  NAMESPACE BxDecay0::
   FILE "${PROJECT_BINARY_DIR}/BxDecay0Targets.cmake"
   )
 # config file...
@@ -552,7 +561,7 @@ configure_package_config_file(cmake/BxDecay0Config.cmake.in
 # Install Tree
 # targets...
 install(EXPORT BxDecay0Targets
-  NAMESPACE
+  NAMESPACE BxDecay0::
   DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
 set(BxDecay0_CONFIG_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
