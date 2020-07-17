@@ -112,9 +112,11 @@
 #include <bxdecay0/Pd104low.h>
 #include <bxdecay0/Pd106low.h>
 #include <bxdecay0/Pd108low.h>
+#include <bxdecay0/Po210.h>
 #include <bxdecay0/Po212.h>
 #include <bxdecay0/Po214.h>
 #include <bxdecay0/Po214low.h>
+#include <bxdecay0/Po218.h>
 #include <bxdecay0/Ra222.h>
 #include <bxdecay0/Ra222low.h>
 #include <bxdecay0/Ra226.h>
@@ -144,11 +146,13 @@
 #include <bxdecay0/Te133.h>
 #include <bxdecay0/Te133m.h>
 #include <bxdecay0/Te134.h>
+#include <bxdecay0/Th230.h>
 #include <bxdecay0/Th234.h>
 #include <bxdecay0/Ti48low.h>
 #include <bxdecay0/Tl207.h>
 #include <bxdecay0/Tl208.h>
-// #include <bxdecay0/U238.h>
+#include <bxdecay0/U234.h>
+#include <bxdecay0/U238.h>
 #include <bxdecay0/Xe128low.h>
 #include <bxdecay0/Xe129m.h>
 #include <bxdecay0/Xe130low.h>
@@ -1312,6 +1316,9 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_,"Pb211")) {
         } else if (name_starts_with(chnuclide_,"Pb212")) {
         } else if (name_starts_with(chnuclide_,"Pb214")) {
+        } else if (name_starts_with(chnuclide_,"Po210")) {
+        } else if (name_starts_with(chnuclide_,"Po214")) {
+        } else if (name_starts_with(chnuclide_,"Po218")) {
         } else if (name_starts_with(chnuclide_,"Ra226")) {
         } else if (name_starts_with(chnuclide_,"Ra228")) {
         } else if (name_starts_with(chnuclide_,"Rb87")) {
@@ -1326,10 +1333,12 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_,"Te133m")) {
         } else if (name_starts_with(chnuclide_,"Te133")) {
         } else if (name_starts_with(chnuclide_,"Te134")) {
+        } else if (name_starts_with(chnuclide_,"Th230")) {
         } else if (name_starts_with(chnuclide_,"Th234")) {
         } else if (name_starts_with(chnuclide_,"Tl207")) {
         } else if (name_starts_with(chnuclide_,"Tl208")) {
-        //        } else if (name_starts_with(chnuclide_,"U238")) {
+        } else if (name_starts_with(chnuclide_,"U234")) {
+        } else if (name_starts_with(chnuclide_,"U238")) {
         } else if (name_starts_with(chnuclide_,"Xe129m")) {
         } else if (name_starts_with(chnuclide_,"Xe131m")) {
         } else if (name_starts_with(chnuclide_,"Xe133")) {
@@ -1525,6 +1534,9 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Pb211")) Pb211(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Pb212")) Pb212(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Pb214")) Pb214(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Po210")) Po210(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Po214")) Po214(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Po218")) Po218(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Ra226")) Ra226(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Ra228")) Ra228(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Rb87")) Rb87(prng_, event_, 0., tdnuc);
@@ -1540,10 +1552,12 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_,"Te133")) Te133(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Te133m")) Te133m(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Te134")) Te134(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"Th230")) Th230(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Th234")) Th234(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Tl207")) Tl207(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Tl208")) Tl208(prng_, event_, 0., tdnuc);
-      // if (name_starts_with(chnuclide_,"U238")) U238(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"U234")) U234(prng_, event_, 0., tdnuc);
+      if (name_starts_with(chnuclide_,"U238")) U238(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe129m")) Xe129m(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe131m")) Xe131m(prng_, event_, 0., tdnuc);
       if (name_starts_with(chnuclide_,"Xe133")) Xe133(prng_, event_, 0., tdnuc);
