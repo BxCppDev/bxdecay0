@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 // Ourselves:
-#include <bxdecay0/Po218.h>
+#include <bxdecay0/Po210.h>
 
 // Standard library:
 #include <sstream>
@@ -42,7 +42,7 @@
 
 namespace bxdecay0 {
 
-  void Po218(i_random & prng_,
+  void Po210(i_random & prng_,
              event & event_,
              const double tcnuc_,
              double & tdnuc_)
@@ -86,7 +86,7 @@ namespace bxdecay0 {
 
 } // end of namespace bxdecay0
 
-// end of Po218.cc
+// end of Po210.cc
 // Local Variables: --
 // mode: c++ --
 // End: --

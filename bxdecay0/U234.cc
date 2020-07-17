@@ -64,7 +64,7 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_-thnuc/std::log(2.)*std::log(prng_());
     tclev=0.;
     palpha=100.*prng_();
-    
+    double pgamma=0;
     if (palpha <= 7E-6)
       goto label_4108;
     else if (palpha <= 3.3E-5)
@@ -87,7 +87,7 @@ namespace bxdecay0 {
     // - pair conversion is null
     // decay0_nucltransK(prng_, evnt_, 0.510, 0.093, 0., 0., tclev, thlev, tdlev);
     
-    double pgamma=100*prng_();
+    pgamma=100*prng_();
     if (pgamma<=86) {
       decay0_gamma(prng_, event_, 0.50355, tclev, thlev, tdlev);
       goto label_174;
@@ -96,7 +96,7 @@ namespace bxdecay0 {
       goto label_53;
     } else {
       decay0_gamma(prng_, event_, 0.67753, tclev, thlev, tdlev);
-      return
+      return;
     }
     return; //in the off chance you get here
     
@@ -110,7 +110,7 @@ namespace bxdecay0 {
     decay0_alpha(prng_, event_, 4.2773,0.,0.,t);
   label_508:
     thlev=0.;
-    double pgamma=100*prng_();
+    pgamma=100*prng_();
     if (pgamma<=40) {
       decay0_gamma(prng_, event_, 0.45492, tclev, thlev, tdlev);
       goto label_53;
