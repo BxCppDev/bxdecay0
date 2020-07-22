@@ -187,9 +187,11 @@ set(BxDecay0_HEADERS
   bxdecay0/Pd104low.h
   bxdecay0/Pd106low.h
   bxdecay0/Pd108low.h
+  bxdecay0/Po210.h # Added on the 2020-07-17
   bxdecay0/Po212.h
   bxdecay0/Po214.h
   bxdecay0/Po214low.h
+  bxdecay0/Po218.h # Added on the 2020-07-17
   bxdecay0/Ra222.h
   bxdecay0/Ra222low.h
   bxdecay0/Ra226.h
@@ -217,10 +219,13 @@ set(BxDecay0_HEADERS
   bxdecay0/Te133.h
   bxdecay0/Te133m.h
   bxdecay0/Te134.h
+  bxdecay0/Th230.h # Added on the 2020-07-17
   bxdecay0/Th234.h
   bxdecay0/Ti48low.h
   bxdecay0/Tl207.h
   bxdecay0/Tl208.h
+  bxdecay0/U234.h # Added on the 2020-07-17
+  bxdecay0/U238.h # Added on the 2020-07-17
   bxdecay0/Xe128low.h
   bxdecay0/Xe129m.h
   bxdecay0/Xe130low.h
@@ -367,8 +372,10 @@ set(BxDecay0_SOURCES
   bxdecay0/Pd104low.cc
   bxdecay0/Pd106low.cc
   bxdecay0/Pd108low.cc
+  bxdecay0/Po210.cc  # Added on the 2020-07-17
   bxdecay0/Po212.cc
   bxdecay0/Po214.cc
+  bxdecay0/Po218.cc  # Added on the 2020-07-17
   bxdecay0/Po214low.cc
   bxdecay0/Ra222.cc
   bxdecay0/Ra222low.cc
@@ -397,10 +404,13 @@ set(BxDecay0_SOURCES
   bxdecay0/Te133.cc
   bxdecay0/Te133m.cc
   bxdecay0/Te134.cc
+  bxdecay0/Th230.cc  # Added on the 2020-07-17
   bxdecay0/Th234.cc
   bxdecay0/Ti48low.cc
   bxdecay0/Tl207.cc
   bxdecay0/Tl208.cc
+  bxdecay0/U234.cc  # Added on the 2020-07-17
+  bxdecay0/U238.cc  # Added on the 2020-07-17
   bxdecay0/Xe128low.cc
   bxdecay0/Xe129m.cc
   bxdecay0/Xe130low.cc
