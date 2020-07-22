@@ -41,6 +41,7 @@
 #include <bxdecay0/std_random.h>       // Random number interface
 #include <bxdecay0/event.h>            // Generated event model
 #include <bxdecay0/decay0_generator.h> // Main decay0 generator
+#include <bxdecay0/particle_utils.h>   // Particle masses in BxDecay0
 
 int main()
 {
@@ -71,6 +72,9 @@ int main()
     // Daughter's energy level (ground state):
     int level = 0;
 
+    // Decay category:
+    bxdecay0::decay0_generator::decay_category_type decay_cat = bxdecay0::decay0_generator::DECAY_CATEGORY_DBD;
+    
     // DBD mode (two neutrino):
     bxdecay0::dbd_mode_type dbd_mode = bxdecay0::DBDMODE_2NUBB_0_2N; // 2vbb
 
@@ -84,14 +88,22 @@ int main()
     // The event generator:
     bxdecay0::decay0_generator decay0;
 
+    // Variant:
+
+    // Feel free to comment out and make a try with some background radioactity !
+    // decay_cat = bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND;
+    // nuclide = "Co60";
+
     // Configuration:
     decay0.set_debug(false);
-    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+    decay0.set_decay_category(decay_cat);
     decay0.set_decay_isotope(nuclide);
-    decay0.set_decay_dbd_level(level); // ground state
-    decay0.set_decay_dbd_mode(dbd_mode);
-    decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
-
+    if (decay0.get_decay_category() == bxdecay0::decay0_generator::DECAY_CATEGORY_DBD) {
+      decay0.set_decay_dbd_level(level);         // to ground state of daughter isotope
+      decay0.set_decay_dbd_mode(dbd_mode);       // specific DBD process/mechanism
+      decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
+    }
+    
     // Initialization;
     decay0.initialize(prng);
 
@@ -121,17 +133,19 @@ int main()
                               std::make_shared<HepMC3::StringAttribute>(cat_string));
     runInfoPtr->add_attribute("nuclide",
                               std::make_shared<HepMC3::StringAttribute>(decay0.get_decay_isotope()));
-    runInfoPtr->add_attribute("daughter_level",
-                              std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_level()));
-    runInfoPtr->add_attribute("dbd_mode",
-                              std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_mode()));
-    if (decay0.has_decay_dbd_esum_range()) {
-      runInfoPtr->add_attribute("min_energy",
-                                std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_lower()));
-      runInfoPtr->add_attribute("max_energy",
-                                std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_upper()));
-      runInfoPtr->add_attribute("toallevents",
-                                std::make_shared<HepMC3::DoubleAttribute>(toallevents));
+    if (decay0.get_decay_category() == bxdecay0::decay0_generator::DECAY_CATEGORY_DBD) {
+      runInfoPtr->add_attribute("daughter_level",
+                                std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_level()));
+      runInfoPtr->add_attribute("dbd_mode",
+                                std::make_shared<HepMC3::IntAttribute>(decay0.get_decay_dbd_mode()));
+      if (decay0.has_decay_dbd_esum_range()) {
+        runInfoPtr->add_attribute("min_energy",
+                                  std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_lower()));
+        runInfoPtr->add_attribute("max_energy",
+                                  std::make_shared<HepMC3::DoubleAttribute>(decay0.get_decay_dbd_esum_range_upper()));
+        runInfoPtr->add_attribute("toallevents",
+                                  std::make_shared<HepMC3::DoubleAttribute>(toallevents));
+      }
     }
 
     HepMC3::GenRunInfo::ToolInfo decay0_info;
@@ -204,6 +218,9 @@ int main()
                                                    particle.get_py(),
                                                    particle.get_pz(),
                                                    part_time * C_LIGHT_MM_PER_SEC));
+        genPartPtr->set_generated_mass(bxdecay0::particle_mass_MeV(particle.get_code()));
+        // std::clog << "[debug] ??? Mass set = " << genPartPtr->is_generated_mass_set() << std::endl;
+        // std::clog << "[debug] ??? Mass     = " << genPartPtr->generated_mass() << std::endl;
         genVtxPtr->add_particle_out(genPartPtr);
       }
 
