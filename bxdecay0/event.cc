@@ -23,10 +23,10 @@
 #include <bxdecay0/event.h>
 
 // Standard library:
-#include <limits>
-#include <stdexcept>
 #include <cmath>
+#include <limits>
 #include <sstream>
+#include <stdexcept>
 
 namespace bxdecay0 {
 
@@ -94,9 +94,11 @@ namespace bxdecay0 {
 
   bool event::is_valid() const
   {
-    if (_time_ != _time_) return false;
+    if (_time_ != _time_)
+      return false;
     for (const auto & p : _particles_) {
-      if (! p.is_valid())  return false;
+      if (!p.is_valid())
+        return false;
     }
     return true;
   }
@@ -104,9 +106,7 @@ namespace bxdecay0 {
   void event::shift_particles_time(double delta_time_, const int from_)
   {
     int count = 0;
-    for (std::vector<particle>::iterator i = _particles_.begin();
-         i != _particles_.end();
-         i++) {
+    for (std::vector<particle>::iterator i = _particles_.begin(); i != _particles_.end(); i++) {
       particle & p = *i;
       if (count >= from_) {
         p.shift_time(delta_time_);
@@ -124,9 +124,7 @@ namespace bxdecay0 {
     return;
   }
 
-  void event::print(std::ostream & out_,
-                    const std::string & title_,
-                    const std::string & indent_) const
+  void event::print(std::ostream & out_, const std::string & title_, const std::string & indent_) const
   {
     if (!title_.empty()) {
       out_ << indent_ << title_ << "\n";
@@ -164,7 +162,7 @@ namespace bxdecay0 {
       out_ << "#@event_start" << std::endl;
     }
     if (flags_ & STORE_EVENT_TIME) {
-      out_ << _time_ << ' ' << _generator_  << std::endl;
+      out_ << _time_ << ' ' << _generator_ << std::endl;
     }
     out_ << _particles_.size() << '\n';
     uint32_t particle_flags = flags_;
@@ -177,16 +175,23 @@ namespace bxdecay0 {
     return;
   }
 
-  void randomize_particle(i_random & prng_, event & event_,
-                          const particle_code np_, double e1_, double e2_,
-                          double teta1_, double teta2_,
-                          double phi1_, double phi2_,
-                          double tclev_, double thlev_, double & tdlev_)
+  void randomize_particle(i_random & prng_,
+                          event & event_,
+                          const particle_code np_,
+                          double e1_,
+                          double e2_,
+                          double teta1_,
+                          double teta2_,
+                          double phi1_,
+                          double phi2_,
+                          double tclev_,
+                          double thlev_,
+                          double & tdlev_)
   {
     double last_time = 0.0;
     if (event_.get_particles().size() > 0) {
       const particle & last_part = event_.get_particles().back();
-      last_time = last_part.get_time();
+      last_time                  = last_part.get_time();
     }
 
     particle part;
@@ -197,21 +202,25 @@ namespace bxdecay0 {
               << "Unknown mass for particle with ID=" << np_ << " !";
       throw std::logic_error(message.str());
     }
-    double phi=phi1_+(phi2_-phi1_)*prng_();
-    double ctet1=1.;
-    if (teta1_ != 0.) ctet1 = std::cos(teta1_);
-    double ctet2=-1.;
-    if (teta2_ != M_PI) ctet2 = std::cos(teta2_);
-    double ctet=ctet1+(ctet2-ctet1)*prng_();
-    double stet=std::sqrt(1.-ctet*ctet);
-    double E=e1_;
-    if (e1_ != e2_) E=e1_+(e2_-e1_)*prng_();
-    double p=std::sqrt(E*(E+2.*pmass));
-    double px = p*stet*std::cos(phi);
-    double py = p*stet*std::sin(phi);
-    double pz = p*ctet;
-    tdlev_=tclev_;
-    if (thlev_ > 0.) tdlev_ = tclev_ - thlev_ / std::log(2.) * std::log(prng_());
+    double phi   = phi1_ + (phi2_ - phi1_) * prng_();
+    double ctet1 = 1.;
+    if (teta1_ != 0.)
+      ctet1 = std::cos(teta1_);
+    double ctet2 = -1.;
+    if (teta2_ != M_PI)
+      ctet2 = std::cos(teta2_);
+    double ctet = ctet1 + (ctet2 - ctet1) * prng_();
+    double stet = std::sqrt(1. - ctet * ctet);
+    double E    = e1_;
+    if (e1_ != e2_)
+      E = e1_ + (e2_ - e1_) * prng_();
+    double p  = std::sqrt(E * (E + 2. * pmass));
+    double px = p * stet * std::cos(phi);
+    double py = p * stet * std::sin(phi);
+    double pz = p * ctet;
+    tdlev_    = tclev_;
+    if (thlev_ > 0.)
+      tdlev_ = tclev_ - thlev_ / std::log(2.) * std::log(prng_());
     part.set_code(np_);
     part.set_time(last_time + tdlev_);
     part.set_momentum(px, py, pz);
@@ -219,15 +228,20 @@ namespace bxdecay0 {
     return;
   }
 
-  void decay0_particle(i_random & prng_, event & event_,
-                       const particle_code np_, double E1_, double E2_,
-                       double teta1_, double teta2_,
-                       double phi1_, double phi2_,
-                       double tclev_, double thlev_, double & tdlev_)
+  void decay0_particle(i_random & prng_,
+                       event & event_,
+                       const particle_code np_,
+                       double E1_,
+                       double E2_,
+                       double teta1_,
+                       double teta2_,
+                       double phi1_,
+                       double phi2_,
+                       double tclev_,
+                       double thlev_,
+                       double & tdlev_)
   {
-    randomize_particle(prng_, event_, np_, E1_, E2_,
-                       teta1_, teta2_, phi1_, phi2_,
-                       tclev_, thlev_, tdlev_);
+    randomize_particle(prng_, event_, np_, E1_, E2_, teta1_, teta2_, phi1_, phi2_, tclev_, thlev_, tdlev_);
     return;
   }
 

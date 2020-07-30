@@ -18,37 +18,35 @@
 #include <bxdecay0/Ni64low.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Ni64low(i_random & /* prng_ */,
-               event & /* event_ */,
-               const int levelkev_)
+  void Ni64low(i_random & /* prng_ */, event & /* event_ */, const int levelkev_)
   {
-    //double t;
-    //double tdlev;
+    // double t;
+    // double tdlev;
     //// double tclev;
     // Subroutine describes the deexcitation process in Ni64 nucleus
     // after 2b-decay of Zn64 to ground and excited 0+ and 2+ levels
@@ -60,18 +58,16 @@ namespace bxdecay0 {
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 13.02.2004.
     ////tclev=0.;
-    if (levelkev_ ==  0) goto label_10000;
+    if (levelkev_ == 0)
+      goto label_10000;
     goto label_20000;
-  label_10000  :
+  label_10000:
     return;
-  label_20000  :
+  label_20000:
     // print *,'Ni64: wrong level [keV] ',levelkev_
     return;
   }
   // end of Ni64low.f
-
-
-
 
 } // end of namespace bxdecay0
 

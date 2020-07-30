@@ -18,35 +18,32 @@
 #include <bxdecay0/Cs137.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Cs137(i_random & prng_,
-             event & event_,
-             const double tcnuc_,
-             double & tdnuc_)
+  void Cs137(i_random & prng_, event & event_, const double tcnuc_, double & tdnuc_)
   {
     double t;
     double tdlev;
@@ -62,33 +59,40 @@ namespace bxdecay0 {
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 31.08.1992, 11.07.1995, 06.11.1995
     // VIT, 30.10.2006 (update to NDS 81(1997)579 and corrections to the beta shapes).
-    thnuc=0.9489110E+09;
-    tdnuc_=tcnuc_-thnuc/std::log(2.)*std::log(prng_());
-    tclev=0.;
-    pdecay=100.*prng_();
-    if (pdecay <= 94.4) goto label_1;
+    thnuc  = 0.9489110E+09;
+    tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
+    tclev  = 0.;
+    pdecay = 100. * prng_();
+    if (pdecay <= 94.4)
+      goto label_1;
     goto label_2;
     // change to the 1st forbidden unique shape without std::experimental corrections
-  label_1  :
-    decay0_beta_1fu(prng_, event_, 0.514,56.,0.,0.,t,0.,0.,0.,0.);
-    thlev=153.12;
-    decay0_nucltransKL(prng_, event_, 0.662,0.037,9.0e-2,0.006,1.6e-2,0.,
+  label_1:
+    decay0_beta_1fu(prng_, event_, 0.514, 56., 0., 0., t, 0., 0., 0., 0.);
+    thlev = 153.12;
+    decay0_nucltransKL(prng_,
+                       event_,
+                       0.662,
+                       0.037,
+                       9.0e-2,
+                       0.006,
+                       1.6e-2,
+                       0.,
                        // + tdlev,thlev,tdlev)
                        // corrected
-                       tclev,thlev,tdlev);
+                       tclev,
+                       thlev,
+                       tdlev);
     return;
     // change to 2nd forbidden non-unique shape with std::experimental correction factor
     // from S.T.Hsue et al., NP 86(1966)47: p_nu^2+0.004*p_el^2
     // cf(e)=(1+c1/w+c2*w+c3*w**2+c4*w**3), w=e/emass+1
     // wrong numerical coefficients
-  label_2  :
-    decay0_beta1(prng_, event_, 1.176,56.,0.,0.,t,0.,-0.6060315,0.0921520,0.);
+  label_2:
+    decay0_beta1(prng_, event_, 1.176, 56., 0., 0., t, 0., -0.6060315, 0.0921520, 0.);
     return;
   }
   // end of Cs137.f
-
-
-
 
 } // end of namespace bxdecay0
 

@@ -18,8 +18,8 @@
 #include <bxdecay0/funbeta1.h>
 
 // Standard library:
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 // Third party:
@@ -44,18 +44,13 @@ namespace bxdecay0 {
     const double & c4     = pars->c4;
 
     static const double emass = decay0_emass();
-    double f = 0.0;
+    double f                  = 0.0;
     if (e_ > 0.) {
       // allowed spectrum:
-      double all = std::sqrt(e_ * (e_ + 2. * emass)) * (e_ + emass)
-        *gsl_pow_2(Qbeta - e_) * decay0_fermi(Zdtr, e_);
+      double all = std::sqrt(e_ * (e_ + 2. * emass)) * (e_ + emass) * gsl_pow_2(Qbeta - e_) * decay0_fermi(Zdtr, e_);
       // correction factor:
-      double w = e_ / emass + 1.;
-      double cf = 1.
-        + c1 / w
-        + c2 * w
-        + c3 * gsl_pow_2(w)
-        + c4 * gsl_pow_3(w);
+      double w  = e_ / emass + 1.;
+      double cf = 1. + c1 / w + c2 * w + c3 * gsl_pow_2(w) + c4 * gsl_pow_3(w);
       // spectrum with correction:
       f = all * cf;
     }

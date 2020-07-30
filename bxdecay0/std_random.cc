@@ -21,7 +21,7 @@ namespace bxdecay0 {
 
   std_random::std_random(std::default_random_engine & generator_)
     : _generator_(generator_)
-    , _ud_(0.0,1.0)
+    , _ud_(0.0, 1.0)
   {
     return;
   }

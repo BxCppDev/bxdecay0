@@ -18,36 +18,34 @@
 #include <bxdecay0/Sn116low.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Sn116low(i_random & prng_,
-                event & event_,
-                const int levelkev_)
+  void Sn116low(i_random & prng_, event & event_, const int levelkev_)
   {
-    //double t;
+    // double t;
     double tdlev;
     double p;
     double tclev;
@@ -66,70 +64,77 @@ namespace bxdecay0 {
     // 2+(3) - 2225 keV.
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 28.06.1993, 22.10.1995.
-    tclev=0.;
-    if (levelkev_ == 2225) goto label_2225;
-    if (levelkev_ == 2112) goto label_2112;
-    if (levelkev_ == 2027) goto label_2027;
-    if (levelkev_ == 1757) goto label_1757;
-    if (levelkev_ == 1294) goto label_1294;
-    if (levelkev_ ==  0) goto label_10000;
+    tclev = 0.;
+    if (levelkev_ == 2225)
+      goto label_2225;
+    if (levelkev_ == 2112)
+      goto label_2112;
+    if (levelkev_ == 2027)
+      goto label_2027;
+    if (levelkev_ == 1757)
+      goto label_1757;
+    if (levelkev_ == 1294)
+      goto label_1294;
+    if (levelkev_ == 0)
+      goto label_10000;
     goto label_20000;
-  label_2225  :
-    thlev=0.;
-    p=100.*prng_();
-    if (p <= 37.) goto label_22251;
+  label_2225:
+    thlev = 0.;
+    p     = 100. * prng_();
+    if (p <= 37.)
+      goto label_22251;
     goto label_22252;
-  label_22251  :
-    decay0_nucltransK(prng_, event_, 2.225,0.029,2.7e-4,3.4e-4,tclev,thlev,tdlev);
+  label_22251:
+    decay0_nucltransK(prng_, event_, 2.225, 0.029, 2.7e-4, 3.4e-4, tclev, thlev, tdlev);
     return;
-  label_22252  :
-    decay0_nucltransK(prng_, event_, 0.932,0.029,1.5e-3,0.,tclev,thlev,tdlev);
+  label_22252:
+    decay0_nucltransK(prng_, event_, 0.932, 0.029, 1.5e-3, 0., tclev, thlev, tdlev);
     goto label_1294;
-  label_2112  :
-    thlev=0.;
-    p=100.*prng_();
-    if (p <= 54.9) goto label_21121;
-    if (p <= 96.9) goto label_21122;
+  label_2112:
+    thlev = 0.;
+    p     = 100. * prng_();
+    if (p <= 54.9)
+      goto label_21121;
+    if (p <= 96.9)
+      goto label_21122;
     goto label_21123;
-  label_21121  :
-    decay0_nucltransK(prng_, event_, 2.112,0.029,3.1e-4,2.7e-4,tclev,thlev,tdlev);
+  label_21121:
+    decay0_nucltransK(prng_, event_, 2.112, 0.029, 3.1e-4, 2.7e-4, tclev, thlev, tdlev);
     return;
-  label_21122  :
-    decay0_nucltransK(prng_, event_, 0.819,0.029,2.6e-3,0.,tclev,thlev,tdlev);
+  label_21122:
+    decay0_nucltransK(prng_, event_, 0.819, 0.029, 2.6e-3, 0., tclev, thlev, tdlev);
     goto label_1294;
-  label_21123  :
-    decay0_nucltransK(prng_, event_, 0.355,0.029,1.8e-2,0.,tclev,thlev,tdlev);
+  label_21123:
+    decay0_nucltransK(prng_, event_, 0.355, 0.029, 1.8e-2, 0., tclev, thlev, tdlev);
     goto label_1757;
-  label_2027  :
-    thlev=0.;
-    decay0_nucltransK(prng_, event_, 0.733,0.029,2.7e-3,0.,tclev,thlev,tdlev);
+  label_2027:
+    thlev = 0.;
+    decay0_nucltransK(prng_, event_, 0.733, 0.029, 2.7e-3, 0., tclev, thlev, tdlev);
     goto label_1294;
-  label_1757  :
-    thlev=0.;
-    p=100.*prng_();
-    if (p <= 0.29) goto label_17571;
+  label_1757:
+    thlev = 0.;
+    p     = 100. * prng_();
+    if (p <= 0.29)
+      goto label_17571;
     goto label_17572;
-  label_17571  :
-    decay0_electron(prng_, event_, 1.757-0.029,tclev,thlev,tdlev)  ;// only ec
-    decay0_gamma(prng_, event_, 0.029,0.,0.,tdlev);
+  label_17571:
+    decay0_electron(prng_, event_, 1.757 - 0.029, tclev, thlev, tdlev); // only ec
+    decay0_gamma(prng_, event_, 0.029, 0., 0., tdlev);
     return;
-  label_17572  :
-    decay0_nucltransK(prng_, event_, 0.463,0.029,9.0e-3,0.,tclev,thlev,tdlev);
+  label_17572:
+    decay0_nucltransK(prng_, event_, 0.463, 0.029, 9.0e-3, 0., tclev, thlev, tdlev);
     goto label_1294;
-  label_1294  :
-    thlev=0.36e-12;
-    decay0_nucltransK(prng_, event_, 1.294,0.029,7.5e-4,0.5e-4,tclev,thlev,tdlev);
+  label_1294:
+    thlev = 0.36e-12;
+    decay0_nucltransK(prng_, event_, 1.294, 0.029, 7.5e-4, 0.5e-4, tclev, thlev, tdlev);
     return;
-  label_10000  :
+  label_10000:
     return;
-  label_20000  :
+  label_20000:
     // print *,'Sn116: wrong level [keV] ',levelkev_
     return;
   }
   // end of Sn116low.f
-
-
-
 
 } // end of namespace bxdecay0
 

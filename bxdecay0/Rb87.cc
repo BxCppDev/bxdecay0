@@ -18,38 +18,35 @@
 #include <bxdecay0/Rb87.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Rb87(i_random & prng_,
-            event & event_,
-            const double tcnuc_,
-            double & tdnuc_)
+  void Rb87(i_random & prng_, event & event_, const double tcnuc_, double & tdnuc_)
   {
     double t;
-    //double tdlev;
+    // double tdlev;
     double thnuc;
     // Scheme of Rb87 decay in accordance with NDS 95(2002)543 and ENSDF
     // at NNDC site on 6.08.2007.
@@ -57,17 +54,14 @@ namespace bxdecay0 {
     // Output: tdnuc_ - time of decay of nucleus (sec)
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 6.08.2007.
-    thnuc=1.518e18;
-    tdnuc_=tcnuc_-thnuc/std::log(2.)*std::log(prng_());
+    thnuc  = 1.518e18;
+    tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     // Shape of the 3-rd forbidden non-unique beta decay in accordance with
     // measurements of: A.G.Carles et al., NPA 767(2006)248.
-    decay0_beta2(prng_, event_, 0.283,38.,0.,0.,t,2,27.72,90.91,0.,0.);
+    decay0_beta2(prng_, event_, 0.283, 38., 0., 0., t, 2, 27.72, 90.91, 0., 0.);
     return;
   }
   // end of Rb87.f
-
-
-
 
 } // end of namespace bxdecay0
 

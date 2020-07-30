@@ -18,15 +18,15 @@
 #include <bxdecay0/bb_utils.h>
 
 // Standard library:
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 
 // This project:
 #include <bxdecay0/resource.h>
 
 namespace bxdecay0 {
-  
+
   const std::set<std::string> & dbd_isotopes()
   {
     bool trace = false;
@@ -40,14 +40,17 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace) std::cerr << "[trace] line = " << line << std::endl;
+        if (trace)
+          std::cerr << "[trace] line = " << line << std::endl;
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty()) continue;
-          if (first_word[0] == '#') continue;
+          if (first_word.empty())
+            continue;
+          if (first_word[0] == '#')
+            continue;
         }
         // Isotope:
         std::string dbd_isotope = first_word;
@@ -74,14 +77,17 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace) std::cerr << "[trace] line = " << line << std::endl;
+        if (trace)
+          std::cerr << "[trace] line = " << line << std::endl;
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty()) continue;
-          if (first_word[0] == '#') continue;
+          if (first_word.empty())
+            continue;
+          if (first_word[0] == '#')
+            continue;
         }
         // Isotope:
         std::string background_isotope = first_word;
@@ -94,11 +100,11 @@ namespace bxdecay0 {
     }
     return _background_isotopes;
   }
-     
+
   const std::map<dbd_mode_type, dbd_record> & dbd_modes()
   {
     bool trace = false;
-    static std::map<dbd_mode_type,dbd_record> _dbd_modes_dict;
+    static std::map<dbd_mode_type, dbd_record> _dbd_modes_dict;
     if (_dbd_modes_dict.size() == 0) {
       std::string filename = get_resource("data/dbd_modes.lis", true);
       std::ifstream fin(filename.c_str());
@@ -108,17 +114,20 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace) std::cerr << "[trace] line = " << line << std::endl;
+        if (trace)
+          std::cerr << "[trace] line = " << line << std::endl;
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty()) continue;
-          if (first_word[0] == '#') continue;
+          if (first_word.empty())
+            continue;
+          if (first_word[0] == '#')
+            continue;
         }
         dbd_record record;
-        record.dbd_mode = DBDMODE_UNDEF;
+        record.dbd_mode    = DBDMODE_UNDEF;
         record.description = "";
         std::istringstream parse_iss(line);
 
@@ -126,7 +135,8 @@ namespace bxdecay0 {
         int dbd_mode;
         parse_iss >> dbd_mode >> std::ws;
         if (!parse_iss) {
-          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename + "'! Cannot decode BB mode!");
+          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
+                                 + "'! Cannot decode BB mode!");
         }
         record.dbd_mode = static_cast<dbd_mode_type>(dbd_mode);
 
@@ -139,7 +149,8 @@ namespace bxdecay0 {
         int legacy_modebb;
         parse_iss >> legacy_modebb >> std::ws;
         if (!parse_iss) {
-          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename + "'! Cannot decode legacy Decay0 mode");
+          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
+                                 + "'! Cannot decode legacy Decay0 mode");
         }
         if (legacy_modebb >= 0) {
           record.legacy_modebb = static_cast<legacy_modebb_type>(legacy_modebb);
@@ -154,7 +165,7 @@ namespace bxdecay0 {
           std::cerr << "[trace] Decay0 legacy BB mode = " << record.legacy_modebb << std::endl;
           std::cerr << "[trace] Description = " << record.description << std::endl;
         }
-        if (record.dbd_mode > 0 && ! record.description.empty()) {
+        if (record.dbd_mode > 0 && !record.description.empty()) {
           _dbd_modes_dict[record.dbd_mode] = record;
         }
         fin >> std::ws;
@@ -168,37 +179,39 @@ namespace bxdecay0 {
 
   dbd_mode_type dbd_mode_from_label(const std::string & label_)
   {
-    const std::map<dbd_mode_type,dbd_record> & m = dbd_modes();
+    const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     for (const auto & p : m) {
-      if (p.second.unique_label == label_) return p.first;
+      if (p.second.unique_label == label_)
+        return p.first;
     }
     return DBDMODE_UNDEF;
   }
 
   dbd_mode_type dbd_mode_from_legacy_modebb(const legacy_modebb_type legacy_modebb_)
   {
-    const std::map<dbd_mode_type,dbd_record> & m = dbd_modes();
+    const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     for (const auto & p : m) {
-      if (p.second.legacy_modebb == legacy_modebb_) return p.first;
+      if (p.second.legacy_modebb == legacy_modebb_)
+        return p.first;
     }
     return DBDMODE_UNDEF;
   }
 
   std::string dbd_mode_label(const dbd_mode_type dbd_mode_)
   {
-    const std::map<dbd_mode_type,dbd_record> & m = dbd_modes();
+    const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     return m.find(dbd_mode_)->second.unique_label;
   }
 
   std::string dbd_mode_description(const dbd_mode_type dbd_mode_)
   {
-    const std::map<dbd_mode_type,dbd_record> & m = dbd_modes();
+    const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     return m.find(dbd_mode_)->second.description;
   }
 
   legacy_modebb_type dbd_legacy_mode(const dbd_mode_type dbd_mode_)
   {
-    const std::map<dbd_mode_type,dbd_record> & m = dbd_modes();
+    const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     return m.find(dbd_mode_)->second.legacy_modebb;
   }
 
@@ -213,9 +226,9 @@ namespace bxdecay0 {
       _dbd_modes_wer_dict.insert(DBDMODE_10); // 2NU
       _dbd_modes_wer_dict.insert(DBDMODE_13); // MAJORON M7
       _dbd_modes_wer_dict.insert(DBDMODE_14); // MAJORON M2
-      _dbd_modes_wer_dict.insert(DBDMODE_15); 
-      _dbd_modes_wer_dict.insert(DBDMODE_16); 
-      _dbd_modes_wer_dict.insert(DBDMODE_19); 
+      _dbd_modes_wer_dict.insert(DBDMODE_15);
+      _dbd_modes_wer_dict.insert(DBDMODE_16);
+      _dbd_modes_wer_dict.insert(DBDMODE_19);
     }
     return _dbd_modes_wer_dict;
   }
