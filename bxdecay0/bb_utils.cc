@@ -31,7 +31,7 @@ namespace bxdecay0 {
   {
     bool trace = false;
     static std::set<std::string> _dbd_isotopes;
-    if (_dbd_isotopes.size() == 0) {
+    if (_dbd_isotopes.empty()) {
       std::string filename = get_resource("data/dbd_isotopes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
@@ -71,7 +71,7 @@ namespace bxdecay0 {
   {
     bool trace = false;
     static std::set<std::string> _background_isotopes;
-    if (_background_isotopes.size() == 0) {
+    if (_background_isotopes.empty()) {
       std::string filename = get_resource("data/background_isotopes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
@@ -111,7 +111,7 @@ namespace bxdecay0 {
   {
     bool trace = false;
     static std::map<dbd_mode_type, dbd_record> _dbd_modes_dict;
-    if (_dbd_modes_dict.size() == 0) {
+    if (_dbd_modes_dict.empty()) {
       std::string filename = get_resource("data/dbd_modes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
@@ -229,7 +229,7 @@ namespace bxdecay0 {
   const std::set<dbd_mode_type> & dbd_modes_with_esum_range()
   {
     static std::set<dbd_mode_type> _dbd_modes_wer_dict;
-    if (_dbd_modes_wer_dict.size() == 0) {
+    if (_dbd_modes_wer_dict.empty()) {
       _dbd_modes_wer_dict.insert(DBDMODE_4);  // 2NUBB
       _dbd_modes_wer_dict.insert(DBDMODE_5);  // MAJORON M1
       _dbd_modes_wer_dict.insert(DBDMODE_6);  // MAJORON M3
@@ -246,7 +246,7 @@ namespace bxdecay0 {
 
   bool dbd_supports_esum_range(const dbd_mode_type dbd_mode_)
   {
-    return dbd_modes_with_esum_range().count(dbd_mode_);
+    return dbd_modes_with_esum_range().count(dbd_mode_) != 0u;
   }
 
 } // end of namespace bxdecay0

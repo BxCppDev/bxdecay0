@@ -245,7 +245,7 @@ namespace bxdecay0 {
     if (trace) {
       std::cerr << "[trace] bxdecay0::bb: Entering..." << std::endl;
     }
-    bbpars * pars = static_cast<bbpars *>(params_);
+    auto * pars = static_cast<bbpars *>(params_);
     if (trace) {
       pars->dump(std::cerr, "[trace] ");
     }

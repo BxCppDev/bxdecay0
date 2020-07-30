@@ -173,7 +173,7 @@ namespace bxdecay0 {
       decay0_gamma(prng_, event_, EbindK, 0., 0., tdlev);
     }
     // Angular correlation between gammas 591 and 540 keV
-    if (ipg591 != 0 && ipg540 != 0) {
+    if (ipg591 != nullptr && ipg540 != nullptr) {
       double p591 = ipg591->get_p();
       double p540 = ipg540->get_p();
       // std::sqrt (pmoment (1, npg591) ** 2 + pmoment (2, npg591) ** 2 +;

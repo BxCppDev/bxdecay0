@@ -69,18 +69,17 @@ namespace bxdecay0 {
       if (c_ - b_ > b_ - a_) {
         decay0_tgold(b_, x, c_, f_, eps_, minmax_, xextr_, fextr_, params_);
         return;
-      } else {
-        decay0_tgold(a_, x, b_, f_, eps_, minmax_, xextr_, fextr_, params_);
-        return;
       }
+      decay0_tgold(a_, x, b_, f_, eps_, minmax_, xextr_, fextr_, params_);
+      return;
+
     } else {
       if (c_ - b_ > b_ - a_) {
         decay0_tgold(a_, b_, x, f_, eps_, minmax_, xextr_, fextr_, params_);
         return;
-      } else {
-        decay0_tgold(x, b_, c_, f_, eps_, minmax_, xextr_, fextr_, params_);
-        return;
       }
+      decay0_tgold(x, b_, c_, f_, eps_, minmax_, xextr_, fextr_, params_);
+      return;
     }
     return;
   }

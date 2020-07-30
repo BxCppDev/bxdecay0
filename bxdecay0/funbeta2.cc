@@ -36,7 +36,7 @@ namespace bxdecay0 {
   /// \brief Function to search the maximum of beta spectrum curve by decay0_tgold subroutine
   double decay0_funbeta2(double e_, void * params_)
   {
-    const parbeta2 * pars = static_cast<const parbeta2 *>(params_);
+    const auto * pars     = static_cast<const parbeta2 *>(params_);
     const double & Zdtr   = pars->Zdtr;
     const double & Qbeta  = pars->Qbeta;
     const double & c1     = pars->c1;

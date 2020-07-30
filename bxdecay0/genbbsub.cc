@@ -1993,7 +1993,7 @@ namespace bxdecay0 {
             if (chnuclide_ == "Zr96" || chnuclide_ == "Xe136" || chnuclide_ == "Nd150") {
               ier_ = 0;
             }
-            if (ier_) {
+            if (ier_ != 0) {
               std::cerr << "[error] "
                         << "bxdecay0::genbbsub: "
                         << "4 beta decay is foreseen only for Zr96, Xe136 or Nd150 (g.s. to g.s.) !\n";

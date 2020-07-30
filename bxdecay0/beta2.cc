@@ -61,7 +61,7 @@ namespace bxdecay0 {
 
   void decay0_beta2(i_random & prng_, event & event_, double tcnuc_, double thnuc_, double & tdnuc_, void * params_)
   {
-    const parbeta2 * pars2 = static_cast<const parbeta2 *>(params_);
+    const auto * pars2     = static_cast<const parbeta2 *>(params_);
     const double & Zdtr    = pars2->Zdtr;
     const double & Qbeta   = pars2->Qbeta;
     // const double & c1    = pars2->c1;

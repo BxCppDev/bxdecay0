@@ -294,22 +294,22 @@ namespace bxdecay0 {
     // coefficients are used.
     // Thanks to V.Vasilyev for correcting formula in previous DECAY0 version
     // for case of two conversion electrons emitted.
-    if (ipg1064 != 0 && ipg570 != 0) {
+    if (ipg1064 != nullptr && ipg570 != nullptr) {
       a2     = 0.231;
       a4     = -0.023;
       ip1064 = ipg1064;
       ip570  = ipg570;
-    } else if (ipe1064 != 0 && ipg570 != 0) {
+    } else if (ipe1064 != nullptr && ipg570 != nullptr) {
       a2     = 0.223;
       a4     = -0.020;
       ip1064 = ipe1064;
       ip570  = ipg570;
-    } else if (ipg1064 != 0 && ipe570 != 0) {
+    } else if (ipg1064 != nullptr && ipe570 != nullptr) {
       a2     = 0.275;
       a4     = -0.012;
       ip1064 = ipg1064;
       ip570  = ipe570;
-    } else if (ipe1064 != 0 && ipe570 != 0) {
+    } else if (ipe1064 != nullptr && ipe570 != nullptr) {
       a2     = 0.271;
       a4     = -0.010;
       ip1064 = ipe1064;

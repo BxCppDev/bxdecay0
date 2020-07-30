@@ -30,7 +30,7 @@ namespace bxdecay0 {
 
   void decay0_dshelp1(const int m_, const double * du1_, double * df1_, double * d_el_, void * params_)
   {
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & dens = pars->dens;
     const double & denf = pars->denf;
     for (int i = 0; i < m_; i++) {

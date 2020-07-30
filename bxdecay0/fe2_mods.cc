@@ -35,7 +35,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod4(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -49,7 +49,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod5(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -63,7 +63,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod6(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -77,7 +77,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod8(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -91,7 +91,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod13(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -105,7 +105,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod14(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -119,7 +119,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod15(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -134,7 +134,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod16(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
@@ -148,7 +148,7 @@ namespace bxdecay0 {
   double decay0_fe2_mod19(double e2_, void * params_)
   {
     static double emass = decay0_emass();
-    const bbpars * pars = static_cast<const bbpars *>(params_);
+    const auto * pars   = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;

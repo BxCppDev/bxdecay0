@@ -36,7 +36,7 @@ namespace bxdecay0 {
 
   double decay0_funbeta_1fu(double e_, void * params_)
   {
-    const bj69sl2 * pars = static_cast<const bj69sl2 *>(params_);
+    const auto * pars    = static_cast<const bj69sl2 *>(params_);
     const double & Zdtr  = pars->Zdtr;
     const double & Qbeta = pars->Qbeta;
     const double & c1    = pars->c1;

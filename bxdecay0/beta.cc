@@ -52,7 +52,7 @@ namespace bxdecay0 {
   void decay0_beta(i_random & prng_, event & event_, double tcnuc_, double thnuc_, double & tdnuc_, void * params_)
   {
     // Parameters for function 'decay0_funbeta'
-    const parbeta * pars = static_cast<const parbeta *>(params_);
+    const auto * pars    = static_cast<const parbeta *>(params_);
     const double & Zdtr  = pars->Zdtr;
     const double & Qbeta = pars->Qbeta;
     double em, fm;

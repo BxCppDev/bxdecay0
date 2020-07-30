@@ -225,7 +225,7 @@ namespace bxdecay0 {
 
   const bxdecay0::bbpars & decay0_generator::get_bb_params() const
   {
-    decay0_generator * mutable_this = const_cast<decay0_generator *>(this);
+    auto * mutable_this = const_cast<decay0_generator *>(this);
     return const_cast<bxdecay0::bbpars &>(mutable_this->_grab_bb_params_());
   }
 
@@ -371,7 +371,7 @@ namespace bxdecay0 {
 #else
         throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 generator does not support DBD gA process !");
 #endif
-      } else {
+      } else { // NOLINT(readability-else-after-return) because the logic isn't clear
         bxdecay0::genbbsub(prng_,
                            event_,
                            bxdecay0::GENBBSUB_I2BBS_DBD,
@@ -468,7 +468,7 @@ namespace bxdecay0 {
         throw std::logic_error(
             "bxdecay0::decay0_generator::_init_: Decay0 generator does not support DBD gA process !");
 #endif
-      } else {
+      } else { // NOLINT(readability-else-after-return) because the logic isn't clear
         // Set the BB mode with the proper legacy value from the Decay0 engine:
         _grab_bb_params_().modebb   = dbd_legacy_mode(_decay_dbd_mode_);
         _grab_bb_params_().istartbb = 0;
@@ -516,7 +516,7 @@ namespace bxdecay0 {
         throw std::logic_error(
             "bxdecay0::decay0_generator::_init_: Decay0 generator does not support DBD gA process !");
 #endif
-      } else {
+      } else { // NOLINT(readability-else-after-return) because the logic isn't clear
         if (is_debug()) {
           std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
         }

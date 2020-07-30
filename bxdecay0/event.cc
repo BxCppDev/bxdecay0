@@ -86,7 +86,7 @@ namespace bxdecay0 {
 
   particle & event::grab_last_particle()
   {
-    if (_particles_.size() == 0) {
+    if (_particles_.empty()) {
       throw std::logic_error("bxdecay0::event::grab_last_particle: Event has no particle yet!");
     }
     return _particles_.back();
@@ -108,8 +108,7 @@ namespace bxdecay0 {
   void event::shift_particles_time(double delta_time_, const int from_)
   {
     int count = 0;
-    for (std::vector<particle>::iterator i = _particles_.begin(); i != _particles_.end(); i++) {
-      particle & p = *i;
+    for (auto & p : _particles_) {
       if (count >= from_) {
         p.shift_time(delta_time_);
       }
@@ -160,10 +159,10 @@ namespace bxdecay0 {
   void event::store(std::ostream & out_, const uint32_t flags_) const
   {
     out_.precision(15);
-    if (flags_ & STORE_EVENT_DECO) {
+    if ((flags_ & STORE_EVENT_DECO) != 0u) {
       out_ << "#@event_start" << std::endl;
     }
-    if (flags_ & STORE_EVENT_TIME) {
+    if ((flags_ & STORE_EVENT_TIME) != 0u) {
       out_ << _time_ << ' ' << _generator_ << std::endl;
     }
     out_ << _particles_.size() << '\n';
@@ -171,7 +170,7 @@ namespace bxdecay0 {
     for (const auto & p : _particles_) {
       p.store(out_, particle_flags);
     }
-    if (flags_ & STORE_EVENT_DECO) {
+    if ((flags_ & STORE_EVENT_DECO) != 0u) {
       out_ << "#@event_stop\n" << std::endl;
     }
     return;
@@ -191,7 +190,7 @@ namespace bxdecay0 {
                           double & tdlev_)
   {
     double last_time = 0.0;
-    if (event_.get_particles().size() > 0) {
+    if (!event_.get_particles().empty()) {
       const particle & last_part = event_.get_particles().back();
       last_time                  = last_part.get_time();
     }

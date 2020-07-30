@@ -58,8 +58,8 @@ namespace bxdecay0 {
     double tclev;
     double thlev;
     double thnuc;
-    particle * ipg1173 = 0;
-    particle * ipg1333 = 0;
+    particle * ipg1173 = nullptr;
+    particle * ipg1333 = nullptr;
     // Scheme of Co60 decay ("Table of Isotopes", 7th ed., 1978).
     // Four-figured labels correspond to energies of 60Ni excited
     // levels in keV.
@@ -156,7 +156,7 @@ namespace bxdecay0 {
       decay0_pair(prng_, event_, Egamma - 1.022, tclev, thlev, tdlev);
     }
     // Angular correlation between gammas 1173 and 1333 keV, L.Pandola + VIT
-    if (ipg1333 != 0 && ipg1173 != 0) {
+    if (ipg1333 != nullptr && ipg1173 != nullptr) {
       double p1333 = ipg1333->get_p();
       double p1173 = ipg1173->get_p();
       // DT_TRACER_MESSAGE(10001,"gammas 1173 and 1333 correlation");

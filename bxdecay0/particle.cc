@@ -27,8 +27,8 @@ namespace bxdecay0 {
   {
     _code_ = INVALID_PARTICLE;
     _time_ = std::numeric_limits<double>::quiet_NaN();
-    for (int i = 0; i < 3; i++) {
-      _momentum_[i] = std::numeric_limits<double>::quiet_NaN();
+    for (double & i : _momentum_) {
+      i = std::numeric_limits<double>::quiet_NaN();
     }
     return;
   }
@@ -184,8 +184,8 @@ namespace bxdecay0 {
 
   void particle::reset()
   {
-    for (int i = 0; i < 3; i++) {
-      _momentum_[i] = std::numeric_limits<double>::quiet_NaN();
+    for (double & i : _momentum_) {
+      i = std::numeric_limits<double>::quiet_NaN();
     }
     _time_ = std::numeric_limits<double>::quiet_NaN();
     _code_ = INVALID_PARTICLE;
@@ -216,7 +216,7 @@ namespace bxdecay0 {
     out_ << ' ' << _momentum_[0];
     out_ << ' ' << _momentum_[1];
     out_ << ' ' << _momentum_[2];
-    if (flags_ & STORE_PARTICLE_NAME) {
+    if ((flags_ & STORE_PARTICLE_NAME) != 0u) {
       out_ << ' ' << geant3_particle_name(_code_);
     }
     out_ << '\n';

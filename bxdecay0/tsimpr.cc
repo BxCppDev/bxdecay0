@@ -45,7 +45,7 @@ namespace bxdecay0 {
   {
     double rn = (b_ - a_) / h_;
     rn += 0.25;
-    std::size_t n = (std::size_t)rn;
+    auto n        = (std::size_t)rn;
     std::size_t m = n / 2;
     // std::cerr.precision(15);
     // std::cerr << "[debug] " << "rn = " << rn << std::endl;

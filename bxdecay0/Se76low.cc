@@ -59,8 +59,8 @@ namespace bxdecay0 {
     double p;
     double tclev;
     double thlev;
-    particle * ipg563 = 0;
-    particle * ipg559 = 0;
+    particle * ipg563 = nullptr;
+    particle * ipg559 = nullptr;
     // Subroutine describes the deexcitation process in Se76 nucleus
     // after 2b-decay of Ge76 to ground and excited 0+ and 2+ levels
     // of Se76 ("Table of Isotopes", 7th ed., 1978).
@@ -135,7 +135,7 @@ namespace bxdecay0 {
       decay0_gamma(prng_, event_, EbindK, 0., 0., tdlev);
     } /* CARE */
     // Angular correlation between gammas 559 and 563 keV, L.Pandola + VIT
-    if (ipg559 != 0 && ipg563 != 0) {
+    if (ipg559 != nullptr && ipg563 != nullptr) {
       double p559 = ipg559->get_p();
       double p563 = ipg563->get_p();
       // Coefficients in formula 1+a2*ctet**2+a4*ctet**4 are from:

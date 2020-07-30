@@ -43,7 +43,7 @@ struct f1_params
 
 double f1(double x_, void * params_)
 {
-  const f1_params * pars = static_cast<const f1_params *>(params_);
+  const auto * pars      = static_cast<const f1_params *>(params_);
   const double & A       = pars->A;
   const double & omega   = pars->omega;
   const double & phy     = pars->phy;

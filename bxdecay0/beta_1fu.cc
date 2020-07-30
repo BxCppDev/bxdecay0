@@ -62,7 +62,7 @@ namespace bxdecay0 {
   void decay0_beta_1fu(i_random & prng_, event & event_, double tcnuc_, double thnuc_, double & tdnuc_, void * params_)
   {
     // Parameters for function 'decay0_funbeta_1fu'
-    bj69sl2 * parssl2    = static_cast<bj69sl2 *>(params_);
+    auto * parssl2       = static_cast<bj69sl2 *>(params_);
     const double & Zdtr  = parssl2->Zdtr;
     const double & Qbeta = parssl2->Qbeta;
     // const double & c1    = parssl2->c1;

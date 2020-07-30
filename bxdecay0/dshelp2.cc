@@ -31,7 +31,7 @@ namespace bxdecay0 {
 
   void decay0_dshelp2(const int m_, const double * du2_, double * df2_, double * d_el_, void * params_)
   {
-    bbpars * pars       = static_cast<bbpars *>(params_);
+    auto * pars         = static_cast<bbpars *>(params_);
     const double & dens = pars->dens;
     const double & denf = pars->denf;
     const int & mode    = pars->mode;

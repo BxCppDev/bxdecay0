@@ -26,7 +26,7 @@ namespace bxdecay0 {
     static bool devel = false;
     // devel = true;
     static std::map<std::string, bool> _t;
-    if (_t.size() == 0) {
+    if (_t.empty()) {
       if (devel) {
         std::cerr << "[devel] bxdecay0::traces: "
                   << "Populating trace map..." << std::endl;
@@ -39,13 +39,13 @@ namespace bxdecay0 {
       _t["fermi"]    = false;
       {
         const char * env_key = "BXDECAY0_TRACE";
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           _t["bxdecay0"] = true;
         }
       }
       {
         const char * env_key = "BXDECAY0_TRACE_GENBBSUB";
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           _t["genbbsub"] = true;
         }
       }
@@ -54,7 +54,7 @@ namespace bxdecay0 {
         if (devel) {
           std::cerr << "[devel] bxdecay0::traces: BXDECAY0_TRACE_BB='" << std::getenv(env_key) << "'" << std::endl;
         }
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           if (devel) {
             std::cerr << "[devel] bxdecay0::traces: "
                       << "Activate BB trace." << std::endl;
@@ -69,19 +69,19 @@ namespace bxdecay0 {
       }
       {
         const char * env_key = "BXDECAY0_TRACE_GAUSS";
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           _t["gauss"] = true;
         }
       }
       {
         const char * env_key = "BXDECAY0_TRACE_FE12";
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           _t["fe12"] = true;
         }
       }
       {
         const char * env_key = "BXDECAY0_TRACE_FERMI";
-        if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
+        if ((std::getenv(env_key) != nullptr) && std::string(std::getenv(env_key)) == "1") {
           _t["fermi"] = true;
         }
       }
@@ -98,7 +98,7 @@ namespace bxdecay0 {
   bool is_trace(const std::string & label_)
   {
     const std::map<std::string, bool> & tr = traces();
-    if (tr.count(label_)) {
+    if (tr.count(label_) != 0u) {
       bool t = tr.find(label_)->second;
       if (t) {
         return true;
