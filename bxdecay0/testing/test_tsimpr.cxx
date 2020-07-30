@@ -21,12 +21,12 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
 #include <bxdecay0/tsimpr.h>
@@ -44,9 +44,9 @@ struct f1_params
 double f1(double x_, void * params_)
 {
   const f1_params * pars = static_cast<const f1_params *>(params_);
-  const double & A     = pars->A;
-  const double & omega = pars->omega;
-  const double & phy   = pars->phy;
+  const double & A       = pars->A;
+  const double & omega   = pars->omega;
+  const double & phy     = pars->phy;
   // return A * std::cos(omega * x_ + phy);
   return A * x_ * x_;
 }
@@ -67,14 +67,17 @@ int main()
     double b = 1.0;
     // b = M_PI;
     std::size_t m = 1000;
-    std::size_t n = 2 * m; // Number of steps
-    double h = (b - a) / n; // Step
-    std::clog << "[info] " << "m = " << m << std::endl;
-    std::clog << "[info] " << "n = " << n << std::endl;
-    std::clog << "[info] " << "h = " << h << std::endl;
+    std::size_t n = 2 * m;       // Number of steps
+    double h      = (b - a) / n; // Step
+    std::clog << "[info] "
+              << "m = " << m << std::endl;
+    std::clog << "[info] "
+              << "n = " << n << std::endl;
+    std::clog << "[info] "
+              << "h = " << h << std::endl;
 
     // Integration:
-    double s1 = bxdecay0::decay0_tsimpr(f1, a, b, h, static_cast<void*>(&pars1));
+    double s1 = bxdecay0::decay0_tsimpr(f1, a, b, h, static_cast<void *>(&pars1));
     std::cout.precision(15);
     std::cout << "s1=" << s1 << std::endl;
 
@@ -82,7 +85,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

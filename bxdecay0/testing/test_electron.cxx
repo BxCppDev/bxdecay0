@@ -21,16 +21,16 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
-#include <bxdecay0/event.h>
 #include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
 #include <bxdecay0/std_random.h>
 
 int main()
@@ -45,16 +45,16 @@ int main()
       // seed = std::chrono::system_clock::now().time_since_epoch().count();
       std::default_random_engine generator(seed);
       bxdecay0::std_random prng(generator);
-      double tclev = 0.0;
-      double thlev = 1.0;
+      double tclev      = 0.0;
+      double thlev      = 1.0;
       double decay_time = std::numeric_limits<double>::quiet_NaN();
       bxdecay0::decay0_electron(prng,
                                 decay,
-                                1.0, // MeV
-                                tclev, // second
-                                thlev, // second
+                                1.0,       // MeV
+                                tclev,     // second
+                                thlev,     // second
                                 decay_time // second
-                                );
+      );
     }
     decay.print(std::clog, "Decay with one emitted electron:", "[info] ");
 
@@ -62,7 +62,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

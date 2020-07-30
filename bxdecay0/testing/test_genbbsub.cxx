@@ -21,18 +21,18 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
+#include <bxdecay0/bb.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/genbbsub.h>
 #include <bxdecay0/std_random.h>
-#include <bxdecay0/bb.h>
 
 int main()
 {
@@ -45,25 +45,17 @@ int main()
 
     bxdecay0::event decay;
     {
-      int i2bbs = bxdecay0::GENBBSUB_I2BBS_DBD;
+      int i2bbs             = bxdecay0::GENBBSUB_I2BBS_DBD;
       std::string chnuclide = "Mo100";
-      int ilevel = 0;
-      int modebb = bxdecay0::LEGACY_MODEBB_1;
-      int istart = bxdecay0::GENBBSUB_ISTART_INIT;
-      int ier = 0;
+      int ilevel            = 0;
+      int modebb            = bxdecay0::LEGACY_MODEBB_1;
+      int istart            = bxdecay0::GENBBSUB_ISTART_INIT;
+      int ier               = 0;
       bxdecay0::bbpars bb_params;
-      bb_params.ebb1 = 0.0; // MeV
-      bb_params.ebb2 = 4.3; // MeV
+      bb_params.ebb1        = 0.0; // MeV
+      bb_params.ebb2        = 4.3; // MeV
       bb_params.toallevents = 1.0; // Weight
-      bxdecay0::genbbsub(prng,
-                         decay,
-                         i2bbs,
-                         chnuclide,
-                         ilevel,
-                         modebb,
-                         istart,
-                         ier,
-                         bb_params);
+      bxdecay0::genbbsub(prng, decay, i2bbs, chnuclide, ilevel, modebb, istart, ier, bb_params);
       if (ier != 0) {
         throw std::logic_error("genbbsub failed!");
       }
@@ -76,7 +68,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

@@ -21,12 +21,12 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
 #include <bxdecay0/event.h>
@@ -58,22 +58,22 @@ int main()
       // seed = std::chrono::system_clock::now().time_since_epoch().count();
       std::default_random_engine generator(seed);
       bxdecay0::std_random prng(generator);
-      double tclev = 0.0;
-      double thlev = 1.0;
+      double tclev      = 0.0;
+      double thlev      = 1.0;
       double decay_time = std::numeric_limits<double>::quiet_NaN();
       bxdecay0::randomize_particle(prng,
                                    decay,
                                    bxdecay0::ELECTRON,
-                                   0.1, // MeV
-                                   0.7, // MeV
-                                   0.0, // radian
-                                   M_PI, // radian
-                                   0.0, // radian
-                                   2 * M_PI, // radian
-                                   tclev, // second
-                                   thlev, // second
+                                   0.1,       // MeV
+                                   0.7,       // MeV
+                                   0.0,       // radian
+                                   M_PI,      // radian
+                                   0.0,       // radian
+                                   2 * M_PI,  // radian
+                                   tclev,     // second
+                                   thlev,     // second
                                    decay_time // second
-                                   );
+      );
     }
     decay.print(std::clog, "Decay with several emitted particles:", "[info] ");
 
@@ -81,7 +81,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

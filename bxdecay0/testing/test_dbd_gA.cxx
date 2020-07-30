@@ -21,10 +21,10 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
 #include <cstdlib>
+#include <exception>
 #include <fstream>
+#include <iostream>
 
 // This project:
 #include <bxdecay0/dbd_gA.h>
@@ -37,7 +37,7 @@ int main()
 {
   int error_code = EXIT_SUCCESS;
   try {
-    
+
     test1();
     test2();
 
@@ -45,7 +45,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;
@@ -57,7 +58,7 @@ void test1()
   unsigned int seed = 314159;
   std::default_random_engine generator(seed);
   bxdecay0::std_random prng(generator);
-  
+
   bxdecay0::dbd_gA gA_generator;
   gA_generator.set_nuclide("Se82");
   gA_generator.set_process(bxdecay0::dbd_gA::PROCESS_G0);
@@ -70,14 +71,15 @@ void test1()
     gA_generator.plot_interpolated_pdf(fout1, 40);
     fout1 << std::endl;
   }
-  
+
   {
     std::ofstream fout2("test_dbd_gA_2.data");
     std::ofstream fout3("test_dbd_gA_3.data");
     std::ofstream fout4("test_dbd_gA_4.data");
     int N = 10000;
     for (int i = 0; i < N; i++) {
-      if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
+      if (i % 1000 == 0)
+        std::cerr << "[log] i = " << i << '\n';
       double e1;
       double e2;
       gA_generator.shoot_e1_e2(prng, e1, e2);
@@ -89,7 +91,7 @@ void test1()
       fout4 << cos12 << std::endl;
     }
   }
-  
+
   gA_generator.reset();
   return;
 }
@@ -108,14 +110,15 @@ void test2()
   gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_INVERSE_TRANSFORM_METHOD);
   gA_generator.initialize();
   gA_generator.print(std::clog, "gA DBD generator", "[info] ");
-  
+
   {
     std::ofstream fout2("test2_dbd_gA_2.data");
     std::ofstream fout3("test2_dbd_gA_3.data");
     std::ofstream fout4("test2_dbd_gA_4.data");
     int N = 10000;
     for (int i = 0; i < N; i++) {
-      if (i % 1000 == 0) std::cerr << "[log] i = " << i << '\n';
+      if (i % 1000 == 0)
+        std::cerr << "[log] i = " << i << '\n';
       double e1;
       double e2;
       gA_generator.shoot_e1_e2(prng, e1, e2);
@@ -127,7 +130,7 @@ void test2()
       fout4 << cos12 << std::endl;
     }
   }
-  
+
   gA_generator.reset();
   return;
 }

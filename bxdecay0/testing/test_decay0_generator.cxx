@@ -21,19 +21,19 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
-#include <bxdecay0/config.h>
-#include <bxdecay0/event.h>
-#include <bxdecay0/decay0_generator.h>
-#include <bxdecay0/std_random.h>
 #include <bxdecay0/bb_utils.h>
+#include <bxdecay0/config.h>
+#include <bxdecay0/decay0_generator.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/std_random.h>
 
 void test1();
 void test2();
@@ -56,7 +56,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;
@@ -132,10 +133,10 @@ void test3()
   decay0.set_debug(true);
   decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
   decay0.set_decay_isotope("Se82");
-#if BXDECAY0_WITH_DBD_GA == 1 
+#if BXDECAY0_WITH_DBD_GA == 1
   decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_21); // DBDMODE_2NUBB_GA_G0
 #else
-  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1); 
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1);
 #endif
   decay0.set_decay_dbd_level(0);
   decay0.initialize(prng);
