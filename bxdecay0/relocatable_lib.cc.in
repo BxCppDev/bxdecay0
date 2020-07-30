@@ -1,3 +1,4 @@
+// clang-format off
 #include "relocatable_lib.h"
 
 // Standard Library:
@@ -8,7 +9,7 @@
 #include "BinReloc.h"
 
 namespace {
-   
+
   //! Convert BrInitError code to a string describing the error
   //! \todo add errno to returned string
   std::string BRErrorAsString(const BrInitError & err_)
@@ -32,7 +33,7 @@ namespace {
   }
 
   static bool _init_dirs = false;
-   
+
   void init_directories()
   {
     // std::cerr << "\nbxdecay0: relocatable_lib.cc: init_directories entering" << std::endl;
@@ -51,7 +52,7 @@ namespace {
   // std::string relative_lib_path_to_prefix_dir() {
   //   return "@BxDecay0_LIBDIR_TO_PREFIX@";
   // }
-  
+
 }
 
 namespace bxdecay0 {
@@ -75,7 +76,7 @@ namespace bxdecay0 {
     // boost::filesystem::path cLibPath = boost::filesystem::canonical(libPath);
     // return cLibPath_path.string();
   }
-  
+
   // std::string get_prefix_dir()
   // {
   //   std::string libPath = get_library_dir();
