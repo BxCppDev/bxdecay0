@@ -33,13 +33,13 @@ namespace bxdecay0 {
   /// The particle codes are from the legacy Geant3 system
   enum particle_code
   {
-    INVALID_PARTICLE  = 0, ///< Invalid particle code
-    GAMMA    = 1,  ///< Gamma
-    POSITRON = 2,  ///< Positron
-    ELECTRON = 3,  ///< Electron
-    NEUTRON  = 13, ///< Neutron
-    PROTON   = 14, ///< Proton
-    ALPHA    = 47  ///< Alpha
+    INVALID_PARTICLE = 0,  ///< Invalid particle code
+    GAMMA            = 1,  ///< Gamma
+    POSITRON         = 2,  ///< Positron
+    ELECTRON         = 3,  ///< Electron
+    NEUTRON          = 13, ///< Neutron
+    PROTON           = 14, ///< Proton
+    ALPHA            = 47  ///< Alpha
   };
 
   /// Return the name of the particle with given ID (MeV)

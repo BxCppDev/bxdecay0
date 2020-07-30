@@ -7,9 +7,7 @@ namespace bxdecay0 {
   // Theta and phi are anti-clockwise Eulerian angles between the
   // two systems.
   // M.Hansroul, G.Patrick (GEANT).
-  void decay0_gdrot(double * p_,
-                    const double costh_, const double sinth_,
-                    const double cosph_, const double sinph_);
+  void decay0_gdrot(double * p_, const double costh_, const double sinth_, const double cosph_, const double sinph_);
 
 } // end of namespace bxdecay0
 

@@ -26,16 +26,20 @@ namespace bxdecay0 {
   //                       shape - see above.
   // Output: tdnuc               - time of decay of nucleus (sec);
   // VIT, 30.07.1992; 15.10.1995; 31.03.2006.
-  void decay0_beta2(i_random & prng_, event & event_,
-                    double Qbeta_, double Zdtr_,
-                    double tcnuc_, double thnuc_, double & tdnuc_,
+  void decay0_beta2(i_random & prng_,
+                    event & event_,
+                    double Qbeta_,
+                    double Zdtr_,
+                    double tcnuc_,
+                    double thnuc_,
+                    double & tdnuc_,
                     int kf_,
-                    double c1_, double c2_, double c3_, double c4_);
+                    double c1_,
+                    double c2_,
+                    double c3_,
+                    double c4_);
 
-  void decay0_beta2(i_random & prng_, event & event_,
-                    double tcnuc,double thnuc,
-                    double & tdnuc,
-                    void * params);
+  void decay0_beta2(i_random & prng_, event & event_, double tcnuc, double thnuc, double & tdnuc, void * params);
 
 } // end of namespace bxdecay0
 

@@ -30,11 +30,17 @@ namespace bxdecay0 {
   //         thlev   - level halflife (sec).
   // Output: tdlev               - time of decay of level (sec);
   // VIT, 5.07.1995.
-  void decay0_nucltransKL(i_random & prng_, event & event_,
-			  const double Egamma_, const double EbindeK_, const double conveK_,
-			  const double EbindeL_, const double conveL_, const double convp_,
-			  const double tclev_, const double thlev_,
-			  double & tdlev_);
+  void decay0_nucltransKL(i_random & prng_,
+                          event & event_,
+                          const double Egamma_,
+                          const double EbindeK_,
+                          const double conveK_,
+                          const double EbindeL_,
+                          const double conveL_,
+                          const double convp_,
+                          const double tclev_,
+                          const double thlev_,
+                          double & tdlev_);
 
 } // end of namespace bxdecay0
 

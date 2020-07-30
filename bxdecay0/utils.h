@@ -2,9 +2,9 @@
 #define BXDECAY0_UTILS_H
 
 // Standard library:
-#include <string>
-#include <map>
 #include <iostream>
+#include <map>
+#include <string>
 
 namespace bxdecay0 {
 
@@ -12,15 +12,15 @@ namespace bxdecay0 {
 
   bool is_trace(const std::string & label_);
 
-  bool name_starts_with(const std::string & name_,
-                        const std::string & prefix_);
+  bool name_starts_with(const std::string & name_, const std::string & prefix_);
 
   /// 3D-vector
   ///
   ///  v = ( x )
   ///      ( y )
   ///      ( z )
-  struct vector3 {
+  struct vector3
+  {
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
@@ -37,7 +37,8 @@ namespace bxdecay0 {
   ///  m = ( xx yx zx )
   ///      ( xy yy zy )
   ///      ( xz yz zz )
-  struct matrix3 {
+  struct matrix3
+  {
     double xx = 1.0;
     double xy = 0.0;
     double xz = 0.0; // Column 0
@@ -51,15 +52,13 @@ namespace bxdecay0 {
 
   void print(const matrix3 & v_, std::ostream & out_);
 
-  matrix3 make_matrix3(const vector3 & colx_,
-                       const vector3 & coly_,
-                       const vector3 & colz_);
-  
+  matrix3 make_matrix3(const vector3 & colx_, const vector3 & coly_, const vector3 & colz_);
+
   matrix3 transpose(const matrix3 & m_);
-   
+
   /// Multiply a matrix with a matrix
   void multiply(const matrix3 & m1_, const matrix3 & m2_, matrix3 & mr_);
- 
+
   /// Multiplication operator between a matrix and a matrix
   matrix3 operator*(const matrix3 & m1_, const matrix3 & m2_);
 

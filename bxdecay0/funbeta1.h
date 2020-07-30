@@ -6,8 +6,7 @@
 
 namespace bxdecay0 {
 
-  struct parbeta1
-    : public parbeta
+  struct parbeta1 : public parbeta
   {
     double c1;
     double c2;
@@ -17,7 +16,7 @@ namespace bxdecay0 {
 
   double decay0_funbeta1(double e_, void * params_);
 
-} // end of namespace decay0
+} // namespace bxdecay0
 
 #endif // BXDECAY0_FUNBETA1_H
 

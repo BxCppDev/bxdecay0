@@ -32,11 +32,9 @@
 namespace bxdecay0 {
 
   /// \brief Wrapper functor for a standard random number generator
-  class std_random
-    : public i_random
+  class std_random : public i_random
   {
   public:
-
     /// Constructor
     std_random(std::default_random_engine & generator_);
 
@@ -44,10 +42,8 @@ namespace bxdecay0 {
     virtual double operator()();
 
   private:
-
     std::default_random_engine & _generator_;    ///< Handle to a default random engine
     std::uniform_real_distribution<double> _ud_; ///< Uniform deviates distribution
-
   };
 
 } // end of namespace bxdecay0

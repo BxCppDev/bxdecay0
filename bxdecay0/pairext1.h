@@ -16,8 +16,7 @@ namespace bxdecay0 {
   // Which particle is e+ and which e-, should be selected randomly.
   // VIT, 11.03.1998 from GEANT subroutines GPAIRG of G.Patrick, L.Urban
   // and GBTETH of L.Urban.
-  void decay0_pairext1(i_random & prng_, double Z_,
-                       const double * pg0_, double * pe1_, double * pe2_);
+  void decay0_pairext1(i_random & prng_, double Z_, const double * pg0_, double * pe1_, double * pe2_);
 
 } // end of namespace bxdecay0
 

@@ -6,7 +6,8 @@
 
 namespace bxdecay0 {
 
-  /// \brief Subroutine decay0_tgold determines maximum or minimum of the function f(x) in the interval [a,b] by the Gold section method.
+  /// \brief Subroutine decay0_tgold determines maximum or minimum of the function f(x) in the interval [a,b] by the
+  /// Gold section method.
   // Input:  a,c    - beginning and the end of the interval [a,c];
   //         b      - some point in the middle of the interval
   //         f      - name of the external function; should be as
@@ -19,16 +20,25 @@ namespace bxdecay0 {
   // Output: xextr  - x-point of extremum;
   //         fextr  - f(xextr).
   // V.Tretyak, 25.09.1985.
-  void decay0_tgold(double a_, double b_, double c_, func_type f_,
-		    double eps_, int minmax_,
-		    double & xextr_, double & fextr_,
-		    void * params_ = 0);
+  void decay0_tgold(double a_,
+                    double b_,
+                    double c_,
+                    func_type f_,
+                    double eps_,
+                    int minmax_,
+                    double & xextr_,
+                    double & fextr_,
+                    void * params_ = 0);
 
-  void decay0_tgold_o(double a_, double b_, double c_, func_type f_,
-		      double eps_, int minmax_,
-		      double & xextr_, double & fextr_,
-		      void * params_ = 0);
-
+  void decay0_tgold_o(double a_,
+                      double b_,
+                      double c_,
+                      func_type f_,
+                      double eps_,
+                      int minmax_,
+                      double & xextr_,
+                      double & fextr_,
+                      void * params_ = 0);
 
 } // end of namespace bxdecay0
 

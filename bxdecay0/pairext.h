@@ -17,10 +17,15 @@ namespace bxdecay0 {
   // Output: see description of common/genevent/. Times emission of scattered
   //         e+ and e- are supposed to be 0.
   // VIT, 12.03.1998.
-  void decay0_pairext(i_random & prng_, event & event_,
-                      double e1_,double e2_,
-                      double teta1_,double teta2_,
-                      double phi1_,double phi2_,double Z_);
+  void decay0_pairext(i_random & prng_,
+                      event & event_,
+                      double e1_,
+                      double e2_,
+                      double teta1_,
+                      double teta2_,
+                      double phi1_,
+                      double phi2_,
+                      double Z_);
 
 } // end of namespace bxdecay0
 

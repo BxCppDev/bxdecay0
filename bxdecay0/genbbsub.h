@@ -31,8 +31,8 @@
 #define BXDECAY0_GENBBSUB_H 1
 
 // Standard library:
-#include <string>
 #include <cmath>
+#include <string>
 
 namespace bxdecay0 {
 
@@ -41,16 +41,18 @@ namespace bxdecay0 {
 
   struct bbpars;
 
-  enum genbbsub_i2bbs_type {
+  enum genbbsub_i2bbs_type
+  {
     GENBBSUB_I2BBS_INVALID    = 0, ///< Invalid mode
     GENBBSUB_I2BBS_DBD        = 1, ///< Double beta decay mode
     GENBBSUB_I2BBS_BACKGROUND = 2  ///< Background/calibration decay mode
   };
 
-  enum genbbsub_start_type {
+  enum genbbsub_start_type
+  {
     GENBBSUB_ISTART_INIT              = -1, ///< Initialize only
-    GENBBSUB_ISTART_INIT_GENERATE_ONE =  0, ///< Initialize and generate one event
-    GENBBSUB_ISTART_GENERATE          =  1  ///< Generate one event
+    GENBBSUB_ISTART_INIT_GENERATE_ONE = 0,  ///< Initialize and generate one event
+    GENBBSUB_ISTART_GENERATE          = 1   ///< Generate one event
   };
 
   /// Main decay0 C++ port interface function

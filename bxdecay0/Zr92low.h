@@ -6,9 +6,7 @@ namespace bxdecay0 {
   class i_random;
   class event;
 
-  void Zr92low(i_random & prng_,
-	       event & event_,
-	       const int levelkev_);
+  void Zr92low(i_random & prng_, event & event_, const int levelkev_);
 
 } // end of namespace bxdecay0
 

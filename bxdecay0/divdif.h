@@ -4,11 +4,7 @@
 namespace bxdecay0 {
 
   /// \brief Tabular interpolation using symmetrically placed argument points.
-  double decay0_divdif(const double * F_,
-                       const double * A_,
-                       int NN_,
-                       double X_,
-                       int MM_);
+  double decay0_divdif(const double * F_, const double * A_, int NN_, double X_, int MM_);
 
 } // end of namespace bxdecay0
 

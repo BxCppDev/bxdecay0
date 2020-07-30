@@ -8,8 +8,10 @@ namespace bxdecay0 {
   // cosines are along the Z axis (.FALSE.) or not (.TRUE.).
   // F.Carminati (GEANT).
   void decay0_gfang(const double * p_,
-                    double & costh_, double & sinth_,
-                    double & cosph_, double & sinph_,
+                    double & costh_,
+                    double & sinth_,
+                    double & cosph_,
+                    double & sinph_,
                     bool & rotate_);
 
 } // end of namespace bxdecay0
