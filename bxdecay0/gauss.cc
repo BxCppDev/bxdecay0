@@ -39,7 +39,8 @@ namespace bxdecay0 {
   {
     static bool trace = is_trace("gauss");
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Entering..." << std::endl;
-    double result, abserr;
+    double result;
+    double abserr;
     result = std::numeric_limits<double>::quiet_NaN();
     size_t neval;
     gsl_function F;

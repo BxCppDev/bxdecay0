@@ -73,7 +73,8 @@ namespace bxdecay0 {
     double p     = std::sqrt(w * w - 1.);
     double y     = alfaz * w / p;
     double g     = std::sqrt(1. - alfaz * alfaz);
-    gsl_sf_result res_lnr, res_arg;
+    gsl_sf_result res_lnr;
+    gsl_sf_result res_arg;
     int status = gsl_sf_lngamma_complex_e(g, y, &res_lnr, &res_arg);
     if (status != GSL_SUCCESS) {
       std::cerr << "bxdecay0::bxdecay0_fermi_func_orig: GSL error: " << gsl_strerror(status) << std::endl;
@@ -107,7 +108,8 @@ namespace bxdecay0 {
     double R            = r0 * std::exp(std::log(a) / 3.) * me / hbarc;
     double F0           = 4. * std::exp(2. * (gamma1 - 1.) * std::log(2. * pe * R)) * std::exp(M_PI * y);
     double g2           = gsl_sf_gamma(2. * gamma1 + 1.);
-    gsl_sf_result res_lnr, res_arg;
+    gsl_sf_result res_lnr;
+    gsl_sf_result res_arg;
     int status = gsl_sf_lngamma_complex_e(gamma1, y, &res_lnr, &res_arg);
     if (status != GSL_SUCCESS) {
       std::ostringstream message;

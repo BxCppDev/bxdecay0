@@ -43,7 +43,9 @@ namespace bxdecay0 {
                       double phi2_,
                       double Z_)
   {
-    double pg0[3], pe1[3], pe2[3];
+    double pg0[3];
+    double pe1[3];
+    double pe2[3];
     double phi   = phi1_ + (phi2_ - phi1_) * prng_();
     double ctet1 = 1.;
     if (teta1_ != 0.) {

@@ -28,7 +28,8 @@ namespace bxdecay0 {
   // From CERNLIB: 2006/src/packlib/kernlib/kernnum/e105fort/divdif.F
   double decay0_divdif(const double * F_, const double * A_, int NN_, double X_, int MM_)
   {
-    double T[20], D[20];
+    double T[20];
+    double D[20];
     bool EXTRA;
     const int MMAX = 10;
     // C  START.  FIND SUBSCRIPT IX OF X IN ARRAY A.

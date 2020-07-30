@@ -72,10 +72,13 @@ namespace bxdecay0 {
     // pars1.c3    = pars->c3;
     // pars1.c4    = pars->c4;
 
-    double em, fm;
+    double em;
+    double fm;
     decay0_tgold(50.e-6, 0.5 * Qbeta, Qbeta, decay0_funbeta1, 0.001 * Qbeta, 2, em, fm, params_);
     // Rejection method:
-    double f, fe, E;
+    double f;
+    double fe;
+    double E;
     do {
       E  = 50.e-6 + (Qbeta - 50.e-6) * prng_();
       fe = decay0_funbeta1(E, params_);

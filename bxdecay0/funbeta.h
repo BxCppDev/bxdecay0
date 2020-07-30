@@ -9,7 +9,7 @@ namespace bxdecay0 {
     double Qbeta;
   };
 
-  double decay0_funbeta(double energy_, void * params_);
+  double decay0_funbeta(double E_, void * params_);
 
 } // end of namespace bxdecay0
 

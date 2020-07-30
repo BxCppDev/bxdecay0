@@ -209,10 +209,13 @@ namespace bxdecay0 {
       sl2[17 - 1] = 0.81167; // p = 2.4, E=0.818
     }
 
-    double em, fm;
+    double em;
+    double fm;
     decay0_tgold(50.e-6, 0.5 * Qbeta, Qbeta, decay0_funbeta_1fu, 0.001 * Qbeta, 2, em, fm, params_);
     // Rejection method:
-    double f, fe, E;
+    double f;
+    double fe;
+    double E;
     do {
       E  = 50.e-6 + (Qbeta - 50.e-6) * prng_();
       fe = decay0_funbeta_1fu(E, params_);

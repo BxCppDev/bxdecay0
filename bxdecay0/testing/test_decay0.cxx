@@ -48,7 +48,7 @@ int main()
     std::clog << "Resource dir           : '" << bxdecay0::get_resource_dir(true) << "'" << std::endl;
 
     const std::set<std::string> & dbdIsotopes = bxdecay0::dbd_isotopes();
-    for (auto dbdIso : dbdIsotopes) {
+    for (const auto & dbdIso : dbdIsotopes) {
       std::clog << dbdIso << '\n';
     }
     std::clog << "Bye." << std::endl;

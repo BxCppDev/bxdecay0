@@ -45,7 +45,9 @@ namespace bxdecay0 {
                      double dcute)
   {
     static double emass = decay0_emass();
-    double pe0[3], pe1[3], pe2[3];
+    double pe0[3];
+    double pe1[3];
+    double pe2[3];
     double phi   = phi1 + (phi2 - phi1) * prng_();
     double ctet1 = 1.;
     if (teta1 != 0.) {

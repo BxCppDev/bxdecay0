@@ -159,10 +159,10 @@ namespace bxdecay0 {
   void event::store(std::ostream & out_, const uint32_t flags_) const
   {
     out_.precision(15);
-    if ((flags_ & STORE_EVENT_DECO) != 0u) {
+    if ((flags_ & STORE_EVENT_DECO) != 0U) {
       out_ << "#@event_start" << std::endl;
     }
-    if ((flags_ & STORE_EVENT_TIME) != 0u) {
+    if ((flags_ & STORE_EVENT_TIME) != 0U) {
       out_ << _time_ << ' ' << _generator_ << std::endl;
     }
     out_ << _particles_.size() << '\n';
@@ -170,7 +170,7 @@ namespace bxdecay0 {
     for (const auto & p : _particles_) {
       p.store(out_, particle_flags);
     }
-    if ((flags_ & STORE_EVENT_DECO) != 0u) {
+    if ((flags_ & STORE_EVENT_DECO) != 0U) {
       out_ << "#@event_stop\n" << std::endl;
     }
     return;

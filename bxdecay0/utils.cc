@@ -85,7 +85,7 @@ namespace bxdecay0 {
           _t["fermi"] = true;
         }
       }
-      for (auto p : _t) {
+      for (const auto & p : _t) {
         if (devel) {
           std::cerr << "[devel] bxdecay0::traces: "
                     << "Topic '" << p.first << "' -> trace = " << std::boolalpha << p.second << std::endl;
@@ -98,7 +98,7 @@ namespace bxdecay0 {
   bool is_trace(const std::string & label_)
   {
     const std::map<std::string, bool> & tr = traces();
-    if (tr.count(label_) != 0u) {
+    if (tr.count(label_) != 0U) {
       bool t = tr.find(label_)->second;
       if (t) {
         return true;
@@ -113,10 +113,7 @@ namespace bxdecay0 {
     if (name_.size() < len) {
       return false;
     }
-    if (name_.substr(0, prefix_.size()) == prefix_) {
-      return true;
-    }
-    return false;
+    return name_.substr(0, prefix_.size()) == prefix_;
   }
 
   double dot(const vector3 & v1_, const vector3 & v2_)

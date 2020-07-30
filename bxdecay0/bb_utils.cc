@@ -246,7 +246,7 @@ namespace bxdecay0 {
 
   bool dbd_supports_esum_range(const dbd_mode_type dbd_mode_)
   {
-    return dbd_modes_with_esum_range().count(dbd_mode_) != 0u;
+    return dbd_modes_with_esum_range().count(dbd_mode_) != 0U;
   }
 
 } // end of namespace bxdecay0

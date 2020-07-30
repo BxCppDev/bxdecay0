@@ -50,7 +50,7 @@ namespace bxdecay0 {
     double zz = 1.0; // Column 2
   };
 
-  void print(const matrix3 & v_, std::ostream & out_);
+  void print(const matrix3 & m_, std::ostream & out_);
 
   matrix3 make_matrix3(const vector3 & colx_, const vector3 & coly_, const vector3 & colz_);
 

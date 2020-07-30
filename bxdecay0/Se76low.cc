@@ -144,8 +144,12 @@ namespace bxdecay0 {
       double a2 = -3.0;
       double a4 = 4.0;
       // Rejection method :
-      double phi1, ctet1, stet1;
-      double phi2, ctet2, stet2;
+      double phi1;
+      double ctet1;
+      double stet1;
+      double phi2;
+      double ctet2;
+      double stet2;
       double ctet;
     label_1:
       phi1  = twopi * prng_();

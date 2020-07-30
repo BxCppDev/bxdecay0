@@ -81,10 +81,7 @@ namespace bxdecay0 {
 
   bool particle::has_time() const
   {
-    if (std::isnan(_time_)) {
-      return false;
-    }
-    return true;
+    return !std::isnan(_time_);
   }
 
   void particle::set_time(const double time_)
@@ -216,7 +213,7 @@ namespace bxdecay0 {
     out_ << ' ' << _momentum_[0];
     out_ << ' ' << _momentum_[1];
     out_ << ' ' << _momentum_[2];
-    if ((flags_ & STORE_PARTICLE_NAME) != 0u) {
+    if ((flags_ & STORE_PARTICLE_NAME) != 0U) {
       out_ << ' ' << geant3_particle_name(_code_);
     }
     out_ << '\n';

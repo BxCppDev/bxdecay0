@@ -42,7 +42,9 @@ namespace bxdecay0 {
                       const double phi2_)
   {
     // static double emass = decay0_emass();
-    double pg0[3], pg1[3], pe1[3];
+    double pg0[3];
+    double pg1[3];
+    double pe1[3];
     double phi   = phi1_ + (phi2_ - phi1_) * prng_();
     double ctet1 = 1.;
     if (teta1_ != 0.) {
