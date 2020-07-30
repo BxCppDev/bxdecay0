@@ -63,8 +63,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pdecay = 100. * prng_();
-    if (pdecay <= 94.4)
+    if (pdecay <= 94.4) {
       goto label_1;
+    }
     goto label_2;
     // change to the 1st forbidden unique shape without std::experimental corrections
   label_1:

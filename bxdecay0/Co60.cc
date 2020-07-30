@@ -75,18 +75,21 @@ namespace bxdecay0 {
     tclev  = 0.;
     pbeta  = 100. * prng_();
     // DT_TRACER_MESSAGE(10001,"pbeta = " << pbeta);
-    if (pbeta <= 99.880)
+    if (pbeta <= 99.880) {
       goto label_2506; // 99.880%
+    }
     goto label_1333;   // 0.120%
   label_2506:
     decay0_beta(prng_, event_, 0.318, 28., 0., 0., t);
     thlev = 0.3e-12;
     p     = 100. * prng_();
     // DT_TRACER_MESSAGE(10001,"p1 = " << p);
-    if (p <= 0.000002)
+    if (p <= 0.000002) {
       goto label_25061; // 0.000002%
-    if (p <= 99.992449)
+    }
+    if (p <= 99.992449) {
       goto label_25062; // 99.992447%
+    }
     goto label_25063;   // 0.007551%
   label_25061:
     decay0_nucltransK(prng_, event_, 2.506, 0.008, 8.6e-5, 0., tclev, thlev, tdlev);
@@ -117,8 +120,9 @@ namespace bxdecay0 {
     thlev = 0.;
     p     = 100. * prng_();
     // DT_TRACER_MESSAGE(10001,"p3 = " << p);
-    if (p <= 13.64)
+    if (p <= 13.64) {
       goto label_21591; // 13.64%
+    }
     goto label_21592;   // 86.36%
   label_21591:
     decay0_nucltransK(prng_, event_, 2.159, 0.008, 4.9e-5, 3.9e-4, tclev, thlev, tdlev);

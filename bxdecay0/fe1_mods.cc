@@ -38,8 +38,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));
@@ -53,8 +54,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));
@@ -68,8 +70,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));
@@ -84,8 +87,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));
@@ -99,8 +103,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     return (e1_ + emass) * p1 * bxdecay0::decay0_fermi(Zdbb, e1_) * gsl_pow_5(e0 - e1_);
   }
@@ -111,8 +116,9 @@ namespace bxdecay0 {
     const bbpars * pars = static_cast<const bbpars *>(params_);
     const double & Zdbb = pars->Zd;
     const double & e0   = pars->e0;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));
@@ -134,8 +140,9 @@ namespace bxdecay0 {
     const double & chip_T  = pars->chip_T;
     const double & chip_P  = pars->chip_P;
     const double & chip_R  = pars->chip_R;
-    if (e1_ > e0)
+    if (e1_ > e0) {
       return 0.0;
+    }
     double e2 = e0 - e1_;
     double p1 = std::sqrt(e1_ * (e1_ + 2. * emass));
     double p2 = std::sqrt(e2 * (e2 + 2. * emass));

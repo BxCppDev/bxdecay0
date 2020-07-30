@@ -46,35 +46,40 @@ namespace bxdecay0 {
     int IY    = N + 1;
     int MID;
 
-    if (A_[0] > A_[N - 1])
+    if (A_[0] > A_[N - 1]) {
       goto tag_4;
+    }
     //     (SEARCH INCREASING ARGUMENTS.)
   tag_1:
     MID = (IX + IY) / 2;
-    if (X_ >= A_[MID - 1])
+    if (X_ >= A_[MID - 1]) {
       goto tag_2;
+    }
     IY = MID;
     goto tag_3;
     //        (IF TRUE.)
   tag_2:
     IX = MID;
   tag_3:
-    if (IY - IX > 1)
+    if (IY - IX > 1) {
       goto tag_1;
+    }
     goto tag_7;
     //     (SEARCH DECREASING ARGUMENTS.)
   tag_4:
     MID = (IX + IY) / 2;
-    if (X_ <= A_[MID - 1])
+    if (X_ <= A_[MID - 1]) {
       goto tag_5;
+    }
     IY = MID;
     goto tag_6;
     //        (IF TRUE.)
   tag_5:
     IX = MID;
   tag_6:
-    if (IY - IX > 1)
+    if (IY - IX > 1) {
       goto tag_4;
+    }
     //
     //  COPY REORDERED INTERPOLATION POINTS INTO (T(I),D(I)), SETTING
     //  *EXTRA* TO TRUE IF M+2 POINTS TO BE USED.
@@ -85,12 +90,14 @@ namespace bxdecay0 {
     goto tag_9;
   tag_8:
     L = -L;
-    if (L >= 0)
+    if (L >= 0) {
       L = L + 1;
+    }
   tag_9:
     int ISUB = IX + L;
-    if ((1 <= ISUB) && (ISUB <= N))
+    if ((1 <= ISUB) && (ISUB <= N)) {
       goto tag_10;
+    }
     //        (SKIP POINT.)
     NPTS = MPLUS;
     goto tag_11;
@@ -100,15 +107,17 @@ namespace bxdecay0 {
     T[IP - 1] = A_[ISUB - 1];
     D[IP - 1] = F_[ISUB - 1];
   tag_11:
-    if (IP < NPTS)
+    if (IP < NPTS) {
       goto tag_8;
+    }
     EXTRA = (NPTS != MPLUS);
     //
     //  REPLACE D BY THE LEADING DIAGONAL OF A DIVIDED-DIFFERENCE TABLE, SUP-
     //  PLEMENTED BY AN EXTRA LINE IF *EXTRA* IS TRUE.
     for (int localL = 1; localL <= M; localL++) {
-      if (!EXTRA)
+      if (!EXTRA) {
         goto tag_12;
+      }
       ISUB     = MPLUS - localL;
       D[M + 1] = (D[M + 1] - D[M - 1]) / (T[M + 1] - T[ISUB - 1]);
     tag_12:
@@ -123,8 +132,9 @@ namespace bxdecay0 {
     //  EVALUATE THE NEWTON INTERPOLATION FORMULA AT X, AVERAGING TWO VALUES
     //  OF LAST DIFFERENCE IF *EXTRA* IS TRUE.
     double SUM = D[MPLUS - 1];
-    if (EXTRA)
+    if (EXTRA) {
       SUM = 0.5 * (SUM + D[M + 1]);
+    }
     int J = M;
     for (int localL = 1; localL <= M; localL++) {
       SUM = D[J - 1] + (X_ - T[J - 1]) * SUM;

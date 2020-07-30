@@ -66,34 +66,48 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 0.052)
+    if (pbeta <= 0.052) {
       goto label_4481; // 0.052%
-    if (pbeta <= 0.069)
+    }
+    if (pbeta <= 0.069) {
       goto label_4383; // 0.017%
-    if (pbeta <= 0.113)
+    }
+    if (pbeta <= 0.113) {
       goto label_4358; // 0.044%
-    if (pbeta <= 0.118)
+    }
+    if (pbeta <= 0.118) {
       goto label_4323; // 0.005%
-    if (pbeta <= 0.219)
+    }
+    if (pbeta <= 0.219) {
       goto label_4296; // 0.101%
-    if (pbeta <= 0.221)
+    }
+    if (pbeta <= 0.221) {
       goto label_4262; // 0.002%
-    if (pbeta <= 0.448)
+    }
+    if (pbeta <= 0.448) {
       goto label_4180; // 0.227%
-    if (pbeta <= 0.623)
+    }
+    if (pbeta <= 0.623) {
       goto label_4125; // 0.175%
-    if (pbeta <= 0.630)
+    }
+    if (pbeta <= 0.630) {
       goto label_3996; // 0.007%
-    if (pbeta <= 3.810)
+    }
+    if (pbeta <= 3.810) {
       goto label_3961; // 3.180%
-    if (pbeta <= 3.856)
+    }
+    if (pbeta <= 3.856) {
       goto label_3946; // 0.046%
-    if (pbeta <= 4.486)
+    }
+    if (pbeta <= 4.486) {
       goto label_3920; // 0.630%
-    if (pbeta <= 28.686)
+    }
+    if (pbeta <= 28.686) {
       goto label_3708; // 24.200%
-    if (pbeta <= 50.886)
+    }
+    if (pbeta <= 50.886) {
       goto label_3475; // 22.200%
+    }
     goto label_3198;   // 49.114%
   label_4481:
     decay0_beta(prng_, event_, 0.518, 82., 0., 0., t);
@@ -134,10 +148,12 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 0.641, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 4.55)
+    if (p <= 4.55) {
       goto label_43581; // 4.55%
-    if (p <= 29.55)
+    }
+    if (p <= 29.55) {
       goto label_43582; // 25.00%
+    }
     goto label_43583;   // 70.45%
   label_43581:
     decay0_nucltransKLM_Pb(prng_,
@@ -206,8 +222,9 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 0.703, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 87.23)
+    if (p <= 87.23) {
       goto label_42961; // 87.23%
+    }
     goto label_42962;   // 12.77%
   label_42961:
     decay0_nucltransKLM_Pb(prng_,
@@ -261,8 +278,9 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 0.819, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 90.31)
+    if (p <= 90.31) {
       goto label_41801; // 90.31%
+    }
     goto label_41802;   // 9.69%
   label_41801:
     decay0_nucltransKLM_Pb(prng_,
@@ -298,8 +316,9 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 0.874, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 96.15)
+    if (p <= 96.15) {
       goto label_41251; // 96.15%
+    }
     goto label_41252;   // 3.85%
   label_41251:
     decay0_nucltransKLM_Pb(prng_,
@@ -353,10 +372,12 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 1.038, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 51.25)
+    if (p <= 51.25) {
       goto label_39611; // 51.25%
-    if (p <= 64.82)
+    }
+    if (p <= 64.82) {
       goto label_39612; // 13.57%
+    }
     goto label_39613;   // 35.18%
   label_39611:
     decay0_nucltransKLM_Pb(prng_,
@@ -425,8 +446,9 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 1.079, 82., 0., 0., t);
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 39.49)
+    if (p <= 39.49) {
       goto label_39201; // 39.49%
+    }
     goto label_39202;   // 60.51%
   label_39201:
     decay0_nucltransKLM_Pb(prng_,
@@ -463,10 +485,12 @@ namespace bxdecay0 {
   label_37080:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 1.66)
+    if (p <= 1.66) {
       goto label_37081; // 1.66%
-    if (p <= 97.95)
+    }
+    if (p <= 97.95) {
       goto label_37082; // 96.29%
+    }
     goto label_37083;   // 2.05%
   label_37081:
     decay0_nucltransKLM_Pb(prng_,
@@ -518,8 +542,9 @@ namespace bxdecay0 {
   label_34750:
     thlev = 4.e-12;
     p     = 100. * prng_();
-    if (p <= 55.95)
+    if (p <= 55.95) {
       goto label_34751; // 55.95%
+    }
     goto label_34752;   // 44.05%
   label_34751:
     decay0_nucltransKLM_Pb(prng_,

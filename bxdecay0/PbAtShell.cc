@@ -59,8 +59,9 @@ namespace bxdecay0 {
     // VIT, 7.07.1995, 22.10.1995.
     Lhole = 0;
     Mhole = 0;
-    if (KLMenergy_ == 88)
+    if (KLMenergy_ == 88) {
       goto label_88;
+    }
     if (KLMenergy_ == 15) {
       Lhole = 1;
       goto label_15;
@@ -73,8 +74,9 @@ namespace bxdecay0 {
     // K-shell
   label_88:
     p = 100. * prng_();
-    if (p <= 22.)
+    if (p <= 22.) {
       goto label_88001;
+    }
     goto label_88002;
   label_88001:
     decay0_gamma(prng_, event_, 0.085, tclev_, thlev_, tdlev_); // X ray K-M

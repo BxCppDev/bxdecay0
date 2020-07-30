@@ -61,8 +61,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbec   = 100. * prng_();
-    if (pbec <= 1.42)
+    if (pbec <= 1.42) {
       goto label_1;
+    }
     goto label_2;
     // beta+ decay to g.s. of 65-Cu
   label_1:
@@ -71,14 +72,16 @@ namespace bxdecay0 {
     // X ray after EC to 65-Cu
   label_2:
     decay0_gamma(prng_, event_, 0.009, 0., 0., t);
-    if (pbec <= 52.03)
+    if (pbec <= 52.03) {
       goto label_11160;
+    }
     goto label_10000;
   label_11160:
     thlev = 0.285e-12;
     p     = 100. * prng_();
-    if (p <= 99.994)
+    if (p <= 99.994) {
       goto label_11161;
+    }
     goto label_11162;
   label_11161:
     decay0_nucltransK(prng_, event_, 1.116, 0.009, 1.9e-4, 1.0e-6, tclev, thlev, tdlev);

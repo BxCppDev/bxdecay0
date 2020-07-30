@@ -70,8 +70,9 @@ namespace bxdecay0 {
     bool rotate = false;
     double Egam = std::sqrt(gsl_pow_2(pg0_[0]) + gsl_pow_2(pg0_[1]) + gsl_pow_2(pg0_[2]));
     // If not enough energy, no pair production
-    if (Egam < 2. * emass)
+    if (Egam < 2. * emass) {
       goto tag_4;
+    }
     // For photons <2.1 MeV approximate the electron energy by sampling
     // from a uniform distribution in the interval [emass,Egam/2]
     if (Egam <= 2.1) {
@@ -117,8 +118,9 @@ namespace bxdecay0 {
     }
     // Calculate DELTA ensuring positivity
     d = 0.25 * dmin / (x * (1. - x));
-    if (d >= dmax)
+    if (d >= dmax) {
       goto tag_1;
+    }
     // Calculate F1 and F2 functions. F10 and F20 are the F1
     // and F2 functions calculated for the DELTA=DELTA minimum.
     if (d <= 1.) {
@@ -128,13 +130,16 @@ namespace bxdecay0 {
       f1 = 42.24 - 8.368 * std::log(d + 0.952) - f;
       f2 = f1;
     }
-    if (irej == 1)
+    if (irej == 1) {
       screj = f1 / f10;
-    if (irej == 2)
+    }
+    if (irej == 2) {
       screj = f2 / f20;
+    }
     // Accept or reject on basis of random variate
-    if (prng_() > screj)
+    if (prng_() > screj) {
       goto tag_1;
+    }
     Eel1 = x * Egam;
     // Generate electron decay angles with respect to a Z-axis defined
     // along the parent photon. PHI is generated isotropically.
@@ -145,12 +150,14 @@ namespace bxdecay0 {
     umax = Eel1 * M_PI / emass;
   tag_3:
     beta = alfa;
-    if (prng_() > w1)
+    if (prng_() > w1) {
       beta = 3. * alfa;
+    }
     r1 = prng_();
     u  = -(std::log(prng_() * r1)) / beta;
-    if (u >= umax)
+    if (u >= umax) {
       goto tag_3;
+    }
     theta  = u * emass / Eel1;
     sinth  = std::sin(theta);
     costh  = std::cos(theta);

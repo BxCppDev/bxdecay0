@@ -60,18 +60,22 @@ namespace bxdecay0 {
     double thlev;
     double tdlev;
     double p;
-    if (levelkev_ == 1561)
+    if (levelkev_ == 1561) {
       goto label_1561;
-    if (levelkev_ == 697)
+    }
+    if (levelkev_ == 697) {
       goto label_697;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_1561:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 91.36)
+    if (p <= 91.36) {
       goto label_15611;
+    }
     goto label_15612;
   label_15611:
     decay0_nucltransK(prng_, event_, 0.864, 0.044, 4.1e-3, 0., tclev, thlev, tdlev);

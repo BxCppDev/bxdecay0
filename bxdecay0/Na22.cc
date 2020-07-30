@@ -65,8 +65,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pdecay = 100. * prng_();
-    if (pdecay <= 99.944)
+    if (pdecay <= 99.944) {
       goto label_1275;
+    }
     goto label_10000;
   label_1275:
     thlev = 3.63e-12;

@@ -62,18 +62,22 @@ namespace bxdecay0 {
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 30.11.1995.
     tclev = 0.;
-    if (levelkev_ == 1204)
+    if (levelkev_ == 1204) {
       goto label_1204;
-    if (levelkev_ == 596)
+    }
+    if (levelkev_ == 596) {
       goto label_596;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_1204:
     thlev = 6.0e-12;
     p     = 100. * prng_();
-    if (p <= 34.)
+    if (p <= 34.) {
       goto label_12041;
+    }
     goto label_12042;
   label_12041:
     decay0_nucltransK(prng_, event_, 1.204, 0.011, 1.9e-4, 0.1e-4, tclev, thlev, tdlev);

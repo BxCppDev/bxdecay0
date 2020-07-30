@@ -43,8 +43,9 @@ namespace bxdecay0 {
   double decay0_fermi_func_nr_approx(double z_, double e_)
   {
     double e = e_;
-    if (e_ < 50.e-6)
+    if (e_ < 50.e-6) {
       e = 50.e-6;
+    }
     double z            = z_;
     static double emass = decay0_emass(); // MeV
     double alpha        = 1.0 / 137.036;
@@ -64,8 +65,9 @@ namespace bxdecay0 {
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fermi_func_orig: emass = " << emass << std::endl;
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fermi_func_orig: e = " << e << std::endl;
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fermi_func_orig: z = " << z << std::endl;
-    if (e < 50.e-6)
+    if (e < 50.e-6) {
       e = 50.e-6;
+    }
     double alfaz = z / 137.036;
     double w     = e / emass + 1.;
     double p     = std::sqrt(w * w - 1.);
@@ -87,8 +89,9 @@ namespace bxdecay0 {
   {
     using namespace std;
     double e = e_;
-    if (e_ < 50.e-6)
+    if (e_ < 50.e-6) {
       e = 50.e-6;
+    }
     double z            = z_;
     static double emass = decay0_emass(); // MeV
     double alpha        = 1.0 / 137.036;
@@ -127,8 +130,9 @@ namespace bxdecay0 {
   double decay0_fermi_func_shape_only(double z_, double e_)
   {
     double e = e_;
-    if (e_ < 50.e-6)
+    if (e_ < 50.e-6) {
       e = 50.e-6;
+    }
     double z            = z_;
     static double emass = decay0_emass();
     double alpha        = 1.0 / 137.036;

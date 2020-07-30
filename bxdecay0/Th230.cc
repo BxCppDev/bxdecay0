@@ -63,24 +63,25 @@ namespace bxdecay0 {
     palpha        = 100. * prng_();
     double pgamma = 0;
 
-    if (palpha <= 1.4E-6)
+    if (palpha <= 1.4E-6) {
       goto label_3829;
-    else if (palpha <= 4.8E-6)
+    } else if (palpha <= 4.8E-6) {
       goto label_3877;
-    else if (palpha <= 0.0000151)
+    } else if (palpha <= 0.0000151) {
       goto label_4248;
-    else if (palpha <= 0.0000231)
+    } else if (palpha <= 0.0000231) {
       goto label_4278;
-    else if (palpha <= 0.0009931)
+    } else if (palpha <= 0.0009931) {
       goto label_4371;
-    else if (palpha <= 0.0309931)
+    } else if (palpha <= 0.0309931) {
       goto label_4438;
-    else if (palpha <= 0.1509931)
+    } else if (palpha <= 0.1509931) {
       goto label_4479;
-    else if (palpha <= 23.5509931)
+    } else if (palpha <= 23.5509931) {
       goto label_4620;
-    else
+    } else {
       goto label_4687;
+    }
 
   label_3829:
     decay0_alpha(prng_, event_, 3.8294, 0., 0., t);

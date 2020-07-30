@@ -61,8 +61,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pdecay = 100. * prng_();
-    if (pdecay <= 0.30)
+    if (pdecay <= 0.30) {
       goto label_276;
+    }
     goto label_10000;
   label_276:
     decay0_gamma(prng_, event_, 0.013, 0., 0., t); // capture from only K shell is supposed
@@ -71,12 +72,15 @@ namespace bxdecay0 {
     return;
   label_10000:
     pklm = 100. * prng_();
-    if (pklm <= 84.73)
+    if (pklm <= 84.73) {
       decay0_gamma(prng_, event_, 0.013, 0., 0., t);
-    if (pklm > 84.73 && pklm <= 97.44)
+    }
+    if (pklm > 84.73 && pklm <= 97.44) {
       decay0_gamma(prng_, event_, 0.002, 0., 0., t);
-    if (pklm > 97.44)
+    }
+    if (pklm > 97.44) {
       decay0_gamma(prng_, event_, 0.000, 0., 0., t);
+    }
     return;
   }
   // end of Kr81.f

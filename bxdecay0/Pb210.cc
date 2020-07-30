@@ -64,8 +64,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 84.)
+    if (pbeta <= 84.) {
       goto label_47;
+    }
     goto label_10000;
   label_47:
     decay0_beta(prng_, event_, 0.0170, 83., 0., 0., t);

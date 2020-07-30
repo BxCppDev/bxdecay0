@@ -65,26 +65,33 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 0.45)
+    if (pbeta <= 0.45) {
       goto label_2002;
-    if (pbeta <= 0.52)
+    }
+    if (pbeta <= 0.52) {
       goto label_1707;
-    if (pbeta <= 2.32)
+    }
+    if (pbeta <= 2.32) {
       goto label_1562;
-    if (pbeta <= 12.32)
+    }
+    if (pbeta <= 12.32) {
       goto label_1134;
-    if (pbeta <= 19.32)
+    }
+    if (pbeta <= 19.32) {
       goto label_512;
+    }
     goto label_10000;
   label_2002:
     decay0_beta(prng_, event_, 1.539, 46., 0., 0., t);
     ////    label_20020  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 0.4)
+    if (p <= 0.4) {
       goto label_20021;
-    if (p <= 98.6)
+    }
+    if (p <= 98.6) {
       goto label_20022;
+    }
     goto label_20023;
   label_20021:
     decay0_nucltransK(prng_, event_, 1.490, 0.024, 4.0e-4, 0.3e-4, tclev, thlev, tdlev);
@@ -100,8 +107,9 @@ namespace bxdecay0 {
     ////    label_17070  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 89.0)
+    if (p <= 89.0) {
       goto label_17071;
+    }
     goto label_17072;
   label_17071:
     decay0_nucltransK(prng_, event_, 1.195, 0.024, 7.5e-4, 0., tclev, thlev, tdlev);
@@ -114,12 +122,15 @@ namespace bxdecay0 {
   label_15620:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 9.1)
+    if (p <= 9.1) {
       goto label_15621;
-    if (p <= 95.6)
+    }
+    if (p <= 95.6) {
       goto label_15622;
-    if (p <= 96.8)
+    }
+    if (p <= 96.8) {
       goto label_15623;
+    }
     goto label_15624;
   label_15621:
     decay0_nucltransK(prng_, event_, 1.562, 0.024, 3.5e-4, 0.4e-4, tclev, thlev, tdlev);
@@ -142,8 +153,9 @@ namespace bxdecay0 {
   label_11280:
     thlev = 3.2e-12;
     p     = 100. * prng_();
-    if (p <= 34.)
+    if (p <= 34.) {
       goto label_11281;
+    }
     goto label_11282;
   label_11281:
     decay0_nucltransK(prng_, event_, 1.128, 0.024, 7.0e-4, 0., tclev, thlev, tdlev);

@@ -27,8 +27,9 @@ namespace bxdecay0 {
   {
     _code_ = INVALID_PARTICLE;
     _time_ = std::numeric_limits<double>::quiet_NaN();
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++) {
       _momentum_[i] = std::numeric_limits<double>::quiet_NaN();
+    }
     return;
   }
 
@@ -80,8 +81,9 @@ namespace bxdecay0 {
 
   bool particle::has_time() const
   {
-    if (std::isnan(_time_))
+    if (std::isnan(_time_)) {
       return false;
+    }
     return true;
   }
 
@@ -141,12 +143,15 @@ namespace bxdecay0 {
 
   bool particle::has_momentum() const
   {
-    if (std::isnan(_momentum_[0]))
+    if (std::isnan(_momentum_[0])) {
       return false;
-    if (std::isnan(_momentum_[1]))
+    }
+    if (std::isnan(_momentum_[1])) {
       return false;
-    if (std::isnan(_momentum_[2]))
+    }
+    if (std::isnan(_momentum_[2])) {
       return false;
+    }
     return true;
   }
 
@@ -165,19 +170,23 @@ namespace bxdecay0 {
 
   bool particle::is_valid() const
   {
-    if (!has_code())
+    if (!has_code()) {
       return false;
-    if (!has_time())
+    }
+    if (!has_time()) {
       return false;
-    if (!has_momentum())
+    }
+    if (!has_momentum()) {
       return false;
+    }
     return true;
   }
 
   void particle::reset()
   {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++) {
       _momentum_[i] = std::numeric_limits<double>::quiet_NaN();
+    }
     _time_ = std::numeric_limits<double>::quiet_NaN();
     _code_ = INVALID_PARTICLE;
     return;

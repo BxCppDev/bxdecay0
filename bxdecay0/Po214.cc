@@ -61,8 +61,9 @@ namespace bxdecay0 {
     thnuc  = 164.3e-6;
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     palpha = 100. * prng_();
-    if (palpha <= 0.0104)
+    if (palpha <= 0.0104) {
       goto label_800; // 0.0104%
+    }
     goto label_10000; // 99.9896%
   label_800:
     decay0_alpha(prng_, event_, 6.902, 0., 0., t);

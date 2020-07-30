@@ -73,26 +73,36 @@ namespace bxdecay0 {
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 28.06.1993, 22.10.1995, 20.05.2009.
     tclev = 0.;
-    if (levelkev_ == 2713)
+    if (levelkev_ == 2713) {
       goto label_2713;
-    if (levelkev_ == 2700)
+    }
+    if (levelkev_ == 2700) {
       goto label_2700;
-    if (levelkev_ == 2623)
+    }
+    if (levelkev_ == 2623) {
       goto label_2623;
-    if (levelkev_ == 2426)
+    }
+    if (levelkev_ == 2426) {
       goto label_2426;
-    if (levelkev_ == 2096)
+    }
+    if (levelkev_ == 2096) {
       goto label_2096;
-    if (levelkev_ == 1626)
+    }
+    if (levelkev_ == 1626) {
       goto label_1626;
-    if (levelkev_ == 1498)
+    }
+    if (levelkev_ == 1498) {
       goto label_1498;
-    if (levelkev_ == 1148)
+    }
+    if (levelkev_ == 1148) {
       goto label_1148;
-    if (levelkev_ == 778)
+    }
+    if (levelkev_ == 778) {
       goto label_778;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_2713:
     thlev = 0.;
@@ -103,14 +113,18 @@ namespace bxdecay0 {
   label_2700:
     thlev = 0.103e-12;
     p     = 100. * prng_();
-    if (p <= 3.04)
+    if (p <= 3.04) {
       goto label_27001;
-    if (p <= 12.12)
+    }
+    if (p <= 12.12) {
       goto label_27002;
-    if (p <= 53.40)
+    }
+    if (p <= 53.40) {
       goto label_27003;
-    if (p <= 86.67)
+    }
+    if (p <= 86.67) {
       goto label_27004;
+    }
     goto label_27005;
   label_27001:
     decay0_nucltransK(prng_, event_, 0.160, 0.020, 6.9e-2, 0., tclev, thlev, tdlev);
@@ -135,10 +149,12 @@ namespace bxdecay0 {
   label_2540:
     thlev = 0.069e-12;
     p     = 100. * prng_();
-    if (p <= 8.17)
+    if (p <= 8.17) {
       goto label_25401;
-    if (p <= 28.31)
+    }
+    if (p <= 28.31) {
       goto label_25402;
+    }
     goto label_25403;
   label_25401:
     decay0_nucltransK(prng_, event_, 0.915, 0.020, 9.7e-4, 0., tclev, thlev, tdlev);
@@ -157,14 +173,18 @@ namespace bxdecay0 {
   label_2426:
     thlev = 0.19e-12;
     p     = 100. * prng_();
-    if (p <= 2.50)
+    if (p <= 2.50) {
       goto label_24261;
-    if (p <= 38.16)
+    }
+    if (p <= 38.16) {
       goto label_24262;
-    if (p <= 42.07)
+    }
+    if (p <= 42.07) {
       goto label_24263;
-    if (p <= 95.22)
+    }
+    if (p <= 95.22) {
       goto label_24264;
+    }
     goto label_24265;
   label_24261:
     decay0_nucltransK(prng_, event_, 0.448, 0.020, 6.4e-3, 0., tclev, thlev, tdlev);
@@ -184,10 +204,12 @@ namespace bxdecay0 {
   label_2096:
     thlev = 0.097e-12;
     p     = 100. * prng_();
-    if (p <= 3.06)
+    if (p <= 3.06) {
       goto label_20961;
-    if (p <= 98.55)
+    }
+    if (p <= 98.55) {
       goto label_20962;
+    }
     goto label_20963;
   label_20961:
     decay0_nucltransK(prng_, event_, 0.948, 0.020, 8.7e-4, 0., tclev, thlev, tdlev);
@@ -201,14 +223,18 @@ namespace bxdecay0 {
   label_1978:
     thlev = 2.29e-12;
     p     = 100. * prng_();
-    if (p <= 0.18)
+    if (p <= 0.18) {
       goto label_19781;
-    if (p <= 5.96)
+    }
+    if (p <= 5.96) {
       goto label_19782;
-    if (p <= 9.27)
+    }
+    if (p <= 9.27) {
       goto label_19783;
-    if (p <= 30.34)
+    }
+    if (p <= 30.34) {
       goto label_19784;
+    }
     goto label_19785;
   label_19781:
     decay0_nucltransK(prng_, event_, 0.109, 0.020, 2.0e-1, 0., tclev, thlev, tdlev);
@@ -228,10 +254,12 @@ namespace bxdecay0 {
   label_1870:
     thlev = 6.4e-12;
     p     = 100. * prng_();
-    if (p <= 7.52)
+    if (p <= 7.52) {
       goto label_18701;
-    if (p <= 12.22)
+    }
+    if (p <= 12.22) {
       goto label_18702;
+    }
     goto label_18703;
   label_18701:
     decay0_nucltransK(prng_, event_, 0.241, 0.020, 2.4e-2, 0., tclev, thlev, tdlev);
@@ -250,10 +278,12 @@ namespace bxdecay0 {
   label_1626:
     thlev = 1.4e-12;
     p     = 100. * prng_();
-    if (p <= 8.47)
+    if (p <= 8.47) {
       goto label_16261;
-    if (p <= 98.58)
+    }
+    if (p <= 98.58) {
       goto label_16262;
+    }
     goto label_16263;
   label_16261:
     decay0_nucltransK(prng_, event_, 1.626, 0.020, 2.8e-4, 1.3e-4, tclev, thlev, tdlev);
@@ -267,8 +297,9 @@ namespace bxdecay0 {
   label_1498:
     thlev = 0.78e-12;
     p     = 100. * prng_();
-    if (p <= 29.73)
+    if (p <= 29.73) {
       goto label_14981;
+    }
     goto label_14982;
   label_14981:
     decay0_nucltransK(prng_, event_, 1.498, 0.020, 3.3e-4, 8.3e-5, tclev, thlev, tdlev);

@@ -74,8 +74,9 @@ namespace bxdecay0 {
     t     = emass * (1. - br) / egam1;
     sinth = std::max(0., t * (2. - t));
     rej   = 1.0 - (br * sinth) / (1. + br * br);
-    if (prng_() > rej)
+    if (prng_() > rej) {
       goto tag_1;
+    }
 
     // Generate photon angles with respect to a Z-axis defined
     // along the parent photon; phi is generated isotropically

@@ -94,11 +94,13 @@ namespace bxdecay0 {
 
   bool event::is_valid() const
   {
-    if (_time_ != _time_)
+    if (_time_ != _time_) {
       return false;
+    }
     for (const auto & p : _particles_) {
-      if (!p.is_valid())
+      if (!p.is_valid()) {
         return false;
+      }
     }
     return true;
   }
@@ -204,23 +206,27 @@ namespace bxdecay0 {
     }
     double phi   = phi1_ + (phi2_ - phi1_) * prng_();
     double ctet1 = 1.;
-    if (teta1_ != 0.)
+    if (teta1_ != 0.) {
       ctet1 = std::cos(teta1_);
+    }
     double ctet2 = -1.;
-    if (teta2_ != M_PI)
+    if (teta2_ != M_PI) {
       ctet2 = std::cos(teta2_);
+    }
     double ctet = ctet1 + (ctet2 - ctet1) * prng_();
     double stet = std::sqrt(1. - ctet * ctet);
     double E    = e1_;
-    if (e1_ != e2_)
+    if (e1_ != e2_) {
       E = e1_ + (e2_ - e1_) * prng_();
+    }
     double p  = std::sqrt(E * (E + 2. * pmass));
     double px = p * stet * std::cos(phi);
     double py = p * stet * std::sin(phi);
     double pz = p * ctet;
     tdlev_    = tclev_;
-    if (thlev_ > 0.)
+    if (thlev_ > 0.) {
       tdlev_ = tclev_ - thlev_ / std::log(2.) * std::log(prng_());
+    }
     part.set_code(np_);
     part.set_time(last_time + tdlev_);
     part.set_momentum(px, py, pz);

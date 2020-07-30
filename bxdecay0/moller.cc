@@ -48,16 +48,19 @@ namespace bxdecay0 {
     double pe0[3], pe1[3], pe2[3];
     double phi   = phi1 + (phi2 - phi1) * prng_();
     double ctet1 = 1.;
-    if (teta1 != 0.)
+    if (teta1 != 0.) {
       ctet1 = std::cos(teta1);
+    }
     double ctet2 = -1.;
-    if (teta2 != M_PI)
+    if (teta2 != M_PI) {
       ctet2 = std::cos(teta2);
+    }
     double ctet = ctet1 + (ctet2 - ctet1) * prng_();
     double stet = std::sqrt(1. - ctet * ctet);
     double E    = E1;
-    if (E1 != E2)
+    if (E1 != E2) {
       E = E1 + (E2 - E1) * prng_();
+    }
     double p = std::sqrt(E * (E + 2. * emass));
     pe0[0]   = p * stet * std::cos(phi);
     pe0[1]   = p * stet * std::sin(phi);

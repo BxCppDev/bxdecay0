@@ -40,17 +40,20 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace)
+        if (trace) {
           std::cerr << "[trace] line = " << line << std::endl;
+        }
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty())
+          if (first_word.empty()) {
             continue;
-          if (first_word[0] == '#')
+          }
+          if (first_word[0] == '#') {
             continue;
+          }
         }
         // Isotope:
         std::string dbd_isotope = first_word;
@@ -77,17 +80,20 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace)
+        if (trace) {
           std::cerr << "[trace] line = " << line << std::endl;
+        }
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty())
+          if (first_word.empty()) {
             continue;
-          if (first_word[0] == '#')
+          }
+          if (first_word[0] == '#') {
             continue;
+          }
         }
         // Isotope:
         std::string background_isotope = first_word;
@@ -114,17 +120,20 @@ namespace bxdecay0 {
       while (fin) {
         std::string line;
         std::getline(fin, line);
-        if (trace)
+        if (trace) {
           std::cerr << "[trace] line = " << line << std::endl;
+        }
         std::string first_word;
         {
           // Skip comment and blank lines:
           std::istringstream line_iss(line);
           line_iss >> std::ws >> first_word;
-          if (first_word.empty())
+          if (first_word.empty()) {
             continue;
-          if (first_word[0] == '#')
+          }
+          if (first_word[0] == '#') {
             continue;
+          }
         }
         dbd_record record;
         record.dbd_mode    = DBDMODE_UNDEF;
@@ -181,8 +190,9 @@ namespace bxdecay0 {
   {
     const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     for (const auto & p : m) {
-      if (p.second.unique_label == label_)
+      if (p.second.unique_label == label_) {
         return p.first;
+      }
     }
     return DBDMODE_UNDEF;
   }
@@ -191,8 +201,9 @@ namespace bxdecay0 {
   {
     const std::map<dbd_mode_type, dbd_record> & m = dbd_modes();
     for (const auto & p : m) {
-      if (p.second.legacy_modebb == legacy_modebb_)
+      if (p.second.legacy_modebb == legacy_modebb_) {
         return p.first;
+      }
     }
     return DBDMODE_UNDEF;
   }

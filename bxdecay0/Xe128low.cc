@@ -60,10 +60,12 @@ namespace bxdecay0 {
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 13.02.2004.
     tclev = 0.;
-    if (levelkev_ == 443)
+    if (levelkev_ == 443) {
       goto label_443;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_443:
     thlev = 23.8e-12;

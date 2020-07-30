@@ -64,8 +64,9 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 0.0115)
+    if (pbeta <= 0.0115) {
       goto label_1761;
+    }
     goto label_10000;
   label_1761:
     decay0_beta_1fu(prng_, event_, 0.519, 40., 0., 0., t, 0., 0., 0., 0.);
@@ -74,8 +75,9 @@ namespace bxdecay0 {
     p     = 100. * prng_();
     // to reproduce 31.86e-6 branching ratio for e+e- pair,
     // R.G.Selwyn et al., Appl. Rad. Isot. 65(2007)318
-    if (p <= 27.7)
+    if (p <= 27.7) {
       goto label_17611;
+    }
     goto label_17612;
   label_17611:
     decay0_pair(prng_, event_, 0.739, tclev, thlev, tdlev);

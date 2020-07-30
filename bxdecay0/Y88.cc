@@ -66,19 +66,23 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pdecay = 100. * prng_();
-    if (pdecay <= 99.79)
+    if (pdecay <= 99.79) {
       goto label_1;
+    }
     goto label_2;
     // EC to Sr88
   label_1:
     decay0_gamma(prng_, event_, 0.016, 0., 0., t);
     pec = pdecay;
-    if (pec <= 0.065)
+    if (pec <= 0.065) {
       goto label_35850;
-    if (pec <= 0.093)
+    }
+    if (pec <= 0.093) {
       goto label_32190;
-    if (pec <= 94.490)
+    }
+    if (pec <= 94.490) {
       goto label_27340;
+    }
     goto label_18360;
     // b+ to Sr88
     // change to the approximation to the 1st forbidden unique shape
@@ -92,8 +96,9 @@ namespace bxdecay0 {
   label_32190:
     thlev = 0.13e-12;
     p     = 100. * prng_();
-    if (p <= 25.)
+    if (p <= 25.) {
       goto label_32191;
+    }
     goto label_32192;
   label_32191:
     decay0_nucltransK(prng_, event_, 3.219, 0.016, 6.0e-5, 8.7e-4, tclev, thlev, tdlev);
@@ -104,8 +109,9 @@ namespace bxdecay0 {
   label_27340:
     thlev = 0.78e-12;
     p     = 100. * prng_();
-    if (p <= 0.75)
+    if (p <= 0.75) {
       goto label_27341;
+    }
     goto label_27342;
   label_27341:
     decay0_nucltransK(prng_, event_, 2.734, 0.016, 1.2e-4, 3.3e-4, tclev, thlev, tdlev);

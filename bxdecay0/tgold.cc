@@ -43,8 +43,9 @@ namespace bxdecay0 {
                       void * params_)
   {
     double sign = 1.0;
-    if (minmax_ == 2)
+    if (minmax_ == 2) {
       sign = -1.0;
+    }
     static double phi    = (1 + std::sqrt(5)) / 2;
     static double resphi = 2 - phi;
     double x;
@@ -119,17 +120,20 @@ namespace bxdecay0 {
     double yp = f_(xp, params_);
     double yl = f_(xl, params_);
   label_3:
-    if (minmax_ == 1)
+    if (minmax_ == 1) {
       goto label_4;
-    else if (minmax_ == 2)
+    } else if (minmax_ == 2) {
       goto label_5;
+    }
   label_4:
-    if (yp < yl)
+    if (yp < yl) {
       goto label_1;
+    }
     goto label_6;
   label_5:
-    if (yp > yl)
+    if (yp > yl) {
       goto label_1;
+    }
   label_6:
     bl = xp;
     xp = xl;
@@ -144,8 +148,9 @@ namespace bxdecay0 {
     xp = al + (bl - al) * qc;
     yp = f_(xp, params_);
   label_2:
-    if ((bl - al) > eps_)
+    if ((bl - al) > eps_) {
       goto label_3;
+    }
     xextr_ = 0.5 * (al + bl);
     fextr_ = f_(xextr_, params_);
     return;

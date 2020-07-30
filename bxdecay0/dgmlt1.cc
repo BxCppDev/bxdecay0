@@ -67,11 +67,13 @@ namespace bxdecay0 {
       throw std::logic_error(message.str());
     }
     int M0 = NG_;
-    if (M0 != 8)
+    if (M0 != 8) {
       M0 = 6;
+    }
     int I0 = 0;
-    if (M0 == 8)
+    if (M0 == 8) {
       I0 = 6;
+    }
     double D  = (B_ - A_) / NI_;
     double R  = 0.5 * D;
     double RA = R + A_;

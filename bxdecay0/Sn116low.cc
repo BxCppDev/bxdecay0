@@ -65,24 +65,31 @@ namespace bxdecay0 {
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 28.06.1993, 22.10.1995.
     tclev = 0.;
-    if (levelkev_ == 2225)
+    if (levelkev_ == 2225) {
       goto label_2225;
-    if (levelkev_ == 2112)
+    }
+    if (levelkev_ == 2112) {
       goto label_2112;
-    if (levelkev_ == 2027)
+    }
+    if (levelkev_ == 2027) {
       goto label_2027;
-    if (levelkev_ == 1757)
+    }
+    if (levelkev_ == 1757) {
       goto label_1757;
-    if (levelkev_ == 1294)
+    }
+    if (levelkev_ == 1294) {
       goto label_1294;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_2225:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 37.)
+    if (p <= 37.) {
       goto label_22251;
+    }
     goto label_22252;
   label_22251:
     decay0_nucltransK(prng_, event_, 2.225, 0.029, 2.7e-4, 3.4e-4, tclev, thlev, tdlev);
@@ -93,10 +100,12 @@ namespace bxdecay0 {
   label_2112:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 54.9)
+    if (p <= 54.9) {
       goto label_21121;
-    if (p <= 96.9)
+    }
+    if (p <= 96.9) {
       goto label_21122;
+    }
     goto label_21123;
   label_21121:
     decay0_nucltransK(prng_, event_, 2.112, 0.029, 3.1e-4, 2.7e-4, tclev, thlev, tdlev);
@@ -114,8 +123,9 @@ namespace bxdecay0 {
   label_1757:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 0.29)
+    if (p <= 0.29) {
       goto label_17571;
+    }
     goto label_17572;
   label_17571:
     decay0_electron(prng_, event_, 1.757 - 0.029, tclev, thlev, tdlev); // only ec

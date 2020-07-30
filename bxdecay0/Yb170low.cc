@@ -59,10 +59,12 @@ namespace bxdecay0 {
     double tclev;
     double thlev;
     tclev = 0.;
-    if (levelkev_ == 84)
+    if (levelkev_ == 84) {
       goto label_84;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_84:
     thlev = 1.6e-9;

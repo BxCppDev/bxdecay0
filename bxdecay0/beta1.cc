@@ -82,10 +82,12 @@ namespace bxdecay0 {
       f  = fm * prng_();
     } while (f > fe);
     bxdecay0::particle_code np;
-    if (Zdtr >= 0.)
+    if (Zdtr >= 0.) {
       np = ELECTRON;
-    if (Zdtr < 0.)
+    }
+    if (Zdtr < 0.) {
       np = POSITRON;
+    }
     // isotropical emission of beta particle is supposed:
     decay0_particle(prng_, event_, np, E, E, 0., M_PI, 0., 2. * M_PI, tcnuc_, thnuc_, tdnuc_);
     return;

@@ -71,8 +71,9 @@ namespace bxdecay0 {
     double b3    = (2. * gam2 + 2. * gam - 1.) * b1;
     double e1    = 1. - e;
     double screj = b2 * e * e - b3 * e / e1 + b1 * gam2 / (e1 * e1);
-    if (prng_() > screj)
+    if (prng_() > screj) {
       goto tag_1;
+    }
     eel   = (t * e + 1.) * emass;
     tel   = eel - emass;
     pel   = std::sqrt(std::abs((eel + emass) * tel));

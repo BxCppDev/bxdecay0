@@ -107,16 +107,19 @@ namespace bxdecay0 {
     EbindM = 0.003;
     cg     = 1.;
     pdecay = 100. * prng_();
-    if (pdecay <= 99.988)
+    if (pdecay <= 99.988) {
       goto label_1; // 99.988 EC
+    }
     goto label_2;   // 0.012 b+
     // EC to Pb207 or Pb207m
   label_1:
     pec = pdecay;
-    if (pec <= 7.027)
+    if (pec <= 7.027) {
       goto label_2340; // 7.027%
-    if (pec <= 90.992)
+    }
+    if (pec <= 90.992) {
       goto label_1633; // 83.965%
+    }
     goto label_570;    // 8.996%
     // b+ to Pb207
   label_2:
@@ -131,8 +134,9 @@ namespace bxdecay0 {
     ////    label_23400  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 98.13)
+    if (p <= 98.13) {
       goto label_23401;
+    }
     goto label_23402;
   label_23401:
     Egamma = 1.770;
@@ -214,8 +218,9 @@ namespace bxdecay0 {
   label_89800:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 99.245)
+    if (p <= 99.245) {
       goto label_89801;
+    }
     goto label_89802;
   label_89801:
     Egamma = 0.898;

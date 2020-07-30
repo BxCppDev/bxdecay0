@@ -41,8 +41,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fe12_mod4: e0 = " << e0 << std::endl;
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fe12_mod4: e1 = " << e1 << std::endl;
     /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_fe12_mod4: e2 = " << e2_ << std::endl;
@@ -66,8 +67,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -81,8 +83,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -96,8 +99,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -111,8 +115,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -126,8 +131,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -141,8 +147,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -156,8 +163,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)
@@ -171,8 +179,9 @@ namespace bxdecay0 {
     const double & Zd   = pars->Zd;
     const double & e0   = pars->e0;
     const double & e1   = pars->e1;
-    if (e2_ > e0 - e1)
+    if (e2_ > e0 - e1) {
       return 0.0;
+    }
     double p1 = std::sqrt(e1 * (e1 + 2. * emass));
     double p2 = std::sqrt(e2_ * (e2_ + 2. * emass));
     return (e1 + emass) * p1 * bxdecay0::decay0_fermi(Zd, e1) * (e2_ + emass) * p2 * bxdecay0::decay0_fermi(Zd, e2_)

@@ -76,20 +76,25 @@ namespace bxdecay0 {
     // Luciano Pandola, 25.10.2006: angular correlation of 563 and 559 keV gamma
     // quanta if 1122 keV level is populated.
     tclev = 0.;
-    if (levelkev_ == 1216)
+    if (levelkev_ == 1216) {
       goto label_1216;
-    if (levelkev_ == 1122)
+    }
+    if (levelkev_ == 1122) {
       goto label_1122;
-    if (levelkev_ == 559)
+    }
+    if (levelkev_ == 559) {
       goto label_559;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_1216:
     thlev = 3.4e-12;
     p     = 100. * prng_();
-    if (p <= 36.)
+    if (p <= 36.) {
       goto label_12161;
+    }
     goto label_12162;
   label_12161:
     decay0_nucltransK(prng_, event_, 1.216, 0.013, 4.3e-4, 0.1e-4, tclev, thlev, tdlev);

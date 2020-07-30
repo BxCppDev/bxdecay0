@@ -62,26 +62,33 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 0.123)
+    if (pbeta <= 0.123) {
       goto label_1062; // 0.123%%
-    if (pbeta <= 0.198)
+    }
+    if (pbeta <= 0.198) {
       goto label_981; // 0.075%
-    if (pbeta <= 3.311)
+    }
+    if (pbeta <= 3.311) {
       goto label_608; // 3.113%
-    if (pbeta <= 3.902)
+    }
+    if (pbeta <= 3.902) {
       goto label_408; // 0.591%
+    }
     goto label_250;   // 96.098%
   label_1062:
     decay0_beta(prng_, event_, 0.089, 55., 0., 0., t);
     ////    label_10620  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 3.34)
+    if (p <= 3.34) {
       goto label_10621; // 3.34%
-    if (p <= 60.40)
+    }
+    if (p <= 60.40) {
       goto label_10622; // 57.06%
-    if (p <= 97.07)
+    }
+    if (p <= 97.07) {
       goto label_10623; // 36.67%
+    }
     goto label_10624;   // 2.93%
   label_10621:
     decay0_nucltransK(prng_, event_, 1.062, 0.036, 2.0e-3, 0., tclev, thlev, tdlev);
@@ -100,10 +107,12 @@ namespace bxdecay0 {
     ////    label_98100  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 73.53)
+    if (p <= 73.53) {
       goto label_98101; // 73.53%
-    if (p <= 79.95)
+    }
+    if (p <= 79.95) {
       goto label_98102; // 6.42%
+    }
     goto label_98103;   // 20.05%
   label_98101:
     decay0_nucltransK(prng_, event_, 0.732, 0.036, 5.0e-3, 0., tclev, thlev, tdlev);
@@ -119,10 +128,12 @@ namespace bxdecay0 {
   label_60800:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 92.42)
+    if (p <= 92.42) {
       goto label_60801; // 92.42%
-    if (p <= 99.62)
+    }
+    if (p <= 99.62) {
       goto label_60802; // 7.20%
+    }
     goto label_60803;   // 0.38%
   label_60801:
     decay0_nucltransK(prng_, event_, 0.608, 0.036, 7.5e-3, 0., tclev, thlev, tdlev);
@@ -138,8 +149,9 @@ namespace bxdecay0 {
   label_40800:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 55.33)
+    if (p <= 55.33) {
       goto label_40801; // 55.33%
+    }
     goto label_40802;   // 44.67%
   label_40801:
     decay0_nucltransK(prng_, event_, 0.408, 0.036, 2.0e-2, 0., tclev, thlev, tdlev);

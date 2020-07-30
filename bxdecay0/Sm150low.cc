@@ -74,28 +74,37 @@ namespace bxdecay0 {
     double cg;
     double cK;
     tclev = 0.;
-    if (levelkev_ == 1256)
+    if (levelkev_ == 1256) {
       goto label_1256;
-    if (levelkev_ == 1194)
+    }
+    if (levelkev_ == 1194) {
       goto label_1194;
-    if (levelkev_ == 1046)
+    }
+    if (levelkev_ == 1046) {
       goto label_1046;
-    if (levelkev_ == 740)
+    }
+    if (levelkev_ == 740) {
       goto label_740;
-    if (levelkev_ == 334)
+    }
+    if (levelkev_ == 334) {
       goto label_334;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_1256:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 8.44)
+    if (p <= 8.44) {
       goto label_12561;
-    if (p <= 18.89)
+    }
+    if (p <= 18.89) {
       goto label_12562;
-    if (p <= 99.28)
+    }
+    if (p <= 99.28) {
       goto label_12563;
+    }
     goto label_12564;
   label_12561:
     decay0_nucltransK(prng_, event_, 0.209, 0.047, 1.79e-1, 0., tclev, thlev, tdlev);
@@ -116,14 +125,18 @@ namespace bxdecay0 {
   label_1194:
     thlev = 1.3e-12;
     p     = 100. * prng_();
-    if (p <= 0.13)
+    if (p <= 0.13) {
       goto label_11941;
-    if (p <= 1.14)
+    }
+    if (p <= 1.14) {
       goto label_11942;
-    if (p <= 3.04)
+    }
+    if (p <= 3.04) {
       goto label_11943;
-    if (p <= 44.05)
+    }
+    if (p <= 44.05) {
       goto label_11944;
+    }
     goto label_11945;
   label_11941:
     decay0_nucltransK(prng_, event_, 0.148, 0.047, 5.6e-1, 0., tclev, thlev, tdlev);
@@ -143,10 +156,12 @@ namespace bxdecay0 {
   label_1046:
     thlev = 0.86e-12;
     p     = 100. * prng_();
-    if (p <= 2.26)
+    if (p <= 2.26) {
       goto label_10461;
-    if (p <= 92.68)
+    }
+    if (p <= 92.68) {
       goto label_10462;
+    }
     goto label_10463;
   label_10461:
     decay0_nucltransK(prng_, event_, 0.306, 0.047, 5.3e-2, 0., tclev, thlev, tdlev);
@@ -168,8 +183,9 @@ namespace bxdecay0 {
     // Data Sheets 75(1995)827 (real page is 856)
     // VIT, 23.09.2008
     // if (p <= 92.) goto label_74001
-    if (p <= 1.35)
+    if (p <= 1.35) {
       goto label_74001;
+    }
     goto label_74002;
   label_74001:
     // only ec in 0+ -> 0+

@@ -63,14 +63,18 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pbeta  = 100. * prng_();
-    if (pbeta <= 0.024)
+    if (pbeta <= 0.024) {
       goto label_2975;
-    if (pbeta <= 0.524)
+    }
+    if (pbeta <= 0.524) {
       goto label_2876;
-    if (pbeta <= 1.014)
+    }
+    if (pbeta <= 1.014) {
       goto label_2755;
-    if (pbeta <= 3.314)
+    }
+    if (pbeta <= 3.314) {
       goto label_2441;
+    }
     goto label_2439;
   label_2975:
     decay0_beta(prng_, event_, 0.212, 42., 0., 0., t);
@@ -83,8 +87,9 @@ namespace bxdecay0 {
     ////    label_28760  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 93.26)
+    if (p <= 93.26) {
       goto label_28761;
+    }
     goto label_28762;
   label_28761:
     decay0_nucltransK(prng_, event_, 0.435, 0.020, 5.4e-3, 0., tclev, thlev, tdlev);
@@ -97,10 +102,12 @@ namespace bxdecay0 {
   label_27550:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 75.63)
+    if (p <= 75.63) {
       goto label_27551;
-    if (p <= 86.64)
+    }
+    if (p <= 86.64) {
       goto label_27552;
+    }
     goto label_27553;
   label_27551:
     decay0_nucltransK(prng_, event_, 1.127, 0.020, 5.2e-4, 0.1e-5, tclev, thlev, tdlev);
@@ -122,12 +129,15 @@ namespace bxdecay0 {
   label_24390:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 11.20)
+    if (p <= 11.20) {
       goto label_24391;
-    if (p <= 69.87)
+    }
+    if (p <= 69.87) {
       goto label_24392;
-    if (p <= 96.89)
+    }
+    if (p <= 96.89) {
       goto label_24393;
+    }
     goto label_24394;
   label_24391:
     decay0_nucltransKLM(prng_, event_, 0.811, 0.020, 1.1e-3, 0.003, 1.3e-4, 0.001, 2.2e-5, 0., tclev, thlev, tdlev);
@@ -144,16 +154,21 @@ namespace bxdecay0 {
   label_22190:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 11.19)
+    if (p <= 11.19) {
       goto label_22191;
-    if (p <= 36.94)
+    }
+    if (p <= 36.94) {
       goto label_22192;
-    if (p <= 44.75)
+    }
+    if (p <= 44.75) {
       goto label_22193;
-    if (p <= 68.44)
+    }
+    if (p <= 68.44) {
       goto label_22194;
-    if (p <= 80.66)
+    }
+    if (p <= 80.66) {
       goto label_22195;
+    }
     goto label_22196;
   label_22191:
     decay0_nucltransK(prng_, event_, 1.441, 0.020, 4.3e-4, 0.5e-4, tclev, thlev, tdlev);
@@ -176,14 +191,18 @@ namespace bxdecay0 {
   label_19780:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 71.90)
+    if (p <= 71.90) {
       goto label_19781;
-    if (p <= 92.93)
+    }
+    if (p <= 92.93) {
       goto label_19782;
-    if (p <= 95.95)
+    }
+    if (p <= 95.95) {
       goto label_19783;
-    if (p <= 99.81)
+    }
+    if (p <= 99.81) {
       goto label_19784;
+    }
     goto label_19785;
   label_19781:
     decay0_nucltransK(prng_, event_, 1.200, 0.020, 4.6e-4, 7.7e-6, tclev, thlev, tdlev);
@@ -203,10 +222,12 @@ namespace bxdecay0 {
   label_18700:
     thlev = 6.4e-12;
     p     = 100. * prng_();
-    if (p <= 88.61)
+    if (p <= 88.61) {
       goto label_18701;
-    if (p <= 93.45)
+    }
+    if (p <= 93.45) {
       goto label_18702;
+    }
     goto label_18703;
   label_18701:
     decay0_nucltransK(prng_, event_, 1.091, 0.020, 5.6e-4, 0., tclev, thlev, tdlev);
@@ -224,10 +245,12 @@ namespace bxdecay0 {
   label_16260:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 11.72)
+    if (p <= 11.72) {
       goto label_16261;
-    if (p <= 98.63)
+    }
+    if (p <= 98.63) {
       goto label_16262;
+    }
     goto label_16263;
   label_16261:
     decay0_nucltransK(prng_, event_, 1.626, 0.020, 2.8e-4, 1.3e-4, tclev, thlev, tdlev);
@@ -241,8 +264,9 @@ namespace bxdecay0 {
   label_14980:
     thlev = 0.78e-12;
     p     = 100. * prng_();
-    if (p <= 32.43)
+    if (p <= 32.43) {
       goto label_14981;
+    }
     goto label_14982;
   label_14981:
     decay0_nucltransK(prng_, event_, 1.498, 0.020, 3.3e-4, 0.8e-4, tclev, thlev, tdlev);

@@ -62,10 +62,11 @@ namespace bxdecay0 {
     tclev  = 0.;
     palpha = 100. * prng_();
 
-    if (palpha <= 0.001)
+    if (palpha <= 0.001) {
       goto label_4516;
-    else
+    } else {
       goto label_5306;
+    }
 
   label_4516:
     decay0_alpha(prng_, event_, 4.51658, 0., 0., t);

@@ -161,8 +161,9 @@ namespace bxdecay0 {
 
   void decay0_generator::initialize(i_random & prng_)
   {
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::initialize: Entering..." << std::endl;
+    }
     if (is_initialized()) {
       throw std::logic_error("bxdecay0::decay0_generator::initialize: Decay0 generator is already initialized!");
     }
@@ -200,22 +201,25 @@ namespace bxdecay0 {
     _init_(prng_);
 
     _initialized_ = true;
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::initialize: Exiting." << std::endl;
+    }
     return;
   }
 
   void decay0_generator::reset()
   {
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::reset: Entering..." << std::endl;
+    }
     if (!_initialized_) {
       return;
     }
     _initialized_ = false;
     _reset_();
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::reset: Exiting." << std::endl;
+    }
     return;
   }
 
@@ -351,8 +355,9 @@ namespace bxdecay0 {
 
   void decay0_generator::shoot(i_random & prng_, event & event_)
   {
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::shoot: Entering..." << std::endl;
+    }
     if (!is_initialized()) {
       throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 generator is not initialized !");
     }
@@ -395,8 +400,9 @@ namespace bxdecay0 {
       }
     }
     _pimpl_->event_count++;
-    if (is_debug())
+    if (is_debug()) {
       std::cerr << "[debug] decay0_generator::shoot: Exiting." << std::endl;
+    }
     return;
   }
 
@@ -511,8 +517,9 @@ namespace bxdecay0 {
             "bxdecay0::decay0_generator::_init_: Decay0 generator does not support DBD gA process !");
 #endif
       } else {
-        if (is_debug())
+        if (is_debug()) {
           std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
+        }
         event dummy_event;
         bxdecay0::genbbsub(prng_,
                            dummy_event,
@@ -528,8 +535,9 @@ namespace bxdecay0 {
         }
       }
     } else if (_decay_category_ == DECAY_CATEGORY_BACKGROUND) {
-      if (is_debug())
+      if (is_debug()) {
         std::cerr << "[debug] decay0_generator::_init_: background event..." << std::endl;
+      }
       event dummy_event;
       bxdecay0::genbbsub(prng_,
                          dummy_event,

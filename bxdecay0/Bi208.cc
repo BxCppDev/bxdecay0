@@ -61,12 +61,15 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     pdecay = 100. * prng_();
-    if (pdecay <= 43.6)
+    if (pdecay <= 43.6) {
       Egamma = 0.088; // EC-K 43.6%
-    if (pdecay > 43.6 && pdecay <= 83.8)
+    }
+    if (pdecay > 43.6 && pdecay <= 83.8) {
       Egamma = 0.016; // EC-L 40.2%
-    if (pdecay > 83.8)
+    }
+    if (pdecay > 83.8) {
       Egamma = 0.004; // EC-M 16.2%
+    }
     decay0_gamma(prng_, event_, Egamma, 0., 0., t);
     //// label_2615  :
     thlev = 32.e-12;

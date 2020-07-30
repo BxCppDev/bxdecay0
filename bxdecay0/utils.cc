@@ -27,9 +27,10 @@ namespace bxdecay0 {
     // devel = true;
     static std::map<std::string, bool> _t;
     if (_t.size() == 0) {
-      if (devel)
+      if (devel) {
         std::cerr << "[devel] bxdecay0::traces: "
                   << "Populating trace map..." << std::endl;
+      }
       _t["bxdecay0"] = false;
       _t["genbbsub"] = false;
       _t["bb"]       = false;
@@ -50,17 +51,20 @@ namespace bxdecay0 {
       }
       {
         const char * env_key = "BXDECAY0_TRACE_BB";
-        if (devel)
+        if (devel) {
           std::cerr << "[devel] bxdecay0::traces: BXDECAY0_TRACE_BB='" << std::getenv(env_key) << "'" << std::endl;
+        }
         if (std::getenv(env_key) && std::string(std::getenv(env_key)) == "1") {
-          if (devel)
+          if (devel) {
             std::cerr << "[devel] bxdecay0::traces: "
                       << "Activate BB trace." << std::endl;
+          }
           _t["bb"] = true;
         } else {
-          if (devel)
+          if (devel) {
             std::cerr << "[devel] bxdecay0::traces: "
                       << "Don't activate BB trace." << std::endl;
+          }
         }
       }
       {
@@ -82,9 +86,10 @@ namespace bxdecay0 {
         }
       }
       for (auto p : _t) {
-        if (devel)
+        if (devel) {
           std::cerr << "[devel] bxdecay0::traces: "
                     << "Topic '" << p.first << "' -> trace = " << std::boolalpha << p.second << std::endl;
+        }
       }
     }
     return _t;
@@ -95,8 +100,9 @@ namespace bxdecay0 {
     const std::map<std::string, bool> & tr = traces();
     if (tr.count(label_)) {
       bool t = tr.find(label_)->second;
-      if (t)
+      if (t) {
         return true;
+      }
     }
     return false;
   }
@@ -104,10 +110,12 @@ namespace bxdecay0 {
   bool name_starts_with(const std::string & name_, const std::string & prefix_)
   {
     std::size_t len = prefix_.size();
-    if (name_.size() < len)
+    if (name_.size() < len) {
       return false;
-    if (name_.substr(0, prefix_.size()) == prefix_)
+    }
+    if (name_.substr(0, prefix_.size()) == prefix_) {
       return true;
+    }
     return false;
   }
 

@@ -64,10 +64,12 @@ namespace bxdecay0 {
     decay0_beta(prng_, event_, 0.160, 73., 0., 0., t);
     thlev = 1.2e-9;
     p     = 100. * prng_();
-    if (p <= 91.77)
+    if (p <= 91.77) {
       goto label_27001;
-    if (p <= 92.00)
+    }
+    if (p <= 92.00) {
       goto label_27002;
+    }
     goto label_27003;
   label_27001:
     decay0_nucltransK(prng_, event_, 0.270, 0.067, 3.1e-1, 0., tclev, thlev, tdlev);

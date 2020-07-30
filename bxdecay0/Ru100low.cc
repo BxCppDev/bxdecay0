@@ -76,26 +76,34 @@ namespace bxdecay0 {
     // if 1130 keV level is populated.
 
     tclev = 0.;
-    if (levelkev_ == 1741)
+    if (levelkev_ == 1741) {
       goto label_1741;
-    if (levelkev_ == 1362)
+    }
+    if (levelkev_ == 1362) {
       goto label_1362;
-    if (levelkev_ == 1130)
+    }
+    if (levelkev_ == 1130) {
       goto label_1130;
-    if (levelkev_ == 540)
+    }
+    if (levelkev_ == 540) {
       goto label_540;
-    if (levelkev_ == 0)
+    }
+    if (levelkev_ == 0) {
       goto label_10000;
+    }
     goto label_20000;
   label_1741:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 0.05)
+    if (p <= 0.05) {
       goto label_17411;
-    if (p <= 59.00)
+    }
+    if (p <= 59.00) {
       goto label_17412;
-    if (p <= 59.03)
+    }
+    if (p <= 59.03) {
       goto label_17413;
+    }
     goto label_17414;
   label_17411:
     decay0_electron(prng_, event_, 1.741 - 0.022, tclev, thlev, tdlev); // only ec
@@ -114,8 +122,9 @@ namespace bxdecay0 {
   label_1362:
     thlev = 1.2e-12;
     p     = 100. * prng_();
-    if (p <= 43.)
+    if (p <= 43.) {
       goto label_13621;
+    }
     goto label_13622;
   label_13621:
     decay0_nucltransK(prng_, event_, 1.362, 0.022, 4.2e-4, 0.2e-4, tclev, thlev, tdlev);
@@ -126,8 +135,9 @@ namespace bxdecay0 {
   label_1130:
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 0.02)
+    if (p <= 0.02) {
       goto label_11301;
+    }
     goto label_11302;
   label_11301:
     decay0_electron(prng_, event_, 1.130 - 0.022, tclev, thlev, tdlev); // only ec

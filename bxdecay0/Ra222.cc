@@ -62,22 +62,27 @@ namespace bxdecay0 {
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     tclev  = 0.;
     palpha = 100. * prng_();
-    if (palpha <= 0.0042)
+    if (palpha <= 0.0042) {
       goto label_840;
-    if (palpha <= 0.0083)
+    }
+    if (palpha <= 0.0083) {
       goto label_797;
-    if (palpha <= 0.0124)
+    }
+    if (palpha <= 0.0124) {
       goto label_653;
-    if (palpha <= 3.0635)
+    }
+    if (palpha <= 3.0635) {
       goto label_324;
+    }
     goto label_10000;
   label_840:
     decay0_alpha(prng_, event_, 5.734, 0., 0., t);
     //// label_84000  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 66.35)
+    if (p <= 66.35) {
       goto label_84001;
+    }
     goto label_84002;
   label_84001:
     decay0_nucltransK(prng_, event_, 0.840, 0.098, 2.9e-2, 0., tclev, thlev, tdlev);
@@ -90,8 +95,9 @@ namespace bxdecay0 {
     ////    label_79700  :
     thlev = 0.;
     p     = 100. * prng_();
-    if (p <= 96.75)
+    if (p <= 96.75) {
       goto label_79701;
+    }
     goto label_79702;
   label_79701:
     decay0_nucltransK(prng_, event_, 0.473, 0.098, 1.0e-2, 0., tclev, thlev, tdlev);
