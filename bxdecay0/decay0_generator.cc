@@ -40,14 +40,8 @@ namespace bxdecay0 {
   struct decay0_generator::pimpl_type
   {
     pimpl_type() = default;
-    ~pimpl_type()
-    {
-#if BXDECAY0_WITH_DBD_GA == 1
-      if (dbd_ga_process.is_initialized()) {
-        dbd_ga_process.reset();
-      }
-#endif
-    }
+    ~pimpl_type() = default;
+
     // Attributes:
     size_t event_count = 0;  //!< Current event count
     bbpars bb_params;        //!< Decay0 parameters
