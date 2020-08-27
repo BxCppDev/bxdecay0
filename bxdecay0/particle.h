@@ -79,33 +79,33 @@ namespace bxdecay0 {
     /// Return the delay time with respect to the previous particle (unit: second)
     double get_time() const;
 
-    /// Set the X coordinate of the momentum (unit: MeV/c)
+    /// Set the X coordinate of the momentum (unit: MeV/c or MeV with c=1)
     void set_px(const double px_);
 
-    /// Return the X coordinate of the momentum (unit: MeV/c)
+    /// Return the X coordinate of the momentum (unit: MeV/c or MeV with c=1)
     double get_px() const;
 
-    /// Set the Y coordinate of the momentum (unit: MeV/c)
+    /// Set the Y coordinate of the momentum (unit: MeV/c or MeV with c=1)
     void set_py(const double py_);
 
-    /// Return the Y coordinate of the momentum (unit: MeV/c)
+    /// Return the Y coordinate of the momentum (unit: MeV/c or MeV with c=1)
     double get_py() const;
 
-    /// Set the Z coordinate of the momentum (unit: MeV/c)
+    /// Set the Z coordinate of the momentum (unit: MeV/c or MeV with c=1)
     void set_pz(const double pz_);
 
-    /// Return the Z coordinate of the momentum (unit: MeV/c)
+    /// Return the Z coordinate of the momentum (unit: MeV/c or MeV with c=1)
     double get_pz() const;
 
     /// Check if momentum is valid
     bool has_momentum() const;
 
-    /// Set the coordinates of the momentum (unit: MeV/c)
+    /// Set the coordinates of the momentum (unit: MeV/c or MeV with c=1)
     void set_momentum(const double px_,
                       const double py_,
                       const double pz_);
 
-    /// Return the magnitude of the momentum (unit: MeV/c)
+    /// Return the magnitude of the momentum (unit: MeV/c or MeV with c=1)
     double get_p() const;
 
     /// Check the validity of the particle
@@ -131,7 +131,7 @@ namespace bxdecay0 {
 
     particle_code _code_;        ///< Particle code
     double        _time_;        ///< Particle generation delay time after the previous particle in the event (unit: second)
-    double        _momentum_[3]; ///< Particle momentum (unit: MeV/c)
+    double        _momentum_[3]; ///< Particle momentum (unit: MeV/c or MeV with c=1)
 
   };
 

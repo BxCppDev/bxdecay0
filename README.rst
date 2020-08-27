@@ -418,6 +418,50 @@ List of examples
 
    PageBreak
 
+Units
+=======
+
+BxDecay0 uses the Decay0's legacy system for physical units.
+
+Here the *c* quantity is the speed of light in vacuum (with *c* ~ 300 000 km/s in S.I.).
+
+- Let *m* be the rest mass of a particle, BxDecay0 expresses this mass as *M = m c^2* where *M* is the associated rest mass-energy.
+  The implicit unit for *M* is megaelectronvolts (MeV).
+  This is equivalent to say that *M=m* using $c=1.
+- let *p* be some component of the momentum of a particle, BxDecay0 expresses this quantity as *P = p x c* where *P* has the dimension of an energy
+  explicitly expressed in  megaelectronvolts (MeV).
+  This is equivalent to say that *P=p* using $c=1.
+- Let *t* be the decay time of a particle (with respect to some arbitrary time reference), then BxDecay0 expresses *t* in second (s).
+
+Given these rules, it is up to the client application to operate physical quantities of interest using its own unit system.
+
+
+**Example:** Code snippet using the CLHEP system of units
+
+.. code:: c++
+
+   #include <CLHEP/Units/SystemOfUnits.h>
+   #include <bxdecay0/event.h>
+   #include <bxdecay0/particle.h>
+    ...
+   {
+     bxdecay0::event gendecay;
+     // Fill the event object with particles...
+     ...
+     
+     // Extract informations from the BxDecay0 event model and define some physical quantities
+     // for use within CLHEP or Geant4 with the proper explicit units:
+     
+     double g4_decay_time = gendecay.get_particles().front().get_time() * CLHEP::second;
+     std::cout << "Decay time : " <<  g4_decay_time / CLHEP::nanosecond << " ns" << std::endl;
+     
+     double g4_momentum = gendecay.get_particles().front().get_momentum() * CLHEP::MeV;
+     std::cout << "Momentum : " << g4_momentum / CLHEP::keV << " keV" << std::endl;
+     ...
+   }
+..
+
+  
 License
 =======
 

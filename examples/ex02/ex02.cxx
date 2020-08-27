@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 // Third party library:
 // - HepMC:
@@ -184,14 +185,16 @@ int main()
       static const double C_LIGHT_MM_PER_SEC = 3e11;
       std::shared_ptr<HepMC3::GenEvent> genEvtPtr 
         = std::make_shared<HepMC3::GenEvent>(runInfoPtr,
-                                          HepMC3::Units::MEV,
-                                          HepMC3::Units::MM);
+                                             HepMC3::Units::MEV,
+                                             HepMC3::Units::MM);
       genEvtPtr->set_event_number(ievent);
+      // Vertex position and decay time are expressed here as distances with respect
+      // to some arbitrary origin, with the millimeter (mm) as implicit unit. 
       std::shared_ptr<HepMC3::GenVertex> genVtxPtr
         = std::make_shared<HepMC3::GenVertex>(HepMC3::FourVector(0.,
-                                                               0.,
-                                                               0.,
-                                                               gendecay.get_time() * C_LIGHT_MM_PER_SEC));
+                                                                 0.,
+                                                                 0.,
+                                                                 gendecay.get_time() * C_LIGHT_MM_PER_SEC)); // Time is expressed here in distance (mm)
       genEvtPtr->add_vertex(genVtxPtr);
 
       double part_time = 0.0;
@@ -214,10 +217,15 @@ int main()
           part_time += particle.get_time();
         }
         genPartPtr->set_pid(pid);
-        genPartPtr->set_momentum(HepMC3::FourVector(particle.get_px(),
-                                                   particle.get_py(),
-                                                   particle.get_pz(),
-                                                   part_time * C_LIGHT_MM_PER_SEC));
+        // Particle mass(-energy) in MeV:
+        double pmass = bxdecay0::particle_mass_MeV(particle.get_code());
+        // Particle energy in MeV (with BxDecay0 momentum already expressed as an energy):
+        double penergy = std::sqrt(pmass * pmass + particle.get_p() * particle.get_p());
+        // Quadri-momentum coordinates are all expressed as energy, with MeV as implicit unit:
+        genPartPtr->set_momentum(HepMC3::FourVector(particle.get_px(), 
+                                                    particle.get_py(),
+                                                    particle.get_pz(),
+                                                    penergy));
         genPartPtr->set_generated_mass(bxdecay0::particle_mass_MeV(particle.get_code()));
         // std::clog << "[debug] ??? Mass set = " << genPartPtr->is_generated_mass_set() << std::endl;
         // std::clog << "[debug] ??? Mass     = " << genPartPtr->generated_mass() << std::endl;
