@@ -427,10 +427,10 @@ Here the *c* quantity is the speed of light in vacuum (with *c* ~ 300 000 km/s i
 
 - Let *m* be the rest mass of a particle, BxDecay0 expresses this mass as *M = m c^2* where *M* is the associated rest mass-energy.
   The implicit unit for *M* is megaelectronvolts (MeV).
-  This is equivalent to say that *M=m* using $c=1.
+  This is equivalent to say that *M=m* using *c*=1.
 - let *p* be some component of the momentum of a particle, BxDecay0 expresses this quantity as *P = p x c* where *P* has the dimension of an energy
   explicitly expressed in  megaelectronvolts (MeV).
-  This is equivalent to say that *P=p* using $c=1.
+  This is equivalent to say that *P=p* using *c*=1.
 - Let *t* be the decay time of a particle (with respect to some arbitrary time reference), then BxDecay0 expresses *t* in second (s).
 
 Given these rules, it is up to the client application to operate physical quantities of interest using its own unit system.
