@@ -49,11 +49,7 @@ file(RELATIVE_PATH BxDecay0_LIBDIR_TO_PREFIX
 # message(STATUS "**** BxDecay0_LIBDIR_TO_PREFIX       = '${BxDecay0_LIBDIR_TO_PREFIX}'")
 
 # Option:
-option(BxDecay0_WITH_DBD_GA "Build BxDecay0 with DBD gA process support" OFF)
-set(BXDECAY0_WITH_DBD_GA 0)
-if (BxDecay0_WITH_DBD_GA)
-  set(BXDECAY0_WITH_DBD_GA 1)
-endif()
+option(BXDECAY0_INSTALL_DBD_GA_DATA "Install BxDecay0 DBD gA process data" OFF)
 
 # - Dependencies
 find_package(GSL 2.4 REQUIRED)
@@ -258,7 +254,7 @@ include_directories("${PROJECT_BINARY_DIR}/bxdecay0")
 set(BxDecay0_SOURCES
   bxdecay0/relocatable_lib.h
   ${PROJECT_BINARY_DIR}/bxdecay0/resource.cc
-  ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc 
+  ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc
   ${PROJECT_BINARY_DIR}/bxdecay0/BinReloc.h
   bxdecay0/BinReloc.c
   bxdecay0/divdif.cc
@@ -434,11 +430,8 @@ set(BxDecay0_SOURCES
   bxdecay0/decay0_generator.cc
  )
 
-if (BXDECAY0_WITH_DBD_GA)
-  message(STATUS "Appending DBD gA classes...")
-  list(APPEND BxDecay0_HEADERS bxdecay0/dbd_gA.h)
-  list(APPEND BxDecay0_SOURCES bxdecay0/dbd_gA.cc)
-endif()
+list(APPEND BxDecay0_HEADERS bxdecay0/dbd_gA.h)
+list(APPEND BxDecay0_SOURCES bxdecay0/dbd_gA.cc)
 
 # For now, use CMAKE_CXX_STANDARD to apply flag.
 if(NOT CMAKE_CXX_STANDARD)
@@ -475,7 +468,7 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
-if (BXDECAY0_WITH_DBD_GA)
+if (BXDECAY0_INSTALL_DBD_GA_DATA)
   # Load datasets for dbd_gA process:
   include(ExternalProject)
 
@@ -526,7 +519,7 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_decay0_generator.cxx
     )
 
-  if (BXDECAY0_WITH_DBD_GA)
+  if (BXDECAY0_INSTALL_DBD_GA_DATA)
     message(STATUS "Appending DBD gA test...")
     list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
   endif()
