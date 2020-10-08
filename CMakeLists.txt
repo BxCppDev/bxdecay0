@@ -258,7 +258,7 @@ include_directories("${PROJECT_BINARY_DIR}/bxdecay0")
 set(BxDecay0_SOURCES
   bxdecay0/relocatable_lib.h
   ${PROJECT_BINARY_DIR}/bxdecay0/resource.cc
-  ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc 
+  ${PROJECT_BINARY_DIR}/bxdecay0/relocatable_lib.cc
   ${PROJECT_BINARY_DIR}/bxdecay0/BinReloc.h
   bxdecay0/BinReloc.c
   bxdecay0/divdif.cc
@@ -486,7 +486,7 @@ if (BXDECAY0_WITH_DBD_GA)
   endif()
 
   ExternalProject_Add(bxdecay0data_dbd_gA
-    GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
+    GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data.git"
     GIT_TAG        "1.0.1"
     PREFIX         "${CMAKE_BINARY_DIR}/bxdecay0data_dbd_gA"
     # Trick: installing datasets in the BxDecay0 source directory:
