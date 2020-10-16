@@ -17,13 +17,13 @@
 #include <bxdecay0/gauss.h>
 
 // Standard library:
-#include <iostream>
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <limits>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
-#include <memory>
-#include <fstream>
-#include <limits>
 
 // Third party:
 // - GSL:
@@ -35,28 +35,26 @@
 
 namespace bxdecay0 {
 
-  double decay0_gauss(func_type f_,
-                      double min_, double max_, double epsrel_,
-                      void * params_)
+  double decay0_gauss(func_type f_, double min_, double max_, double epsrel_, void * params_)
   {
     static bool trace = is_trace("gauss");
-    ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Entering..." << std::endl;
-    double result, abserr;
+    /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Entering..." << std::endl;
+    double result;
+    double abserr;
     result = std::numeric_limits<double>::quiet_NaN();
     size_t neval;
     gsl_function F;
-    F.function = f_;
-    F.params   = params_;
-    double epsabs = 1e-9;
-    double epsrel = epsrel_;
-    epsabs = 0.0;
-    int count = 0;
-    int status = 0;
+    F.function                   = f_;
+    F.params                     = params_;
+    double epsabs                = 1e-9;
+    double epsrel                = epsrel_;
+    epsabs                       = 0.0;
+    int count                    = 0;
+    int status                   = 0;
     gsl_error_handler_t * gsl_eh = gsl_set_error_handler_off();
     while (true) {
-      status = gsl_integration_qng(&F, min_, max_, epsabs, epsrel,
-                                   &result, &abserr, &neval);
-      ///TRACE
+      status = gsl_integration_qng(&F, min_, max_, epsabs, epsrel, &result, &abserr, &neval);
+      /// TRACE
       // if (trace) {
       //   static std::unique_ptr<std::ofstream> _fdebug;
       //   if (_fdebug.get() == nullptr) {
@@ -85,28 +83,24 @@ namespace bxdecay0 {
       if (count >= 2) {
         break;
       }
-      ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: GSL_ETOL = " << "retrying..." << std::endl;
+      /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: GSL_ETOL = " << "retrying..." << std::endl;
     }
     gsl_set_error_handler(gsl_eh);
     if (status != 0) {
       std::ostringstream message;
       message << "bxdecay0::decay0_gauss: "
-              << "GSL QNG integration error: '"
-              << gsl_strerror(status)
-              << "' !";
+              << "GSL QNG integration error: '" << gsl_strerror(status) << "' !";
       std::cerr << "[error] " << message.str() << std::endl;
       // throw std::runtime_error(message.str());
     }
     if (result != result) {
       std::ostringstream message;
       message << "bxdecay0::decay0_gauss: "
-              << "GSL QNG integration failed: '"
-              << gsl_strerror(status)
-              << "' !";
+              << "GSL QNG integration failed: '" << gsl_strerror(status) << "' !";
       std::cerr << "[fatal] " << message.str() << std::endl;
       throw std::logic_error(message.str());
     }
-    ///TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Exiting." << std::endl;
+    /// TRACE if (trace) std::cerr << "[trace] bxdecay0::decay0_gauss: Exiting." << std::endl;
     return result;
   }
 

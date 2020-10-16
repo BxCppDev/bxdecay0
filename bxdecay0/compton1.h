@@ -14,9 +14,7 @@ namespace bxdecay0 {
   //         pe1 - momentum of recoil electron (in MRS).
   //
   // VIT, 07.12.1995 from GEANT subroutine GCOMP by G.Patrick, L.Urban.
-  void decay0_compton1(i_random & prng_,
-                       const double * pg0_,
-                       double * pg1_, double * pe1_);
+  void decay0_compton1(i_random & prng_, const double * pg0_, double * pg1_, double * pe1_);
 
 } // end of namespace bxdecay0
 

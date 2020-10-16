@@ -7,10 +7,7 @@
 namespace bxdecay0 {
 
   /// \brief Gauss quadrature of a function f between min and max
-  double decay0_gauss(func_type f_,
-                      double min_, double max_, double epsrel_,
-                      void * params_);
-
+  double decay0_gauss(func_type f_, double min_, double max_, double epsrel_, void * params_);
 
 } // end of namespace bxdecay0
 

@@ -3,11 +3,7 @@
 
 namespace bxdecay0 {
 
-  void decay0_dshelp1(const int m_,
-                      const double * du1_,
-                      double * df1_,
-                      double * d_el_,
-                      void * params_);
+  void decay0_dshelp1(const int m_, const double * du1_, double * df1_, double * d_el_, void * params_);
 
 } // end of namespace bxdecay0
 

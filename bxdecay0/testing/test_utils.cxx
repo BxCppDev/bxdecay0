@@ -21,10 +21,10 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 
 // This project:
 #include <bxdecay0/utils.h>
@@ -37,7 +37,7 @@ int main()
     bxdecay0::vector3 ux = bxdecay0::make_vector3(1.0, 0.0, 0.0);
     bxdecay0::vector3 uy = bxdecay0::make_vector3(0.0, 1.0, 0.0);
     bxdecay0::vector3 uz = bxdecay0::make_vector3(0.0, 0.0, 1.0);
-    bxdecay0::vector3 v = bxdecay0::make_vector3(0.5, 0.0, 0.5);
+    bxdecay0::vector3 v  = bxdecay0::make_vector3(0.5, 0.0, 0.5);
 
     std::clog << "ux = ";
     bxdecay0::print(ux, std::cout);
@@ -57,82 +57,82 @@ int main()
 
     std::cout << '\n';
     std::cout << '\n';
-    double phi = M_PI/3;
+    double phi            = M_PI / 3;
     bxdecay0::vector3 ux2 = bxdecay0::rotate_zyz(ux, phi);
     bxdecay0::vector3 uy2 = bxdecay0::rotate_zyz(uy, phi);
     bxdecay0::vector3 uz2 = bxdecay0::rotate_zyz(uz, phi);
-    bxdecay0::vector3 v2 = bxdecay0::rotate_zyz(v, phi);
+    bxdecay0::vector3 v2  = bxdecay0::rotate_zyz(v, phi);
 
     std::clog << "ux2 = ";
     bxdecay0::print(ux2, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uy2 = ";
     bxdecay0::print(uy2, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uz2 = ";
     bxdecay0::print(uz2, std::cout);
     std::cout << '\n';
-   
+
     std::clog << "v2 = ";
     bxdecay0::print(v2, std::cout);
     std::cout << '\n';
-  
+
     std::cout << '\n';
     std::cout << '\n';
-    double theta = M_PI/6;
+    double theta          = M_PI / 6;
     bxdecay0::vector3 ux3 = bxdecay0::rotate_zyz(ux, phi, theta);
     bxdecay0::vector3 uy3 = bxdecay0::rotate_zyz(uy, phi, theta);
     bxdecay0::vector3 uz3 = bxdecay0::rotate_zyz(uz, phi, theta);
     bxdecay0::vector3 v3  = bxdecay0::rotate_zyz(v, phi, theta);
- 
+
     std::clog << "ux3 = ";
     bxdecay0::print(ux3, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uy3 = ";
     bxdecay0::print(uy3, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uz3 = ";
     bxdecay0::print(uz3, std::cout);
     std::cout << '\n';
-      
+
     std::clog << "v3 = ";
     bxdecay0::print(v3, std::cout);
     std::cout << '\n';
- 
+
     std::cout << '\n';
     std::cout << '\n';
-    double psi = M_PI/4;
+    double psi            = M_PI / 4;
     bxdecay0::vector3 ux4 = bxdecay0::rotate_zyz(ux, phi, theta, psi);
     bxdecay0::vector3 uy4 = bxdecay0::rotate_zyz(uy, phi, theta, psi);
     bxdecay0::vector3 uz4 = bxdecay0::rotate_zyz(uz, phi, theta, psi);
     bxdecay0::vector3 v4  = bxdecay0::rotate_zyz(v, phi, theta, psi);
-  
+
     std::clog << "ux4 = ";
     bxdecay0::print(ux4, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uy4 = ";
     bxdecay0::print(uy4, std::cout);
     std::cout << '\n';
-    
+
     std::clog << "uz4 = ";
     bxdecay0::print(uz4, std::cout);
     std::cout << '\n';
-      
+
     std::clog << "v4 = ";
     bxdecay0::print(v4, std::cout);
     std::cout << '\n';
 
-    
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

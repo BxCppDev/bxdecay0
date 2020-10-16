@@ -18,35 +18,32 @@
 #include <bxdecay0/Ca48.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Ca48(i_random & prng_,
-            event & event_,
-            double tcnuc_,
-            double & tdnuc_)
+  void Ca48(i_random & prng_, event & event_, double tcnuc_, double & tdnuc_)
   {
     double t;
     double tdlev;
@@ -62,18 +59,15 @@ namespace bxdecay0 {
     // Output: tdnuc_ - time of decay of nucleus (sec)
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 07.05.1998
-    thnuc=3.47e28;
-    tdnuc_=tcnuc_-thnuc/std::log(2.)*std::log(prng_());
-    decay0_beta(prng_, event_, 0.151,21.,0.,0.,t);
-    tclev=0.;
-    thlev=0.;
-    decay0_nucltransK(prng_, event_, 0.131,0.004,8.1e-3,0.,tclev,thlev,tdlev);
+    thnuc  = 3.47e28;
+    tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
+    decay0_beta(prng_, event_, 0.151, 21., 0., 0., t);
+    tclev = 0.;
+    thlev = 0.;
+    decay0_nucltransK(prng_, event_, 0.131, 0.004, 8.1e-3, 0., tclev, thlev, tdlev);
     return;
   }
   // end of Ca48.f
-
-
-
 
 } // end of namespace bxdecay0
 

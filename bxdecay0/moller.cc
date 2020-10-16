@@ -24,38 +24,50 @@
 #include <gsl/gsl_math.h>
 
 // This project:
-#include <bxdecay0/i_random.h>
 #include <bxdecay0/event.h>
+#include <bxdecay0/gdrot.h>
+#include <bxdecay0/gfang.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/moller1.h>
 #include <bxdecay0/particle.h>
 #include <bxdecay0/particle_utils.h>
-#include <bxdecay0/gfang.h>
-#include <bxdecay0/gdrot.h>
-#include <bxdecay0/moller1.h>
 
 namespace bxdecay0 {
 
-  void decay0_moller(i_random & prng_, event & event_,
-                     double E1, double E2,
-                     double teta1, double teta2,
-                     double phi1, double phi2,
+  void decay0_moller(i_random & prng_,
+                     event & event_,
+                     double E1,
+                     double E2,
+                     double teta1,
+                     double teta2,
+                     double phi1,
+                     double phi2,
                      double dcute)
   {
     static double emass = decay0_emass();
-    double pe0[3], pe1[3], pe2[3];
-    double phi=phi1+(phi2-phi1)*prng_();
-    double ctet1=1.;
-    if (teta1 != 0.) ctet1 = std::cos(teta1);
-    double ctet2=-1.;
-    if (teta2 != M_PI) ctet2 = std::cos(teta2);
-    double ctet=ctet1+(ctet2-ctet1)*prng_();
-    double stet=std::sqrt(1.-ctet*ctet);
-    double E=E1;
-    if (E1 != E2) E=E1+(E2-E1)*prng_();
-    double p=std::sqrt(E*(E+2.*emass));
-    pe0[0]=p*stet*std::cos(phi);
-    pe0[1]=p*stet*std::sin(phi);
-    pe0[2]=p*ctet;
-    decay0_moller1(prng_,dcute,pe0,pe1,pe2);
+    double pe0[3];
+    double pe1[3];
+    double pe2[3];
+    double phi   = phi1 + (phi2 - phi1) * prng_();
+    double ctet1 = 1.;
+    if (teta1 != 0.) {
+      ctet1 = std::cos(teta1);
+    }
+    double ctet2 = -1.;
+    if (teta2 != M_PI) {
+      ctet2 = std::cos(teta2);
+    }
+    double ctet = ctet1 + (ctet2 - ctet1) * prng_();
+    double stet = std::sqrt(1. - ctet * ctet);
+    double E    = E1;
+    if (E1 != E2) {
+      E = E1 + (E2 - E1) * prng_();
+    }
+    double p = std::sqrt(E * (E + 2. * emass));
+    pe0[0]   = p * stet * std::cos(phi);
+    pe0[1]   = p * stet * std::sin(phi);
+    pe0[2]   = p * ctet;
+    decay0_moller1(prng_, dcute, pe0, pe1, pe2);
 
     // Push particles in the preimary event:
     particle part;

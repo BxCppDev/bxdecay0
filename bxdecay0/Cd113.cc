@@ -18,38 +18,35 @@
 #include <bxdecay0/Cd113.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Cd113(i_random & prng_,
-             event & event_,
-             const double tcnuc_,
-             double & tdnuc_)
+  void Cd113(i_random & prng_, event & event_, const double tcnuc_, double & tdnuc_)
   {
     double t;
-    //double tdlev;
+    // double tdlev;
     double c1;
     double c2;
     double c3;
@@ -61,19 +58,16 @@ namespace bxdecay0 {
     // Output: tdnuc_ - time of decay of nucleus (sec)
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 31.03.2006.
-    thnuc=2.42987e23;
-    tdnuc_=tcnuc_-thnuc/std::log(2.)*std::log(prng_());
-    c1=1.01*7.;
-    c2=1.48*7.;
-    c3=0.684;
+    thnuc  = 2.42987e23;
+    tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
+    c1     = 1.01 * 7.;
+    c2     = 1.48 * 7.;
+    c3     = 0.684;
     // Q_beta=0.320 MeV, G.Audi et al., Nucl. Phys. A 729(2003)337.
-    decay0_beta2(prng_, event_, 0.320,49.,0.,0.,t,3,c1,c2,c3,0.);
+    decay0_beta2(prng_, event_, 0.320, 49., 0., 0., t, 3, c1, c2, c3, 0.);
     return;
   }
   // end of Cd113.f
-
-
-
 
 } // end of namespace bxdecay0
 

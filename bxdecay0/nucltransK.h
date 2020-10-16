@@ -26,10 +26,15 @@ namespace bxdecay0 {
   // Output: tdlev               - time of decay of level (sec);
   //         tevst               - time of event's start (sec);
   // VIT, 27.07.1992; 15.10.1995.
-  void decay0_nucltransK(i_random & prng_, event & event_,
-                         const double Egamma_, const double Ebinde_,
-                         const double conve_, const double convp_, const double tclev_,
-                         const double thlev_, double & tdlev_);
+  void decay0_nucltransK(i_random & prng_,
+                         event & event_,
+                         const double Egamma_,
+                         const double Ebinde_,
+                         const double conve_,
+                         const double convp_,
+                         const double tclev_,
+                         const double thlev_,
+                         double & tdlev_);
 
 } // end of namespace bxdecay0
 

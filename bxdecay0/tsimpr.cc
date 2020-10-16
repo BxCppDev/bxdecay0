@@ -19,37 +19,33 @@
 
 // Standard library:
 #include <cstdint>
-#include <stdexcept>
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 
 namespace bxdecay0 {
 
-  double decay0_tsimpr2(func_type f_,
-                       double a_, double b_, double h_,
-                       void * params_)
+  double decay0_tsimpr2(func_type f_, double a_, double b_, double h_, void * params_)
   {
-    int n=(int) ((b_-a_)/h_) - 1;
-    double fi=f_(a_,params_)-f_(b_,params_);
-    double x1=a_;
-    double x2=a_;
-    int ni=1;
+    int n     = (int)((b_ - a_) / h_) - 1;
+    double fi = f_(a_, params_) - f_(b_, params_);
+    double x1 = a_;
+    double x2 = a_;
+    int ni    = 1;
     do {
-      x1=x2+h_;
-      x2=x1+h_;
-      fi=fi+4.*f_(x1,params_)+2.*f_(x2,params_);
-      ni=ni+2;
+      x1 = x2 + h_;
+      x2 = x1 + h_;
+      fi = fi + 4. * f_(x1, params_) + 2. * f_(x2, params_);
+      ni = ni + 2;
     } while (ni < n); // (ni <= n)
-    return fi*h_/3.;
+    return fi * h_ / 3.;
   }
 
-  double decay0_tsimpr(func_type f_,
-                       double a_, double b_, double h_,
-                       void * params_)
+  double decay0_tsimpr(func_type f_, double a_, double b_, double h_, void * params_)
   {
     double rn = (b_ - a_) / h_;
     rn += 0.25;
-    std::size_t n = (std::size_t) rn;
+    auto n        = (std::size_t)rn;
     std::size_t m = n / 2;
     // std::cerr.precision(15);
     // std::cerr << "[debug] " << "rn = " << rn << std::endl;
@@ -62,11 +58,11 @@ namespace bxdecay0 {
     double s = f_(a_, params_) + f_(b_, params_);
     for (std::size_t j = 1; j <= m - 1; j++) {
       double x2j = a_ + 2 * j * h;
-      s += 2 * f_(x2j ,params_);
+      s += 2 * f_(x2j, params_);
     }
     for (std::size_t j = 1; j <= m; j++) {
       double x2jm1 = a_ + (2 * j - 1) * h;
-      s += 4 * f_(x2jm1 ,params_);
+      s += 4 * f_(x2jm1, params_);
     }
     return s * h / 3.;
   }

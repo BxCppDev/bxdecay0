@@ -27,47 +27,47 @@
 namespace bxdecay0 {
 
   void decay0_gfang(const double * p_,
-                    double & costh_, double & sinth_,
-                    double & cosph_, double & sinph_,
+                    double & costh_,
+                    double & sinth_,
+                    double & cosph_,
+                    double & sinph_,
                     bool & rotate_)
   {
     static const double one = 1.0;
     // additional (as compared with original GFANG) normalization
-    double pfull=std::sqrt(gsl_pow_2(p_[0])
-                           +gsl_pow_2(p_[1])
-                           +gsl_pow_2(p_[2]));
-    double dux=p_[0]/pfull;
-    double duy=p_[1]/pfull;
-    double duz=p_[2]/pfull;
-    rotate_=true;
+    double pfull = std::sqrt(gsl_pow_2(p_[0]) + gsl_pow_2(p_[1]) + gsl_pow_2(p_[2]));
+    double dux   = p_[0] / pfull;
+    double duy   = p_[1] / pfull;
+    double duz   = p_[2] / pfull;
+    rotate_      = true;
     if (std::abs(duz) >= 0.85) {
-      double dsith2=gsl_pow_2(dux)+gsl_pow_2(duy);
-      if(dsith2 > 0.) {
-        double sduz = (duz > 0)? one: -one;
-        costh_=sduz*std::sqrt(one-dsith2);
-        double dsith=std::sqrt(dsith2);
-        sinth_=dsith;
-        cosph_=dux/dsith;
-        sinph_=duy/dsith;
+      double dsith2 = gsl_pow_2(dux) + gsl_pow_2(duy);
+      if (dsith2 > 0.) {
+        double sduz  = (duz > 0) ? one : -one;
+        costh_       = sduz * std::sqrt(one - dsith2);
+        double dsith = std::sqrt(dsith2);
+        sinth_       = dsith;
+        cosph_       = dux / dsith;
+        sinph_       = duy / dsith;
       } else if (duz > 0.) {
-        rotate_=false;
-        costh_=1.;
-        sinth_=0.;
-        cosph_=1.;
-        sinph_=0.;
+        rotate_ = false;
+        costh_  = 1.;
+        sinth_  = 0.;
+        cosph_  = 1.;
+        sinph_  = 0.;
       } else {
-        costh_=-1.;
-        sinth_=0.;
-        cosph_=1.;
-        sinph_=0.;
+        costh_ = -1.;
+        sinth_ = 0.;
+        cosph_ = 1.;
+        sinph_ = 0.;
       }
     } else {
-      costh_=duz;
-      double dsith=std::sqrt((one+duz)*(one-duz));
-      sinth_=dsith;
-      double dnorm=one/std::sqrt(gsl_pow_2(dux)+gsl_pow_2(duy));
-      cosph_=dux*dnorm;
-      sinph_=duy*dnorm;
+      costh_       = duz;
+      double dsith = std::sqrt((one + duz) * (one - duz));
+      sinth_       = dsith;
+      double dnorm = one / std::sqrt(gsl_pow_2(dux) + gsl_pow_2(duy));
+      cosph_       = dux * dnorm;
+      sinph_       = duy * dnorm;
     }
     return;
   }

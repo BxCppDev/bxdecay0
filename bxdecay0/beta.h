@@ -17,13 +17,15 @@ namespace bxdecay0 {
   //         thnuc - nucleus halflife (sec).
   // Output: tdnuc - time of decay of nucleus (sec);
   // VIT, 30.07.1992; 15.10.1995.
-  void decay0_beta(i_random & prng_, event & event_,
-                   double Qbeta_, double Zdtr_,
-                   double tcnuc_, double thnuc_, double & tdnuc_);
+  void decay0_beta(i_random & prng_,
+                   event & event_,
+                   double Qbeta_,
+                   double Zdtr_,
+                   double tcnuc_,
+                   double thnuc_,
+                   double & tdnuc_);
 
-  void decay0_beta(i_random & prng_, event & event_,
-                   double tcnuc_, double thnuc_, double & tdnuc_,
-                   void * params_);
+  void decay0_beta(i_random & prng_, event & event_, double tcnuc_, double thnuc_, double & tdnuc_, void * params_);
 
 } // end of namespace bxdecay0
 

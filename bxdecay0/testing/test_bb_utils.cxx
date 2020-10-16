@@ -21,10 +21,10 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <iomanip>
-#include <exception>
 #include <cstdlib>
+#include <exception>
+#include <iomanip>
+#include <iostream>
 
 // This project:
 #include <bxdecay0/bb_utils.h>
@@ -40,27 +40,28 @@ int main()
       std::clog << name << std::endl;
     }
     std::clog << std::endl;
-    
+
     const auto & background_isotopes = bxdecay0::background_isotopes();
     std::clog << "Supported Background isotopes: " << std::endl;
     for (const auto & name : background_isotopes) {
       std::clog << name << std::endl;
     }
     std::clog << std::endl;
-     
+
     const auto & dbd_modes = bxdecay0::dbd_modes();
     std::clog << "Supported DBD modes: " << std::endl;
     for (const auto & rec : dbd_modes) {
-      std::clog << '[' << std::setw(2) << rec.first << "] " << std::setw(20) << rec.second.unique_label << " : "
-                << '{' << std::setw(2) << rec.second.legacy_modebb << "} : " << rec.second.description << std::endl;
+      std::clog << '[' << std::setw(2) << rec.first << "] " << std::setw(20) << rec.second.unique_label << " : " << '{'
+                << std::setw(2) << rec.second.legacy_modebb << "} : " << rec.second.description << std::endl;
     }
     std::clog << std::endl;
-    
+
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

@@ -35,11 +35,11 @@
 #include <memory>
 
 // This project:
-#include <bxdecay0/i_decay_generator.h>
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
 #include <bxdecay0/bb.h>
 #include <bxdecay0/bb_utils.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/i_decay_generator.h>
+#include <bxdecay0/i_random.h>
 
 /// Nested namespace of the bxdecay0 library
 namespace bxdecay0 {
@@ -47,13 +47,12 @@ namespace bxdecay0 {
   class bbpars;
 
   /// \brief Decay0/GENBB generator
-  class decay0_generator
-    : public i_decay_generator
+  class decay0_generator : public i_decay_generator
   {
   public:
-
     /// \brief Category of decay
-    enum decay_category_type {
+    enum decay_category_type
+    {
       DECAY_CATEGORY_UNDEFINED  = 0, //!< Undefined decay
       DECAY_CATEGORY_DBD        = 1, //!< Double beta decay
       DECAY_CATEGORY_BACKGROUND = 2  //!< Radioactive background decay
@@ -72,7 +71,7 @@ namespace bxdecay0 {
     ~decay0_generator();
 
     /// Smart print
-    void smart_dump(std::ostream & out_ = std::clog,
+    void smart_dump(std::ostream & out_         = std::clog,
                     const std::string & title_  = "",
                     const std::string & indent_ = "") const;
 
@@ -170,7 +169,6 @@ namespace bxdecay0 {
     const bxdecay0::bbpars & get_bb_params() const;
 
   private:
-
     /// Return a mutable set of parameters
     bxdecay0::bbpars & _grab_bb_params_();
 
@@ -181,25 +179,26 @@ namespace bxdecay0 {
     void _reset_();
 
   private:
-
     // Management:
-    bool   _initialized_ = false; //!< Initialization flag
-    bool   _debug_       = false; //!< Debug flag
+    bool _initialized_ = false; //!< Initialization flag
+    bool _debug_       = false; //!< Debug flag
 
     // Configuration:
     decay_category_type _decay_category_; //!< Category of the decay (DBD or 'background')
-    std::string   _decay_isotope_;        //!< Decaying isotope
-    std::string   _decay_version_;        //!< Decay version
-    int           _decay_dbd_level_;      //!< DBD level of the daughter nucleus
+    std::string _decay_isotope_;          //!< Decaying isotope
+    std::string _decay_version_;          //!< Decay version
+    int _decay_dbd_level_;                //!< DBD level of the daughter nucleus
     dbd_mode_type _decay_dbd_mode_;       //!< DBD mode
-    double        _energy_min_;           //!< Minimum energy sum
-    double        _energy_max_;           //!< Maximum energy sum
+    double _energy_min_;                  //!< Minimum energy sum
+    double _energy_max_;                  //!< Maximum energy sum
 
     // Working internal data:
     struct pimpl_type;
-    struct pimpl_deleter_type { void operator()(pimpl_type*) const; };
+    struct pimpl_deleter_type
+    {
+      void operator()(pimpl_type *) const;
+    };
     std::unique_ptr<pimpl_type, pimpl_deleter_type> _pimpl_; //!< Private implementation
-
   };
 
 } // end of namespace bxdecay0

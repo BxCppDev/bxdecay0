@@ -92,7 +92,7 @@ GSL_, ROOT_ or whatever).
   - make BxDecay0 relocatable
   - fix missing/odd references for some *background* decays
   - add Rn222 decay generator
-    
+
 .. _SuperNEMO: http://supernemo.org/
 
 Design
@@ -183,6 +183,46 @@ your own system.
       $ git lfs install
    ..
 
+#. Install clang-tidy, clang-format (optional, useful for development/contributors)
+
+  .. code:: sh
+
+     $ sudo apt-get install clang-format clang-tidy
+
+Requirements for macOS (Catalina)
+---------------------------------
+If you use the Homebrew package manager, then all dependencies can be obtained through
+that:
+
+#. Install either Xcode from the App Store, or the command line tools from the Terminal:
+
+  .. code:: sh
+
+     $ xcode-select -install
+
+#. Install Homebrew following the instructions here: https://brew.sh
+
+#. Install the following required packages:
+
+  .. code:: sh
+
+     $ brew install cmake gsl
+
+#. Install git-lfs (required for DBD gA data):
+
+   .. code:: sh
+
+      $ brew install git-lfs
+      $ git lfs install
+   ..
+
+#. Install clang-tidy, clang-format (optional, useful for development/contributors)
+
+  .. code:: sh
+
+     $ brew install clang-format llvm
+
+
 Download BxDecay0 source code from the GitHub repository
 --------------------------------------------------------
 
@@ -200,7 +240,7 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ wget https://github.com/BxCppDev/bxdecay0/archive/1.0.4.tar.gz -O bxdecay0-1.0.4.tar.gz
+   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.4.tar.gz -o bxdecay0-1.0.4.tar.gz
    $ tar xvzf bxdecay0-1.0.4.tar.gz
    $ ls -l bxdecay0-1.0.4/
 ..
@@ -256,6 +296,34 @@ From the build directory:
    $ make install
 ..
 
+If you are developing bxdecay0, you can optionally use the supplied support
+files for ``clang-format`` and ``clang-tidy`` to apply format and static
+an analysis checks.
+
+Integration and use of clang-format with a range of text editors and IDEs
+is documented here: https://clang.llvm.org/docs/ClangFormat.html
+
+Use of clang-tidy may be enabled through CMake by configuring with the
+``CMAKE_CXX_CLANG_TIDY`` option:
+
+.. code:: sh
+
+     $ cmake ... -DCMAKE_CXX_CLANG_TIDY=/path/to/clang-tidy ...
+  ..
+
+When building ``bxdecay0`` with this setting, ``clang-tidy`` will print
+warnings when code should be fixed to conform with security, readability,
+performance, and modern C++ requirements. The suggestions can be applied
+manually, or automatically by configuring as:
+
+.. code:: sh
+
+     $ cmake ... -DCMAKE_CXX_CLANG_TIDY="/path/to/clang-tidy;-fix" ...
+  ..
+
+If you are submitting changes, it is recommended that you split your commits
+into a sequence that implement your change, followed by one that applies any
+suggested fixes by `clang-tidy`. This allows easier review and testing.
 
 Manual setup
 ------------

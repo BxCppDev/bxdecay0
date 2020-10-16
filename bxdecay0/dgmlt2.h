@@ -6,13 +6,7 @@
 
 namespace bxdecay0 {
 
-  double decay0_dgmlt2(fsub2_type FSUB2_,
-                       double A_,
-                       double B_,
-                       int NI_,
-                       int NG_,
-                       double * X_,
-                       void * params_);
+  double decay0_dgmlt2(fsub2_type FSUB2_, double A_, double B_, int NI_, int NG_, double * X_, void * params_);
 
 } // end of namespace bxdecay0
 

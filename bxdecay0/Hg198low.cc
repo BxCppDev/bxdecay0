@@ -18,36 +18,34 @@
 #include <bxdecay0/Hg198low.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Hg198low(i_random & prng_,
-                event & event_,
-                const int levelkev_)
+  void Hg198low(i_random & prng_, event & event_, const int levelkev_)
   {
-    //double t;
+    // double t;
     double tdlev;
     double tclev;
     double thlev;
@@ -61,24 +59,25 @@ namespace bxdecay0 {
     // 2+(1) - 412 keV.
     // Output: // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 30.07.2010.
-    tclev=0.;
-    if (levelkev_ ==  412) goto label_412;
-    if (levelkev_ ==  0) goto label_10000;
+    tclev = 0.;
+    if (levelkev_ == 412) {
+      goto label_412;
+    }
+    if (levelkev_ == 0) {
+      goto label_10000;
+    }
     goto label_20000;
-  label_412  :
-    thlev=33.4e-12;
-    decay0_nucltransK(prng_, event_, 0.412,0.083,4.4e-2,0.,tclev,thlev,tdlev);
+  label_412:
+    thlev = 33.4e-12;
+    decay0_nucltransK(prng_, event_, 0.412, 0.083, 4.4e-2, 0., tclev, thlev, tdlev);
     return;
-  label_10000  :
+  label_10000:
     return;
-  label_20000  :
+  label_20000:
     // print *,'Hg198: wrong level [keV] ',levelkev_
     return;
   }
   // end of Hg198low.f
-
-
-
 
 } // end of namespace bxdecay0
 

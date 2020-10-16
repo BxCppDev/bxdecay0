@@ -18,37 +18,34 @@
 #include <bxdecay0/Xe129m.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
 
-  void Xe129m(i_random & prng_,
-              event & event_,
-              const double tcnuc_,
-              double & tdnuc_)
+  void Xe129m(i_random & prng_, event & event_, const double tcnuc_, double & tdnuc_)
   {
-    //double t;
+    // double t;
     double tdlev;
     double tclev;
     double thlev;
@@ -59,24 +56,19 @@ namespace bxdecay0 {
     // Output: tdnuc_ - time of decay of nucleus (sec)
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 13.11.2007.
-    thnuc=767232.;
-    tdnuc_=tcnuc_-thnuc/std::log(2.)*std::log(prng_());
-    tclev=0.;
+    thnuc  = 767232.;
+    tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
+    tclev  = 0.;
     ////    label_23600  :
-    thlev=0.;
-    decay0_nucltransKLM(prng_, event_, 0.197,0.035,13.94,0.005,5.34,0.001,1.52,
-                        0.,tclev,thlev,tdlev);
+    thlev = 0.;
+    decay0_nucltransKLM(prng_, event_, 0.197, 0.035, 13.94, 0.005, 5.34, 0.001, 1.52, 0., tclev, thlev, tdlev);
     goto label_40000;
-  label_40000  :
-    thlev=0.97e-9;
-    decay0_nucltransKLM(prng_, event_, 0.040,0.035,10.49,0.005,1.43,0.001,0.39,
-                        0.,tclev,thlev,tdlev);
+  label_40000:
+    thlev = 0.97e-9;
+    decay0_nucltransKLM(prng_, event_, 0.040, 0.035, 10.49, 0.005, 1.43, 0.001, 0.39, 0., tclev, thlev, tdlev);
     return;
   }
   // end of Xe129m.f
-
-
-
 
 } // end of namespace bxdecay0
 
