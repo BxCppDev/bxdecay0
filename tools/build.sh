@@ -35,7 +35,7 @@ build_dir=$(pwd)/_build.d
 clean=false
 devel=false
 gsl_prefix=
-with_dbd_gA=true
+with_dbd_gA=false
 
 while [ -n "$1" ]; do
     opt="$1"
