@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak, Emma Mauger
-:date: 2020-07-18
+:date: 2020-10-18
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
 The **BxDecay0** C++ library provides a set of classes and functions for
@@ -143,7 +143,7 @@ Preparation of your system
 
 BxDecay0 is developped  on a Ubuntu Linux (18.04/20.04 LTS)  and should work
 on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
-(i.e. GNU g++ >= 4.9) including macOS.
+(i.e. GNU g++ >= 4.9 or clang) including macOS.
 
 Requirements for Ubuntu 20.04 LTS
 ---------------------------------
@@ -175,7 +175,7 @@ your own system.
       2.5
    ..
 
-#. Install git-lfs (required for DBD gA data):
+#. Install git-lfs (optional but required for supporting DBD gA data):
 
    .. code:: sh
 
@@ -240,9 +240,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.4.tar.gz -o bxdecay0-1.0.4.tar.gz
-   $ tar xvzf bxdecay0-1.0.4.tar.gz
-   $ ls -l bxdecay0-1.0.4/
+   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.4.tar.gz -o bxdecay0-1.0.5.tar.gz
+   $ tar xvzf bxdecay0-1.0.5.tar.gz
+   $ ls -l bxdecay0-1.0.5/
 ..
 
 
@@ -263,7 +263,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.4
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.5
 ..
 
 
@@ -477,10 +477,10 @@ List of examples
 * ``ex01`` : Generation of Mo100 two neutrino double beta decay events
   with plain ASCII output,
 * ``ex02`` : Generation of Mo100 two neutrino double beta decay events
-  with HepMC3 formatted ASCII output (requires HepMC3),
+  with HepMC3 formatted ASCII output (requires a proper installation if the HepMC3 library),
 * ``ex03`` : Generation of Co60 decay events with plain ASCII output,
 * ``ex04`` : Use of the *plumbing* ``bxdecay0::genbbsub`` function (expert/developper only),
-* ``ex05`` : Use of the ``bxdecay0::dbd_gA`` class.
+* ``ex05`` : Use of the ``bxdecay0::dbd_gA`` class (optional).
 
 .. raw:: pdf
 
@@ -495,16 +495,16 @@ Here the *c* quantity is the speed of light in vacuum (with *c* ~ 300 000 km/s i
 
 - Let *m* be the rest mass of a particle, BxDecay0 expresses this mass as *M = m c^2* where *M* is the associated rest mass-energy.
   The implicit unit for *M* is megaelectronvolts (MeV).
-  This is equivalent to say that *M=m* using *c*=1.
+  This is equivalent to say that *M=m* using *c=1*.
 - let *p* be some component of the momentum of a particle, BxDecay0 expresses this quantity as *P = p x c* where *P* has the dimension of an energy
   explicitly expressed in  megaelectronvolts (MeV).
-  This is equivalent to say that *P=p* using *c*=1.
+  This is equivalent to say that *P=p* using *c=1*.
 - Let *t* be the decay time of a particle (with respect to some arbitrary time reference), then BxDecay0 expresses *t* in second (s).
 
 Given these rules, it is up to the client application to operate physical quantities of interest using its own unit system.
 
 
-**Example:** Code snippet using the CLHEP system of units
+**Example:** Code snippet using the CLHEP_ system of units, for example for interfacing with Geant4_
 
 .. code:: c++
 
@@ -533,7 +533,7 @@ Given these rules, it is up to the client application to operate physical quanti
 License
 =======
 
-BxDecay0 is released under the  GNU GENERAL PUBLIC LICENSE, version 3.
+BxDecay0 is free and open source software. It is released under the  GNU GENERAL PUBLIC LICENSE, version 3.
 See the ``LICENSE.txt`` file.
 
 
@@ -541,19 +541,33 @@ See the ``LICENSE.txt`` file.
 Authors and contributors
 ========================
 
-* Vladimir Tretyak (KINR_, Kiev Institute for Nuclear Research, Lepton
-  Physics Department, Ukraine) is the original author and maintener of
+* Vladimir Tretyak (KINR_, Kiev Institute for Nuclear Research, Ukraine) is the original author and maintener of
   the Fortran Decay0 package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
-  de Caen, `Université de Caen  Normandie`_, France) is the author and
+  de Caen, `Université de Caen  Normandie`_, Caen, France) is the author and
   maintener   of  the  original C++  port   of  Decay0   within  Bayeux_
   and the BxDecay0 library.
-* Emma Mauger (formerly `Université de Caen Normandie`_) has done a large
-  part of the extraction and port to C++ of the standalone BxDecay0 from the
+* Emma Mauger (formerly `Université de Caen Normandie`_, Caen, France) has done a large
+  part of the extraction of the standalone BxDecay0 from the
   original Bayeux_ *genbb* library module.
-* Ben Morgan (Warwick University): CMake build system and package reorganization.
-* Malak Hoballah and Laurent Simard (LAL Orsay) (support for DBD generator with gA process).
+* Ben Morgan (Warwick University, Warwick, United Kingdom): CMake build system and package reorganization,
+  support for clang-format and clang-tidy.
+* Malak Hoballah and Laurent Simard (IJCLab, Orsay, France) (support for DBD generator with gA process).
+* Rastislav Dvornicky (Comenius University, Bratislava, Slovakia) has calculated specific phase
+  space factors for the DBD gA process.
+* Pierre Lasorak (University of Sussex, Oxford, United Kingdom) has added simplified versions of
+  Po210, Po218, Th230, U234 and U238 alpha emitters.
 
+
+Who uses and supports BxDecay0...
+===================================
+
+* The SuperNEMO_ experiment through its Bayeux_ and Falaise_ sofware simulation stack
+
+.. * The DUNE_ experiment through its LArSim sofware simulation stack
+.. * The DUphy research group
+..   .. _DUNE: https://www.dunescience.org/
+ 
 
 References
 ===========
@@ -1139,7 +1153,9 @@ generators by yourself independently of BxDecay0.
 .. Links
 
 .. _Bayeux: https://github.com/BxCppDev/Bayeux.git
+.. _Falaise: https://github.com/SuperNEMO-DBD/Falaise
 .. _GSL: https://www.gnu.org/software/gsl/
+.. _CLHEP: http://proj-clhep.web.cern.ch/proj-clhep/
 .. _ROOT: http://root.cern.ch/
 .. _KINR: http://lpd.kinr.kiev.ua/
 .. _`LPC Caen`: http://www.lpc-caen.in2p3.fr/
