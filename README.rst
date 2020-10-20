@@ -1087,8 +1087,8 @@ From the ``background_isotopes.lis`` resource file:
 * ``Bi210``
 * ``Bi212``  (for ``Bi212+Po212``)
 * ``Bi214``  (for ``Bi214+Po214``)
-* ``Ca48``  (for ``Ca48+Sc48``)
 * ``C14``
+* ``Ca48``  (for ``Ca48+Sc48``)
 * ``Cd113``
 * ``Co60``
 * ``Cs136``
@@ -1115,6 +1115,8 @@ From the ``background_isotopes.lis`` resource file:
 * ``Pb211``
 * ``Pb212``
 * ``Pb214``
+* ``Po210`` (simplified through pure alpha emission : from tag 1.0.6)
+* ``Po218`` (simplified through pure alpha emission : from tag 1.0.6)
 * ``Ra226`` (added from Bayeux : 2013-07-11)
 * ``Ra228``
 * ``Rb87``
@@ -1130,9 +1132,12 @@ From the ``background_isotopes.lis`` resource file:
 * ``Te133``
 * ``Te133m``
 * ``Te134``
+* ``Th230`` (simplified through pure alpha emission : from tag 1.0.6)
 * ``Th234``
 * ``Tl207``
 * ``Tl208``
+* ``U234`` (simplified through pure alpha emission : from tag 1.0.6)
+* ``U238`` (simplified through pure alpha emission : from tag 1.0.6)
 * ``Xe129m``
 * ``Xe131m``
 * ``Xe133``
