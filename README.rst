@@ -281,13 +281,20 @@ or:
 Configuration options:
 ~~~~~~~~~~~~~~~~~~~~~~
 
-* ``BXDECAY0_INSTALL_DBD_GA_DATA`` : Install phase space factor data files for various supported BxDecay0 DBD gA processes
-  (default: ``OFF``).  This generator requires large
-  datasets of tabulated space-phase factors so if you don't need it in
-  your  client code,  it is  better to  disable this  features for  it
-  implies the downloading of external resource files (~1.7 GB).
-  Alternatively, the DBD gA processes' data files can be located through the ``BXDECAY0_DBD_GA_DATA_DIR`` environment variable which must point to a directory which contains
-  the expected ``data/dbd_gA/vX.Y`` directory, following the format used for the DBD gA datasets.
+* ``BXDECAY0_INSTALL_DBD_GA_DATA`` :  Install phase-space  factor data
+  files  for various  supported  BxDecay0 DBD  gA processes  (default:
+  ``OFF``).  The DBD gA generator requires large datasets of tabulated
+  phase-space factors so if you don't  need it in your client code, it
+  is better to disable this features for it implies the downloading of
+  huge external resource files (~1.7 GB).
+
+  If set to ``ON``, the DBD gA processes' data files will be installed
+  in  the   ``resources/data``  directory   and  handled   like  other
+  BxDecay0's  resource files.   Alternatively, the  DBD gA  processes'
+  data files  can be located through  the ``BXDECAY0_DBD_GA_DATA_DIR``
+  environment variable which must point  to a directory which contains
+  the  expected ``data/dbd_gA/vX.Y``  directory, following  the format
+  conventionaly used by the DBD gA datasets.
 
   Example for auto-installing DBD gA generators data files:
 
