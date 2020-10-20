@@ -29,6 +29,7 @@ namespace bxdecay0 {
   //         uniform deviates distribution in [0;1).
   struct i_random
   {
+    virtual ~i_random() = default;
     virtual double operator()() = 0;
   };
 

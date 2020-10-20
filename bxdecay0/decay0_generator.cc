@@ -18,16 +18,16 @@
 #include <bxdecay0/decay0_generator.h>
 
 // Standard library:
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <sstream>
-#include <fstream>
-#include <algorithm>
 
 // This project:
+#include <bxdecay0/bb.h>
 #include <bxdecay0/config.h>
 #include <bxdecay0/event.h>
-#include <bxdecay0/bb.h>
 #include <bxdecay0/genbbsub.h>
 #include <bxdecay0/version.h>
 #include <bxdecay0/dbd_gA.h>
@@ -35,7 +35,8 @@
 namespace bxdecay0 {
 
   /// \brief PIMPL type
-  struct decay0_generator::pimpl_type {
+  struct decay0_generator::pimpl_type
+  {
     pimpl_type() = default;
     ~pimpl_type() {
       if (dbd_ga_process.is_initialized()) {
@@ -61,22 +62,25 @@ namespace bxdecay0 {
   // static
   std::string decay0_generator::decay_category_to_label(const decay_category_type cat_)
   {
-    switch(cat_) {
-    case DECAY_CATEGORY_DBD : return std::string("dbd");
-    case DECAY_CATEGORY_BACKGROUND : return std::string("background");
-    default: return std::string("");
+    switch (cat_) {
+    case DECAY_CATEGORY_DBD:
+      return std::string("dbd");
+    case DECAY_CATEGORY_BACKGROUND:
+      return std::string("background");
+    default:
+      return std::string("");
     }
   }
 
   void decay0_generator::_set_defaults_()
   {
-    _decay_category_ = DECAY_CATEGORY_UNDEFINED;
-    _decay_isotope_ = "";
-    _decay_version_ = "";
+    _decay_category_  = DECAY_CATEGORY_UNDEFINED;
+    _decay_isotope_   = "";
+    _decay_version_   = "";
     _decay_dbd_level_ = DBD_LEVEL_INVALID;
-    _decay_dbd_mode_ = DBDMODE_UNDEF;
-    _energy_min_ = std::numeric_limits<double>::quiet_NaN();
-    _energy_max_ = std::numeric_limits<double>::quiet_NaN();
+    _decay_dbd_mode_  = DBDMODE_UNDEF;
+    _energy_min_      = std::numeric_limits<double>::quiet_NaN();
+    _energy_max_      = std::numeric_limits<double>::quiet_NaN();
     return;
   }
 
@@ -109,45 +113,33 @@ namespace bxdecay0 {
     return _debug_;
   }
 
-  void decay0_generator::smart_dump(std::ostream & out_,
-                                    const std::string & title_,
-                                    const std::string & indent_) const
+  void decay0_generator::smart_dump(std::ostream & out_, const std::string & title_, const std::string & indent_) const
   {
     if (!title_.empty()) {
       out_ << indent_ << title_ << std::endl;
     }
-    static const std::string tag = "|-- ";
-    static const std::string last_tag = "`-- ";
-    static const std::string skip_tag = "|   ";
+    static const std::string tag           = "|-- ";
+    static const std::string last_tag      = "`-- ";
+    static const std::string skip_tag      = "|   ";
     static const std::string last_skip_tag = "    ";
-    out_ << indent_ << tag
-         << "Decay category   : '" << decay_category_to_label(_decay_category_) << "'" << std::endl;
-    out_ << indent_ << tag
-         << "Decay isotope    : '" << _decay_isotope_ << "'" << std::endl;
-    out_ << indent_ << tag
-         << "Decay version    : '" << _decay_version_ << "'" << std::endl;
+    out_ << indent_ << tag << "Decay category   : '" << decay_category_to_label(_decay_category_) << "'" << std::endl;
+    out_ << indent_ << tag << "Decay isotope    : '" << _decay_isotope_ << "'" << std::endl;
+    out_ << indent_ << tag << "Decay version    : '" << _decay_version_ << "'" << std::endl;
     if (is_dbd()) {
-      out_ << indent_ << tag
-           << "Decay DBD level  : " << _decay_dbd_level_ << std::endl;
-      out_ << indent_ << tag
-           << "Decay DBD mode   : " << _decay_dbd_mode_ << std::endl;
+      out_ << indent_ << tag << "Decay DBD level  : " << _decay_dbd_level_ << std::endl;
+      out_ << indent_ << tag << "Decay DBD mode   : " << _decay_dbd_mode_ << std::endl;
       if (!std::isnan(_energy_min_)) {
-        out_ << indent_ << tag
-             << "Energy min       : " << _energy_min_ << " MeV" << std::endl;
+        out_ << indent_ << tag << "Energy min       : " << _energy_min_ << " MeV" << std::endl;
       }
       if (!std::isnan(_energy_max_)) {
-        out_ << indent_ << tag
-             << "Energy max       : " << _energy_max_ << " MeV" << std::endl;
+        out_ << indent_ << tag << "Energy max       : " << _energy_max_ << " MeV" << std::endl;
       }
     }
-    out_ << indent_ << tag
-         << "Event count      : " << _pimpl_->event_count << std::endl;
+    out_ << indent_ << tag << "Event count      : " << _pimpl_->event_count << std::endl;
 
-    out_ << indent_ << last_tag
-         << "Initialized      : " << std::boolalpha << _initialized_ << std::endl;
+    out_ << indent_ << last_tag << "Initialized      : " << std::boolalpha << _initialized_ << std::endl;
     if (_initialized_ && is_dbd()) {
-      out_ << indent_ << last_skip_tag << last_tag
-           << "DBD working data : " << std::endl;
+      out_ << indent_ << last_skip_tag << last_tag << "DBD working data : " << std::endl;
       std::ostringstream indent_pars_oss;
       indent_pars_oss << indent_ << last_skip_tag << last_skip_tag;
       _pimpl_->bb_params.dump(out_, indent_pars_oss.str());
@@ -162,7 +154,9 @@ namespace bxdecay0 {
 
   void decay0_generator::initialize(i_random & prng_)
   {
-    if (is_debug()) std::cerr << "[debug] decay0_generator::initialize: Entering..." << std::endl;
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::initialize: Entering..." << std::endl;
+    }
     if (is_initialized()) {
       throw std::logic_error("bxdecay0::decay0_generator::initialize: Decay0 generator is already initialized!");
     }
@@ -176,10 +170,11 @@ namespace bxdecay0 {
     }
 
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
-      const std::map<dbd_mode_type,dbd_record> & dbd_modes_dict = dbd_modes();
+      const std::map<dbd_mode_type, dbd_record> & dbd_modes_dict = dbd_modes();
       if (is_debug()) {
         for (const auto & md : dbd_modes_dict) {
-          std::cerr << "[debug] " << "decay0_generator::initialize: "
+          std::cerr << "[debug] "
+                    << "decay0_generator::initialize: "
                     << "DBD modes : " << md.first << " : " << md.second.description << std::endl;
         }
       }
@@ -199,26 +194,32 @@ namespace bxdecay0 {
     _init_(prng_);
 
     _initialized_ = true;
-    if (is_debug()) std::cerr << "[debug] decay0_generator::initialize: Exiting." << std::endl;
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::initialize: Exiting." << std::endl;
+    }
     return;
   }
 
   void decay0_generator::reset()
   {
-    if (is_debug()) std::cerr << "[debug] decay0_generator::reset: Entering..." << std::endl;
-    if (! _initialized_) {
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::reset: Entering..." << std::endl;
+    }
+    if (!_initialized_) {
       return;
     }
     _initialized_ = false;
     _reset_();
-    if (is_debug()) std::cerr << "[debug] decay0_generator::reset: Exiting." << std::endl;
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::reset: Exiting." << std::endl;
+    }
     return;
   }
 
   const bxdecay0::bbpars & decay0_generator::get_bb_params() const
   {
-    decay0_generator * mutable_this = const_cast<decay0_generator*>(this);
-    return const_cast<bxdecay0::bbpars&>(mutable_this->_grab_bb_params_());
+    auto * mutable_this = const_cast<decay0_generator *>(this);
+    return const_cast<bxdecay0::bbpars &>(mutable_this->_grab_bb_params_());
   }
 
   bxdecay0::bbpars & decay0_generator::_grab_bb_params_()
@@ -347,8 +348,10 @@ namespace bxdecay0 {
 
   void decay0_generator::shoot(i_random & prng_, event & event_)
   {
-    if (is_debug()) std::cerr << "[debug] decay0_generator::shoot: Entering..." << std::endl;
-    if (! is_initialized()) {
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::shoot: Entering..." << std::endl;
+    }
+    if (!is_initialized()) {
       throw std::logic_error("bxdecay0::decay0_generator::shoot: Decay0 generator is not initialized !");
     }
     event_.reset();
@@ -366,7 +369,7 @@ namespace bxdecay0 {
                            _decay_dbd_mode_,
                            bxdecay0::GENBBSUB_ISTART_GENERATE,
                            error,
-                         _grab_bb_params_());
+                           _grab_bb_params_());
         if (error != 0) {
           throw std::logic_error("bxdecay0::decay0_generator::shoot: genbbsub DBD generation failed !");
         }
@@ -386,7 +389,9 @@ namespace bxdecay0 {
       }
     }
     _pimpl_->event_count++;
-    if (is_debug()) std::cerr << "[debug] decay0_generator::shoot: Exiting." << std::endl;
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::shoot: Exiting." << std::endl;
+    }
     return;
   }
 
@@ -425,10 +430,12 @@ namespace bxdecay0 {
     }
     _grab_bb_params_().reset();
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
+
       if ((_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G0)
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G2)
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G22)
           or (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G4)) {
+
         // Special DBD gA modes:
         _pimpl_->dbd_ga_process.set_nuclide(_decay_isotope_);
         if (_decay_dbd_mode_ == DBDMODE_2NUBB_GA_G0) {
@@ -447,27 +454,28 @@ namespace bxdecay0 {
         _pimpl_->use_dbd_ga = true;
       } else {
         // Set the BB mode with the proper legacy value from the Decay0 engine:
-        _grab_bb_params_().modebb  = dbd_legacy_mode(_decay_dbd_mode_);
+        _grab_bb_params_().modebb   = dbd_legacy_mode(_decay_dbd_mode_);
         _grab_bb_params_().istartbb = 0;
 
         const std::set<dbd_mode_type> & dbdmwer = dbd_modes_with_esum_range();
         if (is_debug()) {
-          std::cerr << "[debug] decay0_generator::_init_: " << "Decay DBD mode : " << _decay_dbd_mode_ << std::endl;
+          std::cerr << "[debug] decay0_generator::_init_: "
+                    << "Decay DBD mode : " << _decay_dbd_mode_ << std::endl;
         }
         if (dbd_supports_esum_range(_decay_dbd_mode_)) {
           if (!std::isnan(_energy_min_)) {
             if (is_debug()) {
-              std::cerr << "[debug] decay0_generator::_init_: " << "Setting DBD energy min to "
-                        << _energy_min_ << " MeV" << std::endl;
+              std::cerr << "[debug] decay0_generator::_init_: "
+                        << "Setting DBD energy min to " << _energy_min_ << " MeV" << std::endl;
             }
-            _grab_bb_params_().ebb1 = (float) _energy_min_;
+            _grab_bb_params_().ebb1 = (float)_energy_min_;
           }
           if (!std::isnan(_energy_max_)) {
             if (is_debug()) {
-              std::cerr << "[debug] decay0_generator::_init_: " << "Setting DBD energy max to "
-                        << _energy_max_ << " MeV" << std::endl;
+              std::cerr << "[debug] decay0_generator::_init_: "
+                        << "Setting DBD energy max to " << _energy_max_ << " MeV" << std::endl;
             }
-            _grab_bb_params_().ebb2 = (float) _energy_max_;
+            _grab_bb_params_().ebb2 = (float)_energy_max_;
           }
           if (_grab_bb_params_().ebb1 >= _grab_bb_params_().ebb2) {
             throw std::logic_error("bxdecay0::decay0_generator::_init_: Invalid DBD energy range (Emin="
@@ -476,7 +484,8 @@ namespace bxdecay0 {
           }
         } else {
           if (is_debug()) {
-            std::cerr << "[debug] decay0_generator::_init_: " << "Not a DBD energy range mode." << std::endl;
+            std::cerr << "[debug] decay0_generator::_init_: "
+                      << "Not a DBD energy range mode." << std::endl;
           }
         }
       }
@@ -484,10 +493,10 @@ namespace bxdecay0 {
 
     int error = 0;
     if (_decay_category_ == DECAY_CATEGORY_DBD) {
-     if (_pimpl_->use_dbd_ga) {
+      if (_pimpl_->use_dbd_ga) {
         _pimpl_->dbd_ga_process.initialize();
-     } else {
-       if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
+      } else {
+        if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: DBD event..." << std::endl;
         event dummy_event;
         bxdecay0::genbbsub(prng_,
                            dummy_event,
@@ -503,7 +512,9 @@ namespace bxdecay0 {
         }
       }
     } else if (_decay_category_ == DECAY_CATEGORY_BACKGROUND) {
-      if (is_debug()) std::cerr << "[debug] decay0_generator::_init_: background event..." << std::endl;
+      if (is_debug()) {
+        std::cerr << "[debug] decay0_generator::_init_: background event..." << std::endl;
+      }
       event dummy_event;
       bxdecay0::genbbsub(prng_,
                          dummy_event,

@@ -1,3 +1,5 @@
+// clang-format off
+
 // bxdecay0/resource.cc
 // Copyright 2019 F. Mauger
 //
@@ -40,7 +42,7 @@ namespace {
     if (_install_resource_root.empty()) {
       if (overriden_env_) {
         const char * env_key = "BXDECAY0_RESOURCE_DIR";
-        if (std::getenv(env_key)) {
+        if (std::getenv(env_key) != nullptr) {
           _install_resource_root = std::string(std::getenv(env_key));
         }
       }

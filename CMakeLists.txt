@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.5)
+project(BxDecay0 VERSION 1.0.6)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -479,7 +479,7 @@ if (BXDECAY0_INSTALL_DBD_GA_DATA)
   endif()
 
   ExternalProject_Add(bxdecay0data_dbd_gA
-    GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data"
+    GIT_REPOSITORY "https://gitlab.in2p3.fr/francois.mauger/bxdecay0data.git"
     GIT_TAG        "1.0.1"
     PREFIX         "${CMAKE_BINARY_DIR}/bxdecay0data_dbd_gA"
     # Trick: installing datasets in the BxDecay0 source directory:

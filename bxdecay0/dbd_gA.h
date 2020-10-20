@@ -33,38 +33,39 @@
 #define BXDECAY0_DBD_GA_H
 
 // Standard library:
-#include <string>
 #include <iostream>
 #include <memory>
+#include <string>
 
 // This project:
-#include <bxdecay0/i_random.h>
 #include <bxdecay0/event.h>
+#include <bxdecay0/i_random.h>
 
 /// Nested namespace of the bxdecay0 library
 namespace bxdecay0 {
 
   class event;
-  
+
   /// \brief Decay0/GENBB generator
   class dbd_gA
   {
   public:
-
     /// \brief gA process
-    enum process_type {
+    enum process_type
+    {
       PROCESS_UNDEF, ///< Undefined process
       PROCESS_G0,    ///< g0 process
       PROCESS_G2,    ///< g2 process
       PROCESS_G22,   ///< g22 process
       PROCESS_G4,    ///< g4 process
     };
-    
+
     /// \brief The shooting method
-    enum shooting_type {
-      SHOOTING_UNDEF,    ///< Undefined E1/E2 randomization method
-      SHOOTING_REJECTION, ///< Von Neumann rejection sampling method
-      SHOOTING_INVERSE_TRANSFORM_METHOD, ///< Inverse transformation method, cumulative probability 
+    enum shooting_type
+    {
+      SHOOTING_UNDEF,                    ///< Undefined E1/E2 randomization method
+      SHOOTING_REJECTION,                ///< Von Neumann rejection sampling method
+      SHOOTING_INVERSE_TRANSFORM_METHOD, ///< Inverse transformation method, cumulative probability
     };
 
     /// Check is a nuclide is supported
@@ -84,16 +85,16 @@ namespace bxdecay0 {
 
     /// Check the debug flag
     bool is_debug() const;
- 
+
     /// Return the dataset version
     const std::string & get_dataset_version() const;
-  
+
     /// Set the dataset version
     void set_dataset_version(const std::string & dataset_version_);
 
     /// Return the shooting nuclide
     const std::string & get_nuclide() const;
-   
+
     /// Set the DBD emitter nuclide
     void set_nuclide(const std::string & nuclide_);
 
@@ -125,8 +126,8 @@ namespace bxdecay0 {
     void reset();
 
     /// Smart print
-    void print(std::ostream & out_ = std::clog,
-               const std::string & title_ = "",
+    void print(std::ostream & out_         = std::clog,
+               const std::string & title_  = "",
                const std::string & indent_ = "") const;
 
     /// Interpolated sample of the p.d.f. for plotting
@@ -136,35 +137,29 @@ namespace bxdecay0 {
     void shoot(i_random & prng_, event & event_);
 
     /// Build a "event" object from randomized kinematic quantities
-    static void export_to_event(i_random & prng_,
-                                const double e1_,
-                                const double e2_,
-                                const double cos12_,
-                                event & ev_);
-    
-  private:
+    static void export_to_event(i_random & prng_, const double e1_, const double e2_, const double cos12_, event & ev_);
 
+  private:
     void _load_tabulated_pdf_();
-    
+
     void _build_pdf_interpolator_();
 
     void _load_tabulated_cdf_opt_();
-    
+
     void _shoot_e1_e2_rejection_(i_random & prng_, double & e1_, double & e2_);
 
     void _shoot_e1_e2_inverse_transform_method_(i_random & prng_, double & e1_, double & e2_);
-     
-  private:
 
+  private:
     // Configuration:
-    std::string  _nuclide_; ///< DBD emitter nuclide
-    std::string  _dataset_version_; ///< Dataset version
-    process_type _process_ = PROCESS_UNDEF; ///< Process
+    std::string _nuclide_;                     ///< DBD emitter nuclide
+    std::string _dataset_version_;             ///< Dataset version
+    process_type _process_   = PROCESS_UNDEF;  ///< Process
     shooting_type _shooting_ = SHOOTING_UNDEF; ///< Shooting method
-    bool _debug_ = false;
+    bool _debug_             = false;
 
     // Working data:
-    bool _initialized_ = false; ///< Initialization flag
+    bool _initialized_ = false;             ///< Initialization flag
     std::string _tabulated_prob_file_path_; ///< Effective path for the tabulated p.d.f. of c.d.f. file
 
     // The machinery for tabulated p.d.f. management and interpolation
@@ -173,14 +168,16 @@ namespace bxdecay0 {
     // - https://cpppatterns.com/patterns/pimpl.html
     // - https://stackoverflow.com/questions/9954518/stdunique-ptr-with-an-incomplete-type-wont-compile
     struct pimpl_type;
-    struct pimpl_deleter_type { void operator()(pimpl_type*) const; };
+    struct pimpl_deleter_type
+    {
+      void operator()(pimpl_type *) const;
+    };
     std::unique_ptr<pimpl_type, pimpl_deleter_type> _pimpl_; ///< Private implementation
-
   };
 
-  /// Parse a line which encode an array of cumulated probabilities tabulating a c.d.f. 
+  /// Parse a line which encode an array of cumulated probabilities tabulating a c.d.f.
   void load_optimized_cdf_array(const std::string & in_str_, std::vector<double> & tab_cprobs_);
-  
+
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_DBD_GA_H

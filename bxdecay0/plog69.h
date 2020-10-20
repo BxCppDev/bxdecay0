@@ -8,7 +8,8 @@ namespace bxdecay0 {
   // H.Behrens, J.Janecke, "Numerical tables for beta-decay and
   // electron capture", Berlin, Springer-Verlag, 1969.
   // Range of momenta correspond to kinetic energy range from 2.55 keV to 25.0 MeV.
-  struct BJ69 {
+  struct BJ69
+  {
     static const double plog69[48];
   };
 

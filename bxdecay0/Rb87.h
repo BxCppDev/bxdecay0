@@ -6,10 +6,7 @@ namespace bxdecay0 {
   class i_random;
   class event;
 
-  void Rb87(i_random & prng_,
-	    event & event_,
-	    const double tcnuc_,
-	    double & tdnuc_);
+  void Rb87(i_random & prng_, event & event_, const double tcnuc_, double & tdnuc_);
 
 } // end of namespace bxdecay0
 

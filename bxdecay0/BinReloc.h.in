@@ -1,3 +1,4 @@
+// clang-format off
 /* BinReloc - a library for creating relocatable executables
  * Written by: Hongli Lai <h.lai@chello.nl>
  *

@@ -5,17 +5,9 @@ namespace bxdecay0 {
 
   typedef double (*func_type)(double, void *);
 
-  typedef void (*fsub1_type)(int,
-                             const double *,
-                             double *,
-                             double *,
-                             void *);
+  typedef void (*fsub1_type)(int, const double *, double *, double *, void *);
 
-  typedef void (*fsub2_type)(int,
-                             const double *,
-                             double *,
-                             double *,
-                             void *);
+  typedef void (*fsub2_type)(int, const double *, double *, double *, void *);
 
 } // end of namespace bxdecay0
 

@@ -36,7 +36,6 @@ namespace bxdecay0 {
   class particle
   {
   public:
-
     /// Default constructor
     particle();
 
@@ -100,10 +99,8 @@ namespace bxdecay0 {
     /// Check if momentum is valid
     bool has_momentum() const;
 
-    /// Set the coordinates of the momentum (unit: MeV/c or MeV with c=1)
-    void set_momentum(const double px_,
-                      const double py_,
-                      const double pz_);
+    /// Set the coordinates of the momentum (unit: MeV/c)
+    void set_momentum(const double px_, const double py_, const double pz_);
 
     /// Return the magnitude of the momentum (unit: MeV/c or MeV with c=1)
     double get_p() const;
@@ -115,12 +112,13 @@ namespace bxdecay0 {
     void reset();
 
     /// Print the particle
-    void print(std::ostream & out_ = std::clog,
-               const std::string & title_ = "",
+    void print(std::ostream & out_         = std::clog,
+               const std::string & title_  = "",
                const std::string & indent_ = "") const;
 
-    enum store_flags {
-      STORE_PARTICLE_NAME = 0x1, ///< Flag to store the name of the particle
+    enum store_flags
+    {
+      STORE_PARTICLE_NAME = 0x1,                ///< Flag to store the name of the particle
       STORE_LAST_FLAG     = STORE_PARTICLE_NAME ///< Last supported flag
     };
 
@@ -128,11 +126,9 @@ namespace bxdecay0 {
     void store(std::ostream & out_, const uint32_t flags_ = 0) const;
 
   private:
-
-    particle_code _code_;        ///< Particle code
-    double        _time_;        ///< Particle generation delay time after the previous particle in the event (unit: second)
-    double        _momentum_[3]; ///< Particle momentum (unit: MeV/c or MeV with c=1)
-
+    particle_code _code_; ///< Particle code
+    double _time_;        ///< Particle generation delay time after the previous particle in the event (unit: second)
+    double _momentum_[3]; ///< Particle momentum (unit: MeV/c)
   };
 
 } // end of namespace bxdecay0

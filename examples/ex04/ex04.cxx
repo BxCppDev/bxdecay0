@@ -22,15 +22,15 @@
 
 // Standard library:
 #include <cstdlib>
-#include <stdexcept>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <stdexcept>
 
 // This project:
-#include <bxdecay0/std_random.h> // Random number interface
-#include <bxdecay0/event.h>      // Generated event model
 #include <bxdecay0/bb.h>         // Nuclear decay and double beta decay parameters
+#include <bxdecay0/event.h>      // Generated event model
 #include <bxdecay0/genbbsub.h>   // Main decay generation routine
+#include <bxdecay0/std_random.h> // Random number interface
 
 int main()
 {
@@ -52,8 +52,8 @@ int main()
 
     // Parameters of the decay:
     bxdecay0::bbpars bb_params;
-    bb_params.ebb1 = 0.0; // Minimum energy (MeV)
-    bb_params.ebb2 = 4.3; // Maximum energy (MeV)
+    bb_params.ebb1        = 0.0; // Minimum energy (MeV)
+    bb_params.ebb2        = 4.3; // Maximum energy (MeV)
     bb_params.toallevents = 1.0; /* Statistical weight of the event
                                   * with respect to the total energy
                                   * spectrum.
@@ -129,7 +129,8 @@ int main()
       gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug) gendecay.print(std::cerr, "DBD event:", "[debug] ");
+      if (debug)
+        gendecay.print(std::cerr, "DBD event:", "[debug] ");
 
       // Clear the event:
       gendecay.reset();
@@ -139,7 +140,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

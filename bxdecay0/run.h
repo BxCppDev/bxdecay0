@@ -27,17 +27,15 @@
 #include <vector>
 
 // This project:
-#include <bxdecay0/particle.h>
 #include <bxdecay0/i_random.h>
+#include <bxdecay0/particle.h>
 
 namespace bxdecay0 {
 
   class run
   {
   public:
-
   private:
-
   };
 
 } // end of namespace bxdecay0

@@ -6,8 +6,7 @@
 
 namespace bxdecay0 {
 
-  struct bj69sl2
-    : public parbeta1
+  struct bj69sl2 : public parbeta1
   {
     double sl2[48];
   };
@@ -16,7 +15,7 @@ namespace bxdecay0 {
   // VIT, 26.10.2006.
   double decay0_funbeta_1fu(double e_, void * params_);
 
-} // end of namespace decay0
+} // namespace bxdecay0
 
 #endif // BXDECAY0_FUNBETA_1FU_H
 

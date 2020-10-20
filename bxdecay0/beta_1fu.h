@@ -27,14 +27,19 @@ namespace bxdecay0 {
   //                       where w=e/emass+1, e - kinetic energy of electron.
   // Output: tdnuc       - time of decay of nucleus (sec);
   // VIT, 24.10.2006.
-  void decay0_beta_1fu(i_random & prng_, event & event_,
-                       double Qbeta_, double Zdtr_,
-                       double tcnuc_, double thnuc_, double & tdnuc_,
-                       double c1_, double c2_, double c3_, double c4_);
+  void decay0_beta_1fu(i_random & prng_,
+                       event & event_,
+                       double Qbeta_,
+                       double Zdtr_,
+                       double tcnuc_,
+                       double thnuc_,
+                       double & tdnuc_,
+                       double c1_,
+                       double c2_,
+                       double c3_,
+                       double c4_);
 
-  void decay0_beta_1fu(i_random & prng_, event & event_,
-                       double tcnuc_,double thnuc_, double & tdnuc_,
-                       void * params_);
+  void decay0_beta_1fu(i_random & prng_, event & event_, double tcnuc_, double thnuc_, double & tdnuc_, void * params_);
 
 } // end of namespace bxdecay0
 

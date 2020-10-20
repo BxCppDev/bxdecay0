@@ -22,15 +22,15 @@
 
 // Standard library:
 #include <cstdlib>
-#include <stdexcept>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <stdexcept>
 
 // This project:
-#include <bxdecay0/version.h>          // Library version
-#include <bxdecay0/std_random.h>       // Random number interface
-#include <bxdecay0/event.h>            // Generated event model
 #include <bxdecay0/decay0_generator.h> // Main decay0 generator
+#include <bxdecay0/event.h>            // Generated event model
+#include <bxdecay0/std_random.h>       // Random number interface
+#include <bxdecay0/version.h>          // Library version
 
 int main()
 {
@@ -87,10 +87,8 @@ int main()
     std::ofstream fout(fout_name.c_str());
 
     // Store format options:
-    uint32_t store_flags =
-      bxdecay0::event::STORE_EVENT_DECO
-      | bxdecay0::event::STORE_EVENT_TIME
-      | bxdecay0::particle::STORE_PARTICLE_NAME;
+    uint32_t store_flags = bxdecay0::event::STORE_EVENT_DECO | bxdecay0::event::STORE_EVENT_TIME
+                           | bxdecay0::particle::STORE_PARTICLE_NAME;
 
     // Store config/metadata in the file header:
     fout << "#!bxdecay0 " << BXDECAY0_LIB_VERSION << std::endl;
@@ -107,9 +105,9 @@ int main()
     fout << "#   #@event_start" << std::endl;
     fout << "#   event-time nuclide" << std::endl;
     fout << "#   number-of-particles" << std::endl;
-    fout << "#   code1 time1 px1 py1 pz1 name"  << std::endl;
+    fout << "#   code1 time1 px1 py1 pz1 name" << std::endl;
     fout << "#   ..." << std::endl;
-    fout << "#   codeN timeN pxN pyN pzN name"  << std::endl;
+    fout << "#   codeN timeN pxN pyN pzN name" << std::endl;
     fout << "#   #@event_stop" << std::endl;
     fout << "#" << std::endl;
     fout << std::endl;
@@ -135,7 +133,8 @@ int main()
       gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug) gendecay.print(std::cerr, "DBD event:", "[debug] ");
+      if (debug)
+        gendecay.print(std::cerr, "DBD event:", "[debug] ");
 
       // Store the event:
       gendecay.store(fout, store_flags);
@@ -157,7 +156,8 @@ int main()
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

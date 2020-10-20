@@ -21,16 +21,16 @@
  */
 
 // Standard library:
-#include <iostream>
-#include <exception>
-#include <cstdlib>
-#include <random>
 #include <chrono>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <limits>
+#include <random>
 
 // This project:
-#include <bxdecay0/event.h>
 #include <bxdecay0/bb.h>
+#include <bxdecay0/event.h>
 #include <bxdecay0/std_random.h>
 
 int main()
@@ -43,17 +43,17 @@ int main()
     std::default_random_engine generator(seed);
     bxdecay0::std_random prng(generator);
 
-    double tclev = 0.0;
-    double thlev = 1.0;
+    double tclev      = 0.0;
+    double thlev      = 1.0;
     double decay_time = std::numeric_limits<double>::quiet_NaN();
     bxdecay0::bbpars pars;
     // DBD basic parameters:
-    pars.modebb = bxdecay0::DBDMODE_4;
-    pars.Qbb     = 3.034; // MeV
-    pars.Edlevel = 0.324; // MeV
-    pars.EK      = 0.0;
-    pars.Zdbb    = 42.0;
-    pars.Adbb    = 100.0;
+    pars.modebb   = bxdecay0::DBDMODE_4;
+    pars.Qbb      = 3.034; // MeV
+    pars.Edlevel  = 0.324; // MeV
+    pars.EK       = 0.0;
+    pars.Zdbb     = 42.0;
+    pars.Adbb     = 100.0;
     pars.istartbb = 0;
     // Energy range:
     pars.ebb1        = 0.0; // MeV
@@ -70,13 +70,15 @@ int main()
       decay.print(std::clog, "DBD event:", "[info] ");
       decay.reset();
     }
-    std::clog << "[info] " << "To-all-events = " << pars.toallevents << std::endl;
+    std::clog << "[info] "
+              << "To-all-events = " << pars.toallevents << std::endl;
 
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "[error] " << "Unexpected exception!" << std::endl;
+    std::cerr << "[error] "
+              << "Unexpected exception!" << std::endl;
     error_code = EXIT_FAILURE;
   }
   return error_code;

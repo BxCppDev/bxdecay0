@@ -1,20 +1,20 @@
 // Copyright 2020 François Mauger <mauger@lpccaen.in2p3.fr>
 
 // Standard library:
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 // This project:
-#include <bxdecay0/std_random.h>
 #include <bxdecay0/dbd_gA.h>
 #include <bxdecay0/event.h>
+#include <bxdecay0/std_random.h>
 
 int main()
 {
   unsigned int seed = 314159;
   std::default_random_engine generator(seed);
   bxdecay0::std_random prng(generator);
-  
+
   bxdecay0::dbd_gA gA_generator;
   gA_generator.set_debug(true);
   gA_generator.set_nuclide("Se82");
@@ -22,12 +22,13 @@ int main()
   gA_generator.set_shooting(bxdecay0::dbd_gA::SHOOTING_INVERSE_TRANSFORM_METHOD);
   gA_generator.initialize();
   gA_generator.print(std::clog, "gA DBD generator", "[info] ");
- 
+
   {
     std::ofstream fout("bxdecay0_ex05.data");
     unsigned int nshoots = 10000000;
     for (int i = 0; i < nshoots; i++) {
-      if ((i % 10000) == 0) std::clog << "[log] #" << i << "/" << nshoots << std::endl; 
+      if ((i % 10000) == 0)
+        std::clog << "[log] #" << i << "/" << nshoots << std::endl;
       double e1;
       double e2;
       double cos12;
@@ -41,7 +42,7 @@ int main()
     }
     fout.close();
   }
-  
+
   gA_generator.reset();
   return 0;
 }

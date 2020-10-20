@@ -18,34 +18,32 @@
 #include <bxdecay0/Hf176low.h>
 
 // Standard library:
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 
 // This project:
-#include <bxdecay0/i_random.h>
-#include <bxdecay0/event.h>
+#include <bxdecay0/PbAtShell.h>
 #include <bxdecay0/alpha.h>
-#include <bxdecay0/gamma.h>
-#include <bxdecay0/electron.h>
-#include <bxdecay0/positron.h>
-#include <bxdecay0/particle.h>
-#include <bxdecay0/pair.h>
-#include <bxdecay0/nucltransK.h>
-#include <bxdecay0/nucltransKL.h>
-#include <bxdecay0/nucltransKLM.h>
-#include <bxdecay0/nucltransKLM_Pb.h>
 #include <bxdecay0/beta.h>
 #include <bxdecay0/beta1.h>
 #include <bxdecay0/beta2.h>
 #include <bxdecay0/beta_1fu.h>
-#include <bxdecay0/PbAtShell.h>
+#include <bxdecay0/electron.h>
+#include <bxdecay0/event.h>
+#include <bxdecay0/gamma.h>
+#include <bxdecay0/i_random.h>
+#include <bxdecay0/nucltransK.h>
+#include <bxdecay0/nucltransKL.h>
+#include <bxdecay0/nucltransKLM.h>
+#include <bxdecay0/nucltransKLM_Pb.h>
+#include <bxdecay0/pair.h>
+#include <bxdecay0/particle.h>
+#include <bxdecay0/positron.h>
 
 namespace bxdecay0 {
-  
-  void Hf176low(i_random & prng_,
-                event & event_,
-                const int levelkev_)
+
+  void Hf176low(i_random & prng_, event & event_, const int levelkev_)
   {
     // Subroutine describes the deexcitation process in Hf176 nucleus
     // after 2b-decay of Yb176 to ground and excited 0+ and 2+ levels
@@ -60,21 +58,25 @@ namespace bxdecay0 {
     double tdlev;
     double tclev;
     double thlev;
-    tclev=0.;
-    if (levelkev_ == 88) goto label_88;
-    if (levelkev_ ==  0) goto label_10000;
+    tclev = 0.;
+    if (levelkev_ == 88) {
+      goto label_88;
+    }
+    if (levelkev_ == 0) {
+      goto label_10000;
+    }
     goto label_20000;
-  label_88 :
-    thlev=1.43e-9;
+  label_88:
+    thlev = 1.43e-9;
     decay0_nucltransK(prng_, event_, 0.088, 0.065, 5.86, 0., tclev, thlev, tdlev);
     return;
   label_10000:
     return;
-  label_20000  :
+  label_20000:
     // print *,'Hf176: wrong level [keV] ',levelkev_
     return;
   }
-  
+
 } // end of namespace bxdecay0
 
 // end of Gd156low.cc

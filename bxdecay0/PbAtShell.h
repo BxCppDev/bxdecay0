@@ -7,11 +7,11 @@ namespace bxdecay0 {
   class event;
 
   void PbAtShell(i_random & prng_,
-		 event & event_, 
-		 const int KLMenergy_,
-		 const double tclev_,
-		 const double thlev_,
-		 double & tdlev_);
+                 event & event_,
+                 const int KLMenergy_,
+                 const double tclev_,
+                 const double thlev_,
+                 double & tdlev_);
 
 } // end of namespace bxdecay0
 

@@ -36,17 +36,17 @@ namespace bxdecay0 {
   class i_decay_generator
   {
   public:
+    i_decay_generator()
+    {}
 
-    i_decay_generator() {}
-
-    virtual ~i_decay_generator() {}
+    virtual ~i_decay_generator()
+    {}
 
     /// Check if a next event is available
     virtual bool has_next() const = 0;
 
     /// Shoot a decay event
     virtual void shoot(i_random & prng_, event & event_) = 0;
-
   };
 
 } // end of namespace bxdecay0
