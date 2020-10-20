@@ -3,6 +3,4 @@
 #ifndef BXDECAY0_CONFIG_H
 #define BXDECAY0_CONFIG_H
 
-#cmakedefine01 BXDECAY0_WITH_DBD_GA
-
 #endif // BXDECAY0_CONFIG_H
