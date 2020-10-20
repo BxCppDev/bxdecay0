@@ -32,7 +32,7 @@ namespace bxdecay0 {
     bool trace = false;
     static std::set<std::string> _dbd_isotopes;
     if (_dbd_isotopes.empty()) {
-      std::string filename = get_resource("data/dbd_isotopes.lis", true);
+      std::string filename = get_resource("description/dbd_isotopes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
         throw std::logic_error("bxdecay0::dbd_isotopes: Cannot open resource file '" + filename + "'!");
@@ -72,7 +72,7 @@ namespace bxdecay0 {
     bool trace = false;
     static std::set<std::string> _background_isotopes;
     if (_background_isotopes.empty()) {
-      std::string filename = get_resource("data/background_isotopes.lis", true);
+      std::string filename = get_resource("description/background_isotopes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
         throw std::logic_error("bxdecay0::background_isotopes: Cannot open resource file '" + filename + "'!");
@@ -112,7 +112,7 @@ namespace bxdecay0 {
     bool trace = false;
     static std::map<dbd_mode_type, dbd_record> _dbd_modes_dict;
     if (_dbd_modes_dict.empty()) {
-      std::string filename = get_resource("data/dbd_modes.lis", true);
+      std::string filename = get_resource("description/dbd_modes.lis", true);
       std::ifstream fin(filename.c_str());
       if (!fin) {
         throw std::logic_error("bxdecay0::dbd_modes: Cannot open resource file '" + filename + "'!");
