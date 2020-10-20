@@ -29,6 +29,7 @@
 // This project:
 #include <bxdecay0/dbd_gA.h>
 #include <bxdecay0/std_random.h>
+#include <bxdecay0/resource.h>
 
 void test1();
 void test2();
@@ -41,6 +42,11 @@ int main()
     test1();
     test2();
 
+  } catch (bxdecay0::unreadable_resource_exception & error) {
+    std::cerr << "[warning] " << error.what() << std::endl;
+    std::cerr << "[warning] dbd_gA data files seems not to be installed making the various dbd gA processes not usable!" << std::endl;
+    std::cerr << "[warning] You can locate them with the BXDECAY0_DBD_GA_DATA_DIR environment variable" << std::endl;
+    // error_code = EXIT_FAILURE;
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;

@@ -22,8 +22,8 @@ Options:
   --help              print this help then exit
   --prefix [path]     set the installation directory
   --gsl-prefix [path] set the GSL installation directory
-  --with-dbd-gA       build with DBD gA support
-  --without-dbd-gA    build without DBD gA support
+  --with-dbd-gA-data  build with DBD gA data support
+  --without-dbd-gA-data  build without DBD gA data support
 
 EOF
     return 0
@@ -35,7 +35,7 @@ build_dir=$(pwd)/_build.d
 clean=false
 devel=false
 gsl_prefix=
-with_dbd_gA=false
+with_dbd_gA_data=false
 
 while [ -n "$1" ]; do
     opt="$1"
@@ -47,10 +47,10 @@ while [ -n "$1" ]; do
 	install_dir="$1"
     elif [ "${opt}" = "--clean" ]; then
 	clean=true
-    elif [ "${opt}" = "--with-dbd-gA" ]; then
-	with_dbd_gA=true
-    elif [ "${opt}" = "--without-dbd-gA" ]; then
-	with_dbd_gA=false
+    elif [ "${opt}" = "--with-dbd-gA-data" ]; then
+	with_dbd_gA_data=true
+    elif [ "${opt}" = "--without-dbd-gA-data" ]; then
+	with_dbd_gA_data=false
     elif [ "${opt}" = "--gsl-prefix" ]; then
 	shift 1
 	gsl_prefix="$1"
@@ -60,7 +60,7 @@ done
 
 echo >&2 "[log] install_dir = '${install_dir}'"
 echo >&2 "[log] clean       = ${clean}"
-echo >&2 "[log] with_dbd_gA = ${with_dbd_gA}"
+echo >&2 "[log] with_dbd_gA_data = ${with_dbd_gA_data}"
 echo >&2 "[log] gsl_prefix  = '${gsl_prefix}'"
 
 if [ ${clean} = true ]; then
@@ -96,9 +96,9 @@ if [ "x${gsl_prefix}" != "x" ]; then
     gsl_options="-DGSL_ROOT_DIR=${gsl_prefix}"
 fi
 
-dbd_gA_options="-DBxDecay0_WITH_DBD_GA=ON"
-if [ ${with_dbd_gA} = false ]; then
-    dbd_gA_options="-DBxDecay0_WITH_DBD_GA=OFF"
+dbd_gA_data_options="-DBXDECAY0_INSTALL_DBD_GA_DATA=ON"
+if [ ${with_dbd_gA_data} = false ]; then
+    dbd_gA_data_options="-DBXDECAY0_INSTALL_DBD_GA_DATA=OFF"
 fi
     
 echo >&2 ""
@@ -106,7 +106,7 @@ echo >&2 "[info] Configuring..."
 cmake \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
     ${gsl_options} \
-    ${dbd_gA_options} \
+    ${dbd_gA_data_options} \
     ${src_dir}
 if [ $? -ne 0 ]; then
     echo >&2 "[error] CMake failed! Abort!"

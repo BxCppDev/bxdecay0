@@ -25,8 +25,18 @@
 
 // Standard library:
 #include <string>
+#include <stdexcept>
 
 namespace bxdecay0 {
+
+  struct unreadable_resource_exception
+    : public std::runtime_error
+  {
+    unreadable_resource_exception(const std::string & what_)
+      : std::runtime_error(what_)
+    {
+    }
+  };
 
   //! Return URL, i.e. a path, to the  base directory where resource files are installed
   //! \param overriden_env If set this flag trigger the search for the

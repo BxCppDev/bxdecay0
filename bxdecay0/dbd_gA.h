@@ -139,7 +139,14 @@ namespace bxdecay0 {
     /// Build a "event" object from randomized kinematic quantities
     static void export_to_event(i_random & prng_, const double e1_, const double e2_, const double cos12_, event & ev_);
 
+    /// Check if DBD gA data files are distributed from a specific based directory addressed through the BXDECAY0_DBD_GA_DATA_DIR environment variable
+    static bool has_env_data_base_dir();
+
+    /// Return the specific base directory from which externally installed DBD gA data files are stored, being addressed through the BXDECAY0_DBD_GA_DATA_DIR environment variable
+    static const std::string & env_data_base_dir();
+
   private:
+     
     void _load_tabulated_pdf_();
 
     void _build_pdf_interpolator_();

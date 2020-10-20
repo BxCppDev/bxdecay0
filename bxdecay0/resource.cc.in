@@ -72,7 +72,7 @@ namespace bxdecay0 {
     std::string fullpath(::get_resource_root(overriden_env_) + "/" + rname_);
     std::ifstream check(fullpath.c_str());
     if (!check.good()) {
-      throw std::logic_error("Unreadable resource '" + fullpath + "'!");
+      throw unreadable_resource_exception("Unreadable resource '" + fullpath + "'!");
     }
     return fullpath;
   }

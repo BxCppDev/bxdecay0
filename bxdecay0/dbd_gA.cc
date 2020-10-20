@@ -226,6 +226,23 @@ namespace bxdecay0 {
     return _initialized_;
   }
 
+  // static
+  const std::string & dbd_gA::env_data_base_dir()
+  {
+    static std::string _dbd_gA_data_root;
+    const char * env_key = "BXDECAY0_DBD_GA_DATA_DIR";
+    if (std::getenv(env_key) != nullptr) {
+      _dbd_gA_data_root = std::string(std::getenv(env_key));
+    }
+    return _dbd_gA_data_root;
+  }
+
+  // static
+  bool dbd_gA::has_env_data_base_dir()
+  {
+    return ! env_data_base_dir().empty();
+  }
+ 
   void dbd_gA::initialize()
   {
     if (is_initialized()) {
@@ -233,7 +250,6 @@ namespace bxdecay0 {
     }
     if (_dataset_version_.empty()) {
       _dataset_version_ = "v1.0";
-      // throw std::logic_error("bxdecay0::dbd_gA::initialize: Missing dataset version!");
     }
     if (_nuclide_.empty()) {
       throw std::logic_error("bxdecay0::dbd_gA::initialize: Missing nuclide!");
@@ -244,25 +260,37 @@ namespace bxdecay0 {
     if (_shooting_ == SHOOTING_UNDEF) {
       throw std::logic_error("bxdecay0::dbd_gA::initialize: Missing shooting method!");
     }
-
     // Build the path of the tabulated p.d.f. resource file:
     if (_shooting_ == SHOOTING_REJECTION) {
-      std::ostringstream outs;
-      outs << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
-           << "tab_pdf.data";
-      _tabulated_prob_file_path_ = outs.str();
-      std::string fres           = get_resource(_tabulated_prob_file_path_, true);
-      _tabulated_prob_file_path_ = fres;
+      std::ostringstream datas;
+      datas << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
+            << "tab_pdf.data";
+      std::string dataf = datas.str();
+      if (has_env_data_base_dir()) {
+        std::ostringstream outs;
+        outs << env_data_base_dir() << '/' << dataf;
+        _tabulated_prob_file_path_ = outs.str();
+      } else {
+        _tabulated_prob_file_path_ = dataf;
+        std::string fdata = get_resource(_tabulated_prob_file_path_, true);
+        _tabulated_prob_file_path_ = fdata;
+      }
     } else if (_shooting_ == SHOOTING_INVERSE_TRANSFORM_METHOD) {
-      std::ostringstream outs;
-      outs << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
-           << "tab_ocdf.data";
-      _tabulated_prob_file_path_ = outs.str();
-      std::string fres           = get_resource(_tabulated_prob_file_path_, true);
-      _tabulated_prob_file_path_ = fres;
+      std::ostringstream datas;
+      datas << "data/dbd_gA/" << _dataset_version_ << '/' << _nuclide_ << '/' << process_label(_process_) << '/'
+            << "tab_ocdf.data";
+      std::string dataf = datas.str();
+      if (has_env_data_base_dir()) {
+        std::ostringstream outs;
+        outs << env_data_base_dir() << '/' << dataf;
+        _tabulated_prob_file_path_ = outs.str();
+      } else {
+        _tabulated_prob_file_path_ = dataf;
+        std::string fdata = get_resource(_tabulated_prob_file_path_, true);
+        _tabulated_prob_file_path_ = fdata;
+      }
     }
     _pimpl_.reset(new pimpl_type);
-
     if (_shooting_ == SHOOTING_REJECTION) {
       _load_tabulated_pdf_();
       _build_pdf_interpolator_();
@@ -270,7 +298,6 @@ namespace bxdecay0 {
     if (_shooting_ == SHOOTING_INVERSE_TRANSFORM_METHOD) {
       _load_tabulated_cdf_opt_();
     }
-
     _initialized_ = true;
     return;
   }

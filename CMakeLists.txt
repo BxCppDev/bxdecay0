@@ -488,6 +488,9 @@ if (BXDECAY0_INSTALL_DBD_GA_DATA)
     -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
     -DBXDECAY0DATA_WITH_DBD_GA=ON
     )
+else()
+  message(STATUS "Note: DBD gA phase space factor data files will not be installed")
+  message(STATUS "Note: You can locate them through the BXDECAY0_DBD_GA_DATA_DIR environment variable")
 endif()
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
@@ -519,10 +522,10 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_decay0_generator.cxx
     )
 
-  if (BXDECAY0_INSTALL_DBD_GA_DATA)
+#  if (BXDECAY0_INSTALL_DBD_GA_DATA)
     message(STATUS "Appending DBD gA test...")
     list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
-  endif()
+#  endif()
 
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
 
