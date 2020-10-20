@@ -81,18 +81,29 @@ GSL_, ROOT_ or whatever).
 
   - fix kinematics issue in DBD gA process
 
-- Release 1.0.4 ;
+- Release 1.0.4 :
 
   - fix usage of the optional ``BXDECAY0_RESOURCE_DIR`` env in ``bxdecay0-config`` script
   - support the optional ``BXDECAY0_PREFIX_DIR`` env in ``bxdecay0-config`` script and ``resource.cc.in``
     (very basic manual support for package relocation)
 
-- Release 1.0.5 (last release):
+- Release 1.0.5 :
 
   - make BxDecay0 relocatable
   - fix missing/odd references for some *background* decays
   - add Rn222 decay generator
 
+- Release 1.0.6 (last release):
+
+  - add support for clang-format and clang-tidy
+  - add a few background isotopes, namely Po210, Po218, Th230, U234 and U238, as simplified alpha emitters 
+
+- Release 1.0.7 (next release):
+
+  - move some resource files
+  - DBD gA processes are not optional anymore but associated phase space data files are only installed through the BXDECAY0_INSTALL_DBD_GA_DATA option (default: OFF)
+  - Add support for the BXDECAY0_DBD_GA_DATA_DIR environment variable to locate the DBD gA phase space data files 
+  
 .. _SuperNEMO: http://supernemo.org/
 
 Design
@@ -270,17 +281,19 @@ or:
 Configuration options:
 ~~~~~~~~~~~~~~~~~~~~~~
 
-* ``BxDecay0_WITH_DBD_GA`` : Enable support for the specific generator
-  of DBD gA processes (default: ``OFF``).  This generator requires large
+* ``BXDECAY0_INSTALL_DBD_GA_DATA`` : Install phase space factor data files for various supported BxDecay0 DBD gA processes
+  (default: ``OFF``).  This generator requires large
   datasets of tabulated space-phase factors so if you don't need it in
   your  client code,  it is  better to  disable this  features for  it
   implies the downloading of external resource files (~1.7 GB).
+  Alternatively, the DBD gA processes' data files can be located through the ``BXDECAY0_DBD_GA_DATA_DIR`` environment variable which must point to a directory which contains
+  the expected ``data/dbd_gA/vX.Y`` directory, following the format used for the DBD gA datasets.
 
-  Example for enabling DBD gA generators:
+  Example for auto-installing DBD gA generators data files:
 
   .. code:: bash
 
-     $ cmake ... -DBxDecay0_WITH_DBD_GA=ON ...
+     $ cmake ... -DBXDECAY0_INSTALL_DBD_GA_DATA=ON ...
   ..
 
 
