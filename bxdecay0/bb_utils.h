@@ -104,7 +104,7 @@ namespace bxdecay0 {
     DBDMODE_24          = DBDMODE_2NUBB_GA_G4,
 
     DBDMODE_MIN = DBDMODE_1,
-    DBDMODE_MAX = DBDMODE_20
+    DBDMODE_MAX = DBDMODE_24
   };
 
   /// \brief The legacy values used for the BB mode in the Fortran Decay0 program
