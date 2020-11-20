@@ -3,8 +3,8 @@ BxDecay0 example ex01
 ================================
 
 :author: François Mauger
-:date: 2017-10-31
-:copyright: Copyright (C) 2017 the BxCppDev group
+:date: 2020-11-20
+:copyright: Copyright (C) 2017-2020 the BxCppDev group
 
 .. contents::
 
@@ -18,6 +18,11 @@ decay events for various isotopes and decay modes.
 The program stores the generated events  in an output ASCII file using
 a very simple format.  The parsing of  this file is let as an exercise
 to the user.
+
+A  variant  ``ex01bis.cxx``  is  also provided.  It  uses  a  slightly
+different output  format with no  *decoration* and an  arbitrary event
+number per generated event.
+
 
 Build
 =====
