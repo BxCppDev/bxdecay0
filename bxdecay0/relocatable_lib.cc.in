@@ -64,7 +64,6 @@ namespace bxdecay0 {
     static std::string libPath;
     if (libPath.empty()) {
       init_directories();
-      init_directories();
       char* exePath(nullptr);
       exePath = br_find_exe_dir("");
       libPath = std::string(exePath);

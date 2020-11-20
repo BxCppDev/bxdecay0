@@ -440,18 +440,46 @@ endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# -- RPATH settings --
+# set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+# set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+# # set(CMAKE_INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}:$ORIGIN/")
+# set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+# message(STATUS "************ CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+# message(STATUS "************ CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
+# message(STATUS "************ CMAKE_INSTALL_FULL_LIBDIR = ${CMAKE_INSTALL_FULL_LIBDIR}")
+# set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+# list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}" isSystemDir)
+# if("${isSystemDir}" STREQUAL "-1")
+#   set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+# endif()
+
 add_library(BxDecay0 SHARED ${BxDecay0_HEADERS} ${BxDecay0_SOURCES})
 target_compile_definitions(BxDecay0 PRIVATE ENABLE_BINRELOC)
+set_target_properties(BxDecay0 PROPERTIES COMPILE_DEFINITIONS ENABLE_BINRELOC)
+set_target_properties(BxDecay0 PROPERTIES LINKER_LANGUAGE CXX) 
 # Ensure clients are aware of the minimum C++ standard we were compiled with
 target_compile_features(BxDecay0 PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
-target_include_directories(BxDecay0 PUBLIC
+target_include_directories(BxDecay0
+  PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 # GSL may be a private dep, only seems to appear in .cc files
 target_link_libraries(BxDecay0 PUBLIC GSL::gsl)
-set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH_USE_LINK_PATH 1)
+set_target_properties(BxDecay0 PROPERTIES
+  SKIP_BUILD_RPATH            FALSE
+  BUILD_WITH_INSTALL_RPATH    FALSE
+  INSTALL_RPATH_USE_LINK_PATH TRUE)
+if(UNIX AND NOT APPLE)
+  set_target_properties(BxDecay0
+    PROPERTIES INSTALL_RPATH "\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+    )
+endif()
+# if("${isSystemDir}" STREQUAL "-1")
+#   set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+# endif()
 
 install(FILES ${BxDecay0_HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bxdecay0
@@ -462,10 +490,6 @@ install(TARGETS BxDecay0
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
-  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
 if (BXDECAY0_INSTALL_DBD_GA_DATA)
@@ -493,8 +517,19 @@ else()
   message(STATUS "Note: You can locate them through the BXDECAY0_DBD_GA_DATA_DIR environment variable")
 endif()
 
+# message(STATUS "******* CMAKE_INSTALL_DATAROOTDIR=${CMAKE_INSTALL_DATAROOTDIR}")
+# message(STATUS "******* BxDecay0_TAG=${BxDecay0_TAG}")
+
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/description
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
+  )
+
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
+  )
+
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
 
 install(FILES ${PROJECT_SOURCE_DIR}/LICENSE.txt
@@ -526,7 +561,6 @@ if(BUILD_TESTING)
     message(STATUS "Appending DBD gA test...")
     list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
 #  endif()
-
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
 
   foreach(_testsource ${BxDecay0_TESTS})
@@ -540,6 +574,43 @@ if(BUILD_TESTING)
       )
   endforeach()
 endif()
+
+add_executable(bxdecay0-run
+  programs/bxdecay0_driver.hpp
+  programs/bxdecay0_clparser.hpp
+  programs/bxdecay0_driver.cpp
+  programs/bxdecay0_clparser.cpp
+  programs/bxdecay0-run.cxx
+  )
+set_target_properties(bxdecay0-run PROPERTIES
+  SKIP_BUILD_RPATH            FALSE
+  BUILD_WITH_INSTALL_RPATH    FALSE
+  INSTALL_RPATH_USE_LINK_PATH TRUE
+  )
+if(UNIX AND NOT APPLE)
+  set_target_properties(bxdecay0-run
+    PROPERTIES INSTALL_RPATH "\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+    )
+endif()
+# if("${isSystemDir}" STREQUAL "-1")
+#   set_target_properties(bxdecay0-run PROPERTIES
+#     SKIP_BUILD_RPATH            FALSE
+#     BUILD_WITH_INSTALL_RPATH    FALSE
+#     INSTALL_RPATH_USE_LINK_PATH TRUE
+#     INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}") #
+#   # "$ORIGIN/../lib:$ORIGIN/")
+# endif()
+target_link_libraries(bxdecay0-run BxDecay0)
+
+install(TARGETS bxdecay0-run
+  EXPORT BxDecay0Targets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PERMISSIONS
+  OWNER_READ OWNER_WRITE OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
+
 
 #-----------------------------------------------------------------------
 # Configure/Install support files

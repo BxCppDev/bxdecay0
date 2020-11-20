@@ -48,6 +48,7 @@ namespace {
       }
       if (_install_resource_root.empty()) {
         std::string lib_dir = bxdecay0::get_library_dir();
+        // std::cerr << "[devel] lib_dir = " << lib_dir << '\n';
         _install_resource_root = lib_dir + "/" + relative_lib_path_to_resource_dir();
       }
     }
