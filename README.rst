@@ -322,6 +322,13 @@ Configuration options:
 * ``BXDECAY0_WITH_GEANT4_EXTENSION`` : Build  and install the BxDecay0
   Geant4 extension library (needs Geant4 version >= 10.6).
 
+  Example for auto-installing DBD gA generators data files:
+
+  .. code:: bash
+
+     $ cmake ... -DBXDECAY0_WITH_GEANT4_EXTENSION=ON -DGeant_DIR=/path/to/geant4/installation/dir ...
+  ..
+
 Build, test and install
 -----------------------
 
