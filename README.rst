@@ -3,12 +3,12 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak, Emma Mauger
-:date: 2020-10-18
+:date: 2020-11-25
 :copyright: Copyright (C) 2017-2020 the BxCppDev group
 
-The **BxDecay0** C++ library provides a set of classes and functions for
-the random  generation of simulated  nuclear decays. It consists  in a
-C++ port of  the original Decay0 Fortran program (also  known as GENBB
+The **BxDecay0** C++  library provides a set of  classes and functions
+for the random generation of  simulated nuclear decays. It consists in
+a C++ port of the original Decay0 Fortran program (also known as GENBB
 in  some other  context) written  and maintained  by Vladimir  Tretyak
 (KINR_).  Decay0 was created to  address the Monte Carlo generation of
 nuclear decays  in the context  of double  beta decay and  dark matter
@@ -19,6 +19,10 @@ generate  the kinematics  of primary  particles emitted  from specific
 nuclear  decays  (example:  input  for a  Geant4_  based  Monte  Carlo
 simulation  program).  It  can be  easily interfaced  with the  HepMC_
 event/particle model or any other client application.
+
+From  version  1.0.7, BxDecay0  provides  an  extension library  which
+provides an interface for Geant4 (through a ``PrimaryGeneratorAction``
+class and its associated *messenger*). See the relevant section below.
 
 .. contents::
 
@@ -41,10 +45,10 @@ decay experiments.
 
 From 2005 to 2011, the NEMO3 collaboration has initiated a R&D program
 to   design   a  new   generation   double   beta  decay   experiment:
-SuperNEMO_. The  choice was  made to  use C++  as the  main programming
+SuperNEMO_. The  choice was made  to use  C++ as the  main programming
 language.  In this context, François  Mauger has created a C++ version
 of GENBB. The first version was  a C++ wrapper of the original Fortran
-code,  using binding  mechanism based  on plain  static C  structures.
+code, using binding mechanism based on plain static C structures.
 
 Later,  a pure  C++ version  was  released without  any dependency  on
 Fortran  and  CERNLIB.   This  code  was integrated  in  2011  as  the
@@ -72,10 +76,11 @@ GSL_, ROOT_ or whatever).
 - Release 1.0.2 :
 
   - updated from Decay0 2020-04-20,
-  - add optional support for 2nubb gA processes for a few isotopes of interest
-    (as a pure C++ implementation with required large external dataset from the
-    https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which is
-    automatically loaded).
+  - add optional support for 2nubb gA  processes for a few isotopes of
+    interest  (as  a  pure  C++  implementation  with  required  large
+    external               dataset              from               the
+    https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which
+    is automatically loaded).
 
 - Release 1.0.3 :
 
@@ -83,9 +88,11 @@ GSL_, ROOT_ or whatever).
 
 - Release 1.0.4 :
 
-  - fix usage of the optional ``BXDECAY0_RESOURCE_DIR`` env in ``bxdecay0-config`` script
-  - support the optional ``BXDECAY0_PREFIX_DIR`` env in ``bxdecay0-config`` script and ``resource.cc.in``
-    (very basic manual support for package relocation)
+  - fix  usage  of  the   optional  ``BXDECAY0_RESOURCE_DIR``  env  in
+    ``bxdecay0-config`` script
+  - support    the    optional    ``BXDECAY0_PREFIX_DIR``    env    in
+    ``bxdecay0-config``  script  and  ``resource.cc.in``  (very  basic
+    manual support for package relocation)
 
 - Release 1.0.5 :
 
@@ -96,14 +103,22 @@ GSL_, ROOT_ or whatever).
 - Release 1.0.6 (last release):
 
   - add support for clang-format and clang-tidy
-  - add a few background isotopes, namely Po210, Po218, Th230, U234 and U238, as simplified alpha emitters 
+  - add a  few background isotopes,  namely Po210, Po218,  Th230, U234
+    and U238, as simplified alpha emitters
 
 - Release 1.0.7 (next release):
 
   - move some resource files
-  - DBD gA processes are not optional anymore but associated phase space data files are only installed through the BXDECAY0_INSTALL_DBD_GA_DATA option (default: OFF)
-  - Add support for the BXDECAY0_DBD_GA_DATA_DIR environment variable to locate the DBD gA phase space data files 
-  
+  - DBD gA  processes are  not optional  anymore but  associated phase
+    space    data   files    are    only    installed   through    the
+    BXDECAY0_INSTALL_DBD_GA_DATA option (default: OFF)
+  - add support for  the BXDECAY0_DBD_GA_DATA_DIR environment variable
+    to locate the DBD gA phase space data files
+  - add the ``bxdecay0-run`` program to generate BxDecay0 decay events
+    and store the output in some ascii files
+  - add the BxDecay0 Geant4 extension library
+    
+    
 .. _SuperNEMO: http://supernemo.org/
 
 Design
@@ -152,9 +167,9 @@ Installing BxDecay0
 Preparation of your system
 --------------------------
 
-BxDecay0 is developped  on a Ubuntu Linux (18.04/20.04 LTS)  and should work
-on any Unix/BSD  flavor with a recent C++ compiler  with c++11 support
-(i.e. GNU g++ >= 4.9 or clang) including macOS.
+BxDecay0 is developped on a  Ubuntu Linux (18.04/20.04 LTS) and should
+work on  any Unix/BSD  flavor with  a recent  C++ compiler  with c++11
+support (i.e. GNU g++ >= 4.9 or clang) including macOS.
 
 Requirements for Ubuntu 20.04 LTS
 ---------------------------------
@@ -316,12 +331,12 @@ From the build directory:
    $ make install
 ..
 
-If you are developing bxdecay0, you can optionally use the supplied support
-files for ``clang-format`` and ``clang-tidy`` to apply format and static
-an analysis checks.
+If you  are developing bxdecay0,  you can optionally use  the supplied
+support files for ``clang-format``  and ``clang-tidy`` to apply format
+and static an analysis checks.
 
-Integration and use of clang-format with a range of text editors and IDEs
-is documented here: https://clang.llvm.org/docs/ClangFormat.html
+Integration and use  of clang-format with a range of  text editors and
+IDEs is documented here: https://clang.llvm.org/docs/ClangFormat.html
 
 Use of clang-tidy may be enabled through CMake by configuring with the
 ``CMAKE_CXX_CLANG_TIDY`` option:
@@ -331,19 +346,20 @@ Use of clang-tidy may be enabled through CMake by configuring with the
      $ cmake ... -DCMAKE_CXX_CLANG_TIDY=/path/to/clang-tidy ...
   ..
 
-When building ``bxdecay0`` with this setting, ``clang-tidy`` will print
-warnings when code should be fixed to conform with security, readability,
-performance, and modern C++ requirements. The suggestions can be applied
-manually, or automatically by configuring as:
+When  building ``bxdecay0``  with  this  setting, ``clang-tidy``  will
+print warnings  when code  should be fixed  to conform  with security,
+readability, performance, and modern C++ requirements. The suggestions
+can be applied manually, or automatically by configuring as:
 
 .. code:: sh
 
      $ cmake ... -DCMAKE_CXX_CLANG_TIDY="/path/to/clang-tidy;-fix" ...
   ..
 
-If you are submitting changes, it is recommended that you split your commits
-into a sequence that implement your change, followed by one that applies any
-suggested fixes by `clang-tidy`. This allows easier review and testing.
+If you are  submitting changes, it is recommended that  you split your
+commits into  a sequence that  implement your change, followed  by one
+that applies any  suggested fixes by `clang-tidy`.  This allows easier
+review and testing.
 
 Manual setup
 ------------
@@ -437,12 +453,12 @@ Basic program
 
 The  following  program  is  extracted from  the  BxDecay0's  ``ex00``
 example. It  randomly generates  10 simulated events  corresponding to
-the neutrinoless double beta decay (DBD) process of :sup:`100` Mo to
-the ground state of :sup:`100` Ru.
-The resulting events are printed in the  terminal in a very simple format.
-It  is of  course  possible to  adapt  this program  and  use the  OOP
-interface  of  the  ``bxdecay0::event``  class  in  order  to  extract
-physical quantities of interest (particles' type and momentum...).
+the neutrinoless double  beta decay (DBD) process of  :sup:`100` Mo to
+the ground state  of :sup:`100` Ru.  The resulting  events are printed
+in the terminal in a very simple  format.  It is of course possible to
+adapt   this   program   and   use    the   OOP   interface   of   the
+``bxdecay0::event`` class  in order to extract  physical quantities of
+interest (particles' type and momentum...).
 
 .. code:: c++
 
@@ -513,18 +529,24 @@ BxDecay0 uses the Decay0's legacy system for physical units.
 
 Here the *c* quantity is the speed of light in vacuum (with *c* ~ 300 000 km/s in S.I.).
 
-- Let *m* be the rest mass of a particle, BxDecay0 expresses this mass as *M = m c^2* where *M* is the associated rest mass-energy.
-  The implicit unit for *M* is megaelectronvolts (MeV).
-  This is equivalent to say that *M=m* using *c=1*.
-- let *p* be some component of the momentum of a particle, BxDecay0 expresses this quantity as *P = p x c* where *P* has the dimension of an energy
-  explicitly expressed in  megaelectronvolts (MeV).
-  This is equivalent to say that *P=p* using *c=1*.
-- Let *t* be the decay time of a particle (with respect to some arbitrary time reference), then BxDecay0 expresses *t* in second (s).
+- Let *m* be the rest mass of a particle, BxDecay0 expresses this mass
+  as *M  = m c^2* where  *M* is the associated  rest mass-energy.  The
+  implicit  unit   for  *M*  is  megaelectronvolts   (MeV).   This  is
+  equivalent to say that *M=m* using *c=1*.
+- let *p*  be some component of  the momentum of a  particle, BxDecay0
+  expresses this quantity as  *P = p x c* where  *P* has the dimension
+  of an energy explicitly  expressed in megaelectronvolts (MeV).  This
+  is equivalent to say that *P=p* using *c=1*.
+- Let  *t* be  the decay  time  of a  particle (with  respect to  some
+  arbitrary  time reference),  then BxDecay0  expresses *t*  in second
+  (s).
 
-Given these rules, it is up to the client application to operate physical quantities of interest using its own unit system.
+Given  these rules,  it is  up to  the client  application to  operate
+physical quantities of interest using its own unit system.
 
 
-**Example:** Code snippet using the CLHEP_ system of units, for example for interfacing with Geant4_
+**Example:**  Code  snippet using  the  CLHEP_  system of  units,  for
+ example for interfacing with Geant4_
 
 .. code:: c++
 
@@ -549,40 +571,62 @@ Given these rules, it is up to the client application to operate physical quanti
    }
 ..
 
+Geant4 extension library
+========================
+
+The BxDecay0 library  can be built with an  optional companion library
+named ``BxDecay0_Geant4``. Of course Geant4 10.6 must be installed and
+setup on your system.
+
+The      option      to      activate     this      extension      is:
+``BXDECAY0_WITH_GEANT4_EXTENSION``.
+
+Example:
+
+.. code:: shell
+
+   $ cmake ... -DBXDECAY0_WITH_GEANT4_EXTENSION=ON -DGeant4_DIR=/path/to/geant4/installation ...
+..
+
   
 License
 =======
 
-BxDecay0 is free and open source software. It is released under the  GNU GENERAL PUBLIC LICENSE, version 3.
-See the ``LICENSE.txt`` file.
+BxDecay0 is  free and open source  software. It is released  under the
+GNU GENERAL PUBLIC LICENSE, version 3.  See the ``LICENSE.txt`` file.
 
 
 
 Authors and contributors
 ========================
 
-* Vladimir Tretyak (KINR_, Kiev Institute for Nuclear Research, Ukraine) is the original author and maintener of
-  the Fortran Decay0 package.
+* Vladimir  Tretyak  (KINR_,  Kiev  Institute  for  Nuclear  Research,
+  Ukraine) is the original author  and maintener of the Fortran Decay0
+  package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
-  de Caen, `Université de Caen  Normandie`_, Caen, France) is the author and
-  maintener   of  the  original C++  port   of  Decay0   within  Bayeux_
-  and the BxDecay0 library.
-* Emma Mauger (formerly `Université de Caen Normandie`_, Caen, France) has done a large
-  part of the extraction of the standalone BxDecay0 from the
-  original Bayeux_ *genbb* library module.
-* Ben Morgan (Warwick University, Warwick, United Kingdom): CMake build system and package reorganization,
-  support for clang-format and clang-tidy.
-* Malak Hoballah and Laurent Simard (IJCLab, Orsay, France) (support for DBD generator with gA process).
-* Rastislav Dvornicky (Comenius University, Bratislava, Slovakia) has calculated specific phase
-  space factors for the DBD gA process.
-* Pierre Lasorak (University of Sussex, Oxford, United Kingdom) has added simplified versions of
-  Po210, Po218, Th230, U234 and U238 alpha emitters.
+  de  Caen, `Université  de  Caen Normandie`_,  Caen,  France) is  the
+  author  and maintener  of the  original  C++ port  of Decay0  within
+  Bayeux_ and the BxDecay0 library.
+* Emma Mauger (formerly `Université de Caen Normandie`_, Caen, France)
+  has done a  large part of the extraction of  the standalone BxDecay0
+  from the original Bayeux_ *genbb* library module.
+* Ben  Morgan (Warwick  University,  Warwick,  United Kingdom):  CMake
+  build system  and package  reorganization, support  for clang-format
+  and clang-tidy.
+* Malak Hoballah  and Laurent Simard (IJCLab,  Orsay, France) (support
+  for DBD generator with gA process).
+* Rastislav Dvornicky (Comenius  University, Bratislava, Slovakia) has
+  calculated specific phase space factors for the DBD gA process.
+* Pierre Lasorak  (University of  Sussex, Oxford, United  Kingdom) has
+  added  simplified versions  of Po210,  Po218, Th230,  U234 and  U238
+  alpha emitters.
 
 
 Who uses and supports BxDecay0...
 ===================================
 
-* The SuperNEMO_ experiment through its Bayeux_ and Falaise_ sofware simulation stack
+* The SuperNEMO_  experiment through its Bayeux_  and Falaise_ sofware
+  simulation stack
 
 .. * The DUNE_ experiment through its LArSim sofware simulation stack
 .. * The DUphy research group
@@ -592,11 +636,13 @@ Who uses and supports BxDecay0...
 References
 ===========
 
-* Vladimir Tretyak,  *DECAY0 event generator for  initial kinematics of particles  in alpha,  beta and  double  beta decays*,
-  talk_ given at Laboratori Nazionali del Gran Sasso, 17 March 2015  :
-* O.A.Ponkratenko, V.I.Tretyak, Yu.G.Zdesenko,
-  *Event Generator DECAY4 for Simulating Double-Beta Processes and Decays of Radioactive Nuclei*,
-  Phys. At. Nucl. 63 (2000) 1282 (`nucl-ex/0104018 <https://arxiv.org/pdf/nucl-ex/0104018.pdf>`_)
+* Vladimir Tretyak, *DECAY0 event  generator for initial kinematics of
+  particles in  alpha, beta  and double beta  decays*, talk_  given at
+  Laboratori Nazionali del Gran Sasso, 17 March 2015 :
+* O.A.Ponkratenko, V.I.Tretyak, Yu.G.Zdesenko,  Event Generator DECAY4
+  *for  Simulating Double-Beta  Processes  and  Decays of  Radioactive
+  *Nuclei*,  Phys.   At.  Nucl.   63  (2000)   1282  (`nucl-ex/0104018
+  *<https://arxiv.org/pdf/nucl-ex/0104018.pdf>`_)
 
 .. _talk: https://agenda.infn.it/materialDisplay.py?materialId=slides&confId=9358
 

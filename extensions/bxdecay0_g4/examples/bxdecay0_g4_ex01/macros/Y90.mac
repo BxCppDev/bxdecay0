@@ -1,0 +1,12 @@
+/control/verbose 0
+/run/verbose 0
+/bxdecay0/generator/verbosity 0
+/bxdecay0/generator/background Y90 123456
+/control/cout/ignoreThreadsExcept 0
+/tracking/verbose 0
+/analysis/setFileName Y90
+/analysis/h1/set 1 1000  0. 3000 keV	# gamma
+/analysis/h1/set 2 1000  0. 3000 keV	# e- 
+/analysis/h1/set 3 1000  0. 3000 keV	# e+
+/run/printProgress 10
+/run/beamOn 100000

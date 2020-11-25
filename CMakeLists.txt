@@ -477,9 +477,6 @@ if(UNIX AND NOT APPLE)
     PROPERTIES INSTALL_RPATH "\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
     )
 endif()
-# if("${isSystemDir}" STREQUAL "-1")
-#   set_target_properties(BxDecay0 PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-# endif()
 
 install(FILES ${BxDecay0_HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bxdecay0
@@ -611,6 +608,9 @@ install(TARGETS bxdecay0-run
   WORLD_READ WORLD_EXECUTE
   )
 
+#-----------------------------------------------------------------------
+# - Extensions
+add_subdirectory(extensions)
 
 #-----------------------------------------------------------------------
 # Configure/Install support files
@@ -682,3 +682,6 @@ install(FILES
   ${PROJECT_BINARY_DIR}/cmake/BxDecay0Config.cmake
   DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
+
+
+# - end

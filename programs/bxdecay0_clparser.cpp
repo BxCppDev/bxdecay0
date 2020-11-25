@@ -125,7 +125,6 @@ namespace bxdecay0 {
             config_.seed = seed;
           } else if (arg == "-N" or arg == "--nuclide") {
             std::string token = _args_[++iarg];
-          
             config_.nuclide = token;
           } else if (arg == "-l" or arg == "--level") {
             std::string token = _args_[++iarg];

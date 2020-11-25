@@ -1,0 +1,12 @@
+// clang-format off
+#ifndef BXDECAY0G4_VERSION_HH
+#define BXDECAY0G4_VERSION_HH
+
+//! String encoded full version number, e.g. "1.2.3", available at compile time
+#define BXDECAY0_GEANT4_PLUGIN_VERSION "@BxDecay0_Geant4Plugin_VERSION@"
+
+#endif // BXDECAY0G4_VERSION_HH
+
+// Local Variables: --
+// mode: c++ --
+// End: --

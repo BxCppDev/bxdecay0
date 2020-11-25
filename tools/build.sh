@@ -36,6 +36,8 @@ clean=false
 devel=false
 gsl_prefix=
 with_dbd_gA_data=false
+with_geant4_extension=false
+geant4_prefix=
 
 while [ -n "$1" ]; do
     opt="$1"
@@ -51,17 +53,32 @@ while [ -n "$1" ]; do
 	with_dbd_gA_data=true
     elif [ "${opt}" = "--without-dbd-gA-data" ]; then
 	with_dbd_gA_data=false
+    elif [ "${opt}" = "--with-geant4-extension" -o "${opt}" = "-g4" ]; then
+	with_geant4_extension=true
+    elif [ "${opt}" = "--without-geant4-extension" ]; then
+	with_geant4_extension=false
     elif [ "${opt}" = "--gsl-prefix" ]; then
 	shift 1
 	gsl_prefix="$1"
+    elif [ "${opt}" = "--geant4-prefix" ]; then
+	shift 1
+	geant4_prefix="$1"
     fi
     shift 1
 done
 
+if [ ${with_geant4_extension} = true ]; then
+    # Hack:
+    echo >&2 "[log] Sourcing Geant4.10 setup script..."
+    source "/ubuntu18.04_home/mauger/sw/Geant4/_install-10.6.3/bin/geant4.sh"
+fi
+
 echo >&2 "[log] install_dir = '${install_dir}'"
 echo >&2 "[log] clean       = ${clean}"
 echo >&2 "[log] with_dbd_gA_data = ${with_dbd_gA_data}"
+echo >&2 "[log] with_geant4_extension = ${with_geant4_extension}"
 echo >&2 "[log] gsl_prefix  = '${gsl_prefix}'"
+echo >&2 "[log] geant4_prefix  = '${geant4_prefix}'"
 
 if [ ${clean} = true ]; then
     if [ -d ${install_dir} ]; then
@@ -79,7 +96,7 @@ cd ${build_dir}
 
 gsl_options=
 if [ "x${gsl_prefix}" = "x" ]; then
-    which gsl-config > /dev/null 2>&1
+    which gsl-config >/dev/null 2>&1
     if [ $? -ne 0 ]; then
 	echo >&2 "[error] Cannot find 'gsl-config' on this system! Abort!"
 	my_exit 1
@@ -100,13 +117,35 @@ dbd_gA_data_options="-DBXDECAY0_INSTALL_DBD_GA_DATA=ON"
 if [ ${with_dbd_gA_data} = false ]; then
     dbd_gA_data_options="-DBXDECAY0_INSTALL_DBD_GA_DATA=OFF"
 fi
-    
+echo >&2 "[info] DBD gA options = '${dbd_gA_data_options}'"
+
+geant4_extension_options="-DBXDECAY0_WITH_GEANT4_EXTENSION=OFF"
+if [ ${with_geant4_extension} = true ]; then
+    if [ "x${geant4_prefix}" = "x" ]; then
+	which geant4-config >/dev/null 2>&1
+	if [ $? -ne 0 ]; then
+	    echo >&2 "[error] Cannot find 'geant4-config' on this system! Abort!"
+	    my_exit 1
+	fi
+	geant4_ver="$(geant4-config --version)"
+	geant4_prefix="$(geant4-config --prefix)/lib/Geant4-${geant4_ver}"
+    fi
+    if [ ! -d ${geant4_prefix} ]; then
+	echo >&2 "[error] Geant4 prefix does not exist on this system! Abort!"
+	my_exit 1
+    fi
+    geant4_extension_options="-DBXDECAY0_WITH_GEANT4_EXTENSION=ON -DGeant4_DIR=${geant4_prefix}"
+    echo >&2 "[info] Geant4 extension options = '${geant4_extension_options}'"
+fi
+
+## exit 0
 echo >&2 ""
 echo >&2 "[info] Configuring..."
 cmake \
     -DCMAKE_INSTALL_PREFIX="${install_dir}" \
     ${gsl_options} \
     ${dbd_gA_data_options} \
+    ${geant4_extension_options} \
     ${src_dir}
 if [ $? -ne 0 ]; then
     echo >&2 "[error] CMake failed! Abort!"

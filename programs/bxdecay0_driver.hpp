@@ -43,7 +43,7 @@ namespace bxdecay0 {
       std::string  nuclide;                   ///< Name of the decaying isotope
       int          level     = 0;             ///< Daughter's energy level (default: ground state)
       dbd_mode_type dbd_mode = DBDMODE_UNDEF; ///< Double beta decay mode (only for DBD mode)
-      double energy_min_MeV  = std::numeric_limits<double>::quiet_NaN(); ///< Minimum sum energy in MeV (only for some DBD isotopes and modes )
+      double energy_min_MeV  = std::numeric_limits<double>::quiet_NaN(); ///< Minimum sum energy in MeV (only for some DBD isotopes and modes)
       double energy_max_MeV  = std::numeric_limits<double>::quiet_NaN(); ///< Maximum sum energy in MeV (only for some DBD isotopes and modes)
       double activity_Bq     = std::numeric_limits<double>::quiet_NaN(); ///< Activity in Bq (optional, for the generation of random decay times)
       std::string  basename;                  ///< Base name of the output data file

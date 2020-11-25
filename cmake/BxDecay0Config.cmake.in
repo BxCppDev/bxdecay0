@@ -41,5 +41,8 @@ if(NOT BxDecay0_TARGETS_LOADED)
 endif()
 
 set(BxDecay0_LIBRARIES BxDecay0::BxDecay0)
+if (BxDecay0_WITH_GEANT4_EXTENSION)
+  list(APPEND BxDecay0Geant4_LIBRARIES BxDecay0::BxDecay0_Geant4)
+endif()
 
 # - end

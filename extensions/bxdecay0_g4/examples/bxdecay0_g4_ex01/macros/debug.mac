@@ -1,0 +1,5 @@
+/control/verbose 2
+/run/verbose 1
+/tracking/verbose 2
+/bxdecay0/generator/background Co60 314159
+/run/beamOn 1

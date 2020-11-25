@@ -1,0 +1,10 @@
+/control/verbose 2
+/run/verbose 2
+/bxdecay0/generator/background Co60 314159
+/analysis/setFileName run1
+/analysis/h1/set 1  1000  0. 4000.0 keV	# e- e-
+/analysis/h1/set 2  1000  0. 4000.0 keV	# e+
+/analysis/h1/set 3  1000  0. 4000.0 keV	# gamma
+/analysis/h1/set 4  1000  0.   10.0 MeV	# alpha
+/run/printProgress 500
+/run/beamOn 1000

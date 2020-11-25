@@ -89,6 +89,7 @@ inc_dir="${prefix_dir}/@CMAKE_INSTALL_INCLUDEDIR@"
 data_dir="${prefix_dir}/@CMAKE_INSTALL_DATADIR@/@BxDecay0_TAG@"
 example_dir="${data_dir}/examples"
 resource_dir="${data_dir}/resources"
+# plugin_dir="${lib_dir}/BxDecay0/plugins"
 if [ -n "${BXDECAY0_RESOURCE_DIR}" ]; then
     echo >&2 "[log] Overriding BxDecay0 resource dir from env 'BXDECAY0_RESOURCE_DIR'..."
     if [ ! -d "${BXDECAY0_RESOURCE_DIR}" ]; then
@@ -155,6 +156,9 @@ while [ -n "$?" ]; do
 	  elif [ "${option}" = "--bindir" ]; then
 	      echo ${bin_dir}
 	      exit 0
+	  # elif [ "${option}" = "--plugindir" ]; then
+	  #     echo ${plugin_dir}
+	  #     exit 0
 	  elif [ "${option}" = "--incdir" ]; then
 	      echo ${inc_dir}
 	      exit 0
