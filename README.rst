@@ -319,6 +319,9 @@ Configuration options:
   ..
 
 
+* ``BXDECAY0_WITH_GEANT4_EXTENSION`` : Build  and install the BxDecay0
+  Geant4 extension library (needs Geant4 version >= 10.6).
+
 Build, test and install
 -----------------------
 
