@@ -582,6 +582,21 @@ physical quantities of interest using its own unit system.
    }
 ..
 
+The ``bxdecay0-run`` program
+============================
+
+``bxdecay0-run`` is a standalone program which generated decay event from a BxDecay0 driver
+and stores them in ascii formatted files. The files can be easily parsed by some external program
+or read by the ``bxdecay0::event_reader`` class.
+
+Usage:
+
+.. code:: bash
+
+   $ bxdecay0-run --help
+..
+
+
 Geant4 extension library
 ========================
 
