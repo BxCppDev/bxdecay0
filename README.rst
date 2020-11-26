@@ -101,13 +101,13 @@ GSL_, ROOT_ or whatever).
   - fix missing/odd references for some *background* decays
   - add Rn222 decay generator
 
-- Release 1.0.6 (last release):
+- Release 1.0.6:
 
   - add support for clang-format and clang-tidy
   - add a  few background isotopes,  namely Po210, Po218,  Th230, U234
     and U238, as simplified alpha emitters
 
-- Release 1.0.7 (next release):
+- Release 1.0.7:
 
   - move some resource files
   - DBD gA  processes are  not optional  anymore but  associated phase
