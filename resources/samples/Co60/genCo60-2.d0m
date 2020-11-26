@@ -1,0 +1,9 @@
+library-name=BxDecay0
+library-version=1.0.7
+decay-category=background
+nuclide=Co60
+seed=314160
+time-from-epoch-s=1606344001
+activity-Bq=1
+nb-events=10
+@status=0

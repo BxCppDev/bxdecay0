@@ -244,6 +244,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Yb170low.h # Added from 2018-12-05
   # Main wrapper class
   bxdecay0/decay0_generator.h
+  bxdecay0/event_reader.h
   )
 
 configure_file(bxdecay0/resource.cc.in
@@ -428,7 +429,8 @@ set(BxDecay0_SOURCES
   bxdecay0/Ta180mEC.cc # Added from 2018-12-05
   bxdecay0/Yb170low.cc # Added from 2018-12-05
   bxdecay0/decay0_generator.cc
- )
+  bxdecay0/event_reader.cc
+  )
 
 list(APPEND BxDecay0_HEADERS bxdecay0/dbd_gA.h)
 list(APPEND BxDecay0_SOURCES bxdecay0/dbd_gA.cc)
@@ -465,7 +467,7 @@ target_include_directories(BxDecay0
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
+  )
 # GSL may be a private dep, only seems to appear in .cc files
 target_link_libraries(BxDecay0 PUBLIC GSL::gsl)
 set_target_properties(BxDecay0 PROPERTIES
@@ -525,6 +527,10 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/data
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
   )
 
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/samples
+  DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
+  )
+
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}
   )
@@ -552,16 +558,17 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
     bxdecay0/testing/test_decay0_generator.cxx
+    bxdecay0/testing/test_event_reader.cxx
     )
 
-#  if (BXDECAY0_INSTALL_DBD_GA_DATA)
-    message(STATUS "Appending DBD gA test...")
-    list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
-#  endif()
+  #  if (BXDECAY0_INSTALL_DBD_GA_DATA)
+  message(STATUS "Appending DBD gA test...")
+  list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
+  #  endif()
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
 
   foreach(_testsource ${BxDecay0_TESTS})
-   get_filename_component(_testname "${_testsource}" NAME_WE)
+    get_filename_component(_testname "${_testsource}" NAME_WE)
     set(_testname "bxdecay0-${_testname}")
     add_executable(${_testname} ${_testsource})
     target_link_libraries(${_testname} BxDecay0)
@@ -642,10 +649,10 @@ install(FILES "${PROJECT_BINARY_DIR}/cmake/bxdecay0.pc"
 # - CMake
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-   "${PROJECT_BINARY_DIR}/BxDecay0ConfigVersion.cmake"
-   VERSION ${BxDecay0_VERSION}
-   COMPATIBILITY SameMajorVersion
-   )
+  "${PROJECT_BINARY_DIR}/BxDecay0ConfigVersion.cmake"
+  VERSION ${BxDecay0_VERSION}
+  COMPATIBILITY SameMajorVersion
+  )
 
 # Build tree
 # targets...
@@ -661,7 +668,7 @@ configure_package_config_file(cmake/BxDecay0Config.cmake.in
   INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}"
   PATH_VARS BxDecay0_CONFIG_INCLUDEDIR
   NO_CHECK_REQUIRED_COMPONENTS_MACRO
-)
+  )
 
 # Install Tree
 # targets...

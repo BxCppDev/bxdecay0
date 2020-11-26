@@ -65,9 +65,9 @@ namespace bxdecay0 {
       std::cerr << "  --nuclide (-N) NAME        : Set the name of the decaying nuclide \n";
       std::cerr << "  --level (-l) INTVAL        : Set the level of the daughter nuclide (default: 0 (g.s.))\n";
       std::cerr << "  --dbd-mode (-m) INTVAL     : Set the double beta decay mode (supported values: [" << DBDMODE_MIN << "," << DBDMODE_MAX << "])\n";
-      std::cerr << "  --dbd-emin (-e) REALVAL    : Set the double beta decay minimum sum energy (only for some \"dbd\" decay modes)\n";
-      std::cerr << "  --dbd-emax (-E) REALVAL    : Set the double beta decay maximum sum energy (only for some \"dbd\" decay modes)\n";
-      std::cerr << "  --activity (-a) REALVAL    : Set the activity (in Bq, default: 1 Bq)\n";
+      std::cerr << "  --dbd-emin (-e) REALVAL    : Set the double beta decay minimum sum energy (in MeV, only for some \"dbd\" decay modes)\n";
+      std::cerr << "  --dbd-emax (-E) REALVAL    : Set the double beta decay maximum sum energy (in MeV, only for some \"dbd\" decay modes)\n";
+      std::cerr << "  --activity (-a) REALVAL    : Set the activity (>0.0, in Bq, default: not set)\n";
       std::cerr << "  --basename (-b) STRING     : Set the basename of output files (default: \"/tmp/bxdecay0-run\")\n";
       std::cerr << "                                                     \n";
       std::cerr << "Parameters : \n";
@@ -84,7 +84,6 @@ namespace bxdecay0 {
       std::cerr << "                                                     \n";
       std::cerr << "    bxdecay0-run -s 314159 -n 10 -c background -N Co60 /tmp/genCo60 \n";
       std::cerr << "                                                     \n";
-      // std::cerr << "\n";       
     }
     return;
   }

@@ -74,7 +74,7 @@ namespace bxdecay0 {
       }
     }
     if (!std::isnan(config_.activity_Bq)) {
-      if (config_.activity_Bq < 0.0) {
+      if (config_.activity_Bq <= 0.0) {
         throw std::logic_error("bxdecay0::driver::ctor: Invalid activity value!");
       }
     }
@@ -129,7 +129,7 @@ namespace bxdecay0 {
     if (use_specific_erange) {
       toallevents = decay0.get_bb_params().toallevents;
     }
-    double activity_Bq = 1.0;
+    double activity_Bq = std::numeric_limits<double>::quiet_NaN();
     if (! std::isnan(_config_.activity_Bq)) {
       activity_Bq = _config_.activity_Bq;
     }
@@ -143,7 +143,9 @@ namespace bxdecay0 {
     fmeta << "nuclide=" << decay0.get_decay_isotope() << std::endl;
     fmeta << "seed=" << _config_.seed << std::endl;
     fmeta << "time-from-epoch-s=" << now_time << std::endl;
-    fmeta << "activity-Bq=" << activity_Bq << std::endl;
+    if (! std::isnan(activity_Bq)) {
+      fmeta << "activity-Bq=" << activity_Bq << std::endl;
+    }
     fmeta << "nb-events=" << _config_.nb_events << std::endl;
     if (_config_.decay_category == decay0_generator::DECAY_CATEGORY_DBD) {
       fmeta << "dbd-daughter-level=" << decay0.get_decay_dbd_level() << std::endl;
@@ -159,7 +161,11 @@ namespace bxdecay0 {
     // Loop on events:
     for (std::size_t ievent = 0; ievent < _config_.nb_events; ievent++) {
       decay0.shoot(prng, gendecay);
-      double evtime = decay_timer(generator);
+      double evtime = 0.0;
+      if (! std::isnan(activity_Bq)) {
+        // Randomize activity
+        evtime = decay_timer(generator);
+      }
       gendecay.set_time(evtime);
       if (_config_.logging >= LOGGING_DEBUG) {
         gendecay.print(std::cerr, "DBD event:", "[debug] ");
