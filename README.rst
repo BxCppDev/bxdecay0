@@ -691,12 +691,12 @@ Contents of the ``/tmp/genCo60.d0m`` metadata output file:
 ..
    
 
-Geant4 extension library
-========================
+The BxDecay0 Geant4 extension library
+=====================================
 
 The BxDecay0 library  can be built with an  optional companion library
 named ``BxDecay0_Geant4``. Of course Geant4 10.6 must be installed and
-setup on your system.
+setup on your system to make it work.
 
 The      option      to      activate     this      extension      is:
 ``BXDECAY0_WITH_GEANT4_EXTENSION``.
