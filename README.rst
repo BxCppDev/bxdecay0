@@ -525,7 +525,7 @@ List of examples
 * ``ex01`` : Generation of Mo100 two neutrino double beta decay events
   with plain ASCII output,
 * ``ex02`` : Generation of Mo100 two neutrino double beta decay events
-  with HepMC3 formatted ASCII output (requires a proper installation if the HepMC3 library),
+  with HepMC3 formatted ASCII output (requires a proper installation of the HepMC3 library),
 * ``ex03`` : Generation of Co60 decay events with plain ASCII output,
 * ``ex04`` : Use of the *plumbing* ``bxdecay0::genbbsub`` function (expert/developper only),
 * ``ex05`` : Use of the ``bxdecay0::dbd_gA`` class (optional).
