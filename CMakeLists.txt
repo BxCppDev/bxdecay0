@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.7)
+project(BxDecay0 VERSION 1.0.8)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -415,7 +415,8 @@ set(BxDecay0_SOURCES
   bxdecay0/Xe133.cc
   bxdecay0/Xe135.cc
   bxdecay0/Y88.cc
-  bxdecay0/Y90.cc
+  # bxdecay0/Y90.cc    # Original version from Decay0
+  bxdecay0/Y90_1.cc    # version 1.0.8 : Modified with a more realistic positron energy spectrum from internal pair production
   bxdecay0/Zn65.cc
   bxdecay0/Zr92low.cc
   bxdecay0/Zr96.cc
