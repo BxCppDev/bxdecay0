@@ -102,7 +102,7 @@ namespace bxdecay0 {
         double E = Emax * prng_();
         double f = fmax *  prng_();
         double fE = E * (2 * Epeak - E);
-        if (fE < f) {
+        if (f < fE) {
           Epos = E;
           break;
         }
