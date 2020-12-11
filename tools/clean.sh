@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# A Bash script to clean devel BxDecay0 installation on Ubuntu (YY.04).
+# A Bash script to clean devel BxDecay0 installation on Ubuntu Linux (20.04).
 #
 #
 opwd=$(pwd)

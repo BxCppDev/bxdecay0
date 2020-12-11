@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-
-# A Bash script to build and install devel BxDecay0 on Ubuntu (YY.04).
+# Author: F.Mauger
+# Date: 2020-12-12
+# A Bash script to build and install devel BxDecay0 on Ubuntu Linux (20.04).
+# Reserved for quick build by developpers.
 
 opwd=$(pwd)
 function my_exit()
@@ -66,12 +68,6 @@ while [ -n "$1" ]; do
     fi
     shift 1
 done
-
-if [ ${with_geant4_extension} = true ]; then
-    # Hack:
-    echo >&2 "[log] Sourcing Geant4.10 setup script..."
-    source "/ubuntu18.04_home/mauger/sw/Geant4/_install-10.6.3/bin/geant4.sh"
-fi
 
 echo >&2 "[log] install_dir = '${install_dir}'"
 echo >&2 "[log] clean       = ${clean}"
