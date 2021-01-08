@@ -24,6 +24,8 @@ set(BxDecay0_WITH_GEANT4_EXTENSION @BxDecay0_WITH_GEANT4_EXTENSION@)
 
 @PACKAGE_INIT@
 
+set(_BxDecay0_supported_components Geant4)
+
 set_and_check(BxDecay0_INCLUDE_DIR @PACKAGE_BxDecay0_CONFIG_INCLUDEDIR@)
 
 #-----------------------------------------------------------------------
@@ -47,25 +49,23 @@ if (BxDecay0_WITH_GEANT4_EXTENSION)
   list(APPEND BxDecay0Geant4_LIBRARIES BxDecay0::BxDecay0_Geant4)
 endif()
 
-set(_BxDecay0_supported_components Geant4)
-
 set(BxDecay0_FOUND True)
 # Component check
-foreach(_comp ${BxDecay0_FIND_COMPONENTS})
-  if (NOT _comp IN_LIST _BxDecay0_supported_components)
+foreach(_requested_comp ${BxDecay0_FIND_COMPONENTS})
+  if (NOT _requested_comp IN_LIST _BxDecay0_supported_components)
     set(BxDecay0_FOUND False)
-    set(BxDecay0_NOT_FOUND_MESSAGE "Unsupported component: ${_comp}")
+    set(BxDecay0_NOT_FOUND_MESSAGE "Unsupported component: ${_requested_comp}")
   endif()
+  if ("${_requested_comp}" STREQUAL "Geant4")
+    if (NOT BxDecay0_WITH_GEANT4_EXTENSION)
+      set(BxDecay0_Geant4_FOUND False)      
+      set(BxDecay0_FOUND False)
+      set(BxDecay0_NOT_FOUND_MESSAGE "Requested component ${_requested_comp} is not available")
+    else()
+      set(BxDecay0_Geant4_FOUND True)      
+    endif()
+  endif()
+  
 endforeach()
-set(BxDecay0_Geant4_FOUND False)
-if (BxDecay0_WITH_GEANT4_EXTENSION)
-  # message(STATUS "DEBUG *** BxDecay0_WITH_GEANT4_EXTENSION=${BxDecay0_WITH_GEANT4_EXTENSION}")
-  set(BxDecay0_Geant4_FOUND True)
-  # message(STATUS "DEBUG *** BxDecay0_Geant4_FOUND=${BxDecay0_Geant4_FOUND}")
-endif()
-
-# message(STATUS "DEBUG *** BxDecay0_FOUND=${BxDecay0_FOUND}")
-check_required_components(BxDecay0)
-# message(STATUS "DEBUG *** BxDecay0_FOUND=${BxDecay0_FOUND}")
 
 # - end

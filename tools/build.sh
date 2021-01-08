@@ -29,6 +29,7 @@ Options:
   --with-geant4-extension    build the Geant4 extension library
   --without-geant4-extension do not build the Geant4 extension library (default)
   --geant4-prefix [path]     set the Geant4 installation directory
+  --install-dir [path]       set the installation directory
 EOF
     return 0
 }
@@ -67,6 +68,9 @@ while [ -n "$1" ]; do
     elif [ "${opt}" = "--geant4-prefix" ]; then
 	shift 1
 	geant4_prefix="$1"
+    elif [ "${opt}" = "--install-dir" ]; then
+	shift 1
+	install_dir="$1"
     fi
     shift 1
 done
