@@ -10,12 +10,14 @@ project(bxdecay0_g4_ex01)
 #
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 if(WITH_GEANT4_UIVIS)
-  find_package(Geant4 REQUIRED ui_all vis_all)
+  find_package(Geant4 10.6.3 REQUIRED ui_all vis_all)
 else()
-  find_package(Geant4 REQUIRED)
+  find_package(Geant4 10.6.3 REQUIRED)
 endif()
 
-find_package(BxDecay0 REQUIRED 1.0.7)
+find_package(BxDecay0 1.0.7 REQUIRED COMPONENTS Geant4 CONFIG)
+# message(STATUS "DEBUG *** BxDecay0_FOUND=${BxDecay0_FOUND}")
+# message(STATUS "DEBUG *** BxDecay0_INCLUDE_DIRS=${BxDecay0_INCLUDE_DIRS}")
 include_directories(${BxDecay0_INCLUDE_DIRS}) 
 
 #----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-
+# BxDecay0 Geant4 library
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(BxDecay0_Geant4 VERSION 1.0.0)

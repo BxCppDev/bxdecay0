@@ -21,12 +21,14 @@ build.sh [options]
 
 Options:
 
-  --help              print this help then exit
-  --prefix [path]     set the installation directory
-  --gsl-prefix [path] set the GSL installation directory
-  --with-dbd-gA-data  build with DBD gA data support
-  --without-dbd-gA-data  build without DBD gA data support
-
+  --help                     print this help then exit
+  --prefix [path]            set the installation directory
+  --gsl-prefix [path]        set the GSL installation directory
+  --with-dbd-gA-data         build with DBD gA data support
+  --without-dbd-gA-data      build without DBD gA data support
+  --with-geant4-extension    build the Geant4 extension library
+  --without-geant4-extension do not build the Geant4 extension library (default)
+  --geant4-prefix [path]     set the Geant4 installation directory
 EOF
     return 0
 }

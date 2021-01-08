@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.8)
+project(BxDecay0 VERSION 1.0.9)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -517,9 +517,6 @@ else()
   message(STATUS "Note: You can locate them through the BXDECAY0_DBD_GA_DATA_DIR environment variable")
 endif()
 
-# message(STATUS "******* CMAKE_INSTALL_DATAROOTDIR=${CMAKE_INSTALL_DATAROOTDIR}")
-# message(STATUS "******* BxDecay0_TAG=${BxDecay0_TAG}")
-
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/resources/description
   DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${BxDecay0_TAG}/resources
   )
@@ -562,10 +559,8 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_event_reader.cxx
     )
 
-  #  if (BXDECAY0_INSTALL_DBD_GA_DATA)
   message(STATUS "Appending DBD gA test...")
   list(APPEND BxDecay0_TESTS bxdecay0/testing/test_dbd_gA.cxx)
-  #  endif()
   set(_bxdecay0_TEST_ENVIRONMENT "BXDECAY0_RESOURCE_DIR=${PROJECT_SOURCE_DIR}/resources")
 
   foreach(_testsource ${BxDecay0_TESTS})
@@ -619,12 +614,13 @@ install(TARGETS bxdecay0-run
 #-----------------------------------------------------------------------
 # - Extensions
 add_subdirectory(extensions)
+# message(STATUS "DEBUG **** BxDecay0_WITH_GEANT4_EXTENSION=${BxDecay0_WITH_GEANT4_EXTENSION}")
 
 #-----------------------------------------------------------------------
 # Configure/Install support files
 # bxdecay0-config program
 file(RELATIVE_PATH BxDecay0_BINDIR_TO_PREFIX "${CMAKE_INSTALL_FULL_BINDIR}" "${CMAKE_INSTALL_PREFIX}")
-# message(STATUS "**** BxDecay0_BINDIR_TO_PREFIX       = '${BxDecay0_BINDIR_TO_PREFIX}'")
+# message(STATUS "DEBUG **** BxDecay0_BINDIR_TO_PREFIX       = '${BxDecay0_BINDIR_TO_PREFIX}'")
 configure_file(bxdecay0-config.in
   ${PROJECT_BINARY_DIR}/bxdecay0-config
   @ONLY)
@@ -668,7 +664,7 @@ configure_package_config_file(cmake/BxDecay0Config.cmake.in
   INSTALL_DESTINATION "."
   INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}"
   PATH_VARS BxDecay0_CONFIG_INCLUDEDIR
-  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+  # NO_CHECK_REQUIRED_COMPONENTS_MACRO
   )
 
 # Install Tree
@@ -690,6 +686,5 @@ install(FILES
   ${PROJECT_BINARY_DIR}/cmake/BxDecay0Config.cmake
   DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/BxDecay0
   )
-
 
 # - end

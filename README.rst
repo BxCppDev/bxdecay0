@@ -3,8 +3,8 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak
-:date: 2020-12-12
-:copyright: Copyright (C) 2017-2020 the BxCppDev group
+:date: 2021-01-08
+:copyright: Copyright (C) 2017-2021 the BxCppDev group
 
 The **BxDecay0** C++  library provides a set of  classes and functions
 for the random generation of  simulated nuclear decays. It consists in
@@ -131,7 +131,17 @@ GSL_, ROOT_ or whatever).
     Radiation  and Isotopes  156  (2020): 108942).   Thanks to  Daniel
     Bonifacio (IRD/CNEN, Rio de  Janeiro, Brazil) for stimulating this
     improvement.
-    
+ 
+- Release 1.0.9:
+
+  - The BxDecay0 Geant4 extension library can be specified as
+    a requested component from the find_package command. Example:
+
+    .. code::
+       
+       find_package(BxDecay0 1.0.9 REQUIRED COMPONENTS Geant4 CONFIG)
+    ..
+  
 .. _SuperNEMO: http://supernemo.org/
 
 Design
