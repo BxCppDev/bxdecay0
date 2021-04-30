@@ -126,8 +126,6 @@ Macro example:
      /bxdecay0/generator/mdl gamma 0 30.0 45.0 15.0 false
      /bxdecay0/generator/dump
      /run/beamOn 30
-     /bxdecay0/generator/destroy
-     /bxdecay0/generator/dump
   ..
 
  
