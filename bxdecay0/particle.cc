@@ -194,7 +194,7 @@ namespace bxdecay0 {
     if (!title_.empty()) {
       out_ << indent_ << title_ << "\n";
     }
-    out_ << indent_ << "|-- Code: '" << geant3_particle_name(_code_) << "'\n";
+    out_ << indent_ << "|-- Code: [" << _code_ << "] -> '" << geant3_particle_name(_code_) << "'\n";
     out_ << indent_ << "|-- Time: " << _time_ << " [second]\n";
     out_ << indent_ << "|-- Momentum * c: "
          << "[MeV]\n";

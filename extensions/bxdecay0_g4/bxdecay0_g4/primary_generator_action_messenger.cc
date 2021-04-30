@@ -22,7 +22,7 @@ namespace bxdecay0_g4 {
 
     // Directory /bxdecay0/
     _pga_directory_ = new G4UIdirectory("/bxdecay0/");
-    _pga_directory_->SetGuidance(" BxDecay0 commands.");
+    _pga_directory_->SetGuidance(" BxDecay0 comands.");
 
     // Directory /bxdecay0/generator/
     _pga_gtor_directory_ = new G4UIdirectory("/bxdecay0/generator/");
@@ -42,7 +42,98 @@ namespace bxdecay0_g4 {
         levelParam->SetParameterRange("level>=0");
         _pga_gtor_log_cmd_->SetParameter(levelParam);
       }
+    }
+  
+    {
+      // Command /particle/generator/dump
+      _pga_gtor_dump_cmd_ = new G4UIcommand("/bxdecay0/generator/dump", this);
+      _pga_gtor_dump_cmd_->SetGuidance("print the current configuration of the BxDecay0 driver");
+      _pga_gtor_dump_cmd_->SetGuidance("[usage] /bxdecay0/generator/dump");
+    }
 
+    {
+      // Command /particle/generator/apply
+      _pga_gtor_apply_cmd_ = new G4UIcommand("/bxdecay0/generator/apply", this);
+      _pga_gtor_apply_cmd_->SetGuidance("Apply the current configuration");
+      _pga_gtor_apply_cmd_->SetGuidance("[usage] /bxdecay0/generator/apply");
+    }
+  
+    {
+      // Command /particle/generator/destroy
+      _pga_gtor_destroy_cmd_ = new G4UIcommand("/bxdecay0/generator/destroy", this);
+      _pga_gtor_destroy_cmd_->SetGuidance("Destroy the current configuration");
+      _pga_gtor_destroy_cmd_->SetGuidance("[usage] /bxdecay0/generator/destroy");
+    }
+ 
+    {
+      // Command /particle/generator/mdl
+      _pga_gtor_mdl_cmd_ = new G4UIcommand("/bxdecay0/generator/mdl", this);
+      _pga_gtor_mdl_cmd_->SetGuidance("Set the parameters of a MDL post-generation event biasing operation in the BxDecay0 event generator");
+      _pga_gtor_mdl_cmd_->SetGuidance("[usage] /bxdecay0/generator/mdl [TARGET_PARTICLE] [TARGET_RANK] ");
+      _pga_gtor_mdl_cmd_->SetGuidance("                                [CONE_LONGITUDE] [CONE_COLATITUDE] [CONE_APERTURE] ");
+      _pga_gtor_mdl_cmd_->SetGuidance("                                [ERROR_ON_MISSING_TARGET]");
+      _pga_gtor_mdl_cmd_->SetGuidance("  TARGET_PARTICLE: (string) name of the target particle");
+      _pga_gtor_mdl_cmd_->SetGuidance("    Supported values: *|all, e+|positron, e-|electron, g|gamma, a|alpha, n|neutron, p|proton");
+      _pga_gtor_mdl_cmd_->SetGuidance("  TARGET_RANK: (int) rank of the target particle (0, 1...)");
+      _pga_gtor_mdl_cmd_->SetGuidance("  CONE_LONGITUDE: (double) Cone axis longitude (0..360 degree)");
+      _pga_gtor_mdl_cmd_->SetGuidance("  CONE_COLATITUDE: (double) Cone axis colatitude (0..180 degree)");
+      _pga_gtor_mdl_cmd_->SetGuidance("  CONE_APERTURE: (double) Cone angle of aperture (0..180 degree)");
+      _pga_gtor_mdl_cmd_->SetGuidance("  ERROR_ON_MISSING_TARGET: (bool) Throw error on missing target particle (default: false)");
+
+      {
+        // Target particle type parameter: 
+        G4UIparameter * targetParticleNameParam = new G4UIparameter("particle", 's', true);
+        targetParticleNameParam->SetGuidance("the name of the target particle (optional)");
+        targetParticleNameParam->SetDefaultValue("all");
+        _pga_gtor_mdl_cmd_->SetParameter(targetParticleNameParam);
+      }
+
+      {
+        // Target particle rank parameter: 
+        G4UIparameter * targetParticleRankParam = new G4UIparameter("rank", 'i', true);
+        targetParticleRankParam->SetGuidance("the rank of the target particle (optional)");
+        targetParticleRankParam->SetDefaultValue("-1");
+        _pga_gtor_mdl_cmd_->SetParameter(targetParticleRankParam);
+      }
+ 
+      {
+        // Cone longitude: 
+        G4UIparameter * coneLongitudeParam = new G4UIparameter("longitude", 'f', true);
+        coneLongitudeParam->SetGuidance("longitude of the emission cone axis (degree)");
+        // coneLongitudeParam->SetParameterName("longitude");
+        // coneLongitudeParam->SetParameterRange("longitude >= 0.0 && longitude <= 360.0");
+        coneLongitudeParam->SetDefaultValue("0.0");
+        _pga_gtor_mdl_cmd_->SetParameter(coneLongitudeParam);
+      }
+ 
+       {
+        // Cone colatitude: 
+        G4UIparameter * coneColatitudeParam = new G4UIparameter("colatitude", 'f', true);
+        coneColatitudeParam->SetGuidance("colatitude of the emission cone axis (degree)");
+        // coneColatitudeParam->SetParameterName("colatitude");
+        // coneColatitudeParam->SetParameterRange("colatitude >= 0.0 && colatitude <= 180.0");
+        coneColatitudeParam->SetDefaultValue("0.0");
+        _pga_gtor_mdl_cmd_->SetParameter(coneColatitudeParam);
+      }
+
+      {
+        // Cone aperture: 
+        G4UIparameter * coneApertureParam = new G4UIparameter("aperture", 'f', true);
+        coneApertureParam->SetGuidance("aperture of the emission cone (degree)");
+        // coneApertureParam->SetParameterName("aperture");
+        // coneApertureParam->SetParameterRange("aperture >= 0.0 && aperture <= 180.0");
+        coneApertureParam->SetDefaultValue("0.0");
+        _pga_gtor_mdl_cmd_->SetParameter(coneApertureParam);
+      }
+   
+      {
+        // Error on missing target parameter: 
+        G4UIparameter * errorOnMissingTargetParam = new G4UIparameter("error_on_missing_target", 'b', true);
+        errorOnMissingTargetParam->SetGuidance("throw error on missing target particle");
+        errorOnMissingTargetParam->SetDefaultValue("false");
+        _pga_gtor_mdl_cmd_->SetParameter(errorOnMissingTargetParam);
+      }
+    
     }
     
     {
@@ -65,7 +156,7 @@ namespace bxdecay0_g4 {
         // Seed parameter: 
         G4UIparameter * seedParam = new G4UIparameter("seed", 'i', false);
         seedParam->SetGuidance("seed for the BxDecay0 pseudo-random number generator");
-        seedParam->SetParameterRange("seed>=0");
+        seedParam->SetParameterRange("seed>0");
         _pga_gtor_bkgd_cmd_->SetParameter(seedParam);
       }
       
@@ -220,12 +311,20 @@ namespace bxdecay0_g4 {
     _pga_gtor_bkgd_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
     _pga_gtor_dbd_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
     _pga_gtor_dbdr_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
+    _pga_gtor_mdl_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
+    _pga_gtor_apply_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
+    _pga_gtor_destroy_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
+    _pga_gtor_dump_cmd_->AvailableForStates(G4State_PreInit, G4State_Idle);
     
     return;
   }
 
   PrimaryGeneratorActionMessenger::~PrimaryGeneratorActionMessenger()
   {
+    delete _pga_gtor_dump_cmd_;
+    delete _pga_gtor_apply_cmd_;
+    delete _pga_gtor_destroy_cmd_;
+    delete _pga_gtor_mdl_cmd_;
     delete _pga_gtor_dbdr_cmd_;
     delete _pga_gtor_dbd_cmd_;
     delete _pga_gtor_bkgd_cmd_;
@@ -242,6 +341,23 @@ namespace bxdecay0_g4 {
     if (command_ == _pga_gtor_log_cmd_) {
       std::ostringstream sCurValue;
       sCurValue << _pga_->GetVerbosity();
+      curValue = sCurValue.str();
+    }
+    if (command_ == _pga_gtor_dump_cmd_) {
+    }
+    if (command_ == _pga_gtor_apply_cmd_) {
+    }
+    if (command_ == _pga_gtor_destroy_cmd_) {
+    }
+    if (command_ == _pga_gtor_mdl_cmd_) {
+      PrimaryGeneratorAction::ConfigurationInterface configInt = _pga_->GetConfiguration();
+      std::ostringstream sCurValue;
+      sCurValue << (configInt.mdl_target_name.empty() ? "*" :  configInt.mdl_target_name) << ' ';
+      sCurValue << configInt.mdl_target_rank << ' ';
+      sCurValue << configInt.mdl_cone_longitude << ' ';
+      sCurValue << configInt.mdl_cone_colatitude << ' ';
+      sCurValue << configInt.mdl_cone_aperture << ' ';
+      sCurValue << std::boolalpha << configInt.mdl_error_on_missing_particle;
       curValue = sCurValue.str();
     }
     if (command_ == _pga_gtor_bkgd_cmd_) {
@@ -287,11 +403,95 @@ namespace bxdecay0_g4 {
     if (_pga_->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
                                     << "new_value='" << new_value_ << "'\n";
 
+    if (command_ == _pga_gtor_apply_cmd_) {
+      _pga_->ApplyConfiguration();  
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'apply' -> Action -> ApplyConfiguration...\n";
+        const PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GetConfiguration();
+        configInt.print(std::cerr);
+      }
+    }
+
+    if (command_ == _pga_gtor_destroy_cmd_) {
+      _pga_->DestroyConfiguration();  
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'destroy' -> Action -> DestroyConfiguration...\n";
+        const PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GetConfiguration();
+        configInt.print(std::cerr);
+      }
+    }
+    
+    if (command_ == _pga_gtor_dump_cmd_) {
+      _pga_->Dump(G4cout);  
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'dump' -> Action -> Dump...\n";
+      }
+    }
+   
     if (command_ == _pga_gtor_log_cmd_) {
       G4int   level = 0;             // 0
       G4Tokenizer next(new_value_);
       level = StoI(next());
       _pga_->SetVerbosity(level);  
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'log' -> Action -> SetVerbosity...\n";
+      }
+    }
+    
+    if (command_ == _pga_gtor_mdl_cmd_) {
+      // Temporary parsing variables:
+      G4String particuleName;         // 0
+      G4int    particuleRank  = -1;   // 1
+      G4double coneLongitude  = 0.0;  // 2
+      G4double coneColatitude = 0.0;  // 3
+      G4double coneAperture   = 0.0;  // 4
+      G4bool   errorOnMissingTarget = false; // 5
+      G4Tokenizer next(new_value_);
+      particuleName = next();
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "particuleName = " << particuleName << "\n";
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "particuleRank = " << particuleRank << "\n";
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "coneLongitude = " << coneLongitude << "\n";
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "coneColatitude = " << coneColatitude << "\n";
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "coneAperture = " << coneAperture << "\n";
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "errorOnMissingTarget = " << errorOnMissingTarget << "\n";
+      }
+ 
+      particuleRank = StoI(next());
+      coneLongitude = StoD(next());
+      coneColatitude = StoD(next());
+      coneAperture = StoD(next());
+      G4String sD = next();
+      if (! sD.isNull()) {
+        errorOnMissingTarget = G4UIcommand::ConvertToBool(sD.data());
+      }
+      // Grab config interface:
+      PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
+      configInt.reset_mdl();
+      configInt.use_mdl = true;
+      configInt.mdl_target_name = particuleName;
+      configInt.mdl_target_rank = particuleRank;
+      configInt.mdl_cone_longitude = coneLongitude;
+      configInt.mdl_cone_colatitude = coneColatitude;
+      configInt.mdl_cone_aperture = coneAperture;
+      configInt.mdl_error_on_missing_particle = errorOnMissingTarget;
+      _pga_->SetConfigHasChanged(true);
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'mdl' -> Action -> update the working configuration...\n";
+        configInt.print(std::cerr);
+      }
+  
     }
     
     if (command_ == _pga_gtor_bkgd_cmd_) {
@@ -307,18 +507,19 @@ namespace bxdecay0_g4 {
       if (! sD.isNull()) {
         debug = G4UIcommand::ConvertToBool(sD.data());
       }
-      // Default config:
-      PrimaryGeneratorAction::ConfigurationInterface configInt;
+      // Grab config interface:
+      PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
+      configInt.reset_base();
       configInt.decay_category = "background";
       configInt.nuclide = nuclide;
       configInt.seed = seed;
       configInt.debug = debug;
+      _pga_->SetConfigHasChanged(true);
       if (_pga_->IsDebug()) {
         std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                  << "Command 'background' -> Action->SetConfiguration...\n";
+                  << "Command 'background' -> Action -> update the working configuration...\n";
         configInt.print(std::cerr);
       }
-      _pga_->SetConfiguration(configInt);      
     }
 
     if (command_ == _pga_gtor_dbd_cmd_) {
@@ -338,18 +539,21 @@ namespace bxdecay0_g4 {
       if (! sD.isNull()) {
         debug = G4UIcommand::ConvertToBool(sD.data());
       }
-      // Default config:
-      PrimaryGeneratorAction::ConfigurationInterface configInt;
+      // Grab config interface:
+      PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
+      configInt.reset_mdl();
       configInt.decay_category = "dbd";
       configInt.nuclide = nuclide;
       configInt.seed = seed;
       configInt.dbd_mode = dbd_mode;
       configInt.dbd_level = dbd_level;
       configInt.debug = debug;
-      if (_pga_->IsDebug()) std::cerr << "[log] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                << "Command 'dbd' -> Action->SetConfiguration...\n";
-      configInt.print(std::cerr);
-      _pga_->SetConfiguration(configInt);      
+      _pga_->SetConfigHasChanged(true);
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'dbd' -> Action -> update the working configuration...\n";
+        configInt.print(std::cerr);
+      }
     }
 
     if (command_ == _pga_gtor_dbdr_cmd_) {
@@ -376,8 +580,9 @@ namespace bxdecay0_g4 {
           debug = G4UIcommand::ConvertToBool(sD.data());
         }
       }
-      // Default config:
-      PrimaryGeneratorAction::ConfigurationInterface configInt;
+      // Grab config interface:
+      PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
+      configInt.reset_mdl();
       configInt.decay_category = "dbd";
       configInt.nuclide = nuclide;
       configInt.seed = seed;
@@ -386,10 +591,12 @@ namespace bxdecay0_g4 {
       configInt.dbd_min_energy_MeV = dbd_min_energy;
       configInt.dbd_max_energy_MeV = dbd_max_energy;
       configInt.debug = debug;
-      if (_pga_->IsDebug()) std::cerr << "[log] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                << "Command 'dbdrange' -> Action->SetConfiguration...\n";
-      configInt.print(std::cerr);
-      _pga_->SetConfiguration(configInt);      
+      _pga_->SetConfigHasChanged(true);
+      if (_pga_->IsDebug()) {
+        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'dbdranged' -> Action -> update the working configuration...\n";
+        configInt.print(std::cerr);
+      }
     }
 
     if (_pga_->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: Exiting...\n";

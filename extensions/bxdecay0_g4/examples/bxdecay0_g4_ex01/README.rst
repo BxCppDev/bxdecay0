@@ -80,8 +80,6 @@ The table below details the supported parameters for these commands:
 =========== ========= ========== ========== =========== ================ ================ ==========
   
   
-
-
 Geant4 macro examples:
 
 * BxDecay0 decay process from the  *background* decay category:
@@ -108,8 +106,32 @@ Geant4 macro examples:
   
  
 Examples of such files are given in subdirectory ``macros``. 
+
+
+6 - MDL biasing
+=================
+
+As an option, BxDecay0 provides the MDL mechanism (Momemtum Direction Locking)
+which enables to enforce the momentum direction of some, or all, generated primary particles
+in the BxDecay0 generated event, at user choice. 
+
+Macro example:
+  
+  .. code:: shell
+
+     /vis/viewer/set/viewpointThetaPhi 0. 90.
+     /vis/scene/add/axes 0 0 0 20 cm	    
+     /bxdecay0/generator/verbosity 2
+     /bxdecay0/generator/background Cs137 314159
+     /bxdecay0/generator/mdl gamma 0 30.0 45.0 15.0 false
+     /bxdecay0/generator/dump
+     /run/beamOn 30
+     /bxdecay0/generator/destroy
+     /bxdecay0/generator/dump
+  ..
+
  
-6 - Visualisation
+7 - Visualisation
 =================
 
 !!! NOT TESTED YET !!!
@@ -125,7 +147,7 @@ in case of interactive running mode.
  * *alpha* : yellow
 
    
-7 - How to start ?
+8 - How to start ?
 ==================
  
 - Execute ``bxdecay0_g4_ex01`` in *batch* mode from macro files:
@@ -147,7 +169,7 @@ in case of interactive running mode.
      Idle> exit
   ..
 
-8 - Histograms
+9 - Histograms
 ==============
 
 ``bxdecay0_g4_ex01`` produces several 1D-histograms which are saved as
@@ -187,7 +209,7 @@ in case of interactive running mode.
    
    All selected histos will be written on a file ``name.ascii`` (default ``bxdecay0_g4_ex01``).
 
-9 - Build the example
+10 - Build the example
 =====================
 
 #. Configure:
@@ -196,7 +218,10 @@ in case of interactive running mode.
 
       $ mkdir _build.d
       $ cd _build.d
-      $ cmake -DBxDecay0_DIR="$(bxdecay0-config --cmakedir)" -DGeant4_DIR="$(geant4-config --prefix)/lib"  ..
+      $ cmake \
+           -DBxDecay0_DIR="$(bxdecay0-config --cmakedir)" \
+           -DGeant4_DIR="$(geant4-config --prefix)/lib" \
+	   ..
       $ make
    ..
 

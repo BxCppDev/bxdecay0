@@ -18,6 +18,7 @@
 
 // Standard library:
 #include <cmath>
+#include <stdexcept>
 
 namespace bxdecay0 {
 

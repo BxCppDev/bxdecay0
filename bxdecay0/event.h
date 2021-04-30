@@ -24,11 +24,14 @@
 #define BXDECAY0_EVENT_H
 
 // Standard library:
+#include <string>
 #include <vector>
+#include <memory>
 
 // This project:
 #include <bxdecay0/i_random.h>
 #include <bxdecay0/particle.h>
+#include <bxdecay0/utils.h>
 
 namespace bxdecay0 {
 
@@ -154,6 +157,20 @@ namespace bxdecay0 {
                        double thlev_,
                        double & tdlev_);
 
+  /// Abstract interface for (possibly stochastic) on-event operation classes
+  struct i_event_op
+  {
+    i_event_op() = default;
+    virtual ~i_event_op() = default;
+    virtual std::string name() const = 0;
+    virtual void operator()(i_random & prng_, event & event_) = 0;
+    virtual void smart_dump(std::ostream & out_, const std::string & indent_) const = 0;
+  };
+
+  typedef std::shared_ptr<i_event_op> event_op_ptr;
+
+  typedef std::shared_ptr<const i_event_op> const_event_op_ptr;
+  
 } // end of namespace bxdecay0
 
 #endif // BXDECAY0_EVENT_H
