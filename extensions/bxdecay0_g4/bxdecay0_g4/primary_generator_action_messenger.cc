@@ -352,7 +352,7 @@ namespace bxdecay0_g4 {
     if (command_ == _pga_gtor_mdl_cmd_) {
       PrimaryGeneratorAction::ConfigurationInterface configInt = _pga_->GetConfiguration();
       std::ostringstream sCurValue;
-      sCurValue << (configInt.mdl_target_name.empty() ? "*" :  configInt.mdl_target_name) << ' ';
+      sCurValue << (configInt.mdl_target_name.empty() ? "all" :  configInt.mdl_target_name) << ' ';
       sCurValue << configInt.mdl_target_rank << ' ';
       sCurValue << configInt.mdl_cone_longitude << ' ';
       sCurValue << configInt.mdl_cone_colatitude << ' ';
@@ -444,14 +444,28 @@ namespace bxdecay0_g4 {
     
     if (command_ == _pga_gtor_mdl_cmd_) {
       // Temporary parsing variables:
-      G4String particuleName;         // 0
-      G4int    particuleRank  = -1;   // 1
-      G4double coneLongitude  = 0.0;  // 2
-      G4double coneColatitude = 0.0;  // 3
-      G4double coneAperture   = 0.0;  // 4
+      G4String particuleName  = "all"; // 0
+      G4int    particuleRank  = -1;    // 1
+      G4double coneLongitude  = 0.0;   // 2
+      G4double coneColatitude = 0.0;   // 3
+      G4double coneAperture   = 0.0;   // 4
       G4bool   errorOnMissingTarget = false; // 5
       G4Tokenizer next(new_value_);
       particuleName = next();
+      G4String pR = next();
+      if (pR == "all") {
+        particuleRank = -1;
+      } else {
+        particuleRank = StoI(pR);
+        if (particuleRank < -1) particuleRank = -1;
+      }
+      coneLongitude = StoD(next());
+      coneColatitude = StoD(next());
+      coneAperture = StoD(next());
+      G4String sD = next();
+      if (! sD.isNull()) {
+        errorOnMissingTarget = G4UIcommand::ConvertToBool(sD.data());
+      }
       if (_pga_->IsDebug()) {
         std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
                   << "particuleName = " << particuleName << "\n";
@@ -466,30 +480,31 @@ namespace bxdecay0_g4 {
         std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
                   << "errorOnMissingTarget = " << errorOnMissingTarget << "\n";
       }
- 
-      particuleRank = StoI(next());
-      coneLongitude = StoD(next());
-      coneColatitude = StoD(next());
-      coneAperture = StoD(next());
-      G4String sD = next();
-      if (! sD.isNull()) {
-        errorOnMissingTarget = G4UIcommand::ConvertToBool(sD.data());
-      }
       // Grab config interface:
       PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
       configInt.reset_mdl();
-      configInt.use_mdl = true;
-      configInt.mdl_target_name = particuleName;
-      configInt.mdl_target_rank = particuleRank;
-      configInt.mdl_cone_longitude = coneLongitude;
-      configInt.mdl_cone_colatitude = coneColatitude;
-      configInt.mdl_cone_aperture = coneAperture;
-      configInt.mdl_error_on_missing_particle = errorOnMissingTarget;
-      _pga_->SetConfigHasChanged(true);
-      if (_pga_->IsDebug()) {
-        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                  << "Command 'mdl' -> Action -> update the working configuration...\n";
-        configInt.print(std::cerr);
+      static const std::set<G4String> targetNames
+        = {"all", "*", "e+", "positron", "e-", "electron", "g", "gamma", "a", "alpha", "n", "neutron", "p", "proton"};
+      bool error = false;
+      if (targetNames.count(particuleName) == 0)  error = true;
+      if (particuleRank < -1 and particuleRank >= 10) error = true;
+      if (not error) {
+        configInt.use_mdl = true;
+        configInt.mdl_target_name = particuleName;
+        configInt.mdl_target_rank = particuleRank;
+        configInt.mdl_cone_longitude = coneLongitude;
+        configInt.mdl_cone_colatitude = coneColatitude;
+        configInt.mdl_cone_aperture = coneAperture;
+        configInt.mdl_error_on_missing_particle = errorOnMissingTarget;
+        _pga_->SetConfigHasChanged(true);
+        if (_pga_->IsDebug()) {
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'mdl' -> Action -> update the working configuration...\n";
+          configInt.print(std::cerr);
+        }
+      } else {
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'mdl' : Parameter error!\n";    
       }
   
     }
@@ -509,16 +524,22 @@ namespace bxdecay0_g4 {
       }
       // Grab config interface:
       PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
-      configInt.reset_base();
-      configInt.decay_category = "background";
-      configInt.nuclide = nuclide;
-      configInt.seed = seed;
-      configInt.debug = debug;
-      _pga_->SetConfigHasChanged(true);
-      if (_pga_->IsDebug()) {
-        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                  << "Command 'background' -> Action -> update the working configuration...\n";
-        configInt.print(std::cerr);
+      bool error = false;
+      if (not error) {
+        configInt.reset_base();
+        configInt.decay_category = "background";
+        configInt.nuclide = nuclide;
+        configInt.seed = seed;
+        configInt.debug = debug;
+        _pga_->SetConfigHasChanged(true);
+        if (_pga_->IsDebug()) {
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'background' -> Action -> update the working configuration...\n";
+          configInt.print(std::cerr);
+        }
+      } else {
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'background' : Parameter error!\n";     
       }
     }
 
@@ -541,18 +562,24 @@ namespace bxdecay0_g4 {
       }
       // Grab config interface:
       PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
-      configInt.reset_mdl();
-      configInt.decay_category = "dbd";
-      configInt.nuclide = nuclide;
-      configInt.seed = seed;
-      configInt.dbd_mode = dbd_mode;
-      configInt.dbd_level = dbd_level;
-      configInt.debug = debug;
-      _pga_->SetConfigHasChanged(true);
-      if (_pga_->IsDebug()) {
-        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                  << "Command 'dbd' -> Action -> update the working configuration...\n";
-        configInt.print(std::cerr);
+      bool error = false;
+      if (not error) {
+        configInt.reset_mdl();
+        configInt.decay_category = "dbd";
+        configInt.nuclide = nuclide;
+        configInt.seed = seed;
+        configInt.dbd_mode = dbd_mode;
+        configInt.dbd_level = dbd_level;
+        configInt.debug = debug;
+        _pga_->SetConfigHasChanged(true);
+        if (_pga_->IsDebug()) {
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'dbd' -> Action -> update the working configuration...\n";
+          configInt.print(std::cerr);
+        }
+      } else {
+        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'dbd' : Parameter error!\n";      
       }
     }
 
@@ -582,20 +609,26 @@ namespace bxdecay0_g4 {
       }
       // Grab config interface:
       PrimaryGeneratorAction::ConfigurationInterface & configInt = _pga_->GrabConfiguration();
-      configInt.reset_mdl();
-      configInt.decay_category = "dbd";
-      configInt.nuclide = nuclide;
-      configInt.seed = seed;
-      configInt.dbd_mode = dbd_mode;
-      configInt.dbd_level = dbd_level;
-      configInt.dbd_min_energy_MeV = dbd_min_energy;
-      configInt.dbd_max_energy_MeV = dbd_max_energy;
-      configInt.debug = debug;
-      _pga_->SetConfigHasChanged(true);
-      if (_pga_->IsDebug()) {
-        std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
-                  << "Command 'dbdranged' -> Action -> update the working configuration...\n";
-        configInt.print(std::cerr);
+      bool error = false;
+      if (not error) {
+        configInt.reset_mdl();
+        configInt.decay_category = "dbd";
+        configInt.nuclide = nuclide;
+        configInt.seed = seed;
+        configInt.dbd_mode = dbd_mode;
+        configInt.dbd_level = dbd_level;
+        configInt.dbd_min_energy_MeV = dbd_min_energy;
+        configInt.dbd_max_energy_MeV = dbd_max_energy;
+        configInt.debug = debug;
+        _pga_->SetConfigHasChanged(true);
+        if (_pga_->IsDebug()) {
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                    << "Command 'dbdranged' -> Action -> update the working configuration...\n";
+          configInt.print(std::cerr);
+        }
+      } else {
+        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorActionMessenger::SetNewValue: "
+                  << "Command 'dbdranged' : Parameter error!\n";        
       }
     }
 

@@ -55,11 +55,22 @@ namespace bxdecay0_g4 {
 
   bool PrimaryGeneratorAction::ConfigurationInterface::is_valid_base() const
   {
-    if (decay_category != "background" and decay_category != "dbd") return false; 
-    if (nuclide.empty()) return false; 
-    if (seed < 1) return false; 
-    if (dbd_mode < 1) return false; 
-    if (dbd_level < 1) return false; 
+    if (decay_category != "background" and decay_category != "dbd") {
+      return false; }
+    if (nuclide.empty()) {
+      return false;
+    }
+    if (seed < 1) {
+      return false;
+    }
+    if (decay_category == "dbd") {
+      if (dbd_mode < 1) {
+        return false;
+      }
+      if (dbd_level < 1) {
+        return false;
+      }
+    }
     return true;
   }
 
@@ -197,13 +208,18 @@ namespace bxdecay0_g4 {
   
   bxdecay0::decay0_generator & PrimaryGeneratorAction::pimpl_type::get_decay0()
   {
+    if (action->IsTrace()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Entering...\n";
     if (action->ConfigHasChanged()) {
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Configuration has changed\n";
       if (action->GetConfiguration().is_valid()) {
         action->ApplyConfiguration();
         if (pdecay0 != nullptr) {
           if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Destroying the current BxDecay0 generator instance because of a new config...\n";
           destroy();
         }
+      } else {
+        if (action->IsTrace()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Invalid configuration!\n";
+        
       }
     }
     if (pdecay0 == nullptr) {
@@ -406,6 +422,7 @@ namespace bxdecay0_g4 {
 
   void PrimaryGeneratorAction::SetConfigHasChanged(bool changed_)
   {
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::SetConfigHasChanged: changed=" << changed_ << "\n";
     _config_has_changed_ = changed_;
     return;
   }
