@@ -7,7 +7,7 @@ It is inspired by the Geant4  ``extended/radioactivedecay/rdecay01`` example.
  
  
 1 - Geometry construction
-=======================
+=============================
 
 It is a simple box which represents an 'infinite' homogeneous medium.
   
@@ -22,7 +22,7 @@ geantino.
 =====================
  
 There  is  no default  decay  kinematic.   A specific  BxDecay0  decay
-process can be set with ``bxdecay0/generator/`` commands.
+process can be set with ``/bxdecay0/generator/`` commands.
          	
 4 - Physics
 ===========
@@ -67,13 +67,13 @@ The table below details the supported parameters for these commands:
               nuclide    seed     dbd_mode   dbd_level   dbd_min_energy   dbd_max_energy   debug
 =========== ========= ========== ========== =========== ================ ================ ==========
  Type         string     integer   integer    integer     real             real             boolean
- Default      -          -         -          -           -                -1.0             false  
+ Default      no         no        no         no          no               -1.0             false  
 ----------- --------- ---------- ---------- ----------- ---------------- ---------------- ----------
  background   yes        yes       N/A        N/A         N/A              N/A              yes
  Example      "Co60"     314159    N/A        N/A         N/A              N/A              false
 ----------- --------- ---------- ---------- ----------- ---------------- ---------------- ----------
  dbd          yes        yes       yes        yes         N/A              N/A              yes
- Example      "Mo100"    951413    1          0           -                -                false
+ Example      "Mo100"    951413    1          0           N/A              N/A              false
 ----------- --------- ---------- ---------- ----------- ---------------- ---------------- ----------
  dbdranged    yes        yes       yes        yes         yes              yes              yes
  Example      "Se82"     123456    4          0           2.4              3.0              false
@@ -87,6 +87,7 @@ Geant4 macro examples:
   .. code:: shell
 	    
      /bxdecay0/generator/background Co60 314159
+     /run/beamOn 10
   ..
 
 * BxDecay0 neutrinoless double beta decay process of Mo-100 from the  *dbd* decay category:
@@ -94,6 +95,7 @@ Geant4 macro examples:
   .. code:: shell
 	    
      /bxdecay0/generator/dbd Mo100 951413 1 0
+     /run/beamOn 10
   ..
 
 * BxDecay0 two-neutrino double beta decay process  of Se-82 with a limited range on
@@ -101,7 +103,8 @@ Geant4 macro examples:
   
   .. code:: shell
 	    
-     /bxdecay0/generator/dbdranged  Se82  123456 4 0 2.4 3.0 
+     /bxdecay0/generator/dbdranged Se82 123456 4 0 2.4 3.0 
+     /run/beamOn 10
   ..
   
  
@@ -115,20 +118,23 @@ As an option, BxDecay0 provides the MDL mechanism (Momemtum Direction Locking)
 which enables to enforce the momentum direction of some, or all, generated primary particles
 in the BxDecay0 generated event, at user choice. 
 
-Macro example:
+**Example:** Force each first electron in each event to be emitted in a cone along the X-axis and rotate the full
+event to preserve angular correlations between emitted particles.
+
+.. code:: shell
+
+   /vis/viewer/set/viewpointThetaPhi 0. 90.
+   /vis/scene/add/axes 0 0 0 80 cm	    
+   /bxdecay0/generator/verbosity 2
+   /bxdecay0/generator/background Cs137 314159
+   /bxdecay0/generator/mdl electron 0 0.0 90.0 5.0 false
+   /run/beamOn 50
+..
   
-  .. code:: shell
-
-     /vis/viewer/set/viewpointThetaPhi 0. 90.
-     /vis/scene/add/axes 0 0 0 20 cm	    
-     /bxdecay0/generator/verbosity 2
-     /bxdecay0/generator/background Cs137 314159
-     /bxdecay0/generator/mdl gamma 0 30.0 45.0 15.0 false
-     /bxdecay0/generator/dump
-     /run/beamOn 30
-  ..
-
+.. image:: bxdecay0_g4_mdl.png
+   :width: 75%
  
+
 7 - Visualisation
 =================
 
@@ -178,37 +184,40 @@ in case of interactive running mode.
 * 3 : energy spectrum for *gamma*
 * 4 : energy spectrum for *alpha*
         
-   The histograms are managed by ``G4AnalysisManager`` and its *Messenger*. 
-   The histos can be individually activated with the command :
+  The histograms are managed by ``G4AnalysisManager`` and its *Messenger*. 
+  The histos can be individually activated with the command :
 
-   ::
+  ::
 
-      /analysis/h1/set id nbBins  valMin valMax unit
-   ..
+     /analysis/h1/set id nbBins  valMin valMax unit
+     
+  ..
    
-   where unit is the desired unit for the histo (MeV or keV, deg or mrad, etc..)
+  where unit is the desired unit for the histo (MeV or keV, deg or mrad, etc..)
    
-   One can control the name of the histograms file with the command:
+  One can control the name of the histograms file with the command:
 
-   ::
+  ::
 
-      /analysis/setFileName  name  (default ``bxdecay0_g4_ex01``)
-   ..
+     /analysis/setFileName  name  (default ``bxdecay0_g4_ex01``)
+     
+  ..
    
-   It is possible to choose the format of the histogram file : root (default),
-   xml, csv, by using namespace in ``HistoManager.hh``
+  It is possible to choose the format of the histogram file : root (default),
+  xml, csv, by using namespace in ``HistoManager.hh``
    
-   It is also possible to print selected histograms on an ascii file:
+  It is also possible to print selected histograms on an ascii file:
 
-   ::
+  ::
       
-      /analysis/h1/setAscii id
-   ..
+     /analysis/h1/setAscii id
+     
+  ..
    
-   All selected histos will be written on a file ``name.ascii`` (default ``bxdecay0_g4_ex01``).
+  All selected histos will be written on a file ``name.ascii`` (default ``bxdecay0_g4_ex01``).
 
 10 - Build the example
-=====================
+============================
 
 #. Configure:
 
