@@ -270,11 +270,17 @@ void test_cs137_mdl()
     // and rotate the full event in these conditions
     bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(decay0.is_debug()));
     bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
-    mdl.set(bxdecay0::GAMMA,  // Select only gammas
-            0,                // Rank of the target gamma in the event (0 : first, 1: second, 2: third...)
-            1.0, 0.0, 0.0,    // Emission cone is aligned on the X-axis
-            M_PI / 4,         //   with an angle of aperture of 45 degrees
-            false);           // Do not generate an error if no target particle is found. Just no-op and pass.
+    bxdecay0::particle_code requestedCode = bxdecay0::GAMMA;
+    int requestedRank = 0;
+    requestedCode = bxdecay0::INVALID_PARTICLE;
+    // requestedRank = -1;
+    // requestedCode = bxdecay0::ELECTRON;
+    requestedRank = -1;
+    mdl.set(requestedCode,        // Select only gammas
+            requestedRank,        // Rank of the target gamma in the event (0 : first, 1: second, 2: third...)
+            1.0, 0.0, 0.0,        // Emission cone is aligned on the X-axis
+            M_PI / 4,             //   with an angle of aperture of 45 degrees
+            false);               // Do not generate an error if no target particle is found. Just no-op and pass.
     decay0.add_operation(mdlPtr); // Install the MDL post-generation operation in the generator 
     decay0.initialize(prng);      // Initialize and lock the generator
     decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
@@ -295,27 +301,49 @@ void test_cs137_mdl()
       decay.print(std::clog, name + " decay event:", "[info] ");
       decay.store(std::cout);
       int targetParticleIndex = mdl.get_last_target_index();
-      if (targetParticleIndex >= 0) {
-        const auto & targetParticle = decay.get_particles()[targetParticleIndex];
-        double cosPsi = targetParticle.get_px() / targetParticle.get_p();
-        if (decay0.is_debug()) {
-          std::cerr << "[debug] cosPsi=" << cosPsi << "\n";
+      if (requestedRank >= 0) {
+        if (targetParticleIndex >= 0) {
+          const auto & targetParticle = decay.get_particles()[targetParticleIndex];
+          double cosPsi = targetParticle.get_px() / targetParticle.get_p();
+          if (decay0.is_debug()) {
+            std::cerr << "[debug] cosPsi=" << cosPsi << "\n";
+          }
+          gsl_histogram_increment(h1, cosPsi);
         }
-        gsl_histogram_increment(h1, cosPsi);
+        const auto & betaParticle = decay.get_particles()[0];
+        double cosPsibeta = betaParticle.get_px() / betaParticle.get_p();
+        gsl_histogram_increment(h2, cosPsibeta);
+      } else {
+        for (const auto & part : decay.get_particles()) {
+          double cosPsi = part.get_px() / part.get_p();
+          if (part.get_code() == bxdecay0::GAMMA) {
+            gsl_histogram_increment(h1, cosPsi);            
+          } else if (part.get_code() == bxdecay0::ELECTRON) {
+            gsl_histogram_increment(h2, cosPsi);            
+          } 
+        }
       }
-      const auto & betaParticle = decay.get_particles()[0];
-      double cosPsibeta = betaParticle.get_px() / betaParticle.get_p();
-      gsl_histogram_increment(h2, cosPsibeta);
     }
 
-    FILE * h1Out = fopen("h1.his", "w");
-    gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
-    fclose(h1Out);
-    gsl_histogram_free(h1);
-    FILE * h2Out = fopen("h2.his", "w");
-    gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
-    fclose(h2Out);
-    gsl_histogram_free(h2);
+    if (requestedRank >= 0) { 
+      FILE * h1Out = fopen("h1.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    } else {
+      FILE * h1Out = fopen("h1bis.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2bis.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    }
     
     decay0.reset();
   }

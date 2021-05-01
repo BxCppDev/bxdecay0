@@ -133,7 +133,7 @@ namespace bxdecay0 {
     // First find the target particle of given type (optional) and rank:
     int ref_particle_index = -1;
     int pIndex = 0;
-    int pRank = 0;
+    int pSelectedRank = 0;
     std::set<int> forced_particles;
     for (auto & part : event_.grab_particles()) {
       bool selected = false;
@@ -145,76 +145,117 @@ namespace bxdecay0 {
       if (selected) {
         if (_rank_ < 0) {
           forced_particles.insert(pIndex);
-        } else if (_rank_ >= 0 && pRank == _rank_) {
-          ref_particle_index = pIndex;
+        } else if (_rank_ >= 0 && pSelectedRank == _rank_) {
+          // ref_particle_index = pIndex;
+          forced_particles.insert(pIndex);
           break;
         }
-        pRank++;
+        pSelectedRank++;
       }
       pIndex++;
+    } // for (auto & part ...)
+    size_t fpsize = forced_particles.size();
+    if ((_rank_ >= 0) and (fpsize == 1)) {
+      ref_particle_index = *forced_particles.begin();      
     }
     if (debug) std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_: #forced_particles="
                          << forced_particles.size() << std::endl;
     if (debug) std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_: ref_particle_index="
                          << ref_particle_index << std::endl;
-    if (! forced_particles.size() and ref_particle_index < 0) {
+    if (fpsize == 0) { // and ref_particle_index < 0) {
       if (_error_on_missing_particle_) {
-        if (debug) {
-          
-        }
         throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::_rotate_event_: Event has no particle of requested type "
                                + std::to_string(_code_) + " at rank "
                                + std::to_string(_rank_) + "!");       
-      } else {
-        return;
       }
     }
-    // Access the current emission direction of the reference particle:
-    particle & ref_particle = event_.grab_particles()[ref_particle_index];
-    vector3 ref_momentum = make_vector3(ref_particle.get_px(), ref_particle.get_py(), ref_particle.get_pz());
-    double ref_p = std::sqrt(ref_momentum.x * ref_momentum.x +
-                             ref_momentum.y * ref_momentum.y +
-                             ref_momentum.z * ref_momentum.z);
-    double theta = std::acos(ref_momentum.z / ref_p);
-    double phi   = std::atan2(ref_momentum.y, ref_momentum.x);
 
-    // Randomize a new direction with respect to the cone axis.
-    double phiC = 2 * M_PI * prng_();
-    double cosThetaCMin = std::cos(_cone_angle_);
-    double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
-    double thetaC = std::acos(cosThetaC);
+    if ((_rank_ >= 0) and (ref_particle_index >= 0)) {
+      // Mode : an unique target ranked particle is forced to be emitted in the cone
+      // and all other particles in the event are rotated coherently in ordrer to preserve
+      // possible angular correlation between particles momenta.
+      
+      // Access the current emission direction of the reference particle:
+      particle & ref_particle = event_.grab_particles()[ref_particle_index];
+      vector3 ref_momentum = make_vector3(ref_particle.get_px(), ref_particle.get_py(), ref_particle.get_pz());
+      double ref_p = std::sqrt(ref_momentum.x * ref_momentum.x +
+                               ref_momentum.y * ref_momentum.y +
+                               ref_momentum.z * ref_momentum.z);
+      double ref_theta = std::acos(ref_momentum.z / ref_p);
+      double ref_phi   = std::atan2(ref_momentum.y, ref_momentum.x);
+
+      // Randomize a new direction with respect to the cone axis.
+      double phiC = 2 * M_PI * prng_();
+      double cosThetaCMin = std::cos(_cone_angle_);
+      double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
+      double thetaC = std::acos(cosThetaC);
     
-    // Rotate all particles in the event:
-    for (auto & part : event_.grab_particles()) {
-      // Fetch the current momentum:
-      vector3 p_momentum = make_vector3(part.get_px(), part.get_py(), part.get_pz());
-      if (debug) std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_: Original momentum = ";
-      print(p_momentum, std::cerr);
-      std::cerr << std::endl;
-      // Rotate the momentum:
-      vector3 new_p = rotate_zyz(p_momentum, 0.0, -theta, -phi);
-      if (debug){
-        std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Normalized momentum = ";
-        print(new_p, std::cerr);
+      // Rotate all particles in the event:
+      for (auto & part : event_.grab_particles()) {
+        // Fetch the current momentum:
+        vector3 p_momentum = make_vector3(part.get_px(), part.get_py(), part.get_pz());
+        if (debug) std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_: Original momentum = ";
+        print(p_momentum, std::cerr);
         std::cerr << std::endl;
+        // Rotate the momentum:
+        vector3 new_p = rotate_zyz(p_momentum, 0.0, -ref_theta, -ref_phi);
+        if (debug){
+          std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Normalized momentum = ";
+          print(new_p, std::cerr);
+          std::cerr << std::endl;
+        }
+        vector3 new2_p = rotate_zyz(new_p, phiC, thetaC, 0.0);
+        if (debug){
+          std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Rotated momentum = ";
+          print(new2_p, std::cerr);
+          std::cerr << std::endl;
+        }
+        // Final rotation align the particle to the emission cone axis:
+        vector3 new3_p = rotate_zyz(new2_p, _phi_direction_, _theta_direction_, 0.0);
+        if (debug){
+          std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Final momentum = ";
+          print(new3_p, std::cerr);
+          std::cerr << std::endl;
+        }
+        // Update momentum to the new direction:
+        part.set_momentum(new3_p.x, new3_p.y, new3_p.z);
       }
-      vector3 new2_p = rotate_zyz(new_p, phiC, thetaC, 0.0);
-      if (debug){
-        std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Rotated momentum = ";
-        print(new2_p, std::cerr);
-        std::cerr << std::endl;
-      }
-      // Final rotation align the event to the emission cone axis:
-      vector3 new3_p = rotate_zyz(new2_p, _phi_direction_, _theta_direction_, 0.0);
-      if (debug){
-        std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Final momentum = ";
-        print(new3_p, std::cerr);
-        std::cerr << std::endl;
-      }
-      // Update momentum to the new direction:
-      part.set_momentum(new3_p.x, new3_p.y, new3_p.z);
+      _last_target_index_ = ref_particle_index;
     }
-    _last_target_index_ = ref_particle_index;
+    
+    if ((_rank_ < 0) and (fpsize > 0)) {
+      // Mode : force all selected particles to be emitted in the requested cone, all other particles are unchanged.
+      // This destroys potential angular correlations between emitted particles
+      for(auto pForcedIndex : forced_particles) {
+
+        // Randomize a new direction with respect to the cone axis.
+        double phiC = 2 * M_PI * prng_();
+        double cosThetaCMin = std::cos(_cone_angle_);
+        double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
+        double thetaC = std::acos(cosThetaC);
+        particle & forcedParticle = event_.grab_particles()[pForcedIndex];
+        // Fetch the current momentum:
+        double pMag = forcedParticle.get_p();
+        // Build the momentum in the cone frame:
+        vector3 new_p = make_vector3(0.0, 0.0, pMag);
+        // Rotate by a random orientation within the cone:
+        vector3 new2_p = rotate_zyz(new_p, phiC, thetaC, 0.0);
+        if (debug){
+          std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Rotated momentum = ";
+          print(new2_p, std::cerr);
+          std::cerr << std::endl;
+        }
+        // Final rotation align the particle to the emission cone axis:
+        vector3 new3_p = rotate_zyz(new2_p, _phi_direction_, _theta_direction_, 0.0);
+        if (debug){
+          std::cerr << "[debug] bxdecay0::momentum_direction_lock_event_op::_rotate_event_:  -> Final momentum = ";
+          print(new3_p, std::cerr);
+          std::cerr << std::endl;
+        }
+        // Update momentum to the new direction:
+        forcedParticle.set_momentum(new3_p.x, new3_p.y, new3_p.z); 
+      }
+    }
     return;
   }
   

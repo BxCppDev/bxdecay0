@@ -33,12 +33,18 @@
 
 namespace bxdecay0 {
 
-  /// \brief Momentum direction lock (MDL)
+  /// \brief Momentum direction lock (MDL) post-generation event operation
   ///
-  /// If possible,  select a  specific (target)  particle by  type and
-  /// rank in the  event and rotate the full event  (all particles) in
-  /// such a way the target particle  is emitted in a emission cone of
-  /// which  the axis  and  angle of  aperture  are specified.
+  /// If possible,  select a specific  (target) particle by type  at a
+  /// given  rank  in  the  event  and  rotate  the  full  event  (all
+  /// particles) in such  a way the target particle is  emitted in the
+  /// chosen emission cone of which the axis and angle of aperture are
+  /// specified.
+  ///
+  /// If a specific  particle rank is not defined,  then all particles
+  /// of the selected  type(s) will have their momentum  forced in the
+  /// emission  cone.   This  last  mode  destroys   possible  angular
+  /// correlation between emitted particles.
   class momentum_direction_lock_event_op
     : public i_event_op
   {
@@ -96,8 +102,8 @@ namespace bxdecay0 {
     
     // Configuration parameters:
     bool    _active_ = false; //!< Activation flag
-    particle_code _code_ = INVALID_PARTICLE; //!< Code of the reference particle of which the momentum should be forced
-    int     _rank_ = -1; //!< Rank of the reference particle (in the optional specified code above) of which the momentum should be forced (0 : first particle, 1: second particle..., -1 : all ranks)
+    particle_code _code_ = INVALID_PARTICLE; //!< Code of the reference particle of which the momentum should be forced, if not specified, all types of particles are selected.
+    int     _rank_ = -1; //!< Rank of the reference/target particle (in the optional specified code above) of which the momentum should be forced (0 : first particle, 1: second particle..., -1 : all particles of a selected type)
     vector3 _cone_axis_; //!< Emission cone axis (default along the Z-axis (0, 0, 1))
     double  _cone_angle_ = 0.0; //!< Emission cone angle (unit: radians)
     bool    _error_on_missing_particle_ = false; //!< Throw exception if reference particle is missing (otherwise, ignore and pass)
