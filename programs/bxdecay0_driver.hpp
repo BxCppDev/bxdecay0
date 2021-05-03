@@ -12,6 +12,7 @@
 // This project:
 #include <bxdecay0/decay0_generator.h>
 #include <bxdecay0/bb_utils.h>
+#include <bxdecay0/mdl_event_op.h>
 
 namespace bxdecay0 {
 
@@ -47,6 +48,8 @@ namespace bxdecay0 {
       double energy_max_MeV  = std::numeric_limits<double>::quiet_NaN(); ///< Maximum sum energy in MeV (only for some DBD isotopes and modes)
       double activity_Bq     = std::numeric_limits<double>::quiet_NaN(); ///< Activity in Bq (optional, for the generation of random decay times)
       std::string  basename;                  ///< Base name of the output data file
+      bool use_mdl = false;
+      momentum_direction_lock_event_op::config_type mdl_config;  
     };
 
     /// Construction and configuration

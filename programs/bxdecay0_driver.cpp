@@ -113,17 +113,23 @@ namespace bxdecay0 {
         use_specific_erange = true;
       }
     }
+    if (_config_.use_mdl) {
+      bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(decay0.is_debug()));
+      bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
+      mdl.set(_config_.mdl_config);
+      decay0.add_operation(mdlPtr); // Install the MDL PGOp in the generator
+    }
 
     std::string basename = _config_.basename;
     
-    // Output files for metadata and generated decay events:
-    std::string meta_filename  = basename + ".d0m";
+    // Output files for configuration informations and generated decay events:
+    std::string info_filename  = basename + ".d0c";
     std::string event_filename = basename + ".d0t";
     std::ofstream fevent(event_filename.c_str());
     fevent.precision(15);
     uint32_t store_flags = bxdecay0::event::STORE_EVENT_TIME;
-    std::ofstream fmeta(meta_filename.c_str());
-    fmeta.precision(15);
+    std::ofstream finfo(info_filename.c_str());
+    finfo.precision(15);
      
     decay0.initialize(prng);
     if (use_specific_erange) {
@@ -135,25 +141,44 @@ namespace bxdecay0 {
     }
     std::exponential_distribution<> decay_timer(activity_Bq);
 
-    // Store config/metadata in the file header:
+    // Store config/information in the file header:
     std::time_t now_time = std::time(0);
-    fmeta << "library-name=BxDecay0" << std::endl;
-    fmeta << "library-version=" << BXDECAY0_LIB_VERSION << std::endl;
-    fmeta << "decay-category=" << decay0_generator::decay_category_to_label(decay0.get_decay_category()) << std::endl;
-    fmeta << "nuclide=" << decay0.get_decay_isotope() << std::endl;
-    fmeta << "seed=" << _config_.seed << std::endl;
-    fmeta << "time-from-epoch-s=" << now_time << std::endl;
+    finfo << "library-name=BxDecay0" << std::endl;
+    finfo << "library-version=" << BXDECAY0_LIB_VERSION << std::endl;
+    finfo << "decay-category=" << decay0_generator::decay_category_to_label(decay0.get_decay_category()) << std::endl;
+    finfo << "nuclide=" << decay0.get_decay_isotope() << std::endl;
+    finfo << "seed=" << _config_.seed << std::endl;
+    finfo << "time-from-epoch-s=" << now_time << std::endl;
     if (! std::isnan(activity_Bq)) {
-      fmeta << "activity-Bq=" << activity_Bq << std::endl;
+      finfo << "activity-Bq=" << activity_Bq << std::endl;
     }
-    fmeta << "nb-events=" << _config_.nb_events << std::endl;
+    finfo << "nb-events=" << _config_.nb_events << std::endl;
     if (_config_.decay_category == decay0_generator::DECAY_CATEGORY_DBD) {
-      fmeta << "dbd-daughter-level=" << decay0.get_decay_dbd_level() << std::endl;
-      fmeta << "dbd-mode=" << decay0.get_decay_dbd_mode() << std::endl;
+      finfo << "dbd-daughter-level=" << decay0.get_decay_dbd_level() << std::endl;
+      finfo << "dbd-mode=" << decay0.get_decay_dbd_mode() << std::endl;
       if (decay0.has_decay_dbd_esum_range()) {
-        fmeta << "erange-min-energy-MeV=" << decay0.get_decay_dbd_esum_range_lower() << std::endl;
-        fmeta << "erange-max-energy-MeV=" << decay0.get_decay_dbd_esum_range_upper() << std::endl;
-        fmeta << "erange-toallevents=" << toallevents << std::endl;
+        finfo << "erange-min-energy-MeV=" << decay0.get_decay_dbd_esum_range_lower() << std::endl;
+        finfo << "erange-max-energy-MeV=" << decay0.get_decay_dbd_esum_range_upper() << std::endl;
+        finfo << "erange-toallevents=" << toallevents << std::endl;
+      }
+    }
+    if (decay0.get_operations().size()) {
+      finfo << "pgops=";
+      for (size_t iop = 0; iop < decay0.get_operations().size(); iop++) {
+        std::string pgopName = decay0.get_operations()[iop]->name();
+        if (_config_.use_mdl and (typeid(*decay0.get_operations()[iop]) == typeid(bxdecay0::momentum_direction_lock_event_op))) {
+          pgopName = "mdl";
+        }
+        if (iop > 0) finfo << ", ";
+        finfo << pgopName;
+      }
+      finfo << std::endl;
+      if (_config_.use_mdl) {
+        finfo << "mdl.particle_label=" << (_config_.mdl_config.particle_label.empty() ? "all" : _config_.mdl_config.particle_label) << std::endl;
+        finfo << "mdl.target_particle_rank=" << _config_.mdl_config.target_particle_rank << std::endl;
+        finfo << "mdl.cone_phi_degree=" << _config_.mdl_config.cone_phi_degree << std::endl;
+        finfo << "mdl.cone_theta_degree=" << _config_.mdl_config.cone_theta_degree << std::endl;
+        finfo << "mdl.cone_aperture_degree=" << _config_.mdl_config.cone_aperture_degree << std::endl;
       }
     }
     
@@ -184,13 +209,13 @@ namespace bxdecay0 {
       }
     }
     fevent.close();
-    fmeta << "@status=" << "0" << std::endl;
-    fmeta.close();
+    finfo << "@status=" << "0" << std::endl;
+    finfo.close();
     decay0.reset();
 
     if (_config_.logging >= LOGGING_VERBOSE) {
       std::clog << "[log] The following ASCII files have been generated on your system:\n";
-      std::clog << "[log] - metadata  file    : '" << meta_filename << "'\n";
+      std::clog << "[log] - information file  : '" << info_filename << "'\n";
       std::clog << "[log] - decay events file : '" << event_filename << "'\n";
     }
    

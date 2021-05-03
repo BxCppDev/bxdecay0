@@ -31,6 +31,17 @@
 
 namespace bxdecay0 {
 
+  void momentum_direction_lock_event_op::config_type::reset()
+  {
+    particle_label = "";
+    target_particle_rank = 0;
+    cone_phi_degree = 0.0;
+    cone_theta_degree = 0.0;
+    cone_aperture_degree = 0.0;
+    error_on_missing_particle = false;
+    return;
+  }
+
   momentum_direction_lock_event_op::momentum_direction_lock_event_op(bool debug_)
     : momentum_direction_lock_event_op()
   {
@@ -74,6 +85,38 @@ namespace bxdecay0 {
     if (std::isnan(_phi_direction_)) return false;
     if (std::isnan(_theta_direction_)) return false;
     return true;
+  }
+
+  void momentum_direction_lock_event_op::set(const config_type & config_)
+  {
+    particle_code code = INVALID_PARTICLE;
+    const std::string & particle_label = config_.particle_label;
+    if (particle_label == "g" or particle_label == "gamma") {
+      code = GAMMA;
+    } else if (particle_label == "e+" or particle_label == "positron") {
+      code = POSITRON;
+    } else if (particle_label == "e-" or particle_label == "electron") {
+      code = ELECTRON;
+    } else if (particle_label == "n" or particle_label == "neutron") {
+      code = NEUTRON;
+    } else if (particle_label == "p" or particle_label == "proton") {
+      code = PROTON;
+    } else if (particle_label == "a" or particle_label == "alpha") {
+      code = ALPHA;
+    } else if (particle_label == "*" or particle_label == "all") {
+    } else {
+      throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::set: Invalid particle label '" + particle_label + "'!");      
+    }
+    if (config_.target_particle_rank < -1) {
+      throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::set: Invalid particle rank '" + std::to_string(config_.target_particle_rank) + "'!");      
+    }
+    set(code,
+        config_.target_particle_rank,
+        config_.cone_phi_degree * M_PI / 180.0,
+        config_.cone_theta_degree * M_PI / 180.0,
+        config_.cone_aperture_degree * M_PI / 180.0,
+        config_.error_on_missing_particle);
+    return;
   }
 
   void momentum_direction_lock_event_op::set(particle_code code_, int rank_,
@@ -218,6 +261,9 @@ namespace bxdecay0 {
           std::cerr << std::endl;
         }
         // Update momentum to the new direction:
+        new3_p.x = std::abs(new3_p.x) < 1e-15 ? 0.0 : new3_p.x;
+        new3_p.y = std::abs(new3_p.y) < 1e-15 ? 0.0 : new3_p.y;
+        new3_p.z = std::abs(new3_p.z) < 1e-15 ? 0.0 : new3_p.z;
         part.set_momentum(new3_p.x, new3_p.y, new3_p.z);
       }
       _last_target_index_ = ref_particle_index;
@@ -253,6 +299,9 @@ namespace bxdecay0 {
           std::cerr << std::endl;
         }
         // Update momentum to the new direction:
+        new3_p.x = std::abs(new3_p.x) < 1e-15 ? 0.0 : new3_p.x;
+        new3_p.y = std::abs(new3_p.y) < 1e-15 ? 0.0 : new3_p.y;
+        new3_p.z = std::abs(new3_p.z) < 1e-15 ? 0.0 : new3_p.z;
         forcedParticle.set_momentum(new3_p.x, new3_p.y, new3_p.z); 
       }
     }

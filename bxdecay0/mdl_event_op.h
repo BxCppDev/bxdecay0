@@ -24,6 +24,7 @@
 #define BXDECAY0_MDL_EVENT_OP_H
 
 // Standard library:
+#include <string>
 #include <vector>
 
 // This project:
@@ -50,6 +51,18 @@ namespace bxdecay0 {
   {
     
   public:
+
+    /// \brief Configuration parameters for UI:
+    struct config_type
+    {
+      void reset();
+      std::string particle_label = ""; //!< Label/name of the selected particle(s)
+      int    target_particle_rank = -1; //!< Rank of the target particle
+      double cone_phi_degree = 0.0;      //!< longitude (degree)
+      double cone_theta_degree = 0.0;    //!< colatitude (degree)
+      double cone_aperture_degree = 0.0; //!< aperture (degree)
+      bool   error_on_missing_particle = false;
+    };
     
     momentum_direction_lock_event_op() = default;
     
@@ -66,6 +79,9 @@ namespace bxdecay0 {
     void deactivate();
     
     bool is_valid() const;
+
+    /// Set the configuration parameters of the MDL event op
+    void set(const config_type & config_);
 
     /// Set the configuration parameters of the MDL event op and activate it
     void set(particle_code code_, int rank_,
