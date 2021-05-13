@@ -55,9 +55,10 @@ namespace bxdecay0_g4 {
       G4bool    use_mdl = false;
       G4String  mdl_target_name = "";
       G4int     mdl_target_rank = -1;
-      G4int     mdl_cone_longitude  = 0.0; // degree
-      G4int     mdl_cone_colatitude = 0.0; // degree
-      G4int     mdl_cone_aperture   = 0.0; // degree
+      G4double  mdl_cone_longitude  = 0.0; // degree
+      G4double  mdl_cone_colatitude = 0.0; // degree
+      G4double  mdl_cone_aperture   = 0.0; // degree
+      G4double  mdl_cone_aperture2  = -1.0; // degree
       G4bool    mdl_error_on_missing_particle = false;
       
     };

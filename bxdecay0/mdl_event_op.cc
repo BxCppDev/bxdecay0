@@ -1,7 +1,7 @@
-/** bxdecay0/event.cc
+/** bxdecay0/mdl_event_op.cc
  *
- * Copyright 2017-2020 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017-2020 Normandie Université
+ * Copyright 2021 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2021 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -38,6 +38,7 @@ namespace bxdecay0 {
     cone_phi_degree = 0.0;
     cone_theta_degree = 0.0;
     cone_aperture_degree = 0.0;
+    cone_aperture2_degree = -1.0;
     error_on_missing_particle = false;
     return;
   }
@@ -56,6 +57,7 @@ namespace bxdecay0 {
     _rank_ = -1; // All ranks
     _cone_axis_ = make_vector3(0.0, 0.0, 1.0);
     _cone_angle_ = 0.0;
+    _cone_angle2_ = std::numeric_limits<double>::quiet_NaN();
     _error_on_missing_particle_ = false; 
     _phi_direction_   = std::numeric_limits<double>::quiet_NaN();
     _theta_direction_ = std::numeric_limits<double>::quiet_NaN();
@@ -110,37 +112,126 @@ namespace bxdecay0 {
     if (config_.target_particle_rank < -1) {
       throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::set: Invalid particle rank '" + std::to_string(config_.target_particle_rank) + "'!");      
     }
-    set(code,
-        config_.target_particle_rank,
-        config_.cone_phi_degree * M_PI / 180.0,
-        config_.cone_theta_degree * M_PI / 180.0,
-        config_.cone_aperture_degree * M_PI / 180.0,
-        config_.error_on_missing_particle);
+    double cone_phi       = config_.cone_phi_degree * M_PI / 180.0;
+    double cone_theta     = config_.cone_theta_degree * M_PI / 180.0;
+    double cone_aperture  = config_.cone_aperture_degree * M_PI / 180.0;
+    double cone_aperture2 = std::numeric_limits<double>::quiet_NaN();
+    if (std::isnormal(config_.cone_aperture2_degree) and config_.cone_aperture2_degree >= 0.0) {
+      cone_aperture2 = config_.cone_aperture_degree * M_PI / 180.0;
+    }
+    double cx = std::cos(cone_phi) * std::sin(cone_theta);
+    double cy = std::sin(cone_phi) * std::sin(cone_theta);
+    double cz = std::cos(cone_theta);
+    _set_(code,
+          config_.target_particle_rank,
+          cx,
+          cy,
+          cz,
+          cone_aperture,
+          cone_aperture2,
+          config_.error_on_missing_particle);
     return;
   }
 
-  void momentum_direction_lock_event_op::set(particle_code code_, int rank_,
-                                             double cone_phi_, double cone_theta_,
+  void momentum_direction_lock_event_op::set(particle_code code_, 
+                                             int rank_,
+                                             double cone_axis_x_,
+                                             double cone_axis_y_,
+                                             double cone_axis_z_,
+                                             double cone_aperture_angle_,
+                                             bool error_on_missing_particle_)
+  { 
+    _set_(code_, rank_,
+          cone_axis_x_, cone_axis_y_, cone_axis_z_,
+          cone_aperture_angle_,
+          std::numeric_limits<double>::quiet_NaN(),
+          error_on_missing_particle_);
+    return;
+  }
+
+  void momentum_direction_lock_event_op::set(particle_code code_,
+                                             int rank_,
+                                             double cone_phi_,
+                                             double cone_theta_,
                                              double cone_aperture_angle_,
                                              bool error_on_missing_particle_)
   {
     double cx = std::cos(cone_phi_) * std::sin(cone_theta_);
     double cy = std::sin(cone_phi_) * std::sin(cone_theta_);
     double cz = std::cos(cone_theta_);
-    set(code_, rank_, cx, cy, cz,  cone_aperture_angle_, error_on_missing_particle_);
+    set(code_, rank_,
+        cx, cy, cz,
+        cone_aperture_angle_,
+        error_on_missing_particle_);
+    return;
+  }
+
+  void momentum_direction_lock_event_op::set_with_aperture_rectangular_cut(particle_code code_, 
+                                                                           int rank_,
+                                                                           double cone_axis_x_,
+                                                                           double cone_axis_y_,
+                                                                           double cone_axis_z_,
+                                                                           double cone_aperture_angle_,
+                                                                           double cone_aperture2_angle_,
+                                                                           bool error_on_missing_particle_)
+  { 
+    _set_(code_, rank_,
+          cone_axis_x_, cone_axis_y_, cone_axis_z_,
+          cone_aperture_angle_,
+          cone_aperture2_angle_,
+          error_on_missing_particle_);
+    return;
+  }
+   
+  void momentum_direction_lock_event_op::set_with_aperture_rectangular_cut(particle_code code_,
+                                                                           int rank_,
+                                                                           double cone_phi_,
+                                                                           double cone_theta_,
+                                                                           double cone_aperture_angle_,
+                                                                           double cone_aperture2_angle_,
+                                                                           bool error_on_missing_particle_)
+  {
+    double cx = std::cos(cone_phi_) * std::sin(cone_theta_);
+    double cy = std::sin(cone_phi_) * std::sin(cone_theta_);
+    double cz = std::cos(cone_theta_);
+    set_with_aperture_rectangular_cut(code_, rank_,
+                                      cx, cy, cz,
+                                      cone_aperture_angle_,
+                                      cone_aperture2_angle_,
+                                      error_on_missing_particle_);
     return;
   }
  
-  void momentum_direction_lock_event_op::set(particle_code code_, int rank_,
-                                             double cone_axis_x_, double cone_axis_y_,
-                                             double cone_axis_z_,
-                                             double cone_aperture_angle_,
-                                             bool error_on_missing_particle_)
+  void momentum_direction_lock_event_op::_set_(particle_code code_,
+                                               int rank_,
+                                               double cone_axis_x_,
+                                               double cone_axis_y_,
+                                               double cone_axis_z_,
+                                               double cone_aperture_angle_,
+                                               double cone_aperture2_angle_,
+                                               bool error_on_missing_particle_)
   {
+    if (cone_aperture_angle_ < 0.0) {
+      throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::_set_: Invalid negative cone angle!");      
+    }
+    if (cone_aperture_angle_ >= 2 * M_PI) {
+      throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::_set_: Invalid cone angle (>=2 pi)!");      
+    }
     _code_ = code_;
     _rank_ = rank_;
     _cone_axis_ = make_vector3(cone_axis_x_, cone_axis_y_, cone_axis_z_);
     _cone_angle_ = cone_aperture_angle_;
+    if (std::isnormal(cone_aperture2_angle_) and cone_aperture2_angle_ >= 0.0) {
+      if (cone_aperture2_angle_ >= M_PI / 2) {
+        throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::_set_: Invalid cone angle 1 for rectangular cut (>=pi/2)!");      
+      }
+      if (cone_aperture_angle_ >= M_PI / 2) {
+        throw std::logic_error("bxdecay0::momentum_direction_lock_event_op::_set_: Invalid cone angle 2 for rectangular cut (>=pi/2)!");      
+      }
+      _cone_angle2_ = cone_aperture2_angle_;
+    } else {
+      _cone_angle2_ = std::numeric_limits<double>::quiet_NaN();
+    }
     _error_on_missing_particle_ = error_on_missing_particle_;
     _update_internals_();
     activate();
@@ -213,6 +304,19 @@ namespace bxdecay0 {
       }
     }
 
+    // Internal data (could be cached in the object)
+    double aperture_angle = _cone_angle_;
+    double aperture_x_max = -1.0;
+    double aperture_y_max = -1.0;
+    if (std::isnormal(_cone_angle2_)) {
+      // Compute the angle of aperture of the conical section which contains
+      // the rectangular cut:
+      aperture_x_max = std::tan(_cone_angle_);
+      aperture_y_max = std::tan(_cone_angle2_);
+      double aperture_rho_max = std::hypot(aperture_x_max, aperture_y_max);
+      aperture_angle = std::atan2(aperture_rho_max, 1.0);
+    }
+
     if ((_rank_ >= 0) and (ref_particle_index >= 0)) {
       // Mode : an unique target ranked particle is forced to be emitted in the cone
       // and all other particles in the event are rotated coherently in ordrer to preserve
@@ -228,12 +332,32 @@ namespace bxdecay0 {
       double ref_phi   = std::atan2(ref_momentum.y, ref_momentum.x);
 
       // Randomize a new direction with respect to the cone axis.
-      double phiC = 2 * M_PI * prng_();
-      double cosThetaCMin = std::cos(_cone_angle_);
-      double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
-      double thetaC = std::acos(cosThetaC);
-    
-      // Rotate all particles in the event:
+      double phiC;
+      double thetaC;
+
+      while (true) {
+        // Conical envelope with circular section:
+        phiC = 2 * M_PI * prng_();
+        double cosThetaCMin = std::cos(aperture_angle);
+        double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
+        thetaC = std::acos(cosThetaC);
+        if (std::isnormal(_cone_angle2_)) {
+          // Apply rectangular cut: accept only (thetaC,phiC) tuples that are in the rectangular aperture window:
+          double r = 1.0 / cosThetaC;
+          double sinThetaC = std::sqrt(1.0 - cosThetaC*cosThetaC);
+          double x = r * sinThetaC;
+          double y = x;
+          x *= std::cos(phiC);
+          y *= std::sin(phiC);
+          if (std::abs(x) < aperture_x_max and std::abs(y) < aperture_y_max) {
+            break;
+          }
+        } else {
+          break;
+        }
+      }
+      
+      // Rotate all particles in the event :
       for (auto & part : event_.grab_particles()) {
         // Fetch the current momentum:
         vector3 p_momentum = make_vector3(part.get_px(), part.get_py(), part.get_pz());
@@ -270,15 +394,35 @@ namespace bxdecay0 {
     }
     
     if ((_rank_ < 0) and (fpsize > 0)) {
-      // Mode : force all selected particles to be emitted in the requested cone, all other particles are unchanged.
+      // Mode : force all selected particles to be emitted in the requested cone,
+      // all other particles are unchanged.
       // This destroys potential angular correlations between emitted particles
       for(auto pForcedIndex : forced_particles) {
 
         // Randomize a new direction with respect to the cone axis.
-        double phiC = 2 * M_PI * prng_();
-        double cosThetaCMin = std::cos(_cone_angle_);
-        double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
-        double thetaC = std::acos(cosThetaC);
+        double phiC;
+        double thetaC;
+        while (true) {
+          // Conical envelope with circular section:
+          phiC = 2 * M_PI * prng_();
+          double cosThetaCMin = std::cos(aperture_angle);
+          double cosThetaC = cosThetaCMin + (1.0 - cosThetaCMin) * prng_();
+          thetaC = std::acos(cosThetaC);
+          if (std::isnormal(_cone_angle2_)) {
+            // Apply rectangular cut: accept only (thetaC,phiC) tuples that are in the rectangular aperture window:
+            double r = 1.0 / cosThetaC;
+            double sinThetaC = std::sqrt(1.0 - cosThetaC*cosThetaC);
+            double x = r * sinThetaC;
+            double y = x;
+            x *= std::cos(phiC);
+            y *= std::sin(phiC);
+            if (std::abs(x) < aperture_x_max and std::abs(y) < aperture_y_max) {
+              break;
+            }
+          } else {
+            break;
+          }
+        }
         particle & forcedParticle = event_.grab_particles()[pForcedIndex];
         // Fetch the current momentum:
         double pMag = forcedParticle.get_p();
@@ -331,6 +475,7 @@ namespace bxdecay0 {
     print(_cone_axis_, out_);
     out_ << '\n';
     out_ << indent_ << "|-- Cone angle: " << _cone_angle_ << '\n';
+    out_ << indent_ << "|-- Cone angle 2: " << ((std::isnormal(_cone_angle2_) and  _cone_angle2_ >= 0.0) ? std::to_string(_cone_angle2_) : "none" ) << '\n';
     out_ << indent_ << "|-- Error on missing particle: " << std::boolalpha << _error_on_missing_particle_ << '\n';
     out_ << indent_ << "|-- Phi direction: " << (_phi_direction_ * 180 / M_PI) << "°" << '\n';
     out_ << indent_ << "|-- Theta direction: " << (_theta_direction_ * 180 / M_PI) << "°" << '\n';

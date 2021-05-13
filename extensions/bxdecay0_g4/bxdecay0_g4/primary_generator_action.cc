@@ -11,6 +11,7 @@
 #include <bxdecay0/std_random.h>
 #include <bxdecay0/event.h>       
 #include <bxdecay0/bb_utils.h>
+#include <bxdecay0/mdl_event_op.h>
 
 // Geant4:
 #include <globals.hh>
@@ -48,6 +49,7 @@ namespace bxdecay0_g4 {
       out_ << indent_ << "    " << "|-- Cone longitude       : " << mdl_cone_longitude << " degrees\n";
       out_ << indent_ << "    " << "|-- Cone colatitude      : " << mdl_cone_colatitude << " degrees\n";
       out_ << indent_ << "    " << "|-- Cone aperture        : " << mdl_cone_aperture << " degrees\n";
+      out_ << indent_ << "    " << "|-- Cone aperture 2      : " << mdl_cone_aperture2 << " degrees\n";
       out_ << indent_ << "    " << "`-- Error on missing target particle : " << std::boolalpha << mdl_error_on_missing_particle << "\n";
     }
     return;
@@ -109,6 +111,7 @@ namespace bxdecay0_g4 {
     mdl_cone_longitude  = 0.0;
     mdl_cone_colatitude = 0.0;
     mdl_cone_aperture   = 0.0;
+    mdl_cone_aperture2  = -1.0; // Unused cone aperture rectangular cut
     mdl_error_on_missing_particle = false;
     return;
   }
@@ -150,6 +153,7 @@ namespace bxdecay0_g4 {
     double cone_phi = 0.0; // Z-axis
     double cone_theta = 0.0; // Z-axis
     double cone_aperture = 0.0; // Zero aperture
+    double cone_aperture2 = std::numeric_limits<double>::quiet_NaN(); // No aperture rectangular cut 
     bool   error_on_missing_particle = false; // Pass if not applicable
 
   };
@@ -251,16 +255,27 @@ namespace bxdecay0_g4 {
       if (mdl_config.use_mdl) {
         // Install the MDL post-generation operation in the generator
         if (action->IsDebug()) {
-          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Install the MDL post-generation operation in the BxDecay0 generator...\n";
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: "
+                    << "Install the MDL post-generation operation in the BxDecay0 generator...\n";
         }
         bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(pdecay0->is_debug()));
         bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
-        mdl.set(mdl_config.code, 
-                mdl_config.rank,               
-                mdl_config.cone_phi,
-                mdl_config.cone_theta,   
-                mdl_config.cone_aperture,        
-                mdl_config.error_on_missing_particle);          
+        if (mdl_config.cone_aperture2 >= 0.0) {
+          mdl.set_with_aperture_rectangular_cut(mdl_config.code, 
+                                                mdl_config.rank,               
+                                                mdl_config.cone_phi,
+                                                mdl_config.cone_theta,   
+                                                mdl_config.cone_aperture,        
+                                                mdl_config.cone_aperture2,        
+                                                mdl_config.error_on_missing_particle);
+        } else {
+          mdl.set(mdl_config.code, 
+                  mdl_config.rank,               
+                  mdl_config.cone_phi,
+                  mdl_config.cone_theta,   
+                  mdl_config.cone_aperture,        
+                  mdl_config.error_on_missing_particle);
+        }
         pdecay0->add_operation(mdlPtr); 
       }
       if (action->IsDebug()) {
@@ -579,6 +594,10 @@ namespace bxdecay0_g4 {
         mdlConfig.cone_phi = _config_.mdl_cone_longitude * M_PI / 180.0;
         mdlConfig.cone_theta = _config_.mdl_cone_colatitude * M_PI / 180.0;
         mdlConfig.cone_aperture = _config_.mdl_cone_aperture * M_PI / 180.0;
+        mdlConfig.cone_aperture2 = std::numeric_limits<double>::quiet_NaN();
+        if (_config_.mdl_cone_aperture2 >= 0.0) {
+          mdlConfig.cone_aperture2 = _config_.mdl_cone_aperture2 * M_PI / 180.0;
+        }
         mdlConfig.error_on_missing_particle = _config_.mdl_error_on_missing_particle;
       }
     }

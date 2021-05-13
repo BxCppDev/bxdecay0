@@ -3,7 +3,7 @@ Momentum Direction Lock post-generation event operation
 =========================================================
 
 :author: F.Mauger
-:date: 2021-04-30
+:date: 2021-05-13
 
 This mechanisms allows to bias the angular distribution of the emitted
 particles in  the BxDecay0  generated events. It  should be  used with
@@ -43,10 +43,40 @@ Whatever the mode is, by default, if no particle has been selected for
 being rotated to  the emission cone, no tranformation of  the event is
 done.
 
+It is also possible to define a rectangular cut on the cone aperture.
+
 .. raw:: pdf
 	 
    PageBreak
 ..
+
+
+Parameters of the emission cone
+===============================
+
+The picture below shows the emission cone with its parameters as defined
+from the particles' emission vertex and the associated frame of reference:
+
+* φ\ :sub:`C` : longitude of the emission cone axis
+* θ\ :sub:`C` : colatitude of the emission cone axis
+* θ  : angle of aperture of the emission cone
+
+.. image:: images/cone_emission_1.pdf
+   :width: 90%
+
+
+**Option**: rectangular cut on the emission cone aperture
+
+* θ\ :sub:`2`  : additional angle of aperture 
+	   
+.. image:: images/cone_emission_2.pdf
+   :width: 90%
+
+.. raw:: pdf
+	 
+   PageBreak
+..
+	    
 
 Examples with Cs137 decays
 ==========================
@@ -61,7 +91,7 @@ Selected particle code: gamma, rank=0
    cone.  All other  particles are rotated to  preserve their relative
    angles with the target particle.
  
-   .. image:: test_decay0_generator_mdl.png
+   .. image:: images/test_decay0_generator_mdl.png
       :width: 90%
 
 .. raw:: pdf
@@ -77,7 +107,7 @@ All particles  of whatever types  in the event have  their momentum
 forced in the requested emission  cone. All other particles are let
 unchanged.
 
-.. image:: test_decay0_generator_mdl_bis.png
+.. image:: images/test_decay0_generator_mdl_bis.png
    :width: 90%
 	  
  
@@ -95,7 +125,7 @@ All  electrons in  the  event  have their  momentum  forced in  the
 requested  emission  cone. All  other  particles  (gammas) are  let
 unchanged.
    
-.. image:: test_decay0_generator_mdl_ter.png
+.. image:: images/test_decay0_generator_mdl_ter.png
    :width: 90%
 	   	  
 ..
@@ -125,7 +155,7 @@ Use the MDL event biasing within Geant4
      /run/beamOn 30
   ..
  
-  .. image:: test_decay0_generator_mdl_g4_0.png
+  .. image:: images/test_decay0_generator_mdl_g4_0.png
      :width: 75%
 
 
@@ -147,7 +177,7 @@ Use the MDL event biasing within Geant4
      /run/beamOn 100 
   ..
  
-  .. image:: test_decay0_generator_mdl_g4_1.png
+  .. image:: images/test_decay0_generator_mdl_g4_1.png
      :width: 75%
  
 
@@ -169,5 +199,32 @@ Use the MDL event biasing within Geant4
      /run/beamOn 100 
   ..
  
-  .. image:: test_decay0_generator_mdl_g4_2.png
+  .. image:: images/test_decay0_generator_mdl_g4_2.png
      :width: 75%
+
+.. raw:: pdf
+	 
+   PageBreak
+   
+..
+
+
+* Example 4 (Cs137 decays, *rotated particles selection* mode): All
+  particles in a emission cone along the Z-axis cut by a rectangular section in
+  range θ=15° and θ\ :sub:`2`\ =5°.
+  
+  Macro:
+  
+  .. code:: shell
+
+     /bxdecay0/generator/background Cs137 314159
+     /bxdecay0/generator/mdlr all -1 0 0 15 5 
+     /run/beamOn 100 
+  ..
+ 
+  .. image:: images/test_decay0_generator_mdlr.png
+     :width: 75%
+
+
+	     
+.. end

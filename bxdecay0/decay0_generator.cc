@@ -31,6 +31,7 @@
 #include <bxdecay0/genbbsub.h>
 #include <bxdecay0/version.h>
 #include <bxdecay0/dbd_gA.h>
+#include <bxdecay0/mdl_event_op.h>
 
 namespace bxdecay0 {
 

@@ -60,7 +60,8 @@ namespace bxdecay0 {
       int    target_particle_rank = -1; //!< Rank of the target particle
       double cone_phi_degree = 0.0;      //!< longitude (degree)
       double cone_theta_degree = 0.0;    //!< colatitude (degree)
-      double cone_aperture_degree = 0.0; //!< aperture (degree)
+      double cone_aperture_degree = 0.0; //!< circular aperture or rectangular cone aperture 1 (degree)
+      double cone_aperture2_degree = -1.0; //!< rectangular cone aperture 2 (degree)
       bool   error_on_missing_particle = false;
     };
     
@@ -84,15 +85,40 @@ namespace bxdecay0 {
     void set(const config_type & config_);
 
     /// Set the configuration parameters of the MDL event op and activate it
-    void set(particle_code code_, int rank_,
-             double cone_axis_x_, double cone_axis_y_, double cone_axis_z_,
+    void set(particle_code code_,
+             int rank_,
+             double cone_axis_x_,
+             double cone_axis_y_,
+             double cone_axis_z_,
              double cone_aperture_angle_,
              bool error_on_missing_particle_);
 
     /// Set the configuration parameters of the MDL event op and activate it
-    void set(particle_code code_, int rank_,
-             double cone_phi_, double cone_theta_, double cone_aperture_angle_,
+    void set(particle_code code_,
+             int rank_,
+             double cone_phi_,
+             double cone_theta_,
+             double cone_aperture_angle_,
              bool error_on_missing_particle_);
+
+    /// Set the configuration parameters of the MDL event op using the aperture rectangular cut, and activate it
+    void set_with_aperture_rectangular_cut(particle_code code_,
+                                           int rank_,
+                                           double cone_axis_x_,
+                                           double cone_axis_y_,
+                                           double cone_axis_z_,
+                                           double cone_aperture_angle_,
+                                           double cone_aperture2_angle_,
+                                           bool error_on_missing_particle_);
+
+    /// Set the configuration parameters of the MDL event op using the aperture rectangular cut and activate it
+    void set_with_aperture_rectangular_cut(particle_code code_,
+                                           int rank_,
+                                           double cone_phi_,
+                                           double cone_theta_,
+                                           double cone_aperture_angle_,
+                                           double cone_aperture2_angle_,
+                                           bool error_on_missing_particle_);
     
     void reset();
 
@@ -103,8 +129,18 @@ namespace bxdecay0 {
     void operator()(i_random & prng_, event & event_) override;
 
     void smart_dump(std::ostream & out_, const std::string & indent_) const override;
-   
+    
   private:
+
+    /// Set the configuration parameters
+    void _set_(particle_code code_,
+               int rank_,
+               double cone_axis_x_,
+               double cone_axis_y_,
+               double cone_axis_z_,
+               double cone_aperture_angle_,
+               double cone_aperture2_angle_,
+               bool error_on_missing_particle_);
 
     void _update_internals_();
 
@@ -122,6 +158,7 @@ namespace bxdecay0 {
     int     _rank_ = -1; //!< Rank of the reference/target particle (in the optional specified code above) of which the momentum should be forced (0 : first particle, 1: second particle..., -1 : all particles of a selected type)
     vector3 _cone_axis_; //!< Emission cone axis (default along the Z-axis (0, 0, 1))
     double  _cone_angle_ = 0.0; //!< Emission cone angle (unit: radians)
+    double  _cone_angle2_ = std::numeric_limits<double>::quiet_NaN(); //!< Emission cone angle in the other direction (rectangular section only) (unit: radians)
     bool    _error_on_missing_particle_ = false; //!< Throw exception if reference particle is missing (otherwise, ignore and pass)
 
     // Internal precomputed data (set by update): 

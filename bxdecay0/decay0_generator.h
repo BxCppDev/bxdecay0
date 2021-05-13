@@ -41,7 +41,7 @@
 #include <bxdecay0/i_decay_generator.h>
 #include <bxdecay0/i_random.h>
 #include <bxdecay0/utils.h>
-#include <bxdecay0/mdl_event_op.h>
+// #include <bxdecay0/mdl_event_op.h>
 
 /// Nested namespace of the bxdecay0 library
 namespace bxdecay0 {
