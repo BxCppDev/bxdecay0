@@ -15,7 +15,7 @@ Two modes are available:
 * *target particle* mode  : An unique particle in the  event is chosen
   from a given type (e-, gamma... all types) and its rank in the event
   (mandatory: 0, 1,...).  Its momentum  is then forced to point within
-  the requested  emission cone speficied by  its longitude, colatitude
+  the requested  emission cone specified by  its longitude, colatitude
   and  aperture angles.   All other  particles in  the event  are also
   rotated  in   such  a  way   one  preserves  the   possible  angular
   correlations  between emitted  particles  in  the original  BxDecay0
@@ -26,11 +26,11 @@ Two modes are available:
   the  emission vertex  is a  single point  or a  small region  of the
   geometry  with  respect  to  the positioning  of  sensitive  regions
   primary  particles are  expected  to flow  towards.   The choice  of
-  *target particle*  by the user  implies a knowledge of  the particle
+  *target particle*  by the user  implies a good knowledge of  the particle
   multiplicity and structure of the  BxDecay0 generated event in order
   to pickup the particle of interest.
 * *rotated particles selection* mode: Particles of one or all types in
-  the event  are selected, regardless of  their rank, and each  of the
+  the event  are selected, regardless of  their rank, and each  of them in the
   selected set (*all electrons*, *all gammas*, ... *all particles*) is
   rotated in  such a way  its momentum is  forced to point  within the
   requested  emission  cone.  The  momentum  of  all other  unselected
@@ -40,7 +40,7 @@ Two modes are available:
   user context and interest.
 
 Whatever the mode is, by default, if no particle has been selected for
-being rotated to  the emission cone, no tranformation of  the event is
+being rotated to  the emission cone, no transformation of  the event is
 done.
 
 It is also possible to define a rectangular cut on the cone aperture.
@@ -59,7 +59,7 @@ from the particles' emission vertex and the associated frame of reference:
 
 * φ\ :sub:`C` : longitude of the emission cone axis
 * θ\ :sub:`C` : colatitude of the emission cone axis
-* θ  : angle of aperture of the emission cone
+* θ  : half angle of aperture of the emission cone
 
 .. image:: images/cone_emission_1.pdf
    :width: 90%
@@ -67,7 +67,7 @@ from the particles' emission vertex and the associated frame of reference:
 
 **Option**: rectangular cut on the emission cone aperture
 
-* θ\ :sub:`2`  : additional angle of aperture 
+* θ\ :sub:`2`  : additional half angle of aperture 
 	   
 .. image:: images/cone_emission_2.pdf
    :width: 90%
