@@ -408,6 +408,11 @@ namespace bxdecay0_g4 {
  
   PrimaryGeneratorAction::~PrimaryGeneratorAction()
   {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::~PrimaryGeneratorAction: Destroying the vertex generator...\n";
+     delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+    }
     if (_messenger_) {
       if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::~PrimaryGeneratorAction: Terminating messenger...\n";
       delete _messenger_;
@@ -623,7 +628,25 @@ namespace bxdecay0_g4 {
 
   void PrimaryGeneratorAction::SetVertexGenerator(VertexGeneratorInterface & vertex_generator_)
   {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+      _owned_vertex_generator_ = false;
+    }
     _vertex_generator_ = &vertex_generator_;
+    _owned_vertex_generator_ = false;
+    return;
+  }
+ 
+  void PrimaryGeneratorAction::SetVertexGenerator(VertexGeneratorInterface * vertex_generator_ptr_)
+  {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+      _owned_vertex_generator_ = false;
+    }
+    _vertex_generator_ = vertex_generator_ptr_;
+    _owned_vertex_generator_ = true;
     return;
   }
  

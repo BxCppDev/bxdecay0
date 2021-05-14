@@ -66,7 +66,7 @@ namespace bxdecay0_g4 {
     }
  
     {
-      // Command /particle/generator/mdl
+      // Command /bxdecay0/generator/mdl
       _pga_gtor_mdl_cmd_ = new G4UIcommand("/bxdecay0/generator/mdl", this);
       _pga_gtor_mdl_cmd_->SetGuidance("Set the parameters of a MDL post-generation event biasing operation in the BxDecay0 event generator");
       _pga_gtor_mdl_cmd_->SetGuidance("[usage] /bxdecay0/generator/mdl [TARGET_PARTICLE] [TARGET_RANK] ");
@@ -137,7 +137,7 @@ namespace bxdecay0_g4 {
     }
   
     {
-      // Command /particle/generator/mdlr
+      // Command /bxdecay0/generator/mdlr
       _pga_gtor_mdlr_cmd_ = new G4UIcommand("/bxdecay0/generator/mdlr", this);
       _pga_gtor_mdlr_cmd_->SetGuidance("Set the parameters of a MDL post-generation event biasing operation in the");
       _pga_gtor_mdlr_cmd_->SetGuidance("BxDecay0 event generator (with rectangular cut on conical aperture)");
@@ -255,7 +255,7 @@ namespace bxdecay0_g4 {
     }
 
     {
-      // Command /particle/generator/dbd
+      // Command /bxdecay0/generator/dbd
       _pga_gtor_dbd_cmd_ = new G4UIcommand("/bxdecay0/generator/dbd", this);
       _pga_gtor_dbd_cmd_->SetGuidance("Set the BxDecay0 event generator parameters for DBD decays");
       _pga_gtor_dbd_cmd_->SetGuidance("[usage] /bxdecay0/generator/dbd NUCLIDE SEED DBD_MODE DBD_LEVEL [DEBUG]");
@@ -314,7 +314,7 @@ namespace bxdecay0_g4 {
     }
 
     {
-      // Command /particle/generator/dbdranged
+      // Command /bxdecay0/generator/dbdranged
       _pga_gtor_dbdr_cmd_ = new G4UIcommand("/bxdecay0/generator/dbdranged", this);
       _pga_gtor_dbdr_cmd_->SetGuidance("Set the BxDecay0 event generator parameters for DBD decays");
       _pga_gtor_dbdr_cmd_->SetGuidance("[usage] /bxdecay0/generator/dbd NUCLIDE SEED DBD_MODE DBD_LEVEL DBD_MIN_ENERGY DBD_MAX_ENERGY[DEBUG]");
@@ -446,7 +446,7 @@ namespace bxdecay0_g4 {
       sCurValue << std::boolalpha << configInt.mdl_error_on_missing_particle;
       curValue = sCurValue.str();
     }
-     if (command_ == _pga_gtor_mdlr_cmd_) {
+    if (command_ == _pga_gtor_mdlr_cmd_) {
       PrimaryGeneratorAction::ConfigurationInterface configInt = _pga_->GetConfiguration();
       std::ostringstream sCurValue;
       sCurValue << (configInt.mdl_target_name.empty() ? "all" :  configInt.mdl_target_name) << ' ';

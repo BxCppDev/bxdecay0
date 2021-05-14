@@ -118,8 +118,8 @@ As an option, BxDecay0 provides the MDL mechanism (Momemtum Direction Locking)
 which enables to enforce the momentum direction of some, or all, generated primary particles
 in the BxDecay0 generated event, at user choice. 
 
-**Example:** Force each first electron in each event to be emitted in a cone along the X-axis and rotate the full
-event to preserve angular correlations between emitted particles.
+**Example:** Force each first electron in each event to be emitted in a cone along
+the X-axis and rotate the full event to preserve angular correlations between emitted particles.
 
 .. code:: shell
 
@@ -128,6 +128,7 @@ event to preserve angular correlations between emitted particles.
    /bxdecay0/generator/verbosity 2
    /bxdecay0/generator/background Cs137 314159
    /bxdecay0/generator/mdl electron 0 0.0 90.0 5.0 false
+   /bxdecay0/upvg/vertex 20.0 30.0 -10.0 cm
    /run/beamOn 50
 ..
   
@@ -135,7 +136,49 @@ event to preserve angular correlations between emitted particles.
    :width: 75%
  
 
-7 - Visualisation
+7 - Vertex generator
+====================
+
+The BxDecay0 library does not manage  the emission point of any decay.
+It does not know anything about the specific geometry you are using in
+your simulation  program.  It  is thus  up to you  to define  a proper
+vertex generator algorithm/class in your Geant4 simulation program.
+
+As  a convenience,  the BxDecay0/Geant4  extension library  provides a
+special interface to allow you to install your own vertex generator in
+the      primary     event      generator      class     (see      the
+``bxdecay0_g4::PrimaryGeneratorAction::SetVertexGenerator(...)``
+methods).
+
+The  ``bxdecay0_g4::VertexGeneratorInterface``  abstract interface  is
+defined  in  the ``bxdecay0_g4/vertex_generator_interface.hh``  header
+file.   A concrete  and operational  use case  (arbitrary, non-random,
+point-like       vertex)       is        provided       with       the
+``bxdecay0_g4::UniquePointVertexGenerator``        class.         This
+``bxdecay0_g4_ex01`` example (see  the ``ActionInitialization`` class)
+shows  how   to  install  such   a  vertex  generator  class   in  the
+BxDecay0/Geant4 primary generator action.
+
+
+**Example:** Similar to the previous example but sets the emission vertex at a specific point
+in the geometry, using the ``/bxdecay0/upvg/vertex`` command.
+
+.. code:: shell
+
+   /vis/viewer/set/viewpointThetaPhi  40. 50.
+   /vis/scene/add/axes 0 0 0 80 cm	    
+   /bxdecay0/generator/background Cs137 314159
+   /bxdecay0/generator/mdl all -1 0.0 90.0 5.0 false
+   /bxdecay0/upvg/vertex 20.0 30.0 -10.0 cm
+   /run/beamOn 50
+..
+
+ 
+.. image:: bxdecay0_g4_mdl_upvg.png
+   :width: 75%
+ 
+
+8 - Visualisation
 =================
 
 !!! NOT TESTED YET !!!
@@ -151,7 +194,7 @@ in case of interactive running mode.
  * *alpha* : yellow
 
    
-8 - How to start ?
+9 - How to start ?
 ==================
  
 - Execute ``bxdecay0_g4_ex01`` in *batch* mode from macro files:
@@ -173,8 +216,8 @@ in case of interactive running mode.
      Idle> exit
   ..
 
-9 - Histograms
-==============
+10 - Histograms
+=====================
 
 ``bxdecay0_g4_ex01`` produces several 1D-histograms which are saved as
 ``bxdecay0_g4_ex01.root`` by default.
@@ -216,7 +259,7 @@ in case of interactive running mode.
    
   All selected histos will be written on a file ``name.ascii`` (default ``bxdecay0_g4_ex01``).
 
-10 - Build the example
+11 - Build the example
 ============================
 
 #. Configure:
