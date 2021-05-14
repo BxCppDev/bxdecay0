@@ -708,7 +708,9 @@ Only  one type  of  PGOp algorithm  is provided  for  now, namely  the
 given emission  cone.  See  the ``documentation/PostGenEventOps/MDL/``
 directory for  more informations.  The ``test_cs137_mdl``  function in
 the ``bxdecay0/testing/test_decay0_generator.cxx`` program illustrates
-the use of this feature.
+the use of this feature. This mechanism also propose a few more feature
+to bias a generated event with respect to the emission direction of the
+primary particles.
 
 
 
@@ -822,7 +824,16 @@ The BxDecay0 Geant4 extension library
 The BxDecay0 library  can be built with an  optional companion library
 named ``BxDecay0_Geant4``. Of course Geant4 (>=10.6) must be installed
 and setup on your system to make  it work (former version may work but
-have not been tested).
+have not been tested). This extension library proposes
+a *primary generator action* which wraps the BxDecay0 event generator.
+
+Some additional features  are proposed:
+
+- a dedicated  messenger for the Geant4 interface,
+- an  interface which allow  to install  your own vertex generator algorothm,
+- support for the MDL PGOp (with messenger),  allowing  to bias  the  emission  directions
+  of  generated particles (within some arbitrary emission cone).
+
 
 The      option      to      activate     this      extension      is:
 ``BXDECAY0_WITH_GEANT4_EXTENSION``.
