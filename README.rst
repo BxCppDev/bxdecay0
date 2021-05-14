@@ -150,13 +150,21 @@ GSL_, ROOT_ or whatever).
     *Momentum Direction  Lock* (MDL) algorithm  which allows to  apply a
     bias on the emission direction of some particle(s) in each generated
     event.       Specific     documentation      is     provided      in
-    ``documentation/PostGenEventOps/MDL/``.    The    Geant4   extension
+    ``documentation/PostGenEventOps/MDL/``.
+    The MDL PGO proposes also the possibility to use a simple rectangular
+    cut on the emission cone aperture.
+  - The    Geant4   extension
     (primary generation  action and messenger classes)  is also modified
-    to enable the use of this mechanism.
+    to enable the use of the MDL mechanism.
+  - The    Geant4   extension provides an interface to use an arbitrary
+    vertex generator engine to be coupled with the BxDecay0 primary generator
+    action.
   - Companion generated file now uses extension ``.d0c`` to reflect the fact
     it contains informations about the configuration of the generator. It also
     list the *post-generation event operations* used by the generator with their
     configuration parameters.
+
+    
  
 .. _SuperNEMO: http://supernemo.org/
 
