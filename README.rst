@@ -776,26 +776,6 @@ Authors and contributors
 Who uses and supports BxDecay0...
 ===================================
 
-..
-
-..
-
-.. |SNLogo| image:: resources/images/supporters/supernemo_logo_v1.0.png
-	    :height: 80
-
-.. |LArSoftLogo| image:: resources/images/supporters/LArSoft_logo.png
-	    :height: 80
-
-.. |DUPhyLogo| image:: resources/images/supporters/DUPhy_logo_v2.png
-	    :height: 80
-..
-
-..
-
-..
-
-|SNLogo|    |LArSoftLogo|   |DUPhyLogo|
-
 
 * The SuperNEMO_  experiment through its Bayeux_  and Falaise_ software
   simulation stack (2017+)
@@ -804,6 +784,9 @@ Who uses and supports BxDecay0...
   neutrino experiments, has incorporated the BxDecay0 library (2020+).
 * The DUPhy_  research group (Deep Underground Physics)
 
+.. image:: resources/images/supporters/logo_panel.png
+   :height: 150
+		     
 .. _LArSoft: https://larsoft.org/
 .. _DUPhy: https://gdrduphy.in2p3.fr/
 
