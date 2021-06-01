@@ -442,8 +442,8 @@ You can also run the ``bxdecay0-run`` program from the build directory
 before     installation.     First     you     must    declare     the
 ``BXDECAY0_RESOURCE_DIR`` environment variable  to locate the resource
 files which are not installed yet in the proper path. Here we generate
-4 Cs137 decay primry events using the MDL bias mechanism to force the
-beta ray to be emitted along the X-axis.
+four Cs137 decay primary events using  the MDL bias mechanism to force
+the beta ray to be emitted along the X-axis.
 
 .. code:: sh
 
@@ -460,9 +460,9 @@ beta ray to be emitted along the X-axis.
    $ cat /tmp/genCs137.d0t
 ..
 
-The output ``/tmp/genCs137.d0c`` contains the summary of event generation informations.
-The output ``/tmp/genCs137.d0t`` contains the list of generated event in a very simple
-ASCII format.
+The output  file ``/tmp/genCs137.d0c``  contains the summary  of event
+generation  informations.    The  output   file  ``/tmp/genCs137.d0t``
+contains the list of generated events in a very simple ASCII format.
 
 
 
@@ -835,7 +835,7 @@ a *primary generator action* which wraps the BxDecay0 event generator.
 Some additional features  are proposed:
 
 - a dedicated  messenger for the Geant4 interface,
-- an  interface which allow  to install  your own vertex generator algorothm,
+- an  interface which allows  to install  your own algorithm for vertex generation,
 - support for the MDL PGOp (with messenger),  allowing  to bias  the  emission  directions
   of  generated particles (within some arbitrary emission cone).
 
