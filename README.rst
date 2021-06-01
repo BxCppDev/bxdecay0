@@ -866,8 +866,8 @@ Authors and contributors
 ========================
 
 * Vladimir  Tretyak  (KINR_,  Kiev  Institute  for  Nuclear  Research,
-  Ukraine) is the original author  and maintener of the Fortran Decay0
-  package.
+  Ukraine) is the original author  and maintener of the legacy Fortran
+  Decay0 package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
   de  Caen, `Université  de  Caen Normandie`_,  Caen,  France) is  the
   author  and maintener  of the  original  C++ port  of Decay0  within
@@ -890,13 +890,22 @@ Authors and contributors
 Who uses and supports BxDecay0...
 ===================================
 
+
 * The SuperNEMO_  experiment through its Bayeux_  and Falaise_ software
   simulation stack (2017+)
 * The LArSoft_ Collaboration, which  proposes, among others, tools for
   the simulation of Liquid Argon  Time Projection Chambers for several
   neutrino experiments, has incorporated the BxDecay0 library (2020+).
+* The DUPhy_  research group (Deep Underground Physics)
 
+.. image:: resources/images/supporters/logo_panel.png
+   :height: 120
+
+The above logos and web sites are referenced with the kind permission of their respective authors
+and/or scientific communities.
+	    
 .. _LArSoft: https://larsoft.org/
+.. _DUPhy: https://gdrduphy.in2p3.fr/
 
 References
 ===========
