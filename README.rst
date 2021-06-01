@@ -785,7 +785,7 @@ Who uses and supports BxDecay0...
 * The DUPhy_  research group (Deep Underground Physics)
 
 .. image:: resources/images/supporters/logo_panel.png
-   :height: 150
+   :height: 120
 		     
 .. _LArSoft: https://larsoft.org/
 .. _DUPhy: https://gdrduphy.in2p3.fr/
