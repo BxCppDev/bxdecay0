@@ -752,8 +752,8 @@ Authors and contributors
 ========================
 
 * Vladimir  Tretyak  (KINR_,  Kiev  Institute  for  Nuclear  Research,
-  Ukraine) is the original author  and maintener of the Fortran Decay0
-  package.
+  Ukraine) is the original author  and maintener of the legacy Fortran
+  Decay0 package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
   de  Caen, `Université  de  Caen Normandie`_,  Caen,  France) is  the
   author  and maintener  of the  original  C++ port  of Decay0  within
