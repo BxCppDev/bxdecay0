@@ -9,7 +9,6 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 
 .. image:: resources/images/logo/bxdecay0_logo.png
    :width: 20%
-   :align: center
 
 	   
 	       
