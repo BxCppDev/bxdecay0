@@ -145,8 +145,8 @@ GSL_, ROOT_ or whatever).
 - Release 1.0.10:
 
   - The ``bxdecay0::decay0_generator`` now  supports a mechanism which
-    automates post-generation event operations (PGO).
-  - Only  one  post-generation  event  op is  provided  for  now:  the
+    automates *post-generation event operations* (PGO).
+  - Only  one  *post-generation  event  op* is  provided  for  now:  the
     *Momentum Direction  Lock* (MDL) algorithm  which allows to  apply a
     bias on the emission direction of some particle(s) in each generated
     event.       Specific     documentation      is     provided      in
@@ -159,7 +159,7 @@ GSL_, ROOT_ or whatever).
   - The    Geant4   extension provides an interface to use an arbitrary
     vertex generator engine to be coupled with the BxDecay0 primary generator
     action.
-  - Companion generated file now uses extension ``.d0c`` to reflect the fact
+  - The generated companion file now uses extension ``.d0c`` to reflect the fact
     it contains informations about the configuration of the generator. It also
     list the *post-generation event operations* used by the generator with their
     configuration parameters.
@@ -312,9 +312,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.7.tar.gz -o bxdecay0-1.0.7.tar.gz
-   $ tar xvzf bxdecay0-1.0.7.tar.gz
-   $ ls -l bxdecay0-1.0.7/
+   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.10.tar.gz -o bxdecay0-1.0.10.tar.gz
+   $ tar xvzf bxdecay0-1.0.10.tar.gz
+   $ ls -l bxdecay0-1.0.10/
 ..
 
 
@@ -335,7 +335,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.7
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.10
 ..
 
 
@@ -533,7 +533,7 @@ applications.
   * ``BxDecay0Config.cmake``,
   * ``BxDecay0ConfigVersion.cmake``.
 
-  The ``find_package(BxDecay0  REQUIRED 1.0.7 CONFIG)``  CMake command
+  The ``find_package(BxDecay0  REQUIRED 1.0.10 CONFIG)``  CMake command
   can  be given  the following  variable  to locate  BxDecay0 on  your
   system from a client project which uses the CMake build system:
 
@@ -797,7 +797,7 @@ Typical contents of the ``/tmp/genCo60.d0c`` configuration informations output f
 ::
  
   library-name=BxDecay0
-  library-version=1.0.7
+  library-version=1.0.10
   decay-category=background
   nuclide=Co60
   seed=314159
