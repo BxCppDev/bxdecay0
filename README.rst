@@ -6,6 +6,13 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 :date: 2021-06-01
 :copyright: Copyright (C) 2017-2021 the BxCppDev group
 
+
+.. image:: resources/images/logo/bxdecay0_logo.png
+   :width: 20%
+   :align: center
+
+	   
+	       
 The **BxDecay0** C++  library provides a set of  classes and functions
 for the random generation of  simulated nuclear decays. It consists in
 a C++ port of the original Decay0 Fortran program (also known as GENBB
