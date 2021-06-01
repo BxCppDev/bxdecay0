@@ -786,7 +786,10 @@ Who uses and supports BxDecay0...
 
 .. image:: resources/images/supporters/logo_panel.png
    :height: 120
-		     
+
+The above logos and web sites are referenced with the kind permission of their respective authors
+and/or scientific communities.
+	    
 .. _LArSoft: https://larsoft.org/
 .. _DUPhy: https://gdrduphy.in2p3.fr/
 
