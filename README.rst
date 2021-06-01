@@ -142,6 +142,30 @@ GSL_, ROOT_ or whatever).
        find_package(BxDecay0 1.0.9 REQUIRED COMPONENTS Geant4 CONFIG)
     ..
   
+- Release 1.0.10:
+
+  - The ``bxdecay0::decay0_generator`` now  supports a mechanism which
+    automates post-generation event operations (PGO).
+  - Only  one  post-generation  event  op is  provided  for  now:  the
+    *Momentum Direction  Lock* (MDL) algorithm  which allows to  apply a
+    bias on the emission direction of some particle(s) in each generated
+    event.       Specific     documentation      is     provided      in
+    ``documentation/PostGenEventOps/MDL/``.
+    The MDL PGO proposes also the possibility to use a simple rectangular
+    cut on the emission cone aperture.
+  - The    Geant4   extension
+    (primary generation  action and messenger classes)  is also modified
+    to enable the use of the MDL mechanism.
+  - The    Geant4   extension provides an interface to use an arbitrary
+    vertex generator engine to be coupled with the BxDecay0 primary generator
+    action.
+  - Companion generated file now uses extension ``.d0c`` to reflect the fact
+    it contains informations about the configuration of the generator. It also
+    list the *post-generation event operations* used by the generator with their
+    configuration parameters.
+
+    
+ 
 .. _SuperNEMO: http://supernemo.org/
 
 Design
@@ -359,8 +383,6 @@ From the build directory:
 .. code:: sh
 
    $ make -j4
-   $ make test
-   $ make install
 ..
 
 If you  are developing bxdecay0,  you can optionally use  the supplied
@@ -392,6 +414,62 @@ If you are  submitting changes, it is recommended that  you split your
 commits into  a sequence that  implement your change, followed  by one
 that applies any  suggested fixes by `clang-tidy`.  This allows easier
 review and testing.
+
+Post-build test
+-----------------------
+
+Run the tests with:
+
+.. code:: sh
+
+   $ make test
+..
+
+To run a specific test:
+
+
+.. code:: sh
+
+   $ ctest -I 15,15
+..
+
+You can also run the ``bxdecay0-run`` program from the build directory
+before     installation.     First     you     must    declare     the
+``BXDECAY0_RESOURCE_DIR`` environment variable  to locate the resource
+files which are not installed yet in the proper path. Here we generate
+4 Cs137 decay primry events using the MDL bias mechanism to force the
+beta ray to be emitted along the X-axis.
+
+.. code:: sh
+
+   $ export BXDECAY0_RESOURCE_DIR=$(pwd)/../resources
+   $ ./bxdecay0-run --logging "debug" -s 314159 \
+        -n 4 -c background -N "Cs137+Ba137m" \
+	--pgop-mdl-particle "e-" \
+	--pgop-mdl-rank 0  \
+	--pgop-mdl-cone-phi 0.0 \
+	--pgop-mdl-cone-theta 90.0 \
+	--pgop-mdl-cone-aperture 0.0 \
+	"/tmp/genCs137"
+   $ cat /tmp/genCs137.d0c 
+   $ cat /tmp/genCs137.d0t
+..
+
+The output ``/tmp/genCs137.d0c`` contains the summary of event generation informations.
+The output ``/tmp/genCs137.d0t`` contains the list of generated event in a very simple
+ASCII format.
+
+
+
+Install
+-----------------------
+
+From the build directory:
+
+.. code:: sh
+
+   $ make install
+..
 
 Manual setup
 ------------
@@ -612,6 +690,31 @@ interfacing with Geant4_
    PageBreak
 
 ..
+
+
+The Post-Generation Event Operation mechanism (PGOp)
+======================================================
+
+The ``bxdecay0::decay0_generator``  class accepts  an ordered  list of
+*Post-Generation event  operations* (PGOp) to be  automatically applied
+on each generated event.
+
+Any  PGOp is  embodied by  an instance  of a  class inherited  from the
+``bxdecay0::i_event_op`` abstract class.
+
+Only  one type  of  PGOp algorithm  is provided  for  now, namely  the
+*Momentum Direction Lock*  operation (MDL), which enables  to select a
+*target particle*  in an event  and force its  momentum to point  in a
+given emission  cone.  See  the ``documentation/PostGenEventOps/MDL/``
+directory for  more informations.  The ``test_cs137_mdl``  function in
+the ``bxdecay0/testing/test_decay0_generator.cxx`` program illustrates
+the use of this feature. This mechanism also propose a few more feature
+to bias a generated event with respect to the emission direction of the
+primary particles.
+
+
+
+
    
 The ``bxdecay0-run`` program
 ============================
@@ -684,12 +787,12 @@ Excerpt  of the  ``/tmp/genCo60.d0t``  decay events  output file.
 
 .. end
 
-A  ``/tmp/genCo60.d0m``  companion file  is  also  created; it  stores
-metadata associated  to the  BxDecay0 run, using  a very  simple ASCII
-format   with   *key=value*   pairs.   The   extension   ``.d0m``   is
-automatically appended to the ``/tmp/genCo60`` faile basename.
+A  ``/tmp/genCo60.d0c``  companion file  is  also  created; it  stores
+configuration informations associated  to the  BxDecay0 run, using  a very  simple ASCII
+format   with   *key=value*   pairs.   The   extension   ``.d0c``   is
+automatically appended to the ``/tmp/genCo60`` basename.
    
-Contents of the ``/tmp/genCo60.d0m`` metadata output file:
+Typical contents of the ``/tmp/genCo60.d0c`` configuration informations output file:
 
 ::
  
@@ -704,6 +807,8 @@ Contents of the ``/tmp/genCo60.d0m`` metadata output file:
   
 ..
 
+The directory which should contain these files must exist and be writable before
+you run the program.
 
 
 .. raw:: pdf
@@ -719,7 +824,16 @@ The BxDecay0 Geant4 extension library
 The BxDecay0 library  can be built with an  optional companion library
 named ``BxDecay0_Geant4``. Of course Geant4 (>=10.6) must be installed
 and setup on your system to make  it work (former version may work but
-have not been tested).
+have not been tested). This extension library proposes
+a *primary generator action* which wraps the BxDecay0 event generator.
+
+Some additional features  are proposed:
+
+- a dedicated  messenger for the Geant4 interface,
+- an  interface which allow  to install  your own vertex generator algorothm,
+- support for the MDL PGOp (with messenger),  allowing  to bias  the  emission  directions
+  of  generated particles (within some arbitrary emission cone).
+
 
 The      option      to      activate     this      extension      is:
 ``BXDECAY0_WITH_GEANT4_EXTENSION``.

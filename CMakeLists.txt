@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.0.9)
+project(BxDecay0 VERSION 1.0.10)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -242,6 +242,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Ta180mB.h  # Added from 2018-12-05
   bxdecay0/Ta180mEC.h # Added from 2018-12-05
   bxdecay0/Yb170low.h # Added from 2018-12-05
+  bxdecay0/mdl_event_op.h # Added 2021-04-29
   # Main wrapper class
   bxdecay0/decay0_generator.h
   bxdecay0/event_reader.h
@@ -429,6 +430,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Ta180mB.cc  # Added from 2018-12-05
   bxdecay0/Ta180mEC.cc # Added from 2018-12-05
   bxdecay0/Yb170low.cc # Added from 2018-12-05
+  bxdecay0/mdl_event_op.cc # Added 2021-04-29
   bxdecay0/decay0_generator.cc
   bxdecay0/event_reader.cc
   )

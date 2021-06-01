@@ -69,20 +69,39 @@ namespace bxdecay0 {
       std::cerr << "  --dbd-emax (-E) REALVAL    : Set the double beta decay maximum sum energy (in MeV, only for some \"dbd\" decay modes)\n";
       std::cerr << "  --activity (-a) REALVAL    : Set the activity (>0.0, in Bq, default: not set)\n";
       std::cerr << "  --basename (-b) STRING     : Set the basename of output files (default: \"/tmp/bxdecay0-run\")\n";
+      std::cerr << "  PGOps' special options :\n";
+      std::cerr << "  --pgop-mdl-particle STRING       : [MDL] Set the name of the selected particle (default: \"all\")\n";
+      std::cerr << "  --pgop-mdl-rank INTVAL           : [MDL] Set the rank of the target particle (default: -1)\n";
+      std::cerr << "  --pgop-mdl-cone-phi REALVAL      : [MDL] Set the longitude of the emission cone (unit: degree, default: 0)\n";
+      std::cerr << "  --pgop-mdl-cone-theta REALVAL    : [MDL] Set the colatitude of the emission cone (unit: degree, default: 0)\n";
+      std::cerr << "  --pgop-mdl-cone-aperture REALVAL : [MDL] Set the aperture of the emission cone (unit: degree, default: 0)\n";
       std::cerr << "                                                     \n";
       std::cerr << "Parameters : \n";
       std::cerr << "                                                     \n";
       std::cerr << "  basename : the basename of filename for generated events\n";
-      std::cerr << "              storage and metadata companion file.         \n";
+      std::cerr << "              storage and companion information file.\n";
       std::cerr << "                                                     \n";
-      std::cerr << "Example:                                            \n\n";
+      std::cerr << "Examples:                                            \n\n";
       std::cerr << "  The following command generates ten decay events from the Co60 nuclide\n";
       std::cerr << "  and stores them in the '/tmp/genCo60.d0t' file using a very simple ASCII\n";
       std::cerr << "  format. The '/tmp/genCo60.d0m' companion 'key=value' ASCII formatted file\n";
-      std::cerr << "  is also created to store associated metadata.\n";
+      std::cerr << "  is also created to store associated informations.\n";
       std::cerr << "  Both files are easy to parse from external applications:\n";
       std::cerr << "                                                     \n";
-      std::cerr << "    bxdecay0-run -s 314159 -n 10 -c background -N Co60 /tmp/genCo60 \n";
+      std::cerr << "    bxdecay0-run -s 314159 -n 10 -c background -N \"Co60\" \"/tmp/genCo60\" \n";
+      std::cerr << "                                                     \n";
+      std::cerr << "  The following command generates four decay events from the Cs137 nuclide\n";
+      std::cerr << "  and stores them in the '/tmp/genCs137.d0t' file using a very simple ASCII\n";
+      std::cerr << "  format. The '/tmp/genCs137.d0m' companion 'key=value' ASCII formatted file\n";
+      std::cerr << "  is also created to store associated informations. The MDL PGOp algorithm is used\n";
+      std::cerr << "  for biasing the momentum direction of the first electron within each event.\n";
+      std::cerr << "  The favored emission cone is aligned along the X-axis with a 5° half-aperture.\n";
+      std::cerr << "                                                     \n";
+      std::cerr << "    bxdecay0-run -s 314159 -n 4 -c background -N \"Cs137+Ba137m\" \\\n";
+      std::cerr << "      --pgop-mdl-particle \"e-\" --pgop-mdl-rank 0 \\\n";
+      std::cerr << "      --pgop-mdl-cone-phi 0.0 --pgop-mdl-cone-theta 90.0  \\\n";
+      std::cerr << "      --pgop-mdl-cone-aperture 5.0  \\\n";
+      std::cerr << "      \"/tmp/genCs137\" \n";
       std::cerr << "                                                     \n";
     }
     return;
@@ -172,6 +191,26 @@ namespace bxdecay0 {
           } else if (arg == "-b" or arg == "--basename") {
             std::string token = _args_[++iarg];
             config_.basename = token;
+          } else if (arg == "--pgop-mdl-particle") {
+            std::string token = _args_[++iarg];
+            config_.use_mdl = true;
+            config_.mdl_config.particle_label = token;
+          } else if (arg == "--pgop-mdl-rank") {
+            std::string token = _args_[++iarg];
+            config_.use_mdl = true;
+            config_.mdl_config.target_particle_rank = std::stoi(token);
+          } else if (arg == "--pgop-mdl-cone-phi") {
+            std::string token = _args_[++iarg];
+            config_.use_mdl = true;
+            config_.mdl_config.cone_phi_degree = std::stod(token);
+          } else if (arg == "--pgop-mdl-cone-theta") {
+            std::string token = _args_[++iarg];
+            config_.use_mdl = true;
+            config_.mdl_config.cone_theta_degree = std::stod(token);
+          } else if (arg == "--pgop-mdl-cone-aperture") {
+            std::string token = _args_[++iarg];
+            config_.use_mdl = true;
+            config_.mdl_config.cone_aperture_degree = std::stod(token);
           } else {
             throw std::logic_error("bxdecay0::cl_parser::parse: unsupported command line option '" + arg + "'!");
           }

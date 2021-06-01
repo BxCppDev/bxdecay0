@@ -31,6 +31,7 @@
 #include <bxdecay0/genbbsub.h>
 #include <bxdecay0/version.h>
 #include <bxdecay0/dbd_gA.h>
+#include <bxdecay0/mdl_event_op.h>
 
 namespace bxdecay0 {
 
@@ -135,6 +136,27 @@ namespace bxdecay0 {
         out_ << indent_ << tag << "Energy max       : " << _energy_max_ << " MeV" << std::endl;
       }
     }
+    size_t opSize = _operations_.size();
+    size_t opCount = 0;
+    if (! _operations_.size()) {
+      out_ << indent_ << tag << "No registered post-generation operations" << std::endl;
+    } else {
+      out_ << indent_ << tag << "Post-generation operations : " << std::endl;
+      for (const auto & op : _operations_) {
+        out_ << indent_ << skip_tag;
+        std::string tag2;
+        if (opCount + 1 == opSize) {
+          out_ << last_tag;
+          tag2 = "    ";
+        } else {
+          out_ << tag;
+          tag2 = "|    ";
+        }
+        out_ << "Operation : '" << op->name() << "'" << std::endl;
+        op->smart_dump(out_, indent_ + "|   " + tag2);
+        opCount++;
+      }
+    }
     out_ << indent_ << tag << "Event count      : " << _pimpl_->event_count << std::endl;
 
     out_ << indent_ << last_tag << "Initialized      : " << std::boolalpha << _initialized_ << std::endl;
@@ -234,6 +256,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_category(const decay_category_type category_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_category: Decay0 generator is initialized !");
+    }
     _decay_category_ = category_;
     return;
   }
@@ -260,6 +285,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_isotope(const std::string & i_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_isotope: Decay0 generator is initialized !");
+    }
     _decay_isotope_ = i_;
     return;
   }
@@ -276,6 +304,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_version(const std::string & ver_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_version: Decay0 generator is initialized !");
+    }
     _decay_version_ = ver_;
     return;
   }
@@ -287,6 +318,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_dbd_level(const int level_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_dbd_level: Decay0 generator is initialized !");
+    }
     _decay_dbd_level_ = level_;
     return;
   }
@@ -309,6 +343,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_dbd_mode(const dbd_mode_type mode_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_dbd_mode: Decay0 generator is initialized !");
+    }
     _decay_dbd_mode_ = mode_;
     return;
   }
@@ -325,6 +362,9 @@ namespace bxdecay0 {
 
   void decay0_generator::set_decay_dbd_esum_range(const double emin_, const double emax_)
   {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::set_decay_dbd_esum_range: Decay0 generator is initialized !");
+    }
     _energy_min_ = emin_;
     _energy_max_ = emax_;
     return;
@@ -338,6 +378,26 @@ namespace bxdecay0 {
   double decay0_generator::get_decay_dbd_esum_range_upper() const
   {
     return _energy_max_;
+  }
+
+  void decay0_generator::add_operation(event_op_ptr op_)
+  {
+    if (is_initialized()) {
+      throw std::logic_error("bxdecay0::decay0_generator::add_operation: Decay0 generator is initialized !");
+    }
+    if (! op_) {
+      throw std::logic_error("bxdecay0::decay0_generator::add_operation: Attempt to add a null operation !");
+    }
+    if (is_debug()) {
+      std::cerr << "[debug] decay0_generator::add_operation: Adding post-generation operation '" << op_->name() << "'" << std::endl;
+    }
+    _operations_.push_back(op_);
+    return;
+  }
+
+  const std::vector<event_op_ptr> & decay0_generator::get_operations() const
+  {
+    return _operations_;
   }
 
   // virtual
@@ -388,9 +448,18 @@ namespace bxdecay0 {
         throw std::logic_error("bxdecay0::decay0_generator::shoot: genbbsub background generation failed !");
       }
     }
+
+    for (unsigned int i = 0; i < _operations_.size(); i++) {
+      i_event_op & op = *(_operations_[i]);
+      if (is_debug()) {
+        std::cerr << "[debug] bxdecay0::decay0_generator::shoot: Processing operation '" << op.name() << "'..." << std::endl;
+      }
+      op(prng_, event_);
+    }
+    
     _pimpl_->event_count++;
     if (is_debug()) {
-      std::cerr << "[debug] decay0_generator::shoot: Exiting." << std::endl;
+      std::cerr << "[debug] bxdecay0::decay0_generator::shoot: Exiting." << std::endl;
     }
     return;
   }
@@ -415,6 +484,7 @@ namespace bxdecay0 {
       }
     }
     _pimpl_->use_dbd_ga = false;
+    _operations_.clear();
     _set_defaults_();
     return;
   }

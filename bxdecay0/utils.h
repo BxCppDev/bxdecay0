@@ -5,6 +5,10 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <limits>
+
+// This project:
+#include <bxdecay0/particle_utils.h>
 
 namespace bxdecay0 {
 
@@ -69,7 +73,8 @@ namespace bxdecay0 {
   vector3 operator*(const matrix3 & m_, const vector3 & v_);
 
   /// Rotate a 3D-vector through ZYZ Euler angles
-  vector3 rotate_zyz(const vector3 & p_, const double phi_, const double theta_ = 0.0, const double psi_ = 0.0);
+  vector3 rotate_zyz(const vector3 & p_,
+                     const double phi_, const double theta_ = 0.0, const double psi_ = 0.0);
 
 } // end of namespace bxdecay0
 

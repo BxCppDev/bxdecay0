@@ -25,6 +25,8 @@ configure_file(bxdecay0_g4/version.hh.in
 set(BxDecay0_Geant4_HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/bxdecay0_g4/version.hh
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/vertex_generator_interface.hh
+  ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/unique_point_vertex_generator.hh
+  ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/unique_point_vertex_generator_messenger.hh
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/primary_generator_action.hh
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/primary_generator_action_messenger.hh
 )
@@ -32,6 +34,8 @@ set(BxDecay0_Geant4_HEADERS
 set(BxDecay0_Geant4_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/primary_generator_action.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/vertex_generator_interface.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/unique_point_vertex_generator.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/unique_point_vertex_generator_messenger.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/bxdecay0_g4/primary_generator_action_messenger.cc
 )
 

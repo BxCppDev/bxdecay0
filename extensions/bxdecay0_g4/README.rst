@@ -4,7 +4,7 @@ BxDecay0 Geant4 extension library
 
 :authors: François Mauger
 :date: 2020-11-25
-:copyright: Copyright (C) 2020 the BxCppDev group
+:copyright: Copyright (C) 2020-2021 the BxCppDev group
 
 The  **BxDecay0  geant4  extension library**  provides  a  programming
 interface for  use within the  Geant4 Simulation Toolkit,  including a

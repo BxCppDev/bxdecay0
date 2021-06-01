@@ -40,6 +40,8 @@
 #include <bxdecay0/event.h>
 #include <bxdecay0/i_decay_generator.h>
 #include <bxdecay0/i_random.h>
+#include <bxdecay0/utils.h>
+// #include <bxdecay0/mdl_event_op.h>
 
 /// Nested namespace of the bxdecay0 library
 namespace bxdecay0 {
@@ -168,6 +170,12 @@ namespace bxdecay0 {
     /// Return a non mutable set of parameters
     const bxdecay0::bbpars & get_bb_params() const;
 
+    /// Add a post-generation operation on events
+    void add_operation(event_op_ptr op_);
+
+    /// Return the list of post-generation operations on events
+    const std::vector<event_op_ptr> & get_operations() const;
+    
   private:
     /// Return a mutable set of parameters
     bxdecay0::bbpars & _grab_bb_params_();
@@ -191,6 +199,8 @@ namespace bxdecay0 {
     dbd_mode_type _decay_dbd_mode_;       //!< DBD mode
     double _energy_min_;                  //!< Minimum energy sum
     double _energy_max_;                  //!< Maximum energy sum
+
+    std::vector<event_op_ptr> _operations_; //!< List of post-generation operations on generated events
 
     // Working internal data:
     struct pimpl_type;

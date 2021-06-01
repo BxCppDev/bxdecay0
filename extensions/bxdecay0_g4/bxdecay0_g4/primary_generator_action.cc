@@ -11,6 +11,7 @@
 #include <bxdecay0/std_random.h>
 #include <bxdecay0/event.h>       
 #include <bxdecay0/bb_utils.h>
+#include <bxdecay0/mdl_event_op.h>
 
 // Geant4:
 #include <globals.hh>
@@ -28,20 +29,100 @@
 
 namespace bxdecay0_g4 {
   
-  void PrimaryGeneratorAction::ConfigurationInterface::print(std::ostream & out_) const
+  void PrimaryGeneratorAction::ConfigurationInterface::print(std::ostream & out_, const std::string & indent_) const
   {
-    out_ << "Configuration interface: \n";
-    out_ << "|-- Decay category : '" << decay_category << "'\n";
-    out_ << "|-- Nuclide : '" << nuclide << "'\n";
-    out_ << "|-- Seed : " << seed << "\n";
-    out_ << "|-- DBD mode : " << dbd_mode << "\n";
-    out_ << "|-- DBD level : " << dbd_level << "\n";
-    out_ << "|-- DBD min energy (MeV) : " << dbd_min_energy_MeV << "\n";
-    out_ << "|-- DBD max energy (MeV) : " << dbd_max_energy_MeV << "\n";
-    out_ << "`-- Debug : " << std::boolalpha << debug << "\n";
+    out_ << indent_ << "Configuration interface: \n";
+    out_ << indent_ << "|-- Decay category : '" << decay_category << "'\n";
+    out_ << indent_ << "|-- Nuclide : '" << nuclide << "'\n";
+    out_ << indent_ << "|-- Seed : " << seed << "\n";
+    if (decay_category == "dbd") {
+      out_ << indent_ << "|-- DBD mode : " << dbd_mode << "\n";
+      out_ << indent_ << "|-- DBD level : " << dbd_level << "\n";
+      out_ << indent_ << "|-- DBD min energy (MeV) : " << dbd_min_energy_MeV << "\n";
+      out_ << indent_ << "|-- DBD max energy (MeV) : " << dbd_max_energy_MeV << "\n";
+    }
+    out_ << indent_ << "|-- Debug : " << std::boolalpha << debug << "\n";
+    out_ << indent_ << "`-- Use MDL : " << std::boolalpha << use_mdl << "\n";
+    if (use_mdl) {
+      out_ << indent_ << "    " << "|-- Target particle name : " << mdl_target_name << "\n";
+      out_ << indent_ << "    " << "|-- Target particle rank : " << mdl_target_rank << "\n";
+      out_ << indent_ << "    " << "|-- Cone longitude       : " << mdl_cone_longitude << " degrees\n";
+      out_ << indent_ << "    " << "|-- Cone colatitude      : " << mdl_cone_colatitude << " degrees\n";
+      out_ << indent_ << "    " << "|-- Cone aperture        : " << mdl_cone_aperture << " degrees\n";
+      out_ << indent_ << "    " << "|-- Cone aperture 2      : " << mdl_cone_aperture2 << " degrees\n";
+      out_ << indent_ << "    " << "`-- Error on missing target particle : " << std::boolalpha << mdl_error_on_missing_particle << "\n";
+    }
     return;
   }
 
+  bool PrimaryGeneratorAction::ConfigurationInterface::is_valid_base() const
+  {
+    if (decay_category != "background" and decay_category != "dbd") {
+      return false; }
+    if (nuclide.empty()) {
+      return false;
+    }
+    if (seed < 1) {
+      return false;
+    }
+    if (decay_category == "dbd") {
+      if (dbd_mode < 1) {
+        return false;
+      }
+      if (dbd_level < 1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool PrimaryGeneratorAction::ConfigurationInterface::is_valid_mdl() const
+  {
+    if (use_mdl) {
+      if (mdl_target_name.empty()) return false;
+      if (mdl_target_rank < -1) return false;
+    }
+    return true;
+  }
+
+  bool PrimaryGeneratorAction::ConfigurationInterface::is_valid() const
+  {
+    return is_valid_base() and is_valid_mdl();
+  }
+  
+  void PrimaryGeneratorAction::ConfigurationInterface::reset_base()
+  {
+    decay_category = "";
+    nuclide = "";
+    seed = 1;
+    dbd_mode = 0;
+    dbd_level = 0;
+    dbd_min_energy_MeV = -1.0;
+    dbd_max_energy_MeV = -1.0;
+    debug = false;
+    return;
+  }
+   
+  void PrimaryGeneratorAction::ConfigurationInterface::reset_mdl()
+  {
+    use_mdl = false;
+    mdl_target_name = "";
+    mdl_target_rank = -1;
+    mdl_cone_longitude  = 0.0;
+    mdl_cone_colatitude = 0.0;
+    mdl_cone_aperture   = 0.0;
+    mdl_cone_aperture2  = -1.0; // Unused cone aperture rectangular cut
+    mdl_error_on_missing_particle = false;
+    return;
+  }
+   
+  void PrimaryGeneratorAction::ConfigurationInterface::reset() 
+  {
+    reset_base();
+    reset_mdl();
+    return;
+  }
+ 
   // Private configuration structure for the unexposed BxDecay0 library:
   struct Configuration
   {
@@ -59,7 +140,22 @@ namespace bxdecay0_g4 {
     double dbd_min_energy_MeV = std::numeric_limits<double>::quiet_NaN();
     /// Maximum sum energy in MeV (only for some DBD isotopes and modes)
     double dbd_max_energy_MeV = std::numeric_limits<double>::quiet_NaN();
-    bool          debug = false; ///< Debug flag
+    bool   debug = false; ///< Debug flag
+    
+  };
+
+  // Private configuration structure for the MDL event op of the unexposed BxDecay0 library:
+  struct MdlEventOpConfiguration
+  {
+    bool   use_mdl = false; // Do not use MDL
+    bxdecay0::particle_code code = bxdecay0::INVALID_PARTICLE; // All types of particles
+    int    rank = -1; // All ranks
+    double cone_phi = 0.0; // Z-axis
+    double cone_theta = 0.0; // Z-axis
+    double cone_aperture = 0.0; // Zero aperture
+    double cone_aperture2 = std::numeric_limits<double>::quiet_NaN(); // No aperture rectangular cut 
+    bool   error_on_missing_particle = false; // Pass if not applicable
+
   };
 
   // PIMPL-ized embedded private BxDecay0 driver and associated resources
@@ -71,11 +167,13 @@ namespace bxdecay0_g4 {
 
     bxdecay0::decay0_generator & get_decay0();
 
-    void reset_decay0();
+    void destroy_decay0();
     
-    void reset_generator();
+    void destroy_generator();
+    
+    void destroy_prng();
 
-    void reset_prng();
+    void destroy();
 
     std::default_random_engine & get_generator();
 
@@ -84,29 +182,52 @@ namespace bxdecay0_g4 {
     // Attributes:
     PrimaryGeneratorAction *     action = nullptr;     // Mother action
     Configuration                config;               // Configuration of the BxDecay0 driver
+    MdlEventOpConfiguration      mdl_config;           // Configuration of the MDL post-generation event operation in the BxDecay0 driver
     std::default_random_engine * pgenerator = nullptr; // Low level random generator (depends on config for its seeding)
     bxdecay0::std_random *       pprng = nullptr;      // High level random generator (depends on pgenerator)
     bxdecay0::decay0_generator * pdecay0 = nullptr;    // BxDecay0 generator driver (depends on pprng and config)
 
   };
 
-  void PrimaryGeneratorAction::pimpl_type::reset_decay0()
+  void PrimaryGeneratorAction::pimpl_type::destroy()
   {
-    if (action->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::reset_decay0: Entering...\n";
+    destroy_decay0();
+    destroy_prng();
+    destroy_generator();
+    return;
+  }
+
+  void PrimaryGeneratorAction::pimpl_type::destroy_decay0()
+  {
+    if (action->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::destroy_decay0: Entering...\n";
     if (pdecay0 != nullptr) {
-      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::reset_decay0: Destroying the BxDecay0 driver...\n";
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::destroy_decay0: Destroying the BxDecay0 driver...\n";
       pdecay0->reset();
       delete pdecay0;
       pdecay0 = nullptr;
     }
-    if (action->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::reset_decay0: Exiting...\n";
+    if (action->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::destroy_decay0: Exiting...\n";
     return;
   }
   
   bxdecay0::decay0_generator & PrimaryGeneratorAction::pimpl_type::get_decay0()
   {
+    if (action->IsTrace()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Entering...\n";
+    if (action->ConfigHasChanged()) {
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Configuration has changed\n";
+      if (action->GetConfiguration().is_valid()) {
+        action->ApplyConfiguration();
+        if (pdecay0 != nullptr) {
+          if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Destroying the current BxDecay0 generator instance because of a new config...\n";
+          destroy();
+        }
+      } else {
+        if (action->IsTrace()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Invalid configuration!\n";
+        
+      }
+    }
     if (pdecay0 == nullptr) {
-      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Instantiating an configuring a new BxDecay0 generator...\n";
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Instantiating and configuring a new BxDecay0 generator...\n";
       pdecay0 = new bxdecay0::decay0_generator;
       // Configure the BxDecay0 generator:
       pdecay0->set_debug(config.debug);
@@ -131,6 +252,35 @@ namespace bxdecay0_g4 {
           use_specific_erange = true;
         }
       }
+      if (mdl_config.use_mdl) {
+        // Install the MDL post-generation operation in the generator
+        if (action->IsDebug()) {
+          std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: "
+                    << "Install the MDL post-generation operation in the BxDecay0 generator...\n";
+        }
+        bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(pdecay0->is_debug()));
+        bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
+        if (mdl_config.cone_aperture2 >= 0.0) {
+          mdl.set_with_aperture_rectangular_cut(mdl_config.code, 
+                                                mdl_config.rank,               
+                                                mdl_config.cone_phi,
+                                                mdl_config.cone_theta,   
+                                                mdl_config.cone_aperture,        
+                                                mdl_config.cone_aperture2,        
+                                                mdl_config.error_on_missing_particle);
+        } else {
+          mdl.set(mdl_config.code, 
+                  mdl_config.rank,               
+                  mdl_config.cone_phi,
+                  mdl_config.cone_theta,   
+                  mdl_config.cone_aperture,        
+                  mdl_config.error_on_missing_particle);
+        }
+        pdecay0->add_operation(mdlPtr); 
+      }
+      if (action->IsDebug()) {
+        pdecay0->smart_dump(std::cerr,"BxDecay0 Generator: ", "[debug] ");
+      }
       pdecay0->initialize(get_prng());
       if (use_specific_erange) {
         toallevents = pdecay0->get_bb_params().toallevents;
@@ -140,22 +290,22 @@ namespace bxdecay0_g4 {
     return *pdecay0;
   }
 
-  void PrimaryGeneratorAction::pimpl_type::reset_prng()
+  void PrimaryGeneratorAction::pimpl_type::destroy_prng()
   {
     if (pprng != nullptr) {
-      if (pdecay0 != nullptr) reset_decay0();
-      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::reset_generator: Destroying the high level random generator...\n";
+      if (pdecay0 != nullptr) destroy_decay0();
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::destroy_prng: Destroying the high level random generator...\n";
       delete pprng;
       pprng = nullptr;
     }
     return;
   }
 
-  void PrimaryGeneratorAction::pimpl_type::reset_generator()
+  void PrimaryGeneratorAction::pimpl_type::destroy_generator()
   {
     if (pgenerator != nullptr) {
-      if (pprng != nullptr) reset_prng();
-      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::reset_generator: Destroying the low level random generator...\n";
+      if (pprng != nullptr) destroy_prng();
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::destroy_generator: Destroying the low level random generator...\n";
       delete pgenerator;
       pgenerator = nullptr;
     }
@@ -165,7 +315,7 @@ namespace bxdecay0_g4 {
   std::default_random_engine & PrimaryGeneratorAction::pimpl_type::get_generator()
   {
     if (pgenerator == nullptr) {
-      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_prng: Instantiating a new low level random generator with seed=" << config.seed << "...\n";
+      if (action->IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_generator: Instantiating a new low level random generator with seed=" << config.seed << "...\n";
       pgenerator = new std::default_random_engine(config.seed);
     }
     return *pgenerator;
@@ -189,9 +339,7 @@ namespace bxdecay0_g4 {
 
   PrimaryGeneratorAction::pimpl_type::~pimpl_type()
   {
-    reset_decay0();
-    reset_prng();
-    reset_generator();
+    destroy();
     if (action->IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::dtor: Destruction of the BxDecay0 Geant4 Plugin PIMPL.\n";
     return;
   }
@@ -221,7 +369,22 @@ namespace bxdecay0_g4 {
      {
     return _verbosity_ > 2;
   }
-  
+
+  void PrimaryGeneratorAction::Dump(std::ostream & out_) const
+  {
+    out_ << "=== bxdecay0_g4::PrimaryGeneratorAction ===\n";
+    out_ << "Verbosity : " << _verbosity_ << "\n";
+    out_ << "Vertex generator : " << (_vertex_generator_ ? "yes" : "no") << "\n";
+    out_ << "Messenger : " << (_messenger_ ? "yes" : "no") << "\n";
+    _config_.print(out_);
+    out_ << "Configuration has changed : " << std::boolalpha << _config_has_changed_ << "\n";
+    out_ << "PIMPL : " << (_pimpl_ ? "yes" : "no") << "\n";
+    if (_pimpl_ and _pimpl_->pdecay0) {
+      _pimpl_->pdecay0->smart_dump(out_, "Decay0 generator instance: ", "");
+    }
+    return;
+  }
+   
   PrimaryGeneratorAction::PrimaryGeneratorAction(int verbosity_)
     : G4VUserPrimaryGeneratorAction()
     , _particle_gun_(nullptr)
@@ -245,6 +408,11 @@ namespace bxdecay0_g4 {
  
   PrimaryGeneratorAction::~PrimaryGeneratorAction()
   {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::~PrimaryGeneratorAction: Destroying the vertex generator...\n";
+     delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+    }
     if (_messenger_) {
       if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::~PrimaryGeneratorAction: Terminating messenger...\n";
       delete _messenger_;
@@ -265,25 +433,69 @@ namespace bxdecay0_g4 {
     return _config_;
   }
 
+  PrimaryGeneratorAction::ConfigurationInterface & PrimaryGeneratorAction::GrabConfiguration() 
+  {
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::GrabConfiguration: Destroy PIMPL material, if any...\n";
+    // SetConfigHasChanged(true);
+    return _config_;
+  }
+
+  void PrimaryGeneratorAction::SetConfigHasChanged(bool changed_)
+  {
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::SetConfigHasChanged: changed=" << changed_ << "\n";
+    _config_has_changed_ = changed_;
+    return;
+  }
+  
+  bool PrimaryGeneratorAction::ConfigHasChanged() const
+  {
+    return _config_has_changed_;
+  }
+
   void PrimaryGeneratorAction::SetConfiguration(const ConfigurationInterface & config_inter_)
   {
     if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Entering...\n";
     _config_ = config_inter_;
+    SetConfigHasChanged(true);
+    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Exiting...\n";
+    return;
+  }
+
+  void PrimaryGeneratorAction::DestroyConfiguration()
+  {
+    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::DestroyConfiguration: Entering...\n";
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::DestroyConfiguration: Entering...\n";
+    _pimpl_->destroy();
+    _config_.reset();
+    _config_has_changed_ = false;
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::DestroyConfiguration: Exiting...\n";
+    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::DestroyConfiguration: Exiting...\n";
+    return;
+  }
+
+  void PrimaryGeneratorAction::ApplyConfiguration()
+  {
+    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Entering...\n";
+    if (not _config_.is_valid()) {
+      std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid configuration!\n";
+      return;
+    }
     bool error = false;
-    _pimpl_->reset_decay0();
-    _pimpl_->reset_prng();
-    _pimpl_->reset_generator();
+    if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::pimpl_type::get_decay0: Destroying the old BxDecay0 generator because of a new config to be applied...\n";
+    _pimpl_->destroy();
     {
       // Set a default configuration:
-      Configuration dummy;
-      _pimpl_->config = dummy;
+      Configuration dummyConfig;
+      _pimpl_->config = dummyConfig;
+      MdlEventOpConfiguration dummyMdlDummy;
+      _pimpl_->mdl_config = dummyMdlDummy;
     };
     
     _pimpl_->config.debug = _config_.debug;
 
     if (not error) {
       if (_config_.seed <= 0) {
-        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Invalid seed value " << _config_.seed << "!\n";
+        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid seed value " << _config_.seed << "!\n";
         error = true;
       } else {
         _pimpl_->config.seed = _config_.seed;
@@ -296,7 +508,7 @@ namespace bxdecay0_g4 {
       } else if (_config_.decay_category == "background") {
         _pimpl_->config.decay_category = bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND;
       } else {
-        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Unsupported decay category '" << _config_.decay_category << "'!\n";
+        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Unsupported decay category '" << _config_.decay_category << "'!\n";
         error = true;
       }
     }
@@ -304,12 +516,12 @@ namespace bxdecay0_g4 {
     if (not error) {
       if (_pimpl_->config.decay_category == bxdecay0::decay0_generator::DECAY_CATEGORY_DBD) {
         if (bxdecay0::dbd_isotopes().count(_config_.nuclide) == 0) {
-          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Unsupported DBD nuclide '" << _config_.nuclide << "'!\n";
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Unsupported DBD nuclide '" << _config_.nuclide << "'!\n";
           error = true;
         } 
       } else if (_pimpl_->config.decay_category == bxdecay0::decay0_generator::DECAY_CATEGORY_DBD) {
         if (bxdecay0::background_isotopes().count(_config_.nuclide) == 0) {
-          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Unsupported background nuclide '" << _config_.nuclide << "'!\n";
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Unsupported background nuclide '" << _config_.nuclide << "'!\n";
           error = true;
         } 
       }
@@ -320,14 +532,14 @@ namespace bxdecay0_g4 {
 
     if (not error and _pimpl_->config.decay_category == bxdecay0::decay0_generator::DECAY_CATEGORY_DBD) {
       if (_config_.dbd_mode < bxdecay0::DBDMODE_MIN or _config_.dbd_mode > bxdecay0::DBDMODE_MAX) {
-        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Invalid DBD decay mode " << _config_.dbd_mode << "!";
+        std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid DBD decay mode " << _config_.dbd_mode << "!";
         error = true;
       } else {
         _pimpl_->config.dbd_mode = static_cast<bxdecay0::dbd_mode_type>(_config_.dbd_mode);
       }
       if (not error) {
         if (_config_.dbd_level < 0) {
-          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Invalid DBD daughter level index " << _config_.dbd_level << "!";
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid DBD daughter level index " << _config_.dbd_level << "!";
           error = true;
         } else {
           _pimpl_->config.dbd_level = (int) _config_.dbd_level;
@@ -342,18 +554,65 @@ namespace bxdecay0_g4 {
           if (_config_.dbd_min_energy_MeV > 0.0) {
             if (_pimpl_->config.dbd_min_energy_MeV >= _pimpl_->config.dbd_max_energy_MeV) {
               // Check bounds ordering of the energy range:
-              std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Invalid DBD energy range!";
+              std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid DBD energy range!";
               error = true;
             }
           }
         }
       }
     }
+
+    if (_config_.use_mdl) {
+      MdlEventOpConfiguration & mdlConfig = _pimpl_->mdl_config;
+      if (not error) {
+        mdlConfig.use_mdl = _config_.use_mdl;
+        if (_config_.mdl_target_name == "*" or _config_.mdl_target_name == "all") {
+          mdlConfig.code = bxdecay0::INVALID_PARTICLE; 
+        } else if (_config_.mdl_target_name == "e-" or _config_.mdl_target_name == "electron") {
+          mdlConfig.code = bxdecay0::ELECTRON;
+        } else if (_config_.mdl_target_name == "e+" or _config_.mdl_target_name == "positron") {
+          mdlConfig.code = bxdecay0::POSITRON;
+        } else if (_config_.mdl_target_name == "g" or _config_.mdl_target_name == "gamma") {
+          mdlConfig.code = bxdecay0::GAMMA;
+        } else if (_config_.mdl_target_name == "n" or _config_.mdl_target_name == "neutron") {
+          mdlConfig.code = bxdecay0::NEUTRON;
+        } else if (_config_.mdl_target_name == "p" or _config_.mdl_target_name == "proton") {
+          mdlConfig.code = bxdecay0::PROTON;
+        } else if (_config_.mdl_target_name == "a" or _config_.mdl_target_name == "alpha") {
+          mdlConfig.code = bxdecay0::ALPHA;
+        } else {
+          std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid target particle label '" << _config_.mdl_target_name << "'!";
+          error = true;
+        }
+      }
+      
+      if (not error) {     
+        if (_config_.mdl_target_rank < 0) {
+          mdlConfig.rank = -1; 
+        } else {
+          mdlConfig.rank = _config_.mdl_target_rank; 
+        }
+      }
+      
+      if (not error) {
+        // Convert degrees to radians:
+        mdlConfig.cone_phi = _config_.mdl_cone_longitude * M_PI / 180.0;
+        mdlConfig.cone_theta = _config_.mdl_cone_colatitude * M_PI / 180.0;
+        mdlConfig.cone_aperture = _config_.mdl_cone_aperture * M_PI / 180.0;
+        mdlConfig.cone_aperture2 = std::numeric_limits<double>::quiet_NaN();
+        if (_config_.mdl_cone_aperture2 >= 0.0) {
+          mdlConfig.cone_aperture2 = _config_.mdl_cone_aperture2 * M_PI / 180.0;
+        }
+        mdlConfig.error_on_missing_particle = _config_.mdl_error_on_missing_particle;
+      }
+    }
+    
     if (error) {
-      std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Invalid configuration! Abort run!\n";
+      std::cerr << "[error] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Invalid configuration! Abort run!\n";
       G4RunManager::GetRunManager()->AbortRun();
     }
-    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::SetConfiguration: Exiting...\n";
+    SetConfigHasChanged(false);
+    if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::ApplyConfiguration: Exiting...\n";
     return;
   }
 
@@ -369,7 +628,25 @@ namespace bxdecay0_g4 {
 
   void PrimaryGeneratorAction::SetVertexGenerator(VertexGeneratorInterface & vertex_generator_)
   {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+      _owned_vertex_generator_ = false;
+    }
     _vertex_generator_ = &vertex_generator_;
+    _owned_vertex_generator_ = false;
+    return;
+  }
+ 
+  void PrimaryGeneratorAction::SetVertexGenerator(VertexGeneratorInterface * vertex_generator_ptr_)
+  {
+    if (_owned_vertex_generator_ and _vertex_generator_ != nullptr) {
+      delete _vertex_generator_;
+      _vertex_generator_ = nullptr;
+      _owned_vertex_generator_ = false;
+    }
+    _vertex_generator_ = vertex_generator_ptr_;
+    _owned_vertex_generator_ = true;
     return;
   }
  

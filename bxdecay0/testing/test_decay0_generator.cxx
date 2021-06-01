@@ -23,10 +23,14 @@
 // Standard library:
 #include <chrono>
 #include <cstdlib>
+#include <cstdio>
 #include <exception>
 #include <iostream>
 #include <limits>
 #include <random>
+
+// GSL:
+#include <gsl/gsl_histogram.h>
 
 // This project:
 #include <bxdecay0/bb_utils.h>
@@ -34,6 +38,7 @@
 #include <bxdecay0/decay0_generator.h>
 #include <bxdecay0/event.h>
 #include <bxdecay0/std_random.h>
+#include <bxdecay0/mdl_event_op.h>
 
 void test1();
 void test2();
@@ -41,6 +46,8 @@ void test3();
 void test4();
 void test5();
 void test_backgrounds();
+void test_cs137_mdl();
+void test_cs137_mdlr();
 
 int main()
 {
@@ -52,6 +59,8 @@ int main()
     test4();
     test5();
     test_backgrounds();
+    test_cs137_mdl();
+    test_cs137_mdlr();
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
@@ -238,6 +247,212 @@ void test_backgrounds()
       decay.store(std::cout);
     }
 
+    decay0.reset();
+  }
+  return;
+}
+
+void test_cs137_mdl()
+{
+  std::clog << "\ntest_cs137_mdl:\n";
+
+  const auto & background_isotopes = bxdecay0::background_isotopes();
+  std::string name("Cs137");
+  {
+    std::clog << "Decay from isotope: '" << name << "'" << std::endl;
+    unsigned int seed = 314159;
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
+
+    bxdecay0::decay0_generator decay0;
+    decay0.set_debug(true);
+    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND);
+    decay0.set_decay_isotope(name);
+
+    // Install a MDL post-generation operation: force X direction for the first rank emitted gamma
+    // and rotate the full event in these conditions
+    bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(decay0.is_debug()));
+    bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
+    bxdecay0::particle_code requestedCode = bxdecay0::GAMMA;
+    int requestedRank = 0;
+    requestedCode = bxdecay0::INVALID_PARTICLE;
+    // requestedRank = -1;
+    // requestedCode = bxdecay0::ELECTRON;
+    requestedRank = -1;
+    mdl.set(requestedCode,        // Select only gammas
+            requestedRank,        // Rank of the target gamma in the event (0 : first, 1: second, 2: third...)
+            1.0, 0.0, 0.0,        // Emission cone is aligned on the X-axis
+            M_PI / 4,             //   with an angle of aperture of 45 degrees
+            false);               // Do not generate an error if no target particle is found. Just no-op and pass.
+    decay0.add_operation(mdlPtr); // Install the MDL post-generation operation in the generator 
+    decay0.initialize(prng);      // Initialize and lock the generator
+    decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
+
+    double cosMin = -1.0;
+    double cosMax = +1.0;
+    size_t nBins = 220;    
+    gsl_histogram * h1 = gsl_histogram_alloc(nBins);
+    gsl_histogram_set_ranges_uniform(h1, cosMin * 1.1, cosMax * 1.1);
+    gsl_histogram * h2 = gsl_histogram_alloc(nBins);
+    gsl_histogram_set_ranges_uniform(h2, cosMin * 1.1, cosMax * 1.1);
+    
+    bxdecay0::event decay;
+    std::size_t nevents = 10000;
+    for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+      decay0.shoot(prng, decay);
+      decay.set_time(0.0);
+      decay.print(std::clog, name + " decay event:", "[info] ");
+      decay.store(std::cout);
+      int targetParticleIndex = mdl.get_last_target_index();
+      if (requestedRank >= 0) {
+        if (targetParticleIndex >= 0) {
+          const auto & targetParticle = decay.get_particles()[targetParticleIndex];
+          double cosPsi = targetParticle.get_px() / targetParticle.get_p();
+          if (decay0.is_debug()) {
+            std::cerr << "[debug] cosPsi=" << cosPsi << "\n";
+          }
+          gsl_histogram_increment(h1, cosPsi);
+        }
+        const auto & betaParticle = decay.get_particles()[0];
+        double cosPsibeta = betaParticle.get_px() / betaParticle.get_p();
+        gsl_histogram_increment(h2, cosPsibeta);
+      } else {
+        for (const auto & part : decay.get_particles()) {
+          double cosPsi = part.get_px() / part.get_p();
+          if (part.get_code() == bxdecay0::GAMMA) {
+            gsl_histogram_increment(h1, cosPsi);            
+          } else if (part.get_code() == bxdecay0::ELECTRON) {
+            gsl_histogram_increment(h2, cosPsi);            
+          } 
+        }
+      }
+    }
+
+    if (requestedRank >= 0) { 
+      FILE * h1Out = fopen("h1.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    } else {
+      FILE * h1Out = fopen("h1bis.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2bis.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    }
+    
+    decay0.reset();
+  }
+  return;
+}
+
+void test_cs137_mdlr()
+{
+  std::clog << "\ntest_cs137_mdlr:\n";
+
+  const auto & background_isotopes = bxdecay0::background_isotopes();
+  std::string name("Cs137");
+  {
+    std::clog << "Decay from isotope: '" << name << "'" << std::endl;
+    unsigned int seed = 314159;
+    std::default_random_engine generator(seed);
+    bxdecay0::std_random prng(generator);
+
+    bxdecay0::decay0_generator decay0;
+    decay0.set_debug(true);
+    decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_BACKGROUND);
+    decay0.set_decay_isotope(name);
+
+    // Install a MDL post-generation operation: force X direction for the first rank emitted gamma
+    // and rotate the full event in these conditions
+    bxdecay0::event_op_ptr mdlPtr(new bxdecay0::momentum_direction_lock_event_op(decay0.is_debug()));
+    bxdecay0::momentum_direction_lock_event_op & mdl = dynamic_cast<bxdecay0::momentum_direction_lock_event_op&>(*mdlPtr);
+    bxdecay0::particle_code requestedCode = bxdecay0::GAMMA;
+    int requestedRank = 0;
+    requestedCode = bxdecay0::INVALID_PARTICLE;
+    // requestedRank = -1;
+    // requestedCode = bxdecay0::ELECTRON;
+    // requestedRank = -1;
+    // Rectangular cut on conical aperture:
+    mdl.set_with_aperture_rectangular_cut(requestedCode, // Select only gammas
+                                          requestedRank, // Rank of the target gamma in the event (0 : first, 1: second, 2: third...)
+                                          1.0,
+                                          0.0,
+                                          0.0,           // Emission cone is aligned on the X-axis
+                                          M_PI / 4,      //   with first angle of aperture of 45 degrees
+                                          M_PI / 10,     //   and second angle of aperture of 18 degrees
+                                          false);        // Do not generate an error if no target particle is found. Just no-op and pass.
+    decay0.add_operation(mdlPtr); // Install the MDL post-generation operation in the generator 
+    decay0.initialize(prng);      // Initialize and lock the generator
+    decay0.smart_dump(std::clog, "Decay0 background generator: ", "[info] ");
+
+    double cosMin = -1.0;
+    double cosMax = +1.0;
+    size_t nBins = 220;    
+    gsl_histogram * h1 = gsl_histogram_alloc(nBins);
+    gsl_histogram_set_ranges_uniform(h1, cosMin * 1.1, cosMax * 1.1);
+    gsl_histogram * h2 = gsl_histogram_alloc(nBins);
+    gsl_histogram_set_ranges_uniform(h2, cosMin * 1.1, cosMax * 1.1);
+    
+    bxdecay0::event decay;
+    std::size_t nevents = 10000;
+    for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+      decay0.shoot(prng, decay);
+      decay.set_time(0.0);
+      decay.print(std::clog, name + " decay event:", "[info] ");
+      decay.store(std::cout);
+      int targetParticleIndex = mdl.get_last_target_index();
+      if (requestedRank >= 0) {
+        if (targetParticleIndex >= 0) {
+          const auto & targetParticle = decay.get_particles()[targetParticleIndex];
+          double cosPsi = targetParticle.get_px() / targetParticle.get_p();
+          if (decay0.is_debug()) {
+            std::cerr << "[debug] cosPsi=" << cosPsi << "\n";
+          }
+          gsl_histogram_increment(h1, cosPsi);
+        }
+        const auto & betaParticle = decay.get_particles()[0];
+        double cosPsibeta = betaParticle.get_px() / betaParticle.get_p();
+        gsl_histogram_increment(h2, cosPsibeta);
+      } else {
+        for (const auto & part : decay.get_particles()) {
+          double cosPsi = part.get_px() / part.get_p();
+          if (part.get_code() == bxdecay0::GAMMA) {
+            gsl_histogram_increment(h1, cosPsi);            
+          } else if (part.get_code() == bxdecay0::ELECTRON) {
+            gsl_histogram_increment(h2, cosPsi);            
+          } 
+        }
+      }
+    }
+
+    if (requestedRank >= 0) { 
+      FILE * h1Out = fopen("h1r.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2r.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    } else {
+      FILE * h1Out = fopen("h1rbis.his", "w");
+      gsl_histogram_fprintf(h1Out, h1, "%g", "%g");
+      fclose(h1Out);
+      gsl_histogram_free(h1);
+      FILE * h2Out = fopen("h2rbis.his", "w");
+      gsl_histogram_fprintf(h2Out, h2, "%g", "%g");
+      fclose(h2Out);
+      gsl_histogram_free(h2);
+    }
+    
     decay0.reset();
   }
   return;

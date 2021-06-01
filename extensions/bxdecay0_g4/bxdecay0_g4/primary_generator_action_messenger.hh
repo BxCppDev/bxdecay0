@@ -18,7 +18,8 @@ namespace bxdecay0_g4 {
 
   /// \brief BxDecay0 Geant4 primary generator messenger
   ///
-  /// Description of the `/bxdecay0/generator/` commands' parameters:
+  /// Description of the parameters for the `/bxdecay0/generator/background`, `/bxdecay0/generator/dbd`
+  /// and `/bxdecay0/generator/dbdranged` commands:
   ///
   ///            | Parameters ||||||
   /// ---------- | ------- | -------- | -------- | --------- | -------------- | -------------- | --------
@@ -41,6 +42,48 @@ namespace bxdecay0_g4 {
   ///   /bxdecay0/generator/background Co60  314159 [false]
   ///   /bxdecay0/generator/dbd        Mo100 951413 1 0 [false]
   ///   /bxdecay0/generator/dbdranged  Se82  123456 4 0 2.4 3.0 [false]
+  ///
+  /// Special post-generation event operations:
+  ///
+  /// * MDL : Momentum Direction Lock, biased sampling based on a privileged direction of emission for some particle (s)
+  ///
+  ///   /bxdecay0/generator/mdl gamma 0 30.0 60.0 20.0 [false]
+  ///
+  ///  Version with rectangular cut on the emission cone aperture (required one more angular parameter) :
+  ///
+  ///   /bxdecay0/generator/mdlr gamma 0 30.0 60.0 20.0 10.0 [false]
+  ///
+  /// Description of the parameters for the `/bxdecay0/generator/mdl` command:
+  ///
+  ///            | Parameters |||||
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------------------
+  ///            | name    |   rank   | longitude | colatitude | aperture       | error_on_missing_target
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------------------
+  /// Type       | string  |  integer | real      | real       | real           | boolean
+  /// Default    | "all"   |  -1      | 0.0       | 0.0        | 0.0            | false  
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------------------
+  /// Example    | "e-"    |  0       | 30.0      | 45.0       | 15.0           | true
+  ///
+ ///
+  /// Description of the parameters for the `/bxdecay0/generator/mdlr` command (aperture rectangular cut):
+  ///
+  ///            | Parameters |||||
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------- | -------------------------
+  ///            | name    |   rank   | longitude | colatitude | aperture       | aperture2      | error_on_missing_target
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------- | -------------------------
+  /// Type       | string  |  integer | real      | real       | real           | real           | boolean
+  /// Default    | "all"   |  -1      | 0.0       | 0.0        | 0.0            | 0.0            | false  
+  /// ---------- | ------- | -------- | --------- | ---------- | -------------- | -------------- | -------------------------
+  /// Example    | "e-"    |  0       | 30.0      | 45.0       | 15.0           | 5.0            | true
+  ///
+  ///
+  /// Other commands:
+  ///
+  ///   Force the generator build from the configuration (last command):
+  ///   /bxdecay0/generator/apply
+  ///
+  ///   Force the destruction of the current generator setup and clear the configuration:
+  ///   /bxdecay0/generator/destroy
   ///
   /// 
   class PrimaryGeneratorActionMessenger
@@ -65,7 +108,11 @@ namespace bxdecay0_g4 {
     G4UIcommand *            _pga_gtor_bkgd_cmd_ = nullptr;
     G4UIcommand *            _pga_gtor_dbd_cmd_ = nullptr;
     G4UIcommand *            _pga_gtor_dbdr_cmd_ = nullptr;
-
+    G4UIcommand *            _pga_gtor_mdl_cmd_ = nullptr;
+    G4UIcommand *            _pga_gtor_mdlr_cmd_ = nullptr;
+    G4UIcommand *            _pga_gtor_apply_cmd_ = nullptr;
+    G4UIcommand *            _pga_gtor_destroy_cmd_ = nullptr;
+    G4UIcommand *            _pga_gtor_dump_cmd_ = nullptr;
   };
   
 } // end of namespace bxdecay0_g4 
