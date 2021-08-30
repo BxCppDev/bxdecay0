@@ -20,7 +20,11 @@
 set(BxDecay0_VERSION @BxDecay0_VERSION@)
 set(BxDecay0_CXX_STANDARD @CMAKE_CXX_STANDARD@)
 set(BxDecay0_WITH_GEANT4_EXTENSION @BxDecay0_WITH_GEANT4_EXTENSION@)
-# message(STATUS "DEBUG *** BxDecay0_FIND_COMPONENTS=${BxDecay0_FIND_COMPONENTS}")
+
+# 2021-08-30 FM: Policy defined from CMake 3.3 and up to unknown future version
+if (CMAKE_VERSION VERSION_GREATER "3.3")
+  cmake_policy(SET CMP0057 NEW) # interpret the IN_LIST operator in if()
+endif()
 
 @PACKAGE_INIT@
 
