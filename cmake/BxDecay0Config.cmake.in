@@ -56,6 +56,7 @@ endif()
 set(BxDecay0_FOUND True)
 # Component check
 foreach(_requested_comp ${BxDecay0_FIND_COMPONENTS})
+  # The following line requires the CMP0057 policy set to NEW:
   if (NOT _requested_comp IN_LIST _BxDecay0_supported_components)
     set(BxDecay0_FOUND False)
     set(BxDecay0_NOT_FOUND_MESSAGE "Unsupported component: ${_requested_comp}")
