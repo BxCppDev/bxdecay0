@@ -45,9 +45,9 @@ namespace bxdecay0_g4 {
       G4int     seed = 1;       ///< Seed for the pseudo-random number generator (mandatory)
       G4int     dbd_mode = 0;   ///< Double beta decay mode (mandatory only for "dbd" category)
       G4int     dbd_level = 0;  ///< Daughter's energy level for DBD decay (only for "dbd" category, default to 0)
-      /// Minimum sum xenergy in MeV (optional for "dbd" category and some specific emitter nuclides and DBD modes)
+      /// Minimum sum of betas' energy in MeV (optional for "dbd" category and some specific emitter nuclides and DBD modes)
       G4double  dbd_min_energy_MeV = -1.0;
-      /// Maximum sum energy in MeV (optional for "dbd" category and some specific emitter nuclides and DBD modes)
+      /// Maximum sum of betas' energy in MeV (optional for "dbd" category and some specific emitter nuclides and DBD modes)
       G4double  dbd_max_energy_MeV = -1.0;
       G4bool    debug = false;  ///< Debug flag (optional)
 
@@ -57,8 +57,9 @@ namespace bxdecay0_g4 {
       G4int     mdl_target_rank = -1;
       G4double  mdl_cone_longitude  = 0.0; // degree
       G4double  mdl_cone_colatitude = 0.0; // degree
-      G4double  mdl_cone_aperture   = 0.0; // degree
-      G4double  mdl_cone_aperture2  = -1.0; // degree
+      // Cone aperture (see: https://github.com/BxCppDev/bxdecay0/tree/develop/documentation/PostGenEventOps/MDL/README.rst)
+      G4double  mdl_cone_aperture   = 0.0; // degree 
+      G4double  mdl_cone_aperture2  = -1.0; // degree (only for rectangular aperture)
       G4bool    mdl_error_on_missing_particle = false;
       
     };

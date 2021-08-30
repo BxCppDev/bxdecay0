@@ -58,7 +58,8 @@ namespace bxdecay0_g4 {
   bool PrimaryGeneratorAction::ConfigurationInterface::is_valid_base() const
   {
     if (decay_category != "background" and decay_category != "dbd") {
-      return false; }
+      return false;
+    }
     if (nuclide.empty()) {
       return false;
     }
@@ -66,10 +67,11 @@ namespace bxdecay0_g4 {
       return false;
     }
     if (decay_category == "dbd") {
-      if (dbd_mode < 1) {
+      if (dbd_mode < 1) { // valid DBD modes/mechanisms start from 1):
         return false;
       }
-      if (dbd_level < 1) {
+      // Fix issue #22 (valid daughter levels start from 0):
+      if (dbd_level < 0) { 
         return false;
       }
     }
