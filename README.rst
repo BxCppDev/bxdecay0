@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak
-:date: 2021-06-01
+:date: 2021-08-31
 :copyright: Copyright (C) 2017-2021 the BxCppDev group
 
 
@@ -169,7 +169,12 @@ GSL_, ROOT_ or whatever).
     it contains informations about the configuration of the generator. It also
     list the *post-generation event operations* used by the generator with their
     configuration parameters.
+  
+- Release 1.0.11:
 
+  - Fix missing CMake policy (issue #20)
+  - Fix buggy support of the quadruple beta decay mode for Zr96, Xe136 and Nd150 (issue #21)
+  - Fix buggy test in Geant4 extension (issue #22)
     
  
 .. _SuperNEMO: http://supernemo.org/
