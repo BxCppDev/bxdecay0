@@ -198,7 +198,7 @@ namespace bxdecay0 {
       if (trace) {
         std::cerr << "[debug] bxdecay0::genbbsub: Initialization stage of the generator..." << std::endl;
       }
-
+      // Double/quadruple beta decay mode
       if (i2bbs_ == GENBBSUB_I2BBS_DBD) {
         if (trace) {
           std::cerr << "[debug] bxdecay0::genbbsub: Setting initial DBD parameters..." << std::endl;
@@ -515,48 +515,64 @@ namespace bxdecay0 {
           }
         } else if (name_starts_with(chnuclide_, "Zr96")) {
           bb_params_.Qbb  = 3.356; // was 3.349
-          bb_params_.Zdbb = 42.;
+          bb_params_.Zdbb = 42.; // Molybdenum
           bb_params_.Adbb = 96.;
           bb_params_.EK   = 0.;
-          if (ilevel_ < 0 || ilevel_ > 9) {
-            std::cerr << "[error] "
-                      << "bxdecay0::genbbsub: "
-                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
-            ier_ = 1;
-            if (trace) {
-              std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+          if (modebb_ == LEGACY_MODEBB_20) {
+            // Quadruple beta decay:
+            if (ilevel_ != 0) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Only ground state daughter's level is supported for quadruple beta decay of '" << chnuclide_ << "'! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
             }
-            return;
-          }
-          if (ilevel_ == 0) {
-            bb_params_.levelE = 0;
-          }
-          if (ilevel_ == 1) {
-            bb_params_.levelE = 778;
-          }
-          if (ilevel_ == 2) {
-            bb_params_.levelE = 1148;
-          }
-          if (ilevel_ == 3) {
-            bb_params_.levelE = 1498;
-          }
-          if (ilevel_ == 4) {
-            bb_params_.levelE = 1626;
-          }
-          if (ilevel_ == 5) {
-            bb_params_.levelE = 2096;
-          }
-          if (ilevel_ == 6) {
-            bb_params_.levelE = 2426;
-          }
-          if (ilevel_ == 7) {
-            bb_params_.levelE = 2623;
-          }
-          if (ilevel_ == 8) {
-            bb_params_.levelE = 2700;
-          }
-          if (ilevel_ == 9) {
-            bb_params_.levelE = 2713;
+            bb_params_.Qbb  = 0.635;
+            bb_params_.Zdbb = 44.; // Rhutenium
+          } else {
+            if (ilevel_ < 0 || ilevel_ > 9) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
+            }
+            if (ilevel_ == 0) {
+              bb_params_.levelE = 0;
+            }
+            if (ilevel_ == 1) {
+              bb_params_.levelE = 778;
+            }
+            if (ilevel_ == 2) {
+              bb_params_.levelE = 1148;
+            }
+            if (ilevel_ == 3) {
+              bb_params_.levelE = 1498;
+            }
+            if (ilevel_ == 4) {
+              bb_params_.levelE = 1626;
+            }
+            if (ilevel_ == 5) {
+              bb_params_.levelE = 2096;
+            }
+            if (ilevel_ == 6) {
+              bb_params_.levelE = 2426;
+            }
+            if (ilevel_ == 7) {
+              bb_params_.levelE = 2623;
+            }
+            if (ilevel_ == 8) {
+              bb_params_.levelE = 2700;
+            }
+            if (ilevel_ == 9) {
+              bb_params_.levelE = 2713;
+            }
           }
           if (ilevel_ == 0 || ilevel_ == 2 || ilevel_ == 7) {
             bb_params_.itrans02 = 0;
@@ -1026,48 +1042,64 @@ namespace bxdecay0 {
           }
         } else if (name_starts_with(chnuclide_, "Xe136")) {
           bb_params_.Qbb  = 2.458;
-          bb_params_.Zdbb = 56.;
+          bb_params_.Zdbb = 56.; // Baryum
           bb_params_.Adbb = 136.;
           bb_params_.EK   = 0.;
-          if (ilevel_ < 0 || ilevel_ > 9) {
-            std::cerr << "[error] "
-                      << "bxdecay0::genbbsub: "
-                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
-            ier_ = 1;
-            if (trace) {
-              std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+          if (modebb_ == LEGACY_MODEBB_20) {
+            // Quadruple beta decay:
+            if (ilevel_ != 0) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Only ground state daughter's level is supported for quadruple beta decay of '" << chnuclide_ << "'! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
             }
-            return;
-          }
-          if (ilevel_ == 0) {
-            bb_params_.levelE = 0;
-          }
-          if (ilevel_ == 1) {
-            bb_params_.levelE = 819;
-          }
-          if (ilevel_ == 2) {
-            bb_params_.levelE = 1551;
-          }
-          if (ilevel_ == 3) {
-            bb_params_.levelE = 1579;
-          }
-          if (ilevel_ == 4) {
-            bb_params_.levelE = 2080;
-          }
-          if (ilevel_ == 5) {
-            bb_params_.levelE = 2129;
-          }
-          if (ilevel_ == 6) {
-            bb_params_.levelE = 2141;
-          }
-          if (ilevel_ == 7) {
-            bb_params_.levelE = 2223;
-          }
-          if (ilevel_ == 8) {
-            bb_params_.levelE = 2315;
-          }
-          if (ilevel_ == 9) {
-            bb_params_.levelE = 2400;
+            bb_params_.Qbb  = 0.079;
+            bb_params_.Zdbb = 58.; // Cerium
+          } else {
+            if (ilevel_ < 0 || ilevel_ > 9) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
+            }
+            if (ilevel_ == 0) {
+              bb_params_.levelE = 0;
+            }
+            if (ilevel_ == 1) {
+              bb_params_.levelE = 819;
+            }
+            if (ilevel_ == 2) {
+              bb_params_.levelE = 1551;
+            }
+            if (ilevel_ == 3) {
+              bb_params_.levelE = 1579;
+            }
+            if (ilevel_ == 4) {
+              bb_params_.levelE = 2080;
+            }
+            if (ilevel_ == 5) {
+              bb_params_.levelE = 2129;
+            }
+            if (ilevel_ == 6) {
+              bb_params_.levelE = 2141;
+            }
+            if (ilevel_ == 7) {
+              bb_params_.levelE = 2223;
+            }
+            if (ilevel_ == 8) {
+              bb_params_.levelE = 2315;
+            }
+            if (ilevel_ == 9) {
+              bb_params_.levelE = 2400;
+            }
           }
           if (ilevel_ == 0 || ilevel_ == 3 || ilevel_ == 6 || ilevel_ == 8) {
             bb_params_.itrans02 = 0;
@@ -1206,36 +1238,52 @@ namespace bxdecay0 {
           }
         } else if (name_starts_with(chnuclide_, "Nd150")) {
           bb_params_.Qbb  = 3.371;
-          bb_params_.Zdbb = 62.;
+          bb_params_.Zdbb = 62.; // Samarium
           bb_params_.Adbb = 150.;
           bb_params_.EK   = 0.;
-          if (ilevel_ < 0 || ilevel_ > 5) {
-            std::cerr << "[error] "
-                      << "bxdecay0::genbbsub: "
-                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
-            ier_ = 1;
-            if (trace) {
-              std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+          if (modebb_ == LEGACY_MODEBB_20) {
+            // Quadruple beta decay:
+            if (ilevel_ != 0) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Only ground state daughter's level is supported for quadruple beta decay of '" << chnuclide_ << "'! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
             }
-            return;
-          }
-          if (ilevel_ == 0) {
-            bb_params_.levelE = 0;
-          }
-          if (ilevel_ == 1) {
-            bb_params_.levelE = 334;
-          }
-          if (ilevel_ == 2) {
-            bb_params_.levelE = 740;
-          }
-          if (ilevel_ == 3) {
-            bb_params_.levelE = 1046;
-          }
-          if (ilevel_ == 4) {
-            bb_params_.levelE = 1194;
-          }
-          if (ilevel_ == 5) {
-            bb_params_.levelE = 1256;
+            bb_params_.Qbb  = 2.085;
+            bb_params_.Zdbb = 64.; // Gadolinium
+          } else {
+            if (ilevel_ < 0 || ilevel_ > 5) {
+              std::cerr << "[error] "
+                        << "bxdecay0::genbbsub: "
+                        << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+              ier_ = 1;
+              if (trace) {
+                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+              }
+              return;
+            }
+            if (ilevel_ == 0) {
+              bb_params_.levelE = 0;
+            }
+            if (ilevel_ == 1) {
+              bb_params_.levelE = 334;
+            }
+            if (ilevel_ == 2) {
+              bb_params_.levelE = 740;
+            }
+            if (ilevel_ == 3) {
+              bb_params_.levelE = 1046;
+            }
+            if (ilevel_ == 4) {
+              bb_params_.levelE = 1194;
+            }
+            if (ilevel_ == 5) {
+              bb_params_.levelE = 1256;
+            }
           }
           if (ilevel_ == 0 || ilevel_ == 2 || ilevel_ == 5) {
             bb_params_.itrans02 = 0;
@@ -1918,7 +1966,7 @@ namespace bxdecay0 {
             std::cerr << "[error] "
                       << "bxdecay0::genbbsub: "
                       << "Not enough energy for transition to this level : "
-                      << "Full energy release and Elevel : e0=" << e0 << "El=" << El << "\n";
+                      << "Full energy release and Elevel : e0=" << e0 << " <= El=" << El << "\n";
             ier_ = 1;
             if (trace) {
               std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
@@ -1937,9 +1985,10 @@ namespace bxdecay0 {
           }
           int m     = bb_params_.modebb;
           bool m_ok = false;
+          // Fix #21 : missing check for mode==20 (quadruple beta decay)
           if (!m_ok && bb_params_.itrans02 == 0
               && (m == 1 || m == 2 || m == 3 || m == 4 || m == 5 || m == 6 || m == 9 || m == 10 || m == 11 || m == 12
-                  || m == 13 || m == 14 || m == 15 || m == 17 || m == 18 || m == 19)) {
+                  || m == 13 || m == 14 || m == 15 || m == 17 || m == 18 || m == 19 || m == 20)) {
             m_ok = true;
           }
           if (!m_ok && bb_params_.itrans02 == 2
@@ -1983,32 +2032,34 @@ namespace bxdecay0 {
             std::cerr << "[debug] bxdecay0::genbbsub: (3) Nuclide and mode of decay is done." << std::endl;
           }
         }
-        // (4) quadruple beta decay
-        {
-          if (trace) {
-            std::cerr << "[debug] bxdecay0::genbbsub: (4) Quadruple beta decay..." << std::endl;
-          }
-          if (bb_params_.modebb == 20) {
-            ier_ = 1;
-            if (chnuclide_ == "Zr96" || chnuclide_ == "Xe136" || chnuclide_ == "Nd150") {
-              ier_ = 0;
-            }
-            if (ier_ != 0) {
-              std::cerr << "[error] "
-                        << "bxdecay0::genbbsub: "
-                        << "4 beta decay is foreseen only for Zr96, Xe136 or Nd150 (g.s. to g.s.) !\n";
-              if (trace) {
-                std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
-              }
-              return;
-            }
-          }
-          if (trace) {
-            std::cerr << "[debug] bxdecay0::genbbsub: (4) Quadruple beta decay is done." << std::endl;
-          }
-        }
         if (trace) {
           std::cerr << "[debug] bxdecay0::genbbsub: Setting initial DBD parameters is done." << std::endl;
+        }
+      }
+     
+      // (4) quadruple beta decay
+      if (bb_params_.modebb == 20) {
+        
+        if (trace) {
+          std::cerr << "[debug] bxdecay0::genbbsub: (4) Quadruple beta decay..." << std::endl;
+        }
+        ier_ = 1;
+        if (chnuclide_ == "Zr96" || chnuclide_ == "Xe136" || chnuclide_ == "Nd150") {
+          ier_ = 0;
+        }
+        if (ier_ != 0) {
+          std::cerr << "[error] "
+                    << "bxdecay0::genbbsub: "
+                    << "4 beta decay is foreseen only for Zr96, Xe136 or Nd150 (g.s. to g.s.) !\n";
+          if (trace) {
+            std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+          }
+          return;
+        }
+
+        /// check ilevel == 0       
+        if (trace) {
+          std::cerr << "[debug] bxdecay0::genbbsub: (4) Quadruple beta decay is done." << std::endl;
         }
       }
 
@@ -2066,7 +2117,7 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_, "Sb126")) {
         } else if (name_starts_with(chnuclide_, "Sb133")) {
         } else if (name_starts_with(chnuclide_, "Sr90")) {
-        } else if (name_starts_with(chnuclide_, "Ta180m")) {
+        } else if (name_starts_with(chnuclide_, "Ta180m")) { // 'Ta180m-B-' and 'Ta180m-EC' 
         } else if (name_starts_with(chnuclide_, "Ta182")) {
         } else if (name_starts_with(chnuclide_, "Te133m")) {
         } else if (name_starts_with(chnuclide_, "Te133")) {
