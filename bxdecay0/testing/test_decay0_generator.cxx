@@ -48,6 +48,7 @@ void test5();
 void test_backgrounds();
 void test_cs137_mdl();
 void test_cs137_mdlr();
+void test20();
 
 int main()
 {
@@ -61,6 +62,7 @@ int main()
     test_backgrounds();
     test_cs137_mdl();
     test_cs137_mdlr();
+    test20();
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
@@ -455,5 +457,36 @@ void test_cs137_mdlr()
     
     decay0.reset();
   }
+  return;
+}
+
+void test20()
+{
+  std::clog << "\ntest20:\n";
+  unsigned int seed = 314159;
+  std::default_random_engine generator(seed);
+  bxdecay0::std_random prng(generator);
+
+  bxdecay0::decay0_generator decay0;
+  decay0.set_debug(true);
+  decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+  decay0.set_decay_isotope("Nd150");
+  // decay0.set_decay_isotope("Mo100"); // Fails as expected
+  decay0.set_decay_dbd_level(0);
+  // decay0.set_decay_dbd_level(1); // Fails as expected
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_20); 
+  decay0.initialize(prng);
+  decay0.smart_dump(std::clog, "Decay0 DBD generator: ", "[info] ");
+
+  bxdecay0::event decay;
+  std::size_t nevents = 1;
+  for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+    decay0.shoot(prng, decay);
+    decay.set_time(0.0);
+    decay.print(std::clog, "DBD event:", "[info] ");
+    decay.store(std::cout);
+  }
+
+  decay0.reset();
   return;
 }
