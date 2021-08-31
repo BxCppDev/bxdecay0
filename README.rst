@@ -1409,16 +1409,16 @@ BxDecay0 mode   Identification label      Decay0 mode  Description
 * The original Decay0 code has changed the so-called *modebb* index of
   some Majoron modes  from versions above 2017 with  respect to former
   versions.  We thus use an index map to ensure backward compatibility
-  and force the BxDecay0 interface stable with respect to the original
+  and force the BxDecay0's interface stable with respect to the original
   C++ port in the Bayeux_/genbb module.
-* 5, 6, 13, 14 are Majoron modes with spectral index SI:
+* 5, 6, 13, 14 are Majoron modes with respective spectral index SI:
 
   - SI=1 - old Gelmini-Roncadelli Majoron
   - SI=3 - double M, vector M, charged M
   - SI=7
   - SI=2 - bulk M of Mohapatra
 
-* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150
+* 20: quadruple beta decay, possible only for Zr96, Xe136, Nd150 (only to the daughter nucleus' ground state)
 * 21, 22, 23, 24: two neutrino double beta decay, gA modes g0, g2, g22, g4 possible only for Se82, Mo100,
   Cd116, Nd150 (only to the daughter nucleus' ground state).
 

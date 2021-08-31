@@ -20,12 +20,12 @@ namespace bxdecay0 {
     /** Coefficient to calculate the corresponding
      *  number of bb events in full range of energies:
      *  full_number=generated_number*toallevents
-     *  (for modes 4,5,6,8,10 and 13).
+     *  (for legacy modes 4, 5, 6, 8, 10 and 13).
      */
     double toallevents;
-    int levelE;          ///< keV (unused)
-    int itrans02;        ///< Flag for spin (unused)
-    std::string chdspin; ///< Spin string (unused)
+    int levelE;          ///< Energy of level of daughter nucleus to which transition occured (keV)
+    int itrans02;        ///< Flag for spin (0 or 2)
+    std::string chdspin; ///< Spin string ('0+' or '2+')
 
     /// Default constructor
     enrange();
@@ -63,7 +63,7 @@ namespace bxdecay0 {
   {
     double dens;
     double denf;
-    int mode;
+    int    mode;
 
     /// Default constructor
     denrange();
@@ -117,15 +117,14 @@ namespace bxdecay0 {
   /// \brief DBD parameters
   struct bbpars : public enrange, public denrange, public helpbb, public eta_nme
   {
-    static const unsigned int SPSIZE = 4300;
-    int modebb; ///< Mode (legacy Decay0 value) of double beta (- or +) decay (from 1 to 20)
-    double
-        Qbb; ///< Energy release in double beta process: difference between masses of parent and daughter atoms (MeV);
-    double Edlevel; ///< Energy of level of daughter nucleus to which transition occured (MeV);
-    double EK;      ///< Binding energy of electron on K shell of parent atom (MeV) (for modebb=10 and 11);
-    double Zdbb;    ///< Atomic number of daughter nucleus (Z>0 for b-b- and Z<0 for b+b+ and eb+ processes);
-    double Adbb;    ///< Mass number of daughter nucleus
-    int istartbb;   ///< Initialization flag must be =0 for first call of bb for a given mode;
+    static const unsigned int SPSIZE = 4300; ///< Maximum number of 1 keV bins for precalculated energy spectra
+    int    modebb;   ///< Mode (legacy Decay0 value) of double beta (- or +) decay (from 1 to 20)
+    double Qbb;      ///< Energy release in double beta process: difference between masses of parent and daughter atoms (MeV)
+    double Edlevel;  ///< Energy of level of daughter nucleus to which transition occured (MeV)
+    double EK;       ///< Binding energy of electron on K shell of parent atom (MeV) (for modebb=10 and 11)
+    double Zdbb;     ///< Atomic number of daughter nucleus (Z>0 for b-b- and Z<0 for b+b+ and eb+ processes)
+    double Adbb;     ///< Mass number of daughter nucleus
+    int    istartbb; ///< Initialization flag must be =0 for first call of bb for a given mode
     double spthe1[SPSIZE];
     double spthe2[SPSIZE];
     double spmax;
