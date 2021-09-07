@@ -6,11 +6,9 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 :date: 2021-08-31
 :copyright: Copyright (C) 2017-2021 the BxCppDev group
 
-
 .. image:: resources/images/logo/bxdecay0_logo.png
    :width: 20%
 
-	   
 	       
 The **BxDecay0** C++  library provides a set of  classes and functions
 for the random generation of  simulated nuclear decays. It consists in
@@ -735,10 +733,10 @@ primary particles.
 The ``bxdecay0-run`` program
 ============================
 
-``bxdecay0-run`` is  a standalone program which  generated decay event
-from a BxDecay0  driver and stores them in ASCII  formatted files. The
-files can  be easily parsed  by some external  program or read  by the
-``bxdecay0::event_reader`` class.
+``bxdecay0-run`` is a standalone  program which generated decay events
+from a  BxDecay0 driver and  stores them in  ASCII files using  a very
+simple format.  The files can be  thus easily parsed by  some external
+program or read by the provided ``bxdecay0::event_reader`` class.
 
 Usage:
 
@@ -777,7 +775,7 @@ records using the following multiline structure:
 ..
  
 
-Times are expressed in seconds and momentum in MeV (sse the *Units* section).
+Times are expressed in seconds and momentum in MeV (see the *Units* section).
 
 
 .. end  
@@ -803,12 +801,13 @@ Excerpt  of the  ``/tmp/genCo60.d0t``  decay events  output file.
 
 .. end
 
-A  ``/tmp/genCo60.d0c``  companion file  is  also  created; it  stores
-configuration informations associated  to the  BxDecay0 run, using  a very  simple ASCII
-format   with   *key=value*   pairs.   The   extension   ``.d0c``   is
-automatically appended to the ``/tmp/genCo60`` basename.
+A  ``/tmp/genCo60.d0c``  companion file  is  also  created. It  stores
+configuration  informations associated  to the  BxDecay0 run,  using a
+very  simple  ASCII  format  with *key=value*  pairs.   The  extension
+``.d0c`` is automatically appended to the ``/tmp/genCo60`` basename.
    
-Typical contents of the ``/tmp/genCo60.d0c`` configuration informations output file:
+Typical   contents    of   the    ``/tmp/genCo60.d0c``   configuration
+informations output file:
 
 ::
  
@@ -823,8 +822,8 @@ Typical contents of the ``/tmp/genCo60.d0c`` configuration informations output f
   
 ..
 
-The directory which should contain these files must exist and be writable before
-you run the program.
+The  directory which  should contain  these  files must  exist and  be
+writable before you run the program.
 
 
 .. raw:: pdf
@@ -866,8 +865,8 @@ library which is linked to the core ``libBxDecay0.so`` shared library.
 This also  installs the  ``include/bxdecay0_g4/`` header  directory in
 the BxDecay0 installation path.
 
-A specific example is also available to illustrate the use of this interface in
-a Geant4 based program (``bxdecay0_g4_ex01``).
+A specific  example is also  available to  illustrate the use  of this
+interface in a Geant4 based program (``bxdecay0_g4_ex01``).
 
 
 License
@@ -901,27 +900,30 @@ Authors and contributors
 * Pierre Lasorak  (University of  Sussex, Oxford, United  Kingdom) has
   added  simplified versions  of Po210,  Po218, Th230,  U234 and  U238
   alpha emitters.
+* Luigi Pertoldi (T. U. München) provides the `BxDecay0's Arch Linux packaging`_.
 
+.. _`BxDecay0's Arch Linux packaging`: https://aur.archlinux.org/packages/?O=0&K=bxdecay0 
 
 Who uses and supports BxDecay0...
 ===================================
 
-
 * The SuperNEMO_  experiment through its Bayeux_  and Falaise_ software
-  simulation stack (2017+)
+  simulation stack (2017+).
 * The LArSoft_ Collaboration, which  proposes, among others, tools for
   the simulation of Liquid Argon  Time Projection Chambers for several
   neutrino experiments, has incorporated the BxDecay0 library (2020+).
-* The DUPhy_  research group (Deep Underground Physics)
-
+* The DUPhy_  research group (Deep Underground Physics).
+* remage_ project  (2021+).
+  
 .. image:: resources/images/supporters/logo_panel.png
    :height: 120
 
-The above logos and web sites are referenced with the kind permission of their respective authors
-and/or scientific communities.
+The above logos and web sites  are referenced with the kind permission
+of their respective authors and/or scientific communities.
 	    
 .. _LArSoft: https://larsoft.org/
 .. _DUPhy: https://gdrduphy.in2p3.fr/
+.. _remage: https://github.com/gipert/remage
 
 References
 ===========
