@@ -83,7 +83,7 @@ GSL_, ROOT_ or whatever).
   - updated from Decay0 2020-04-20,
   - add optional support for 2nubb gA  processes for a few isotopes of
     interest  (as  a  pure  C++  implementation  with  required  large
-    external               dataset              from               the
+    external               datasets             from               the
     https://gitlab.in2p3.fr/francois.mauger/bxdecay0data project which
     is automatically loaded).
 
@@ -165,7 +165,7 @@ GSL_, ROOT_ or whatever).
     action.
   - The generated companion file now uses extension ``.d0c`` to reflect the fact
     it contains informations about the configuration of the generator. It also
-    list the *post-generation event operations* used by the generator with their
+    lists the *post-generation event operations* used by the generator with their
     configuration parameters.
   
 - Release 1.0.11:
@@ -198,13 +198,13 @@ Porcelain
 ---------
 
 Hopefully, BxDecay0 gets rid of the original *common block* based data
-model in Decay0 which has strong  limitations in terms of usability in
-a  modern OOP  context  (static data  structures).   The BxDecay0  API
-introduces its own OOP data  model through the ``bxdecay0::event`` and
-``bxdecay0::particle`` classes (see the ``ex01`` example).  It is thus
-easy to  use such  classes through  any C++  client program  and/or to
-interface with some  high level event generator  library (i.e. HepMC3).
-See the ``ex02`` example.
+model in Decay0 which has  strong limitations (static data structures)
+in  terms of  usability in  a modern  OOP and  possibly multi-threaded
+context.  The BxDecay0  API introduces its own OOP  data model through
+the  ``bxdecay0::event`` and  ``bxdecay0::particle`` classes  (see the
+``ex01`` example).   It is thus easy  to use such classes  through any
+C++  client program  and/or to  interface with  some high  level event
+generator library (i.e.  HepMC3).  See the ``ex02`` example.
 
 More, BxDecay0 provides the ``bxdecay0::decay0_generator`` class which
 wraps low-level functions with a simple OOP interface.
@@ -722,7 +722,7 @@ Only  one type  of  PGOp algorithm  is provided  for  now, namely  the
 given emission  cone.  See  the ``documentation/PostGenEventOps/MDL/``
 directory for  more informations.  The ``test_cs137_mdl``  function in
 the ``bxdecay0/testing/test_decay0_generator.cxx`` program illustrates
-the use of this feature. This mechanism also propose a few more feature
+the use of this feature. This mechanism also proposes a few more features
 to bias a generated event with respect to the emission direction of the
 primary particles.
 
@@ -733,7 +733,7 @@ primary particles.
 The ``bxdecay0-run`` program
 ============================
 
-``bxdecay0-run`` is a standalone  program which generated decay events
+``bxdecay0-run`` is a standalone  program which generates decay events
 from a  BxDecay0 driver and  stores them in  ASCII files using  a very
 simple format.  The files can be  thus easily parsed by  some external
 program or read by the provided ``bxdecay0::event_reader`` class.
@@ -872,8 +872,20 @@ interface in a Geant4 based program (``bxdecay0_g4_ex01``).
 License
 =======
 
-BxDecay0 is  free and open source  software. It is released  under the
-GNU GENERAL PUBLIC LICENSE, version 3.  See the ``LICENSE.txt`` file.
+BxDecay0 is free  and open source software. Following  the GSL library
+it depends  on, it is released  under the GNU GENERAL  PUBLIC LICENSE,
+version 3.  See the ``LICENSE.txt`` file.
+
+You  must take  care of  this licensing  terms. Distributing  your own
+software  linked to  BxDecay0 implies  you  also use  the GNU  GENERAL
+PUBLIC LICENSE.
+
+If it  turns you cannot  link safely your distributable  software with
+the BxDecay0  library because  of some licensing  incompatibility, you
+may use the standalone ``bxdecay0-run`` program to generate standalone
+datafiles  which contain  simulated events  and then  operate you  own
+specific internal ASCII reader software  tool to benefit of BxDecay0's
+functionalities.
 
 
 
