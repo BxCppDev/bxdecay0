@@ -9,7 +9,7 @@ It is inspired by the Geant4  ``extended/radioactivedecay/rdecay01`` example.
 1 - Geometry construction
 =============================
 
-It is a simple box which represents an 'infinite' homogeneous medium.
+It is a simple  ``World`` box which represents an 'infinite' homogeneous medium.
   
 2 - Physics list
 ================
