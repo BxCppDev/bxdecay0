@@ -1,0 +1,22 @@
+# Macro file for the initialization phase of "bxdecay0_g4_ex02"
+
+/control/verbose 2
+/run/verbose 2
+/run/initialize
+/vis/open OGL 600x600-0+0
+/vis/verbose errors
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 30. 40.
+/vis/viewer/zoom 1
+/vis/viewer/set/style wireframe
+/vis/scene/add/axes 0 0 0 20 cm
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set geantino white
+/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+/vis/modeling/trajectories/drawByParticleID-0/set e- red
+/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+/vis/modeling/trajectories/drawByParticleID-0/set alpha yellow
+/vis/modeling/trajectories/drawByParticleID-0/set GenericIon grey
+/vis/scene/endOfEventAction accumulate
+/vis/viewer/set/autoRefresh true

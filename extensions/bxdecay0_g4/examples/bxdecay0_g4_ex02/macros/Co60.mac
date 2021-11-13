@@ -1,0 +1,22 @@
+/vis/viewer/set/viewpointThetaPhi 30. 40.
+/vis/viewer/zoom 0.5
+/vis/viewer/set/autoRefresh false
+/vis/scene/add/trajectories smooth
+/vis/drawVolume
+/vis/scene/add/axes 0 0 0 20 cm
+/vis/viewer/refresh
+/control/verbose 0
+/run/verbose 0
+/control/cout/ignoreThreadsExcept 0
+/tracking/verbose 0
+/analysis/setFileName Co60
+/analysis/h1/set 1 300  0. 1500 keV	# gamma
+/analysis/h1/set 2 300  0. 1500 keV	# e- 
+/analysis/h1/set 3 300  0. 1500 keV	# e+
+/run/printProgress 10
+/vis/viewer/set/viewpointThetaPhi  40 30
+
+/bxdecay0/generator/verbosity 0
+/bxdecay0/generator/background Co60 314159    
+/bxdecay0/generator/mdl all -1 180 90 2    
+/run/beamOn 10
