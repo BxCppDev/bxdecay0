@@ -27,6 +27,40 @@
 // This project:
 #include "bxdecay0_g4/primary_generator_action_messenger.hh"
 
+namespace {
+
+  /// Hacked particle gun with a special ResetParticleData method
+  struct MyParticleGun
+    : public G4ParticleGun
+  {
+  public:
+    MyParticleGun() = default;
+    MyParticleGun(G4int numberofparticles)
+      : G4ParticleGun(numberofparticles) {}
+    MyParticleGun(G4ParticleDefinition* particleDef, 
+                  G4int numberofparticles = 1)
+      : G4ParticleGun(particleDef, numberofparticles) {}
+    virtual ~MyParticleGun() override = default;
+    MyParticleGun(const MyParticleGun&) = delete;
+    const MyParticleGun& operator=(const MyParticleGun&) = delete;
+    G4bool operator==(const MyParticleGun&) const = delete;
+    G4bool operator!=(const MyParticleGun&) const = delete;
+    void ResetParticleData()
+    {
+      NumberOfParticlesToBeGenerated = 1;
+      particle_definition = nullptr;
+      G4ThreeVector zero;
+      particle_momentum_direction = (G4ParticleMomentum)zero;
+      particle_energy = 0.0;
+      particle_momentum = 0.0;
+      particle_position = zero;
+      particle_time = 0.0;
+      particle_polarization = zero;
+      particle_charge = 0.0;
+    }
+  };
+}
+
 namespace bxdecay0_g4 {
   
   void PrimaryGeneratorAction::ConfigurationInterface::print(std::ostream & out_, const std::string & indent_) const
@@ -395,7 +429,8 @@ namespace bxdecay0_g4 {
     if (IsDebug()) std::cerr << "[debug] Instantiating BxDecay0 Geant4 Plugin PIMPL...\n";
     _pimpl_.reset(new pimpl_type(this));
     if (IsDebug()) std::cerr << "[debug] Instantiating Geant4 particle gun...\n";
-    _particle_gun_ = new G4ParticleGun(1);
+    // _particle_gun_ = new G4ParticleGun(1);
+    _particle_gun_ = new MyParticleGun(1);
     if (IsDebug()) std::cerr << "[debug] Instantiating messenger...\n";
     _messenger_ = new PrimaryGeneratorActionMessenger(this);
     return;
@@ -687,6 +722,8 @@ namespace bxdecay0_g4 {
 
     // Scan the list of BxDecay0 generated particles:
     for (const auto & particle : particles) {
+      // Reset gun's internals:
+      dynamic_cast<MyParticleGun*>(_particle_gun_)->ResetParticleData();
       // Particle type:
       if (particle.is_electron()) {
         _particle_gun_->SetParticleDefinition(G4Electron::ElectronDefinition());
