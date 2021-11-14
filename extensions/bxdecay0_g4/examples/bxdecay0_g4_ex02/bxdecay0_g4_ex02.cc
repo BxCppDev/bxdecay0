@@ -71,9 +71,18 @@ int main(int argc, char** argv)
   runManager->SetUserInitialization(new PhysicsList);
 
   ActionInitialization::Config actionInitConfig;
-  actionInitConfig.UseLoader = true;
-  actionInitConfig.UseRecorder = false;
+
+  // Save generated vertexes in a file:
+  actionInitConfig.UseLoader = false;
+  actionInitConfig.UseRecorder = true;
   actionInitConfig.VertexFilename = "vertexes-xyz.data";
+
+  // Uncomment if needed:
+  // // Load vertexes from a file:
+  // actionInitConfig.UseLoader = true;
+  // actionInitConfig.UseRecorder = false;
+  // actionInitConfig.VertexFilename = "vertexes-xyz.data";
+
   runManager->SetUserInitialization(new ActionInitialization(detector, actionInitConfig));
 
   // Initialize G4 kernel
