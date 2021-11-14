@@ -1,6 +1,9 @@
 /// \file ActionInitialization.cc
 /// \brief Implementation of the ActionInitialization class
 
+// Standard library
+#include <string>
+
 #include "ActionInitialization.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
@@ -10,19 +13,45 @@
 // BxDecay0 geant4 Plugin:
 #include "bxdecay0_g4/primary_generator_action.hh"
 #include "bxdecay0_g4/unique_point_vertex_generator.hh"
-#include "BoxBulkVertexGenerator.hh"
-#include "VertexGeneratorRecorder.hh"
 
-ActionInitialization::ActionInitialization(const DetectorConstruction * detector_)
+namespace {
+  /// Wrapper class to workaround memory management in Geant4
+  struct NoMemoryLeakVertexGenerator : public bxdecay0_g4::VertexGeneratorInterface
+  {
+    NoMemoryLeakVertexGenerator(std::shared_ptr<bxdecay0_g4::VertexGeneratorInterface> vg_)
+      : _vg_(vg_) {}
+    ~NoMemoryLeakVertexGenerator() override = default;
+    bool HasNextVertex() const override { return _vg_->HasNextVertex(); }
+    void ShootVertex(G4ThreeVector & vertex_) override { _vg_->ShootVertex(vertex_); } 
+    std::shared_ptr<bxdecay0_g4::VertexGeneratorInterface> _vg_;
+  };
+}
+
+ActionInitialization::ActionInitialization(const DetectorConstruction * detector_,
+                                           const Config & config_)
  : G4VUserActionInitialization()
  , fDetector(detector_)
+ , fConfig(config_)
 {
-  std::clog << "[log] ActionInitialization::ActionInitialization: fDetector @" << fDetector << "!\n"; 
+  std::clog << "[log] ActionInitialization::ActionInitialization: fDetector @" << fDetector << "\n"; 
+  std::clog << "[log] ActionInitialization::ActionInitialization: UseLoader = " << std::boolalpha << fConfig.UseLoader << "\n"; 
+  std::clog << "[log] ActionInitialization::ActionInitialization: UseRecorder = " << std::boolalpha << fConfig.UseRecorder << "\n"; 
+  std::clog << "[log] ActionInitialization::ActionInitialization: VertexFilename = '" << fConfig.VertexFilename << "'\n"; 
 }
 
 
 ActionInitialization::~ActionInitialization()
-{}
+{
+  if (fLoaderVG.get()) {
+    fLoaderVG.reset();
+  }
+  if (fRecorderVG.get()) {
+    fRecorderVG.reset();
+  }
+  if (fBoxBulkVG.get()) {
+    fBoxBulkVG.reset();
+  }
+}
 
 
 void ActionInitialization::BuildForMaster() const
@@ -35,24 +64,34 @@ void ActionInitialization::BuildForMaster() const
 
 void ActionInitialization::Build() const
 {
-
-  // Instantiate a vertex generator from the source volume:
-  BoxBulkVertexGenerator * vertexGen = new BoxBulkVertexGenerator;
-  std::clog << "[log] ActionInitialization::Build: Source solid @" << fDetector->GetSourceSolid() << "!\n"; 
-  vertexGen->SetBoxLogicalVolume(fDetector->GetSourceLogicalVolume());
-  vertexGen->SetBoxTranslation(fDetector->GetSourceTranslation());
-  vertexGen->SetBoxRotation(fDetector->GetSourceRotation());
-  vertexGen->SetTolerance(1.0 * CLHEP::mm);
-  vertexGen->SetRandomSeed(314159);
-  vertexGen->SetNoDaughters(true);
-
-  // Wrap the vertex generator to store the vertex coordinates in a separate file for checking:
-  VertexGeneratorRecorder * vertexRecorder = new VertexGeneratorRecorder(vertexGen, "source_bulk_vertexes-xyz.data");
+  NoMemoryLeakVertexGenerator * currentVertexGenerator = nullptr;
+  ActionInitialization * mutableThis = const_cast<ActionInitialization*>(this);
+  if (fConfig.UseLoader) {
+    // Instantiate a vertex generator which loads the vertex coordinates from a file:
+    mutableThis->fLoaderVG.reset(new VertexPoolLoader(fConfig.VertexFilename));
+    currentVertexGenerator = new NoMemoryLeakVertexGenerator(mutableThis->fLoaderVG);
+  } else { 
+    // Instantiate a vertex generator from the source volume:
+    mutableThis->fBoxBulkVG.reset(new BoxBulkVertexGenerator);
+    std::clog << "[log] ActionInitialization::Build: Source solid @" << fDetector->GetSourceSolid() << "!\n"; 
+    mutableThis->fBoxBulkVG->SetBoxLogicalVolume(fDetector->GetSourceLogicalVolume());
+    mutableThis->fBoxBulkVG->SetBoxTranslation(fDetector->GetSourceTranslation());
+    mutableThis->fBoxBulkVG->SetBoxRotation(fDetector->GetSourceRotation());
+    mutableThis->fBoxBulkVG->SetTolerance(1.0 * CLHEP::mm);
+    mutableThis->fBoxBulkVG->SetRandomSeed(314159);
+    mutableThis->fBoxBulkVG->SetNoDaughters(true);
+    if (fConfig.UseRecorder) {
+      // Wrap the vertex generator to store the vertex coordinates in a file:
+      mutableThis->fRecorderVG.reset(new VertexGeneratorRecorder(mutableThis->fBoxBulkVG, fConfig.VertexFilename));
+      currentVertexGenerator = new NoMemoryLeakVertexGenerator(mutableThis->fRecorderVG);
+    } else {
+      currentVertexGenerator = new NoMemoryLeakVertexGenerator(mutableThis->fBoxBulkVG);
+    }
+  }
  
   // Instantiate the BxDecay0/Geant4 PGA (with its own internal messenger):
-  bxdecay0_g4::PrimaryGeneratorAction * primary
-    = new bxdecay0_g4::PrimaryGeneratorAction;
-  primary->SetVertexGenerator(vertexRecorder); // Install a specific vertex generator in the PGA
+  bxdecay0_g4::PrimaryGeneratorAction * primary = new bxdecay0_g4::PrimaryGeneratorAction;
+  primary->SetVertexGenerator(currentVertexGenerator); // Install the vertex generator in the PGA
   SetUserAction(primary);
 
   // More user actions:

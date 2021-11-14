@@ -40,17 +40,13 @@ set arrow 31 from  dimW,-dimW,-dimW  to  dimW, dimW,-dimW nohead
 set arrow 32 from  dimW, dimW,-dimW  to -dimW, dimW,-dimW nohead
 set arrow 33 from -dimW, dimW,-dimW  to -dimW,-dimW,-dimW nohead
 
-# set arrow 21 from  dimW, dimW, dimW  to  dimW,-dimW, dimW nohead
-# set arrow 22 from  dimW,-dimW, dimW  to -dimW,-dimW, dimW nohead
-# set arrow 23 from -dimW,-dimW, dimW  to -dimW, dimW, dimW nohead
 
-
-splot 'source_bulk_vertexes-xyz-0bis.data' using 3:1:2 notitle with dots
+splot 'vertexes-xyz.data' using 3:1:2 notitle with dots
 pause -1 
 
 set terminal push
 set terminal pdfcairo
-set output "source_bulk_vertexes-xyz.pdf"
+set output "vertexes-xyz.pdf"
 replot
 set output
 set terminal pop

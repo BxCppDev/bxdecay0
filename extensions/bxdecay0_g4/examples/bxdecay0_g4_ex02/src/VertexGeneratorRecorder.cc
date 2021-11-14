@@ -5,15 +5,16 @@
 
 #include <exception>
 
-VertexGeneratorRecorder::VertexGeneratorRecorder(bxdecay0_g4::VertexGeneratorInterface * vg_,
+VertexGeneratorRecorder::VertexGeneratorRecorder(std::shared_ptr<bxdecay0_g4::VertexGeneratorInterface> vg_,
                                                  const std::string & outfilename_)
   : fVG(vg_)
   , fOutFilename(outfilename_)
 {
-  std::clog << "[log] VertexGeneratorRecorder::VertexGeneratorRecorder: Opening file '" << fOutFilename << "' for generated vertex recording...\n";
+  std::clog << "[log] VertexGeneratorRecorder::VertexGeneratorRecorder: Opening file '" << fOutFilename << "' for recording generated vertexes...\n";
   fFileOut.reset(new std::ofstream(fOutFilename.c_str()));
   if (!fFileOut) throw std::runtime_error("No output file is defined!");
   if (!*fFileOut) throw std::runtime_error("Output file is not valid!");
+  fFileOut->precision(15); 
 }
 
 VertexGeneratorRecorder::~VertexGeneratorRecorder()
@@ -33,7 +34,7 @@ bool VertexGeneratorRecorder::HasNextVertex() const
 void VertexGeneratorRecorder::ShootVertex(G4ThreeVector & vertex_)
 {
   fVG->ShootVertex(vertex_);
-  *fFileOut << vertex_.x() / CLHEP::mm << ' ' << vertex_.y() / CLHEP::mm  << ' ' << vertex_.z() / CLHEP::mm  << " mm\n";
+  *fFileOut << vertex_.x() / CLHEP::mm << ' ' << vertex_.y() / CLHEP::mm  << ' ' << vertex_.z() / CLHEP::mm  << "\n";
 }
 
 

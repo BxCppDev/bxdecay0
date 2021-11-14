@@ -9,15 +9,27 @@
 
 class G4VSteppingVerbose;
 
-/// Action initialization class.
-///
+// BxDecay0 geant4 Plugin:
+#include "BoxBulkVertexGenerator.hh"
+#include "VertexGeneratorRecorder.hh"
+#include "VertexPoolLoader.hh"
 
+/// Action initialization class.
 class ActionInitialization
   : public G4VUserActionInitialization
 {
 public:
 
-  ActionInitialization(const DetectorConstruction * detector_);
+  /// \brief Configuration parameters of the ActionInitialization class
+  struct Config
+  {
+    bool UseLoader = false; ///< Flag to load vertexes from a file with name VertexFilename
+    bool UseRecorder = false; ///< Flag to store generated vertexes in a file with name VertexFilename
+    std::string VertexFilename; ///< Name of the ASCII vertex file
+  };
+
+  ActionInitialization(const DetectorConstruction * detector_,
+                       const Config & config_);
 
   ~ActionInitialization() override;
   
@@ -30,7 +42,15 @@ public:
   const DetectorConstruction * GetDetector() const { return fDetector; }
 
 private:
-  const DetectorConstruction * fDetector = nullptr;
+
+  // Configuration
+  const DetectorConstruction * fDetector = nullptr; ///< Geometry setup
+  Config fConfig; ///< Configuration parameters
+  
+  // Internal working stuff
+  std::shared_ptr<BoxBulkVertexGenerator>  fBoxBulkVG;
+  std::shared_ptr<VertexGeneratorRecorder> fRecorderVG;
+  std::shared_ptr<VertexPoolLoader>        fLoaderVG;
   
 };
 

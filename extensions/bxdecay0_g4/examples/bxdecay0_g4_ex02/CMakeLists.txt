@@ -43,6 +43,7 @@ set(sources
   ${PROJECT_SOURCE_DIR}/src/SteppingVerbose.cc
   ${PROJECT_SOURCE_DIR}/src/TrackingAction.cc
   ${PROJECT_SOURCE_DIR}/src/VertexGeneratorRecorder.cc
+  ${PROJECT_SOURCE_DIR}/src/VertexPoolLoader.cc
   )
 set(headers
   ${PROJECT_SOURCE_DIR}/include/ActionInitialization.hh
@@ -56,6 +57,7 @@ set(headers
   ${PROJECT_SOURCE_DIR}/include/SteppingVerbose.hh
   ${PROJECT_SOURCE_DIR}/include/TrackingAction.hh
   ${PROJECT_SOURCE_DIR}/include/VertexGeneratorRecorder.hh
+  ${PROJECT_SOURCE_DIR}/include/VertexPoolLoader.hh
   )
 
 

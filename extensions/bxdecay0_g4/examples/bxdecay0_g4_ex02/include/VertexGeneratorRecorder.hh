@@ -16,12 +16,16 @@
 #include "G4ThreeVector.hh"
 #include "G4RotationMatrix.hh"
 
+/// \brief A class which wraps a vertex generator class.
+///        It randomizes vertexes using the undrlying vertex generator
+///        but also stores the coordinates of the vertex generator
+///        in a file using a simple ASCII format.
 class VertexGeneratorRecorder
   : public bxdecay0_g4::VertexGeneratorInterface
 {
 public:
 
-  VertexGeneratorRecorder(bxdecay0_g4::VertexGeneratorInterface * vg_,
+  VertexGeneratorRecorder(std::shared_ptr<bxdecay0_g4::VertexGeneratorInterface> vg_,
                           const std::string & outfilename_ = "genvertexes.data");
 
   ~VertexGeneratorRecorder() override;
@@ -35,7 +39,7 @@ public:
 private:
 
   // Configuration:
-  bxdecay0_g4::VertexGeneratorInterface * fVG = nullptr; ///< Reference to vertex generator
+  std::shared_ptr<bxdecay0_g4::VertexGeneratorInterface> fVG; ///< Reference to vertex generator
   std::string fOutFilename;
 
   // Working internals:
@@ -43,5 +47,5 @@ private:
      
 };
 
-#endif // BoxBulkVertexGenerator_hh 
+#endif // VertexGeneratorRecorder_hh 
 

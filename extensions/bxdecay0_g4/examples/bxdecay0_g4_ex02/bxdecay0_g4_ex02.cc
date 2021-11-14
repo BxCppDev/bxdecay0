@@ -69,7 +69,12 @@ int main(int argc, char** argv)
 
   runManager->SetUserInitialization(detector);
   runManager->SetUserInitialization(new PhysicsList);
-  runManager->SetUserInitialization(new ActionInitialization(detector));
+
+  ActionInitialization::Config actionInitConfig;
+  actionInitConfig.UseLoader = true;
+  actionInitConfig.UseRecorder = false;
+  actionInitConfig.VertexFilename = "vertexes-xyz.data";
+  runManager->SetUserInitialization(new ActionInitialization(detector, actionInitConfig));
 
   // Initialize G4 kernel
   runManager->Initialize();
