@@ -176,8 +176,9 @@ GSL_, ROOT_ or whatever).
   
 - Release 1.0.12:
 
+  - Add an advanced example about vertex generation from the G4 extension (issue #24)
   - Fix spurious printouts in Geant4 extension (issue #25)
- 
+    
 .. _SuperNEMO: http://supernemo.org/
 
 Design
