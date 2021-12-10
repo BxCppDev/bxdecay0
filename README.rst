@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Vladimir Tretyak
-:date: 2021-10-15
+:date: 2021-12-10
 :copyright: Copyright (C) 2017-2021 the BxCppDev group
 
 .. image:: resources/images/logo/bxdecay0_logo.png
@@ -173,7 +173,10 @@ GSL_, ROOT_ or whatever).
   - Fix missing CMake policy (issue #20)
   - Fix buggy support of the quadruple beta decay mode for Zr96, Xe136 and Nd150 (issue #21)
   - Fix buggy test in Geant4 extension (issue #22)
-    
+  
+- Release 1.0.12:
+
+  - Fix spurious printouts in Geant4 extension (issue #25)
  
 .. _SuperNEMO: http://supernemo.org/
 
