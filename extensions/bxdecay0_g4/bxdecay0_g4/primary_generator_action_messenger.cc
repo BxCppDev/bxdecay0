@@ -561,7 +561,7 @@ namespace bxdecay0_g4 {
       coneColatitude = StoD(next());
       coneAperture = StoD(next());
       G4String sD = next();
-      if (! sD.isNull()) {
+      if (! sD.empty()) {
         errorOnMissingTarget = G4UIcommand::ConvertToBool(sD.data());
       }
       if (_pga_->IsDebug()) {
@@ -630,7 +630,7 @@ namespace bxdecay0_g4 {
       coneAperture = StoD(next());
       coneAperture2 = StoD(next());
       G4String sD = next();
-      if (! sD.isNull()) {
+      if (! sD.empty()) {
         errorOnMissingTarget = G4UIcommand::ConvertToBool(sD.data());
       }
       if (_pga_->IsDebug()) {
@@ -688,7 +688,7 @@ namespace bxdecay0_g4 {
       nuclide = next();
       seed = StoI(next());
       G4String sD = next();
-      if (! sD.isNull()) {
+      if (! sD.empty()) {
         debug = G4UIcommand::ConvertToBool(sD.data());
       }
       // Grab config interface:
@@ -726,7 +726,7 @@ namespace bxdecay0_g4 {
       dbd_mode = StoI(next());
       dbd_level = StoI(next());
       G4String sD = next();
-      if (! sD.isNull()) {
+      if (! sD.empty()) {
         debug = G4UIcommand::ConvertToBool(sD.data());
       }
       // Grab config interface:
@@ -769,10 +769,10 @@ namespace bxdecay0_g4 {
       dbd_level = StoI(next());
       dbd_min_energy = StoD(next());
       G4String sMaxEnergy = next();
-      if (! sMaxEnergy.isNull()) {
+      if (! sMaxEnergy.empty()) {
         dbd_max_energy = StoD(sMaxEnergy);
         G4String sD = next();
-        if (! sD.isNull()) {
+        if (! sD.empty()) {
           debug = G4UIcommand::ConvertToBool(sD.data());
         }
       }

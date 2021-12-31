@@ -111,7 +111,7 @@ namespace bxdecay0_g4 {
       G4String zRepr = next();
       z = StoD(zRepr);
       G4String unitRepr = next();
-      if (! unitRepr.isNull()) {
+      if (! unitRepr.empty()) {
         if (unitRepr == "mm") {
           lengthUnit = CLHEP::mm;
         } else if (unitRepr == "cm") {
