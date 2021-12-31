@@ -178,6 +178,10 @@ GSL_, ROOT_ or whatever).
 
   - Add an advanced example about vertex generation from the G4 extension (issue #24)
   - Fix spurious printouts in Geant4 extension (issue #25)
+  
+- Release 1.0.13 (in preparation):
+
+  - Fix G4String issue in Geant4 extension (issue #26)
     
 .. _SuperNEMO: http://supernemo.org/
 
