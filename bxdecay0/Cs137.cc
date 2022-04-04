@@ -67,7 +67,7 @@ namespace bxdecay0 {
       goto label_1;
     }
     goto label_2;
-    // change to the 1st forbidden unique shape without std::experimental corrections
+    // change to the 1st forbidden unique shape without experimental corrections
   label_1:
     decay0_beta_1fu(prng_, event_, 0.514, 56., 0., 0., t, 0., 0., 0., 0.);
     thlev = 153.12;
