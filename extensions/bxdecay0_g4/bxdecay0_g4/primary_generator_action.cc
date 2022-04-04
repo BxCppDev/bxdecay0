@@ -707,7 +707,7 @@ namespace bxdecay0_g4 {
     // if (gendecay.has_time()) {
     //    event_time = gendecay.get_time() * CLHEP::second;
     // }
-    double particle_time = 0.0;
+    double particle_time = 0.0 * CLHEP::second;
     const auto & particles = gendecay.get_particles();
     if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::GeneratePrimaries: Nb particles=" << particles.size() << '\n';
 
@@ -743,9 +743,7 @@ namespace bxdecay0_g4 {
       // Time:
       if (particle.has_time()) {
         particle_time = particle.get_time() * CLHEP::second;
-      } else {
-        particle_time = 0.0 * CLHEP::second;
-      }
+      } 
       // Shift particle time by the event reference time:
       particle_time += event_time;
       _particle_gun_->SetParticleTime(particle_time);
