@@ -6,7 +6,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 :date: 2022-04-04
 :copyright: Copyright (C) 2017-2022 the BxCppDev group
 
-.. image:: resources/images/logo/bxdecay0_logo.png
+.. image:: resources/images/logo/bxdecay0_logo_su.png
    :width: 20%
 
 	       
