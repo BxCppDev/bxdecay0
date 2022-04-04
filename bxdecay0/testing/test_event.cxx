@@ -38,7 +38,7 @@ int main()
   try {
 
     bxdecay0::event decay;
-    decay.set_time(0.0);
+    decay.set_time(0.0); // Reference time of the event (in second)
     {
       bxdecay0::particle beta;
       beta.set_code(bxdecay0::ELECTRON);
@@ -55,7 +55,6 @@ int main()
     }
     {
       unsigned int seed = 314159;
-      // seed = std::chrono::system_clock::now().time_since_epoch().count();
       std::default_random_engine generator(seed);
       bxdecay0::std_random prng(generator);
       double tclev      = 0.0;
@@ -73,9 +72,57 @@ int main()
                                    tclev,     // second
                                    thlev,     // second
                                    decay_time // second
-      );
+                                   );
+      std::clog << "[info] decay_time=" << decay_time << " s\n"; 
+      bxdecay0::randomize_particle(prng,
+                                   decay,
+                                   bxdecay0::ELECTRON,
+                                   1.0,       // MeV
+                                   1.0,       // MeV
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   tclev,     // second
+                                   thlev,     // second
+                                   decay_time // second
+                                   );
+      std::clog << "[info] decay_time=" << decay_time << " s\n"; 
+      tclev = decay_time;
+      bxdecay0::randomize_particle(prng,
+                                   decay,
+                                   bxdecay0::POSITRON,
+                                   2.0,       // MeV
+                                   2.0,       // MeV
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   tclev,     // second
+                                   thlev,     // second
+                                   decay_time // second
+                                   );
+      std::clog << "[info] decay_time=" << decay_time << " s\n"; 
+      tclev = 10.0; // Skip from the last particle's time in the event
+      thlev = 0.01; // Consider here a short halflife
+      bxdecay0::randomize_particle(prng,
+                                   decay,
+                                   bxdecay0::POSITRON,
+                                   2.0,       // MeV
+                                   2.0,       // MeV
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   0.0,       // radian
+                                   tclev,     // second
+                                   thlev,     // second
+                                   decay_time // second
+                                   );
+      std::clog << "[info] decay_time=" << decay_time << " s\n"; 
     }
     decay.print(std::clog, "Decay with several emitted particles:", "[info] ");
+    decay.shift_particles_time(1e-8);
+    decay.print(std::clog, "Decay with several emitted particles (shifted):", "[info] ");
 
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
