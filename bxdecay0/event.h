@@ -43,16 +43,18 @@ namespace bxdecay0 {
   /// - generator : an optional generator string which may identifies the event generator responsible
   ///               of the creation of the current event,
   /// - time: an optional decay time reference which can be set externally by some activiy model
-  ///         (default value: unset==NaN)
+  ///         (default value: unset==NaN, unit: second)
   /// - particles : a list of generated particles, ordered in time.
   ///
   /// Each particle has the following attributes:
   ///
   /// - code : the particle identifier code (using GEANT3 particle code for alpha, electron, positron,
   ///          gamma, neutron or proton),
-  /// - time : the time elapsed from the event time reference (expressed in second),
+  /// - time : the particle creation time relative to the event time reference (unit: second);
+  ///          this is a major change compared to the original DECAY0 program which stores
+  ///          the times elapsed between successive particles within the event.
   /// - momentum: an array of 3 double precision reals representing the coordinates (px, py, pz)
-  ///             of the particle's momentum (expressed in MeV/c)
+  ///             of the particle's momentum (unit: MeV/c)
   ///
   class event
   {
@@ -94,7 +96,7 @@ namespace bxdecay0 {
     /// Check the validity of the event
     bool is_valid() const;
 
-    /// Shift the time of the particles by a delay (unit: second), starting from a given rank
+    /// Shift the times of the particles by a delay (unit: second), starting from a given rank
     void shift_particles_time(double delta_time_, const int from_ = 0);
 
     /// Reset the event
@@ -136,16 +138,19 @@ namespace bxdecay0 {
   // time of the last particle in the event (or 0 if there is no particle yet),
   // shifted from tclev + tdlev, where tdlev is randomized from thlev (halflife)
   //
-  //    event
+  // \code
+  //                                           last particle
+  //    event                                     /
   //  reference     particle#0          particle#1         thlev
   //    time            :                   :         :---------------------->: 
   // -----+-------------*-------------------*---------:----------------*-------------------> time
   //   t0 :------------>:                   :-------->:                :\
-  //   t1 :-------------------------------->:  tclev     tdlev(random) : new particle
+  //   t1 :-------------------------------->:  tclev     tdlev(random) : new particle #2
   //                                        :------------------------->:                             
   //   t2 :----------------------------------------------------------->:
   //                        time of the new particle
   //
+  // \endcode
   void randomize_particle(i_random & prng_,
                           event & event_,
                           const particle_code np_,

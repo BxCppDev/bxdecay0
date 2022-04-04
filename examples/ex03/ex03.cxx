@@ -133,9 +133,10 @@ int main()
       gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug)
+      if (debug) {
         gendecay.print(std::cerr, "DBD event:", "[debug] ");
-
+      }
+      
       // Store the event:
       gendecay.store(fout, store_flags);
 

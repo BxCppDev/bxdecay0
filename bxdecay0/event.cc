@@ -217,9 +217,17 @@ namespace bxdecay0 {
     double pz = p * ctet;
     tdlev_    = tclev_;
     if (thlev_ > 0.) {
+      // Randomize the emission time of the particle:
       tdlev_ = tclev_ - thlev_ / std::log(2.) * std::log(prng_());
     }
     part.set_code(np_);
+    
+    // Here we  cumulate the decay  time of the new  particle (tdlev_)
+    // and the generation  time of the previous particle  in the event
+    // (last_time). This  is different of  what is done in  the legacy
+    // Decay0 program  which stores the time  delay between successive
+    // particles in the event:
+    
     part.set_time(last_time + tdlev_);
     part.set_momentum(px, py, pz);
     event_.add_particle(part);

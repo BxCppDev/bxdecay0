@@ -702,7 +702,11 @@ namespace bxdecay0_g4 {
     if (IsTrace()) std::cerr << "[trace] bxdecay0_g4::PrimaryGeneratorAction::GeneratePrimaries: Entering..." << '\n';
     bxdecay0::event gendecay;
     _pimpl_->get_decay0().shoot(_pimpl_->get_prng(), gendecay);
-    gendecay.set_time(0.0);
+    double event_time = 0.0 * CLHEP::second;
+    // Force event reference time to be zero (even if the generator tells something else):
+    // if (gendecay.has_time()) {
+    //    event_time = gendecay.get_time() * CLHEP::second;
+    // }
     double particle_time = 0.0;
     const auto & particles = gendecay.get_particles();
     if (IsDebug()) std::cerr << "[debug] bxdecay0_g4::PrimaryGeneratorAction::GeneratePrimaries: Nb particles=" << particles.size() << '\n';
@@ -738,8 +742,12 @@ namespace bxdecay0_g4 {
       }
       // Time:
       if (particle.has_time()) {
-        particle_time += gendecay.get_time() * CLHEP::second;
+        particle_time = particle.get_time() * CLHEP::second;
+      } else {
+        particle_time = 0.0 * CLHEP::second;
       }
+      // Shift particle time by the event reference time:
+      particle_time += event_time;
       _particle_gun_->SetParticleTime(particle_time);
       // Momentum:
       G4ThreeVector momentum(particle.get_px() * CLHEP::MeV,

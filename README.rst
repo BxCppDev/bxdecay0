@@ -2,9 +2,9 @@
 BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
-:authors: François Mauger, Vladimir Tretyak
-:date: 2021-12-10
-:copyright: Copyright (C) 2017-2021 the BxCppDev group
+:authors: François Mauger, Volodymyr Tretyak
+:date: 2022-04-04
+:copyright: Copyright (C) 2017-2022 the BxCppDev group
 
 .. image:: resources/images/logo/bxdecay0_logo.png
    :width: 20%
@@ -13,7 +13,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 The **BxDecay0** C++  library provides a set of  classes and functions
 for the random generation of  simulated nuclear decays. It consists in
 a C++ port of the original Decay0 Fortran program (also known as GENBB
-in  some other  context) written  and maintained  by Vladimir  Tretyak
+in  some other  context) written  and maintained  by Volodymyr  Tretyak
 (KINR_).  Decay0 was created to  address the Monte Carlo generation of
 nuclear decays  in the context  of double  beta decay and  dark matter
 experimental research.
@@ -40,7 +40,7 @@ History
 =======
 
 The first version of the Decay0  program was written in the early 90's
-by  Vladimir   Tretyak  and   collaborators,  using  the   Fortran  77
+by Volodymyr   Tretyak  and   collaborators,  using  the   Fortran  77
 programming language and  the CERNLIB library. It  has been maintained
 and improved up to now (2020).
 
@@ -61,7 +61,7 @@ Fortran  and  CERNLIB.   This  code  was integrated  in  2011  as  the
 
 This release of the BxDecay0 C++  library is extracted from the Bayeux
 ``genbb_help`` module with some changes from the 2017-03-01 release of
-the Decay0 program  by Vladimir Tretyak.  It has then  been updated to
+the Decay0 program  by Volodymyr Tretyak.  It has then  been updated to
 the 2018-12-05 and 2020-04-20 releases.
 
 BxDecay0 is  a standalone library  with very few  dependencies (mostly
@@ -182,6 +182,7 @@ GSL_, ROOT_ or whatever).
 - Release 1.0.13 (in preparation):
 
   - Fix G4String issue in Geant4 extension (issue #26)
+  - Fix bugs concerning the manipulation of particles' times
     
 .. _SuperNEMO: http://supernemo.org/
 
@@ -900,7 +901,7 @@ functionalities.
 Authors and contributors
 ========================
 
-* Vladimir  Tretyak  (KINR_,  Kiev  Institute  for  Nuclear  Research,
+* Volodymyr  Tretyak  (KINR_,  Kiev  Institute  for  Nuclear  Research,
   Ukraine) is the original author  and maintener of the legacy Fortran
   Decay0 package.
 * François Mauger (`LPC Caen`_,  Laboratoire de Physique Corpusculaire
@@ -916,7 +917,7 @@ Authors and contributors
 * Malak Hoballah  and Laurent Simard (IJCLab,  Orsay, France) (support
   for DBD generator with gA process).
 * Rastislav Dvornicky (Comenius  University, Bratislava, Slovakia) has
-  calculated specific phase space factors for the DBD gA process.
+  calculated specific phase space factors for some DBD gA process.
 * Pierre Lasorak  (University of  Sussex, Oxford, United  Kingdom) has
   added  simplified versions  of Po210,  Po218, Th230,  U234 and  U238
   alpha emitters.
@@ -948,7 +949,7 @@ of their respective authors and/or scientific communities.
 References
 ===========
 
-* Vladimir Tretyak, *DECAY0 event  generator for initial kinematics of
+* Volodymyr Tretyak, *DECAY0 event  generator for initial kinematics of
   particles in  alpha, beta  and double beta  decays*, talk_  given at
   Laboratori Nazionali del Gran Sasso, 17 March 2015 :
 * O.A.Ponkratenko, V.I.Tretyak, Yu.G.Zdesenko,  Event Generator DECAY4

@@ -1,7 +1,7 @@
 /** ex02.cxx
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2017-2022 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2017-2022 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -171,9 +171,10 @@ int main()
       gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug)
+      if (debug) {
         gendecay.print(std::cerr, "DBD event:", "[debug] ");
-
+      }
+      
       // Build a Hep MC event:
       static const double C_LIGHT_MM_PER_SEC = 3e11;
       std::shared_ptr<HepMC3::GenEvent> genEvtPtr
@@ -211,8 +212,8 @@ int main()
           break;
         }
         if (particle.has_time()) {
-          // Cumulative particle time:
-          part_time += particle.get_time();
+          // Extract the particle time relatice to some time reference:
+          part_time = particle.get_time();
         }
         genPartPtr->set_pid(pid);
         genPartPtr->set_momentum(HepMC3::FourVector(particle.get_px(),

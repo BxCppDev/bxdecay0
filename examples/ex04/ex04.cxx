@@ -65,7 +65,7 @@ int main()
     // Isotope:
     std::string chnuclide = "Mo100";
 
-    // Daughter's energy level (ground state):
+    // Daughter's energy level (0 = ground state):
     int ilevel = 0;
 
     // DBD mode (neutrinoless):
@@ -129,8 +129,9 @@ int main()
       gendecay.set_time(evtime);
 
       // Debug dump:
-      if (debug)
+      if (debug) {
         gendecay.print(std::cerr, "DBD event:", "[debug] ");
+      }
 
       // Clear the event:
       gendecay.reset();
