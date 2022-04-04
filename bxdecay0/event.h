@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <limits>
 
 // This project:
 #include <bxdecay0/i_random.h>
@@ -49,8 +50,7 @@ namespace bxdecay0 {
   ///
   /// - code : the particle identifier code (using GEANT3 particle code for alpha, electron, positron,
   ///          gamma, neutron or proton),
-  /// - time : the time elapsed from the previous particle or the event time reference for the first
-  ///          particle (expressed in second),
+  /// - time : the time elapsed from the event time reference (expressed in second),
   /// - momentum: an array of 3 double precision reals representing the coordinates (px, py, pz)
   ///             of the particle's momentum (expressed in MeV/c)
   ///
@@ -58,7 +58,7 @@ namespace bxdecay0 {
   {
   public:
     /// Default constructor
-    event();
+    event() = default;
 
     /// Check if the generator is set
     bool has_generator() const;
@@ -117,20 +117,35 @@ namespace bxdecay0 {
 
   private:
     std::string _generator_;           ///< Name of the generator
-    double _time_;                     ///< Reference time (in second)
-    std::vector<particle> _particles_; ///< List of particles (ordered in time)
+    double _time_ = std::numeric_limits<double>::quiet_NaN(); ///< Reference time (in second)
+    std::vector<particle> _particles_; ///< List of particles (ordered in time at generation process)
   };
 
   /// \brief Generation of isotropical emission of particle in the range of energies and angles.
   // Input : np          - GEANT particle identification code
-  //         E1,E2       - range of kinetic energy of particle (MeV);
-  //         teta1,teta2 - range of teta angle (radians);
-  //         phi1,phi2   - range of phi  angle (radians);
-  //         tclev       - time of creation of level from which particle will be
-  //                       emitted (sec);
-  //         thlev       - level halflife (sec).
-  // Output: tdlev       - time of decay of level (sec);
+  //         E1,E2       - range of kinetic energy of particle (MeV)
+  //         teta1,teta2 - range of teta angle (radians)
+  //         phi1,phi2   - range of phi  angle (radians)
+  //         tclev       - time of creation of level from which particle will be emitted (sec)
+  //         thlev       - level halflife (sec) (if 0 : instantaneous generation)
+  // Output: tdlev       - time of decay of level (sec) relatively to tclev
   // VIT, 15.10.1995.
+  //
+  // Important remark:
+  // The generation decay time of the randomized particle is constructed from the generation
+  // time of the last particle in the event (or 0 if there is no particle yet),
+  // shifted from tclev + tdlev, where tdlev is randomized from thlev (halflife)
+  //
+  //    event
+  //  reference     particle#0          particle#1         thlev
+  //    time            :                   :         :---------------------->: 
+  // -----+-------------*-------------------*---------:----------------*-------------------> time
+  //   t0 :------------>:                   :-------->:                :\
+  //   t1 :-------------------------------->:  tclev     tdlev(random) : new particle
+  //                                        :------------------------->:                             
+  //   t2 :----------------------------------------------------------->:
+  //                        time of the new particle
+  //
   void randomize_particle(i_random & prng_,
                           event & event_,
                           const particle_code np_,
@@ -157,7 +172,7 @@ namespace bxdecay0 {
                        double thlev_,
                        double & tdlev_);
 
-  /// Abstract interface for (possibly stochastic) on-event operation classes
+  /// Abstract interface for (possibly stochastic) event operation classes
   struct i_event_op
   {
     i_event_op() = default;

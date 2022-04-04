@@ -24,17 +24,10 @@
 
 // Standard library:
 #include <cmath>
-#include <limits>
 #include <sstream>
 #include <stdexcept>
 
 namespace bxdecay0 {
-
-  event::event()
-  {
-    _time_ = std::numeric_limits<double>::quiet_NaN();
-    return;
-  }
 
   bool event::has_generator() const
   {
@@ -54,7 +47,7 @@ namespace bxdecay0 {
 
   bool event::has_time() const
   {
-    return _time_ == _time_;
+    return !std::isnan(_time_);
   }
 
   void event::set_time(const double time_)

@@ -1,8 +1,8 @@
 /** \file bxdecay0/particle.h
  *  \brief Generated particle
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2017-2022 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2017-2022 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -69,13 +69,15 @@ namespace bxdecay0 {
     /// Check if time is valid
     bool has_time() const;
 
-    /// Set the delay time with respect to the previous particle (unit: second)
+    /// Set the delay time with respect to a reference time (unit: second)
     void set_time(const double time_);
 
-    /// Shift the delay time with a delay (unit: second)
+    /// Shift the particle time with a delay (unit: second)
+    ///
+    /// If time is not set, assume 0 and add the delay (equivalent to : set_time(delay_))
     void shift_time(const double delay_);
 
-    /// Return the delay time with respect to the previous particle (unit: second)
+    /// Return the delay time with respect to a reference time (unit: second)
     double get_time() const;
 
     /// Set the X coordinate of the momentum (unit: MeV/c or MeV with c=1)
@@ -127,7 +129,7 @@ namespace bxdecay0 {
 
   private:
     particle_code _code_; ///< Particle code
-    double _time_;        ///< Particle generation delay time after the previous particle in the event (unit: second)
+    double _time_;        ///< Particle generation delay time after the reference time in the event (unit: second)
     double _momentum_[3]; ///< Particle momentum (unit: MeV/c)
   };
 
