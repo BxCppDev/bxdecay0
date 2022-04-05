@@ -179,10 +179,11 @@ GSL_, ROOT_ or whatever).
   - Add an advanced example about vertex generation from the G4 extension (issue #24)
   - Fix spurious printouts in Geant4 extension (issue #25)
   
-- Release 1.0.13 (in preparation):
+- Release 1.1.0 (in preparation):
 
   - Fix G4String issue in Geant4 extension (issue #26)
-  - Fix bugs concerning the manipulation of particles' times
+  - Fix bugs concerning the manipulation of particles' generation times
+    in a generated event from examples (issue #27)
     
 .. _SuperNEMO: http://supernemo.org/
 

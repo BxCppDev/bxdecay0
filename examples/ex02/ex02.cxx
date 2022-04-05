@@ -184,7 +184,6 @@ int main()
           HepMC3::FourVector(0., 0., 0., gendecay.get_time() * C_LIGHT_MM_PER_SEC));
       genEvtPtr->add_vertex(genVtxPtr);
 
-      double part_time = 0.0;
       for (const auto & particle : gendecay.get_particles()) {
         std::shared_ptr<HepMC3::GenParticle> genPartPtr = std::make_shared<HepMC3::GenParticle>();
         // http://pdg.lbl.gov/mc_particle_id_contents.html
@@ -211,6 +210,7 @@ int main()
         default:
           break;
         }
+        double part_time = 0.0;
         if (particle.has_time()) {
           // Extract the particle time relatice to some time reference:
           part_time = particle.get_time();
