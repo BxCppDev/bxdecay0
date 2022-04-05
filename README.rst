@@ -334,9 +334,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.0.10.tar.gz -o bxdecay0-1.0.10.tar.gz
-   $ tar xvzf bxdecay0-1.0.10.tar.gz
-   $ ls -l bxdecay0-1.0.10/
+   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.1.0.tar.gz -o bxdecay0-1.1.0.tar.gz
+   $ tar xvzf bxdecay0-1.1.0.tar.gz
+   $ ls -l bxdecay0-1.1.0/
 ..
 
 
@@ -357,7 +357,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.0.10
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.1.0
 ..
 
 
@@ -560,7 +560,7 @@ applications.
   * ``BxDecay0Config.cmake``,
   * ``BxDecay0ConfigVersion.cmake``.
 
-  The ``find_package(BxDecay0  REQUIRED 1.0.10 CONFIG)``  CMake command
+  The ``find_package(BxDecay0  REQUIRED 1.1.0 CONFIG)``  CMake command
   can  be given  the following  variable  to locate  BxDecay0 on  your
   system from a client project which uses the CMake build system:
 
@@ -825,7 +825,7 @@ informations output file:
 ::
  
   library-name=BxDecay0
-  library-version=1.0.10
+  library-version=1.1.0
   decay-category=background
   nuclide=Co60
   seed=314159
