@@ -166,7 +166,10 @@ GSL_, ROOT_ or whatever).
   - The generated companion file now uses extension ``.d0c`` to reflect the fact
     it contains informations about the configuration of the generator. It also
     lists the *post-generation event operations* used by the generator with their
-    configuration parameters.
+    configuration parameters. This file must be considered as a helper *log file*,
+    and not a *configuration file*.
+    Users are responsible of the configuration of their usage of BxDecay0
+    through their own simulation framework and associated configuration system.
   
 - Release 1.0.11:
 
@@ -179,7 +182,7 @@ GSL_, ROOT_ or whatever).
   - Add an advanced example about vertex generation from the G4 extension (issue #24)
   - Fix spurious printouts in Geant4 extension (issue #25)
   
-- Release 1.1.0 (in preparation):
+- Release 1.1.0:
 
   - Fix G4String issue in Geant4 extension (issue #26)
   - Fix bugs concerning the manipulation of particles' generation times
