@@ -25,164 +25,174 @@
 // This project:
 #include <bxdecay0/resource.h>
 
+namespace {
+  std::set<std::string> _init_dbd_isotopes()
+  {
+    std::string filename = bxdecay0::get_resource("description/dbd_isotopes.lis", true);
+    std::ifstream fin(filename.c_str());
+    if (!fin) {
+      throw std::logic_error("bxdecay0::dbd_isotopes: Cannot open resource file '" + filename + "'!");
+    }
+
+    std::set<std::string> tmp_isotopes;
+    while (fin) {
+      std::string line;
+      std::getline(fin, line);
+      std::string first_word;
+      {
+        // Skip comment and blank lines:
+        std::istringstream line_iss(line);
+        line_iss >> std::ws >> first_word;
+        if (first_word.empty()) {
+          continue;
+        }
+        if (first_word[0] == '#') {
+          continue;
+        }
+      }
+      // Isotope:
+      std::string dbd_isotope = first_word;
+      tmp_isotopes.insert(dbd_isotope);
+      fin >> std::ws;
+      if (fin.eof()) {
+          break;
+      }
+    }
+    return tmp_isotopes; 
+  }
+
+  std::set<std::string> _init_background_isotopes()
+  {
+    std::string filename = bxdecay0::get_resource("description/background_isotopes.lis", true);
+    std::ifstream fin(filename.c_str());
+    if (!fin) {
+      throw std::logic_error("bxdecay0::background_isotopes: Cannot open resource file '" + filename + "'!");
+    }
+
+    std::set<std::string> tmp_isotopes;
+    while (fin) {
+      std::string line;
+      std::getline(fin, line);
+      std::string first_word;
+      {
+        // Skip comment and blank lines:
+        std::istringstream line_iss(line);
+        line_iss >> std::ws >> first_word;
+        if (first_word.empty()) {
+          continue;
+        }
+        if (first_word[0] == '#') {
+          continue;
+        }
+      }
+      // Isotope:
+      std::string background_isotope = first_word;
+      tmp_isotopes.insert(background_isotope);
+      fin >> std::ws;
+      if (fin.eof()) {
+        break;
+      }
+    }
+    return tmp_isotopes;
+  }
+
+  std::map<bxdecay0::dbd_mode_type, bxdecay0::dbd_record> _init_dbd_modes(bool trace)
+  {
+    std::string filename = bxdecay0::get_resource("description/dbd_modes.lis", true);
+    std::ifstream fin(filename.c_str());
+    if (!fin) {
+      throw std::logic_error("bxdecay0::dbd_modes: Cannot open resource file '" + filename + "'!");
+    }
+
+    std::map<bxdecay0::dbd_mode_type, bxdecay0::dbd_record> tmp_dbd_modes;
+    while (fin) {
+      std::string line;
+      std::getline(fin, line);
+      if (trace) {
+        std::cerr << "[trace] line = " << line << std::endl;
+      }
+      std::string first_word;
+      {
+        // Skip comment and blank lines:
+        std::istringstream line_iss(line);
+        line_iss >> std::ws >> first_word;
+        if (first_word.empty()) {
+          continue;
+        }
+        if (first_word[0] == '#') {
+          continue;
+        }
+      }
+      bxdecay0::dbd_record record;
+      record.dbd_mode    = bxdecay0::DBDMODE_UNDEF;
+      record.description = "";
+      std::istringstream parse_iss(line);
+
+      // Mode:
+      int dbd_mode;
+      parse_iss >> dbd_mode >> std::ws;
+      if (!parse_iss) {
+        throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
+                               + "'! Cannot decode BB mode!");
+      }
+      record.dbd_mode = static_cast<bxdecay0::dbd_mode_type>(dbd_mode);
+
+      // Label:
+      std::string unique_label;
+      parse_iss >> unique_label >> std::ws;
+      record.unique_label = unique_label;
+
+      // Legacy Decay0 mode:
+      int legacy_modebb;
+      parse_iss >> legacy_modebb >> std::ws;
+      if (!parse_iss) {
+        throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
+                               + "'! Cannot decode legacy Decay0 mode");
+      }
+      if (legacy_modebb >= 0) {
+        record.legacy_modebb = static_cast<bxdecay0::legacy_modebb_type>(legacy_modebb);
+      } else {
+        record.legacy_modebb = bxdecay0::LEGACY_MODEBB_NA;
+      }
+
+      // Description:
+      std::getline(parse_iss, record.description);
+      if (trace) {
+        std::cerr << "[trace] DBD mode = " << record.dbd_mode << std::endl;
+        std::cerr << "[trace] Decay0 legacy BB mode = " << record.legacy_modebb << std::endl;
+        std::cerr << "[trace] Description = " << record.description << std::endl;
+      }
+      if (record.dbd_mode > 0 && !record.description.empty()) {
+        tmp_dbd_modes[record.dbd_mode] = record;
+      }
+      fin >> std::ws;
+      if (fin.eof()) {
+        break;
+      }
+    }
+    return tmp_dbd_modes;
+  }
+}
+
+
 namespace bxdecay0 {
 
   const std::set<std::string> & dbd_isotopes()
   {
-    bool trace = false;
-    static std::set<std::string> _dbd_isotopes;
-    if (_dbd_isotopes.empty()) {
-      std::string filename = get_resource("description/dbd_isotopes.lis", true);
-      std::ifstream fin(filename.c_str());
-      if (!fin) {
-        throw std::logic_error("bxdecay0::dbd_isotopes: Cannot open resource file '" + filename + "'!");
-      }
-      while (fin) {
-        std::string line;
-        std::getline(fin, line);
-        if (trace) {
-          std::cerr << "[trace] line = " << line << std::endl;
-        }
-        std::string first_word;
-        {
-          // Skip comment and blank lines:
-          std::istringstream line_iss(line);
-          line_iss >> std::ws >> first_word;
-          if (first_word.empty()) {
-            continue;
-          }
-          if (first_word[0] == '#') {
-            continue;
-          }
-        }
-        // Isotope:
-        std::string dbd_isotope = first_word;
-        _dbd_isotopes.insert(dbd_isotope);
-        fin >> std::ws;
-        if (fin.eof()) {
-          break;
-        }
-      }
-    }
+    static const std::set<std::string> _dbd_isotopes(::_init_dbd_isotopes());
     return _dbd_isotopes;
   }
 
   const std::set<std::string> & background_isotopes()
   {
-    bool trace = false;
-    static std::set<std::string> _background_isotopes;
-    if (_background_isotopes.empty()) {
-      std::string filename = get_resource("description/background_isotopes.lis", true);
-      std::ifstream fin(filename.c_str());
-      if (!fin) {
-        throw std::logic_error("bxdecay0::background_isotopes: Cannot open resource file '" + filename + "'!");
-      }
-      while (fin) {
-        std::string line;
-        std::getline(fin, line);
-        if (trace) {
-          std::cerr << "[trace] line = " << line << std::endl;
-        }
-        std::string first_word;
-        {
-          // Skip comment and blank lines:
-          std::istringstream line_iss(line);
-          line_iss >> std::ws >> first_word;
-          if (first_word.empty()) {
-            continue;
-          }
-          if (first_word[0] == '#') {
-            continue;
-          }
-        }
-        // Isotope:
-        std::string background_isotope = first_word;
-        _background_isotopes.insert(background_isotope);
-        fin >> std::ws;
-        if (fin.eof()) {
-          break;
-        }
-      }
-    }
+    static const std::set<std::string> _background_isotopes(::_init_background_isotopes());
     return _background_isotopes;
   }
 
   const std::map<dbd_mode_type, dbd_record> & dbd_modes()
   {
-    bool trace = false;
-    static std::map<dbd_mode_type, dbd_record> _dbd_modes_dict;
-    if (_dbd_modes_dict.empty()) {
-      std::string filename = get_resource("description/dbd_modes.lis", true);
-      std::ifstream fin(filename.c_str());
-      if (!fin) {
-        throw std::logic_error("bxdecay0::dbd_modes: Cannot open resource file '" + filename + "'!");
-      }
-      while (fin) {
-        std::string line;
-        std::getline(fin, line);
-        if (trace) {
-          std::cerr << "[trace] line = " << line << std::endl;
-        }
-        std::string first_word;
-        {
-          // Skip comment and blank lines:
-          std::istringstream line_iss(line);
-          line_iss >> std::ws >> first_word;
-          if (first_word.empty()) {
-            continue;
-          }
-          if (first_word[0] == '#') {
-            continue;
-          }
-        }
-        dbd_record record;
-        record.dbd_mode    = DBDMODE_UNDEF;
-        record.description = "";
-        std::istringstream parse_iss(line);
-
-        // Mode:
-        int dbd_mode;
-        parse_iss >> dbd_mode >> std::ws;
-        if (!parse_iss) {
-          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
-                                 + "'! Cannot decode BB mode!");
-        }
-        record.dbd_mode = static_cast<dbd_mode_type>(dbd_mode);
-
-        // Label:
-        std::string unique_label;
-        parse_iss >> unique_label >> std::ws;
-        record.unique_label = unique_label;
-
-        // Legacy Decay0 mode:
-        int legacy_modebb;
-        parse_iss >> legacy_modebb >> std::ws;
-        if (!parse_iss) {
-          throw std::logic_error("bxdecay0::get_dbd_modes: Invalid format for file '" + filename
-                                 + "'! Cannot decode legacy Decay0 mode");
-        }
-        if (legacy_modebb >= 0) {
-          record.legacy_modebb = static_cast<legacy_modebb_type>(legacy_modebb);
-        } else {
-          record.legacy_modebb = LEGACY_MODEBB_NA;
-        }
-
-        // Description:
-        std::getline(parse_iss, record.description);
-        if (trace) {
-          std::cerr << "[trace] DBD mode = " << record.dbd_mode << std::endl;
-          std::cerr << "[trace] Decay0 legacy BB mode = " << record.legacy_modebb << std::endl;
-          std::cerr << "[trace] Description = " << record.description << std::endl;
-        }
-        if (record.dbd_mode > 0 && !record.description.empty()) {
-          _dbd_modes_dict[record.dbd_mode] = record;
-        }
-        fin >> std::ws;
-        if (fin.eof()) {
-          break;
-        }
-      }
-    }
+    const bool trace = false;
+    static const std::map<dbd_mode_type, dbd_record> _dbd_modes_dict(::_init_dbd_modes(trace));
     return _dbd_modes_dict;
   }
 
@@ -228,19 +238,18 @@ namespace bxdecay0 {
 
   const std::set<dbd_mode_type> & dbd_modes_with_esum_range()
   {
-    static std::set<dbd_mode_type> _dbd_modes_wer_dict;
-    if (_dbd_modes_wer_dict.empty()) {
-      _dbd_modes_wer_dict.insert(DBDMODE_4);  // 2NUBB
-      _dbd_modes_wer_dict.insert(DBDMODE_5);  // MAJORON M1
-      _dbd_modes_wer_dict.insert(DBDMODE_6);  // MAJORON M3
-      _dbd_modes_wer_dict.insert(DBDMODE_8);  // 2NUBB
-      _dbd_modes_wer_dict.insert(DBDMODE_10); // 2NU
-      _dbd_modes_wer_dict.insert(DBDMODE_13); // MAJORON M7
-      _dbd_modes_wer_dict.insert(DBDMODE_14); // MAJORON M2
-      _dbd_modes_wer_dict.insert(DBDMODE_15);
-      _dbd_modes_wer_dict.insert(DBDMODE_16);
-      _dbd_modes_wer_dict.insert(DBDMODE_19);
-    }
+    static const std::set<dbd_mode_type> _dbd_modes_wer_dict = {
+      DBDMODE_4,  // 2NUBB
+      DBDMODE_5,  // MAJORON M1
+      DBDMODE_6,  // MAJORON M3
+      DBDMODE_8,  // 2NUBB
+      DBDMODE_10, // 2NU
+      DBDMODE_13, // MAJORON M7
+      DBDMODE_14, // MAJORON M2
+      DBDMODE_15,
+      DBDMODE_16,
+      DBDMODE_19
+    };
     return _dbd_modes_wer_dict;
   }
 

@@ -37,22 +37,16 @@ namespace {
   }
 
   //! Return the path to the root resource directory
-  std::string get_resource_root(bool overriden_env_) {
-    static std::string _install_resource_root;
-    if (_install_resource_root.empty()) {
-      if (overriden_env_) {
-        const char * env_key = "BXDECAY0_RESOURCE_DIR";
-        if (std::getenv(env_key) != nullptr) {
-          _install_resource_root = std::string(std::getenv(env_key));
-        }
-      }
-      if (_install_resource_root.empty()) {
-        std::string lib_dir = bxdecay0::get_library_dir();
-        // std::cerr << "[devel] lib_dir = " << lib_dir << '\n';
-        _install_resource_root = lib_dir + "/" + relative_lib_path_to_resource_dir();
+  std::string init_resource_root(bool overriden_env_) {
+    if (overriden_env_) {
+      const char * env_key = "BXDECAY0_RESOURCE_DIR";
+      if (std::getenv(env_key) != nullptr) {
+        return std::string(std::getenv(env_key));
       }
     }
-    return _install_resource_root;
+
+    std::string lib_dir = bxdecay0::get_library_dir();
+    return lib_dir + "/" + relative_lib_path_to_resource_dir();
   }
 
 } // namespace
@@ -61,7 +55,8 @@ namespace bxdecay0 {
 
   std::string get_resource_dir(bool overriden_env_)
   {
-    return ::get_resource_root(overriden_env_);
+    static std::string _install_resource_root(::init_resource_root(overriden_env_));
+    return _install_resource_root;
   }
 
   std::string get_resource(const std::string & rname_, bool overriden_env_)
@@ -70,7 +65,7 @@ namespace bxdecay0 {
       throw std::logic_error("Invalid resource name '" + rname_ + "'!");
     }
 
-    std::string fullpath(::get_resource_root(overriden_env_) + "/" + rname_);
+    std::string fullpath(get_resource_dir(overriden_env_) + "/" + rname_);
     std::ifstream check(fullpath.c_str());
     if (!check.good()) {
       throw unreadable_resource_exception("Unreadable resource '" + fullpath + "'!");
