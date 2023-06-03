@@ -6,6 +6,11 @@
 #include <stdexcept>
 #include <iostream>
 
+#include <mutex>
+#include <thread>
+#include <random>
+#include <chrono>
+
 #include "BinReloc.h"
 
 namespace {
@@ -55,24 +60,27 @@ namespace {
   //   return "@BxDecay0_LIBDIR_TO_PREFIX@";
   // }
 
+  std::string init_libdir()
+  {
+    // Strictly speaking, want a lock_guard here as BinReloc functions aren't threadsafe.
+    // However, as we only call this function to initialize a static variable we should be o.k.
+    // as C++11 should enforce this only being call once over all threads.
+    init_directories();
+    char* exePath = br_find_exe_dir("");
+    std::string libDir(exePath);
+    free(exePath);
+    if (libDir.back() == '/') {
+      libDir = libDir.substr(0, libDir.length() - 1);
+    }
+    return libDir;
+  }
 }
 
 namespace bxdecay0 {
 
   std::string get_library_dir()
   {
-    static std::string libPath;
-    if (libPath.empty()) {
-      init_directories();
-      char* exePath(nullptr);
-      exePath = br_find_exe_dir("");
-      libPath = std::string(exePath);
-      free(exePath);
-      if (libPath.back() == '/') {
-        libPath = libPath.substr(0, libPath.length() - 1);
-      }
-      // std::cerr << "\nbxdecay0: relocatable_lib.cc: get_library_dir: '" << libPath << "'" << std::endl;
-    }
+    static std::string libPath(::init_libdir());
     return libPath;
     // boost::filesystem::path cLibPath = boost::filesystem::canonical(libPath);
     // return cLibPath_path.string();
