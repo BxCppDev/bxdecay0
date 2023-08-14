@@ -26,6 +26,7 @@
 // Standard library:
 #include <iostream>
 #include <string>
+#include <cstdint>
 
 // This project:
 #include <bxdecay0/particle_utils.h>
