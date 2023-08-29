@@ -85,7 +85,7 @@ namespace bxdecay0 {
                        thlev,
                        tdlev);
     return;
-    // change to 2nd forbidden non-unique shape with std::experimental correction factor
+    // change to 2nd forbidden non-unique shape with experimental correction factor
     // from S.T.Hsue et al., NP 86(1966)47: p_nu^2+0.004*p_el^2
     // cf(e)=(1+c1/w+c2*w+c3*w**2+c4*w**3), w=e/emass+1
     // wrong numerical coefficients
