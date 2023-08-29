@@ -3,8 +3,8 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Volodymyr Tretyak
-:date: 2022-04-04
-:copyright: Copyright (C) 2017-2022 the BxCppDev group
+:date: 2023-08-29
+:copyright: Copyright (C) 2017-2023 the BxCppDev group
 
 .. image:: resources/images/logo/bxdecay0_logo_su.png
    :width: 20%
@@ -187,6 +187,11 @@ GSL_, ROOT_ or whatever).
   - Fix G4String issue in Geant4 extension (issue #26)
   - Fix bugs concerning the manipulation of particles' generation times
     in a generated event from examples (issue #27)
+  
+- Release 1.1.1:
+
+  - Minor fix for GCC 13
+
     
 .. _SuperNEMO: http://supernemo.org/
 
@@ -334,9 +339,9 @@ Or download the archive associated to a released version :
 .. code:: sh
 
    $ cd /tmp
-   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.1.0.tar.gz -o bxdecay0-1.1.0.tar.gz
-   $ tar xvzf bxdecay0-1.1.0.tar.gz
-   $ ls -l bxdecay0-1.1.0/
+   $ curl -L https://github.com/BxCppDev/bxdecay0/archive/1.1.1.tar.gz -o bxdecay0-1.1.1.tar.gz
+   $ tar xvzf bxdecay0-1.1.1.tar.gz
+   $ ls -l bxdecay0-1.1.1/
 ..
 
 
@@ -357,7 +362,7 @@ or:
 
 .. code:: sh
 
-   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.1.0
+   $ cmake -DCMAKE_INSTALL_PREFIX=${HOME}/sw/bxdecay0 /tmp/bxdecay0-1.1.1
 ..
 
 
@@ -560,7 +565,7 @@ applications.
   * ``BxDecay0Config.cmake``,
   * ``BxDecay0ConfigVersion.cmake``.
 
-  The ``find_package(BxDecay0  REQUIRED 1.1.0 CONFIG)``  CMake command
+  The ``find_package(BxDecay0  REQUIRED 1.1.1 CONFIG)``  CMake command
   can  be given  the following  variable  to locate  BxDecay0 on  your
   system from a client project which uses the CMake build system:
 
@@ -825,7 +830,7 @@ informations output file:
 ::
  
   library-name=BxDecay0
-  library-version=1.1.0
+  library-version=1.1.1
   decay-category=background
   nuclide=Co60
   seed=314159
