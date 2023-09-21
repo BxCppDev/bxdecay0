@@ -60,7 +60,7 @@ namespace bxdecay0 {
       std::cerr << "  --help (-h)                : Print this help then exit      \n";
       std::cerr << "  --logging (-g) STRING      : Set the logging level (default: \"mute\", supported values: \"mute\", \"verbose\", \"debug\")\n";
       std::cerr << "  --seed (-s) INTVAL         : Set the seed for the internal random generator (default: 314159)\n";
-      std::cerr << "  --nb-events (-b) INTVAL    : Set the number of generated decay events (default: 1) \n";
+      std::cerr << "  --nb-events (-n) INTVAL    : Set the number of generated decay events (default: 1) \n";
       std::cerr << "  --decay-category (-c) NAME : Set the decay category (supported values: \"dbd\" of \"background\")\n";
       std::cerr << "  --nuclide (-N) NAME        : Set the name of the decaying nuclide \n";
       std::cerr << "  --level (-l) INTVAL        : Set the level of the daughter nuclide (default: 0 (g.s.))\n";
