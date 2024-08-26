@@ -243,7 +243,7 @@ Installing BxDecay0
 Preparation of your system
 --------------------------
 
-BxDecay0 is developped on a  Ubuntu Linux (18.04/20.04 LTS) and should
+BxDecay0 is developped on a  Ubuntu Linux (currently 22.04 LTS) and should
 work on  any Unix/BSD  flavor with  a recent  C++ compiler  with c++11
 support (i.e. GNU g++ >= 4.9 or clang) including macOS.
 
@@ -277,7 +277,7 @@ your own system.
       2.5
    ..
 
-#. Install git-lfs (optional but required for supporting DBD gA data):
+#. Install git-lfs (optional but required for supporting external *DBD gA* dataset):
 
    .. code:: sh
 
@@ -475,7 +475,8 @@ before     installation.     First     you     must    declare     the
 ``BXDECAY0_RESOURCE_DIR`` environment variable  to locate the resource
 files which are not installed yet in the proper path. Here we generate
 four Cs137 decay primary events using  the MDL bias mechanism to force
-the beta ray to be emitted along the X-axis.
+the beta ray to be emitted along the X-axis (longitude: phi=0 degrees and colatitude: theta=90 degrees
+with zero conical aperture).
 
 .. code:: sh
 
@@ -861,7 +862,7 @@ The BxDecay0 Geant4 extension library
 
 The BxDecay0 library  can be built with an  optional companion library
 named ``BxDecay0_Geant4``. Of course Geant4 (>=10.6) must be installed
-and setup on your system to make  it work (former version may work but
+and setup on your system to make  it work (former versions may work but
 have not been tested). This extension library proposes
 a *primary generator action* which wraps the BxDecay0 event generator.
 
