@@ -146,7 +146,7 @@ namespace bxdecay0 {
   {
     if (is_trace()) std::cerr << "[trace] bxdecay0::event_reader::reset_configuration: Entering...\n";
     if (! is_configured()) {
-      throw std::range_error("bxdecay0::event_reader::reset_configuration: Reader inot already configured!");
+      throw std::range_error("bxdecay0::event_reader::reset_configuration: Reader is not configured!");
     }
     _configured_ = false;
     _at_unconfigure_();
