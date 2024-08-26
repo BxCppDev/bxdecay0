@@ -42,7 +42,7 @@ History
 The first version of the Decay0  program was written in the early 90's
 by Volodymyr   Tretyak  and   collaborators,  using  the   Fortran  77
 programming language and  the CERNLIB library. It  has been maintained
-and improved up to now (2020).
+and improved up to 2020.
 
 From 1992  to 2010, the Decay0/GENBB  code was embedded in  the GEANT3
 based  simulation software  of the  NEMO2 and  then NEMO3  double beta
@@ -191,7 +191,12 @@ GSL_, ROOT_ or whatever).
 - Release 1.1.1:
 
   - Minor fix for GCC 13
+  - Beware: buggy CMake version number (1.1.0)
+ 
+- Release 1.1.2:
 
+  - Minor fix
+  - Resynced CMake version number (1.1.2)
     
 .. _SuperNEMO: http://supernemo.org/
 
