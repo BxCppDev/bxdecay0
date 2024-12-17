@@ -45,6 +45,7 @@
 #include <bxdecay0/Co60.h>
 #include <bxdecay0/Cs136.h>
 #include <bxdecay0/Cs137.h>
+#include <bxdecay0/Dy160low.h>
 #include <bxdecay0/Dy162low.h>
 #include <bxdecay0/Dy164low.h>
 #include <bxdecay0/Er168low.h>
@@ -1546,7 +1547,7 @@ namespace bxdecay0 {
           // New in 2018-12-05:
           bb_params_.Qbb  = 0.655;
           bb_params_.Zdbb = 70.;
-          bb_params_.Adbb = 174.;
+          bb_params_.Adbb = 170.; // Fixed 2024-12-17 : was 174. 
           bb_params_.EK   = 0.061;
           if (ilevel_ < 0 || ilevel_ > 1) {
             std::cerr << "[error] "
@@ -1570,6 +1571,34 @@ namespace bxdecay0 {
           if (ilevel_ == 1) {
             bb_params_.itrans02 = 2;
           }
+        } else if (name_starts_with(chnuclide_, "Gd160")) {
+          // Added 2024-12-17: Gd160 -> Dy160 (ground state or 2+, 87 keV)
+          bb_params_.Qbb  = 1.729;
+          bb_params_.Zdbb = 66.;
+          bb_params_.Adbb = 160.;
+          bb_params_.EK   = 0.054;
+          if (ilevel_ < 0 || ilevel_ > 1) {
+            std::cerr << "[error] "
+                      << "bxdecay0::genbbsub: "
+                      << "Illegal '" << chnuclide_ << "' daughter's level (" << ilevel_ << ") ! \n";
+            ier_ = 1;
+            if (trace) {
+              std::cerr << "[debug] bxdecay0::genbbsub: Exiting." << std::endl;
+            }
+            return;
+          }
+          if (ilevel_ == 0) {
+            bb_params_.levelE = 0;
+          }
+          if (ilevel_ == 1) {
+	    bb_params_.levelE = 87;
+          }
+          if (ilevel_ == 0) {
+            bb_params_.itrans02 = 0;
+          }
+	  if (ilevel_ == 1) {
+	    bb_params_.itrans02 = 2;
+	  }
         } else if (name_starts_with(chnuclide_, "Yb168")) {
           // New in 2018-12-05:
           bb_params_.Qbb  = 1.409;
@@ -2301,6 +2330,9 @@ namespace bxdecay0 {
       }
       if (name_starts_with(chnuclide_, "Dy158")) {
         Gd158low(prng_, event_, bb_params_.levelE);
+      }
+      if (name_starts_with(chnuclide_, "Gd160")) {
+        Dy160low(prng_, event_, bb_params_.levelE); // New 2024-12-17
       }
       if (name_starts_with(chnuclide_, "Er162")) {
         Dy162low(prng_, event_, bb_params_.levelE); // New 2018-12-05

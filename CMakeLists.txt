@@ -11,7 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(BxDecay0 VERSION 1.1.2)
+project(BxDecay0 VERSION 1.1.3)
 # - Version of the original fortran Decay0
 set(BxDecay0_DECAY0_VERSION "2020-04-20")
 set(BxDecay0_TAG "BxDecay0-${BxDecay0_VERSION}")
@@ -233,6 +233,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Zn65.h
   bxdecay0/Zr92low.h
   bxdecay0/Zr96.h
+  bxdecay0/Dy160low.h # Added 2024-12-17 (plain C++ implementation)
   bxdecay0/Dy162low.h # Added from 2018-12-05
   bxdecay0/Dy164low.h # Added from 2018-12-05
   bxdecay0/Er168low.h # Added from 2018-12-05
@@ -421,6 +422,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Zn65.cc
   bxdecay0/Zr92low.cc
   bxdecay0/Zr96.cc
+  bxdecay0/Dy160low.cc # Added 2024-12-17 (plain C++ implementation)
   bxdecay0/Dy162low.cc # Added from 2018-12-05
   bxdecay0/Dy164low.cc # Added from 2018-12-05
   bxdecay0/Er168low.cc # Added from 2018-12-05
