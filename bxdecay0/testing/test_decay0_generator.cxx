@@ -1,7 +1,7 @@
 /** test_decay0_generator.cxx
  *
  * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2017 LPC Caen, Université de Caen Normandie
  *
  * This file is part of BxDecay0.
  *
@@ -28,6 +28,7 @@
 #include <iostream>
 #include <limits>
 #include <random>
+#include <fstream>
 
 // GSL:
 #include <gsl/gsl_histogram.h>
@@ -49,6 +50,7 @@ void test_backgrounds();
 void test_cs137_mdl();
 void test_cs137_mdlr();
 void test20();
+void test_Gd160_dbd();
 
 int main()
 {
@@ -63,6 +65,7 @@ int main()
     test_cs137_mdl();
     test_cs137_mdlr();
     test20();
+    test_Gd160_dbd();
   } catch (std::exception & error) {
     std::cerr << "[error] " << error.what() << std::endl;
     error_code = EXIT_FAILURE;
@@ -487,6 +490,46 @@ void test20()
     decay.store(std::cout);
   }
 
+  decay0.reset();
+  return;
+}
+
+void test_Gd160_dbd()
+{
+  std::clog << "\ntest_Gd160_dbd:\n";
+  unsigned int seed = 314159;
+  std::default_random_engine generator(seed);
+  bxdecay0::std_random prng(generator);
+
+  bxdecay0::decay0_generator decay0;
+  decay0.set_debug(true);
+  decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
+  decay0.set_decay_isotope("Gd160");
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_4);
+  decay0.set_decay_dbd_level(0);
+  decay0.initialize(prng);
+  decay0.smart_dump(std::clog, "DBD generator: ", "[info] ");
+  std::ofstream fout("Gd160_dbd.data");
+  bxdecay0::event decay;
+  std::size_t nevents = 100;
+  for (std::size_t ievent = 0; ievent < nevents; ievent++) {
+    decay0.shoot(prng, decay);
+    decay.set_time(0.0);
+    if (ievent < 3) {
+      decay.print(std::clog, "DBD event:", "[info] ");
+      decay.store(std::cout);
+    }
+    const auto & particles = decay.get_particles();
+    auto el1 = particles[0];
+    auto el2 = particles[1];
+    auto p1 = el1.get_p();
+    auto p2 = el2.get_p();
+    const auto me = bxdecay0::electron_mass_MeV();
+    auto K1 = std::sqrt(me * me + p1 * p1) - me;
+    auto K2 = std::sqrt(me * me + p2 * p2) - me;
+    fout << K1 << ' ' << K1 << ' ' << (K1+K2) << '\n';
+  }
+  fout.close();
   decay0.reset();
   return;
 }

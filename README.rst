@@ -3,7 +3,7 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Volodymyr Tretyak
-:date: 2024-08-26
+:date: 2024-12-17
 :copyright: Copyright (C) 2017-2024 the BxCppDev group
 
 .. image:: resources/images/logo/bxdecay0_logo_su.png
@@ -1020,6 +1020,7 @@ From the ``dbd_isotopes.lis`` resource file:
 * ``Nd150``
 * ``Dy156``
 * ``Dy158``
+* ``Gd160``
 * ``W180``
 * ``W186``
 * ``Os184``
@@ -1403,6 +1404,11 @@ List of daughter nucleus excited states in double beta decay
 * ``Rn222`` ->  ``Ra222`` :
 
   0. 0+ (gs) {0 MeV}
+
+* ``Gd160`` ->  ``Gd160`` :
+
+  0. 0+ (gs) {0 MeV}
+  1. 2+ (1)  {0.087 MeV}
 
 
 .. raw:: pdf

@@ -201,6 +201,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Sb125.h
   bxdecay0/Sb126.h
   bxdecay0/Sb133.h
+  # bxdecay0/Sc44.h # Added from 2025-12-XX
   bxdecay0/Sc48.h
   bxdecay0/Se76low.h
   bxdecay0/Sm148low.h
@@ -233,6 +234,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Zn65.h
   bxdecay0/Zr92low.h
   bxdecay0/Zr96.h
+  bxdecay0/Dy160low.h # Added 2024-12-17 (plain C++ implementation)
   bxdecay0/Dy162low.h # Added from 2018-12-05
   bxdecay0/Dy164low.h # Added from 2018-12-05
   bxdecay0/Er168low.h # Added from 2018-12-05
@@ -388,6 +390,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Sb125.cc
   bxdecay0/Sb126.cc
   bxdecay0/Sb133.cc
+  # bxdecay0/Sc44.cc # Added from 2025-12-XX
   bxdecay0/Sc48.cc
   bxdecay0/Se76low.cc
   bxdecay0/Sm148low.cc
@@ -421,6 +424,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Zn65.cc
   bxdecay0/Zr92low.cc
   bxdecay0/Zr96.cc
+  bxdecay0/Dy160low.cc # Added 2024-12-17 (plain C++ implementation)
   bxdecay0/Dy162low.cc # Added from 2018-12-05
   bxdecay0/Dy164low.cc # Added from 2018-12-05
   bxdecay0/Er168low.cc # Added from 2018-12-05
@@ -557,6 +561,7 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb_utils.cxx
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
+    # bxdecay0/testing/test_Sc44.cxx # Added from 2025-12-XX
     bxdecay0/testing/test_decay0_generator.cxx
     bxdecay0/testing/test_event_reader.cxx
     )
