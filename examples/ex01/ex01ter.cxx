@@ -1,7 +1,7 @@
 /** ex01.cxx
  *
- * Copyright 2017 François Mauger <mauger@lpccaen.in2p3.fr>
- * Copyright 2017 Normandie Université
+ * Copyright 2024 François Mauger <mauger@lpccaen.in2p3.fr>
+ * Copyright 2024 Normandie Université
  *
  * This file is part of BxDecay0.
  *
@@ -56,7 +56,7 @@ int main()
     // Parameters of the decay:
 
     // Isotope:
-    std::string nuclide = "Mo100";
+    std::string nuclide = "Ca48";
 
     // Daughter's energy level (ground state):
     int level = 0;
@@ -80,7 +80,7 @@ int main()
     decay0.set_decay_isotope(nuclide);
     decay0.set_decay_dbd_level(level);
     decay0.set_decay_dbd_mode(dbd_mode);
-    decay0.set_decay_dbd_esum_range(2.0, 4.3); // generate only high energy part of the spectrum (MeV)
+    decay0.set_decay_dbd_esum_range(4.0, 4.3); // generate only high energy part of the spectrum (MeV)
 
     // Initialization;
     decay0.initialize(prng);

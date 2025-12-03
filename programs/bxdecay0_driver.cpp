@@ -126,9 +126,15 @@ namespace bxdecay0 {
     std::string info_filename  = basename + ".d0c";
     std::string event_filename = basename + ".d0t";
     std::ofstream fevent(event_filename.c_str());
+    if (! fevent) {
+      throw std::runtime_error("Cannot open output event file '" + event_filename + "'");
+    }
     fevent.precision(15);
     uint32_t store_flags = bxdecay0::event::STORE_EVENT_TIME;
     std::ofstream finfo(info_filename.c_str());
+    if (! finfo) {
+      throw std::runtime_error("Cannot open output info file '" + info_filename + "'");
+    }
     finfo.precision(15);
      
     decay0.initialize(prng);

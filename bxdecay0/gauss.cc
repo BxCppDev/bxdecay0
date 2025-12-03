@@ -24,6 +24,7 @@
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 // Third party:
 // - GSL:
@@ -46,9 +47,36 @@ namespace bxdecay0 {
     gsl_function F;
     F.function                   = f_;
     F.params                     = params_;
-    double epsabs                = 1e-9;
-    double epsrel                = epsrel_;
-    epsabs                       = 0.0;
+    double epsabs                = 1e-200; // Safety value
+    char * epsabs_env = getenv("BXDECAY0_GAUSS_EPSABS");
+    if (epsabs_env) {
+      std::string epsabs_repr(epsabs_env);
+      try {
+	epsabs = std::stod(epsabs_repr);
+	if (trace) {
+	  std::cerr << "[trace] bxdecay0::decay0_gauss: BXDECAY0_GAUSS_EPSABS = " << epsabs
+		    << " from '" << epsabs_repr  << "'" << std::endl;
+	}
+      } catch (std::exception & error) {
+	std::cerr << "[error] bxdecay0::decay0_gauss: "
+		  << "Invalid double conversion from env var '" << "BXDECAY0_GAUSS_EPSABS" << "'" << std::endl;
+      }
+    }
+    double epsrel = epsrel_;
+    char * epsrel_env = getenv("BXDECAY0_GAUSS_EPSREL");
+    if (epsrel_env) {
+      std::string epsrel_repr(epsrel_env);
+      try {
+	epsrel = std::stod(epsrel_repr);
+	if (trace) {
+	  std::cerr << "[trace] bxdecay0::decay0_gauss: BXDECAY0_GAUSS_EPSREL = " << epsrel << std::endl;
+	}
+      } catch (std::exception & error) {
+	std::cerr << "[error] bxdecay0::decay0_gauss: "
+		  << "Invalid double conversion from env var '" << "BXDECAY0_GAUSS_EPSREL" << "'" << std::endl;
+      }
+    }
+    // std::cerr << "[log] bxdecay0::decay0_gauss: epsrel = " <<epsrel << std::endl;
     int count                    = 0;
     int status                   = 0;
     gsl_error_handler_t * gsl_eh = gsl_set_error_handler_off();
@@ -77,6 +105,9 @@ namespace bxdecay0 {
         break;
       }
       if (status == GSL_ETOL) {
+	if (trace) {
+	  std::cerr << "[trace] bxdecay0::decay0_gauss: tolerance relaxation" << std::endl;
+	}
         epsrel *= 10.0;
       }
       count++;
