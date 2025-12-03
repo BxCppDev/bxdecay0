@@ -3,7 +3,15 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(bxdecay0_ex01)
 
 find_package(BxDecay0 1.0 REQUIRED CONFIG)
+
 add_executable(ex01 ex01.cxx)
 target_link_libraries(ex01 BxDecay0::BxDecay0)
-add_executable(ex01bis ex01.cxx)
+
+add_executable(ex01bis ex01bis.cxx)
 target_link_libraries(ex01bis BxDecay0::BxDecay0)
+
+add_executable(ex01ter ex01ter.cxx)
+target_link_libraries(ex01ter BxDecay0::BxDecay0)
+
+add_executable(ex01quad ex01quad.cxx)
+target_link_libraries(ex01quad BxDecay0::BxDecay0)

@@ -505,7 +505,7 @@ void test_Gd160_dbd()
   decay0.set_debug(true);
   decay0.set_decay_category(bxdecay0::decay0_generator::DECAY_CATEGORY_DBD);
   decay0.set_decay_isotope("Gd160");
-  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_1);
+  decay0.set_decay_dbd_mode(bxdecay0::DBDMODE_4);
   decay0.set_decay_dbd_level(0);
   decay0.initialize(prng);
   decay0.smart_dump(std::clog, "DBD generator: ", "[info] ");
