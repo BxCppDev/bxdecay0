@@ -53,6 +53,7 @@
 #include <bxdecay0/Eu152.h>
 #include <bxdecay0/Eu154.h>
 #include <bxdecay0/Fe58low.h>
+#include <bxdecay0/Ga68.h> // Added 2025-12-05
 #include <bxdecay0/Gd146.h>
 #include <bxdecay0/Gd154low.h>
 #include <bxdecay0/Gd156low.h>
@@ -2116,6 +2117,7 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_, "Eu147")) {
         } else if (name_starts_with(chnuclide_, "Eu152")) {
         } else if (name_starts_with(chnuclide_, "Eu154")) {
+        } else if (name_starts_with(chnuclide_, "Ga68")) { // Added 2025-12-05
         } else if (name_starts_with(chnuclide_, "Gd146")) {
         } else if (name_starts_with(chnuclide_, "Hf182")) {
         } else if (name_starts_with(chnuclide_, "I126")) {
@@ -2477,6 +2479,9 @@ namespace bxdecay0 {
       }
       if (name_starts_with(chnuclide_, "Eu154")) {
         Eu154(prng_, event_, 0., tdnuc);
+      }
+      if (name_starts_with(chnuclide_, "Ga68")) { // Added 2025-12-05
+        Ga68(prng_, event_, 0., tdnuc);
       }
       if (name_starts_with(chnuclide_, "Gd146")) {
         Gd146(prng_, event_, 0., tdnuc);

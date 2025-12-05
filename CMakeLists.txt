@@ -146,6 +146,7 @@ set(BxDecay0_HEADERS
   bxdecay0/Eu152.h
   bxdecay0/Eu154.h
   bxdecay0/Fe58low.h
+  bxdecay0/Ga68.h # Added from 2025-12-05
   bxdecay0/Gd146.h
   bxdecay0/Gd156low.h
   bxdecay0/Gd158low.h
@@ -334,6 +335,7 @@ set(BxDecay0_SOURCES
   bxdecay0/Eu152.cc
   bxdecay0/Eu154.cc
   bxdecay0/Fe58low.cc
+  bxdecay0/Ga68.cc # Added from 2025-12-05
   bxdecay0/Gd146.cc
   bxdecay0/Gd156low.cc
   bxdecay0/Gd158low.cc
@@ -562,6 +564,7 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
     # bxdecay0/testing/test_Sc44.cxx # Added from 2025-12-XX
+    bxdecay0/testing/test_Ga68.cxx # Added from 2025-12-05
     bxdecay0/testing/test_decay0_generator.cxx
     bxdecay0/testing/test_event_reader.cxx
     )
