@@ -202,9 +202,11 @@ set(BxDecay0_HEADERS
   bxdecay0/Sb125.h
   bxdecay0/Sb126.h
   bxdecay0/Sb133.h
-  # bxdecay0/Sc44.h # Added from 2025-12-XX
+  bxdecay0/Sc44.h # Added Sc44 and Sc44m from 2025-12-16
+  bxdecay0/Sc44m.h
   bxdecay0/Sc48.h
   bxdecay0/Se76low.h
+  bxdecay0/Se83.h # Added from 2025-12-16
   bxdecay0/Sm148low.h
   bxdecay0/Sm150low.h
   bxdecay0/Sn114low.h
@@ -392,9 +394,11 @@ set(BxDecay0_SOURCES
   bxdecay0/Sb125.cc
   bxdecay0/Sb126.cc
   bxdecay0/Sb133.cc
-  # bxdecay0/Sc44.cc # Added from 2025-12-XX
+  bxdecay0/Sc44.cc # Added Sc44 and Sc44m from 2025-12-10
+  bxdecay0/Sc44m.cc
   bxdecay0/Sc48.cc
   bxdecay0/Se76low.cc
+  bxdecay0/Se83.cc # Added from 2025-12-16
   bxdecay0/Sm148low.cc
   bxdecay0/Sm150low.cc
   bxdecay0/Sn114low.cc
@@ -563,8 +567,10 @@ if(BUILD_TESTING)
     bxdecay0/testing/test_bb_utils.cxx
     bxdecay0/testing/test_bb.cxx
     bxdecay0/testing/test_genbbsub.cxx
-    # bxdecay0/testing/test_Sc44.cxx # Added from 2025-12-XX
+    bxdecay0/testing/test_Sc44.cxx # Added Sc44 and Sc44m from 2025-12-16
+    bxdecay0/testing/test_Sc44m.cxx
     bxdecay0/testing/test_Ga68.cxx # Added from 2025-12-05
+    bxdecay0/testing/test_Se83.cxx # Added from 2025-12-16
     bxdecay0/testing/test_decay0_generator.cxx
     bxdecay0/testing/test_event_reader.cxx
     )

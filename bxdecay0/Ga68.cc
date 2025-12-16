@@ -66,7 +66,7 @@ namespace bxdecay0 {
     
     // Three possible β⁺ decay modes
     if (pbeta <= 0.000285) {
-      decay0_beta(prng_, event_, 1.8991, -30, 0., 0., t);
+      decay0_beta(prng_, event_, 0.2432, -30, 0., 0., t);
       goto label_1656;
     }
     if (pbeta <= 1.190) {
@@ -74,7 +74,7 @@ namespace bxdecay0 {
       goto label_1077;
     }
     if (pbeta <= 88.9103) {
-      decay0_beta(prng_, event_, 0.2432, -30, 0., 0., t);
+      decay0_beta(prng_, event_, 1.8991, -30, 0., 0., t);
       goto label_10000;
     }
     // Six electron-capture processes
@@ -98,6 +98,7 @@ namespace bxdecay0 {
       decay0_gamma(prng_, event_, 0.01, 0., 0., t);
       goto label_1077;
     }
+    decay0_gamma(prng_, event_, 0.01, 0., 0., t);
     goto label_10000;
 
     label_2822:

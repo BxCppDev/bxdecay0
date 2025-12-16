@@ -113,9 +113,11 @@
 #include <bxdecay0/Sb125.h>
 #include <bxdecay0/Sb126.h>
 #include <bxdecay0/Sb133.h>
-// #include <bxdecay0/Sc44.h> // Added 2025-12-XX
+#include <bxdecay0/Sc44.h> // Added Sc44 and Sc44m on 2025-12-16
+#include <bxdecay0/Sc44m.h>
 #include <bxdecay0/Sc48.h>
 #include <bxdecay0/Se76low.h>
+#include <bxdecay0/Se83.h> // Added 2025-12-16
 #include <bxdecay0/Sm148low.h>
 #include <bxdecay0/Sm150low.h>
 #include <bxdecay0/Sn114low.h>
@@ -2148,7 +2150,9 @@ namespace bxdecay0 {
         } else if (name_starts_with(chnuclide_, "Sb125")) {
         } else if (name_starts_with(chnuclide_, "Sb126")) {
         } else if (name_starts_with(chnuclide_, "Sb133")) {
-        // } else if (name_starts_with(chnuclide_, "Sc44")) { // Added 2025-12-1XX
+        } else if (name_starts_with(chnuclide_, "Sc44")) { // Added Sc44 and Sc44m on 2025-12-16
+        } else if (name_starts_with(chnuclide_, "Sc44m")) { 
+        } else if (name_starts_with(chnuclide_, "Se83")) { // Added 2025-12-16
         } else if (name_starts_with(chnuclide_, "Sr90")) {
         } else if (name_starts_with(chnuclide_, "Ta180m")) { // 'Ta180m-B-' and 'Ta180m-EC' 
         } else if (name_starts_with(chnuclide_, "Ta182")) {
@@ -2573,9 +2577,15 @@ namespace bxdecay0 {
       if (name_starts_with(chnuclide_, "Sb133")) {
         Sb133(prng_, event_, 0., tdnuc);
       }
-      // if (name_starts_with(chnuclide_, "Sc44")) {
-      //   Sc44(prng_, event_, 0., tdnuc); // Added 2025-12-XX
-      // }
+      if (name_starts_with(chnuclide_, "Sc44")) {
+        Sc44(prng_, event_, 0., tdnuc); // Added 2025-12-16
+      }
+      if (name_starts_with(chnuclide_, "Sc44m")) {
+        Sc44m(prng_, event_, 0., tdnuc); // Added 2025-12-16
+      }
+      if (name_starts_with(chnuclide_, "Se83")) { // Added 2025-12-16
+        Se83(prng_, event_, 0., tdnuc);
+      }
       if (name_starts_with(chnuclide_, "Sr90")) {
         Sr90(prng_, event_, 0., tdnuc);
       }
