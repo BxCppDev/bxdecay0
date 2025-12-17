@@ -937,8 +937,11 @@ Authors and contributors
   added  simplified versions  of Po210,  Po218, Th230,  U234 and  U238
   alpha emitters.
 * Luigi Pertoldi (T. U. München) provides the `BxDecay0's Arch Linux packaging`_.
+* Luigi Pertoldi and Manuel Huber (T. U. München) provide the
+  `BxDecay0 conda-forge packaging`_.
 
 .. _`BxDecay0's Arch Linux packaging`: https://aur.archlinux.org/packages/?O=0&K=bxdecay0 
+.. _`BxDecay0 conda-forge packaging`: https://anaconda.org/conda-forge/bxdecay0
 
 Who uses and supports BxDecay0...
 ===================================
@@ -949,7 +952,7 @@ Who uses and supports BxDecay0...
   the simulation of Liquid Argon  Time Projection Chambers for several
   neutrino experiments, has incorporated the BxDecay0 library (2020+).
 * The DUPhy_  research group (Deep Underground Physics).
-* remage_ project  (2021+).
+* The remage_ project of the LEGEND collaboration
   
 .. image:: resources/images/supporters/logo_panel.png
    :height: 120
@@ -959,7 +962,7 @@ of their respective authors and/or scientific communities.
 	    
 .. _LArSoft: https://larsoft.org/
 .. _DUPhy: https://gdrduphy.in2p3.fr/
-.. _remage: https://github.com/gipert/remage
+.. _remage: https://github.com/legend-exp/remage
 
 References
 ===========
