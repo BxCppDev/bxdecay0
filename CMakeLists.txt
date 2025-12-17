@@ -585,6 +585,30 @@ if(BUILD_TESTING)
   endforeach()
 endif()
 
+add_executable(bxdecay0-read
+  programs/bxdecay0-read.cxx
+  )
+set_target_properties(bxdecay0-read PROPERTIES
+  SKIP_BUILD_RPATH            FALSE
+  BUILD_WITH_INSTALL_RPATH    FALSE
+  INSTALL_RPATH_USE_LINK_PATH TRUE
+  )
+if(UNIX AND NOT APPLE)
+  set_target_properties(bxdecay0-read
+    PROPERTIES INSTALL_RPATH "\$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+    )
+endif()
+target_link_libraries(bxdecay0-read BxDecay0)
+
+install(TARGETS bxdecay0-read
+  EXPORT BxDecay0Targets
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PERMISSIONS
+  OWNER_READ OWNER_WRITE OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
+
 add_executable(bxdecay0-run
   programs/bxdecay0_driver.hpp
   programs/bxdecay0_clparser.hpp
