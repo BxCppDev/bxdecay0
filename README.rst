@@ -3,8 +3,8 @@ BxDecay0 - C++ port of the legacy Decay0 FORTRAN library
 ============================================================================
 
 :authors: François Mauger, Volodymyr Tretyak
-:date: 2024-12-17
-:copyright: Copyright (C) 2017-2024 the BxCppDev group
+:date: 2025-12-17
+:copyright: Copyright (C) 2017-2025 the BxCppDev group
 
 .. image:: resources/images/logo/bxdecay0_logo_su.png
    :width: 20%
@@ -197,6 +197,11 @@ GSL_, ROOT_ or whatever).
 
   - Minor fix
   - Resynced CMake version number (1.1.2)
+ 
+- Release 1.2.0:
+
+  - Add Ga68, Sc44, Sc44m, Se83 generators (cosmogenics)
+    
     
 .. _SuperNEMO: http://supernemo.org/
 
@@ -937,6 +942,7 @@ Authors and contributors
   added  simplified versions  of Po210,  Po218, Th230,  U234 and  U238
   alpha emitters.
 * Luigi Pertoldi (T. U. München) provides the `BxDecay0's Arch Linux packaging`_.
+* Corto Beck and Lenny Brunel (Mines Paris, IJCLab) added Ga68, Sc44, Sc44m, Se83 generators
 * Luigi Pertoldi and Manuel Huber (T. U. München) provide the
   `BxDecay0 conda-forge packaging`_.
 
