@@ -73,7 +73,7 @@ namespace bxdecay0 {
       decay0_gamma(prng_, event_, 0.04, 0., 0., t);
       goto label_3302;
     }
-    if (pbeta <= 95,293) {
+    if (pbeta <= 95.293) {
       decay0_gamma(prng_, event_, 0.04, 0., 0., t);
       goto label_2657;
     }

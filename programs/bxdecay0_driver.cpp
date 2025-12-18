@@ -172,6 +172,7 @@ namespace bxdecay0 {
       finfo << "pgops=";
       for (size_t iop = 0; iop < decay0.get_operations().size(); iop++) {
         std::string pgopName = decay0.get_operations()[iop]->name();
+	// CLANG Warns:
         if (_config_.use_mdl and (typeid(*decay0.get_operations()[iop]) == typeid(bxdecay0::momentum_direction_lock_event_op))) {
           pgopName = "mdl";
         }

@@ -145,6 +145,7 @@ namespace bxdecay0 {
       return "g22";
     case PROCESS_G4:
       return "g4";
+    case PROCESS_UNDEF:
     }
     return "";
   }
