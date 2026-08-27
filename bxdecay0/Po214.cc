@@ -58,7 +58,8 @@ namespace bxdecay0 {
     // // common/genevent/tevst,npfull,npgeant(100),pmoment(3,100),// ptime(100).
     // VIT, 14.07.1995, 22.10.1995.
     // VIT, 11.05.2005, updated to NDS 99(2003)649.
-    thnuc  = 164.3e-6;
+    // A.L updated Half-life of Po214 according: https://doi.org/10.1016/j.nds.2021.06.001
+    thnuc = 163.46e-6;
     tdnuc_ = tcnuc_ - thnuc / std::log(2.) * std::log(prng_());
     palpha = 100. * prng_();
     if (palpha <= 0.0104) {
